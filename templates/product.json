@@ -1,0 +1,882 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "ed5dec54-d995-4f88-87d3-102460e07067": {
+          "type": "name_product",
+          "settings": {
+            "np_text_transform": "none",
+            "np_size": 14,
+            "np_weight": 400,
+            "np_size_mobile": 14,
+            "np_mg_top": 0,
+            "np_mg_bottom": 0
+          }
+        },
+        "6ff5677e-1d98-482d-bd86-4c67fe63a2af": {
+          "type": "show_reviews",
+          "disabled": true,
+          "settings": {
+            "use-reviewst": false,
+            "use-sold-product": true,
+            "min_sold": 5,
+            "max_sold": 25,
+            "time": "24 hours"
+          }
+        },
+        "f1e09af0-0154-41e2-996f-755cdde44ea4": {
+          "type": "show_price",
+          "settings": {}
+        },
+        "c78dd46d-d065-4e43-aaa7-13423da0532f": {
+          "type": "show_description",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "{{product.description}}"
+          }
+        },
+        "888fb817-16f3-467a-8d84-48f25bfcf851": {
+          "type": "text_countdown_html",
+          "disabled": true,
+          "settings": {
+            "show_text_countdown": false,
+            "show_visitors_html": true,
+            "product_visitors_min": 10,
+            "product_visitors_max": 25
+          }
+        },
+        "5c909704-7273-41b5-b5b9-38085bf8c176": {
+          "type": "product_variants",
+          "settings": {
+            "show_title": true,
+            "show_size_guide": true,
+            "size_guide_page": ""
+          }
+        },
+        "7dd79963-0728-4ccb-85ae-a4ef29c6e44c": {
+          "type": "inventory_qty",
+          "settings": {
+            "total_items": 50,
+            "bg_1": "#ef262c",
+            "bg_2": "#edf1f2",
+            "h_stock": 5
+          }
+        },
+        "1c6b15e2-cee7-4cbc-b9ab-073e68a6924c": {
+          "type": "message",
+          "disabled": true,
+          "settings": {
+            "title": "Your message",
+            "content": "Add your name, note to personalise your item.",
+            "message": "message"
+          }
+        },
+        "993a628c-32eb-456f-9eb4-88c3a61fa8e0": {
+          "type": "product_infor",
+          "settings": {
+            "show_sku": false,
+            "show_barcode": false,
+            "show_vendor": false,
+            "show_type": false,
+            "show_availability": true,
+            "color_in_stock": "#008a00",
+            "color_out_stock": "#dd3842",
+            "show_category": false,
+            "limit_cate": 5,
+            "show_tags": false,
+            "limit_tags": 5
+          }
+        },
+        "8681d35e-2735-4d23-98a5-4f3b5271e474": {
+          "type": "quantity_button",
+          "settings": {
+            "icon_button_cart": "",
+            "border": 3,
+            "qt_show_quantity": true,
+            "qt_show_cart": true,
+            "show_popup": true,
+            "product_terms_conditions_page_content": "terms-and-conditions",
+            "qt_buy_it_now": false,
+            "btn_affiliate": "Buy On uiparadox",
+            "qt_show_compare": false,
+            "qt_show_wishlist": false,
+            "show_custom_color_btn": true,
+            "color_text_cart": "#ffffff",
+            "bg_add_to_cart": "#1a1208",
+            "color_text_cart_hover": "#ffffff",
+            "bg_add_to_cart_hv": "#8f0c0f",
+            "color_text_buy_now": "#ffffff",
+            "bg_buy_it_now": "#222222",
+            "color_text_buy_now_hover": "#ffffff",
+            "bg_buy_it_now_hv": "#0063d1"
+          }
+        },
+        "31c8ef69-7f67-42b1-909d-ae6219a97a53": {
+          "type": "file",
+          "disabled": true,
+          "settings": {
+            "title": "Upload image"
+          }
+        },
+        "d2caabfb-7c33-47ff-b309-cfca9d0d9b98": {
+          "type": "popup",
+          "disabled": true,
+          "settings": {
+            "show_size_chart": false,
+            "text_size_chart": "Size chart",
+            "size_guide_page": "size-guide",
+            "show_shipping_returns": false,
+            "text_shipping_returns": "90 day returns policy",
+            "shipping_returns_page": "shipping-return",
+            "show_compare_color": false,
+            "text_compare_color": "Compare Color",
+            "show_contact_us": false,
+            "text_contact_us": "Contact us"
+          }
+        },
+        "26205a69-31b8-41d3-83bf-2e25db4c4dfa": {
+          "type": "shipping",
+          "settings": {
+            "show_delivery_times": true,
+            "deliver_text": "Estimated Delivery:",
+            "deliver_days": "7",
+            "date_format": "%b %d",
+            "show_shipping_text": true,
+            "shipping_text": "<p>Return within <strong>7 days</strong> of purchase. Taxes are non-refundable.</p>"
+          }
+        },
+        "579829e4-1aee-4727-9d91-41583b54bebd": {
+          "type": "countdown",
+          "settings": {
+            "text": "Hurry up! Sale ends in:",
+            "custom_liquid": "{{product.metafields.custom.countdown_timer}}",
+            "bg": "#f9f2f2",
+            "bd": "#f3d5d5",
+            "cl_title": "#dd3327",
+            "bg_countdown": "#dd3327",
+            "cl_text": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "ed5dec54-d995-4f88-87d3-102460e07067",
+        "6ff5677e-1d98-482d-bd86-4c67fe63a2af",
+        "f1e09af0-0154-41e2-996f-755cdde44ea4",
+        "c78dd46d-d065-4e43-aaa7-13423da0532f",
+        "888fb817-16f3-467a-8d84-48f25bfcf851",
+        "5c909704-7273-41b5-b5b9-38085bf8c176",
+        "7dd79963-0728-4ccb-85ae-a4ef29c6e44c",
+        "1c6b15e2-cee7-4cbc-b9ab-073e68a6924c",
+        "993a628c-32eb-456f-9eb4-88c3a61fa8e0",
+        "8681d35e-2735-4d23-98a5-4f3b5271e474",
+        "31c8ef69-7f67-42b1-909d-ae6219a97a53",
+        "d2caabfb-7c33-47ff-b309-cfca9d0d9b98",
+        "26205a69-31b8-41d3-83bf-2e25db4c4dfa",
+        "579829e4-1aee-4727-9d91-41583b54bebd"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "products-before-after": true,
+        "cl_bg": "",
+        "cl_border": "#faf7f2",
+        "mg": "5px,0,5px,0",
+        "pd": "0",
+        "bd": 3,
+        "mg_mb": "5px,,5px,",
+        "pd_mb": ",,,"
+      }
+    },
+    "612386e0-0c62-4e49-86c7-a00a229568f2": {
+      "type": "products-bought-together",
+      "blocks": {
+        "7733d4d1-4dd7-4f55-a62e-ddbb3d9c48ab": {
+          "type": "discount",
+          "settings": {
+            "qty_items": 2,
+            "value": "1",
+            "percent": "10%",
+            "amount": ""
+          }
+        },
+        "1fca66cb-95f5-42fe-8e77-667b2ad6775e": {
+          "type": "discount",
+          "settings": {
+            "qty_items": 3,
+            "value": "1",
+            "percent": "15%",
+            "amount": ""
+          }
+        },
+        "7a328ecd-9d23-419d-ae69-6655af9ee5d3": {
+          "type": "discount",
+          "settings": {
+            "qty_items": 4,
+            "value": "1",
+            "percent": "20%",
+            "amount": ""
+          }
+        },
+        "0325d4cb-574c-4e21-983d-013041d07dec": {
+          "type": "discount",
+          "settings": {
+            "qty_items": 5,
+            "value": "1",
+            "percent": "25%",
+            "amount": "3000"
+          }
+        }
+      },
+      "block_order": [
+        "7733d4d1-4dd7-4f55-a62e-ddbb3d9c48ab",
+        "1fca66cb-95f5-42fe-8e77-667b2ad6775e",
+        "7a328ecd-9d23-419d-ae69-6655af9ee5d3",
+        "0325d4cb-574c-4e21-983d-013041d07dec"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Frequently Bought Together",
+        "product-main-require": true,
+        "text_size": "small",
+        "text_transform": "capitalize",
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 5,
+        "widescreen": 5,
+        "desktop": 4,
+        "laptop": 3,
+        "notebook": 3,
+        "tablet": 3,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 2,
+        "rows": 1,
+        "autoplay": false,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 10,
+        "vertical": false,
+        "layout": "container",
+        "cl_bg": "rgba(0,0,0,0)",
+        "border": 15,
+        "mg": ",,80px,",
+        "pd": "",
+        "mg_mb": ",,40px,",
+        "pd_mb": ""
+      }
+    },
+    "product_detail_section_XrCG9E": {
+      "type": "product-detail-section",
+      "blocks": {
+        "product_tag_d8xTHi": {
+          "type": "product_tag",
+          "settings": {
+            "metafield_key": "pure_mustard_oil",
+            "tag_label": "{{ product.metafields.custom.pure_mustard_oil.value }}",
+            "tag_icon": "shopify://shop_images/Sunflower_Oil.webp",
+            "tag_bg_override": "",
+            "tag_text_override": ""
+          }
+        },
+        "product_tag_gx3afr": {
+          "type": "product_tag",
+          "settings": {
+            "metafield_key": "spicy_tangy",
+            "tag_label": "{{ product.metafields.custom.spicy_tangy.value }}",
+            "tag_icon": "shopify://shop_images/Spicy_Tangy.webp",
+            "tag_bg_override": "",
+            "tag_text_override": ""
+          }
+        },
+        "product_tag_HjfxpW": {
+          "type": "product_tag",
+          "settings": {
+            "metafield_key": "sweet_tangy_spicy_tangy",
+            "tag_label": "{{ product.metafields.custom.sweet_tangy_spicy_tangy | metafield_text }}",
+            "tag_icon": "shopify://shop_images/Sweet_Tangy.webp",
+            "tag_bg_override": "",
+            "tag_text_override": ""
+          }
+        },
+        "product_tag_JaiEDT": {
+          "type": "product_tag",
+          "settings": {
+            "metafield_key": "pure_peanut_oil",
+            "tag_label": "{{ product.metafields.custom.pure_peanut_oil.value }}",
+            "tag_icon": "shopify://shop_images/Ground_nut_oil.webp",
+            "tag_bg_override": "",
+            "tag_text_override": ""
+          }
+        },
+        "product_tag_eMQitg": {
+          "type": "product_tag",
+          "settings": {
+            "metafield_key": "no_onion_no_garlic",
+            "tag_label": "{{ product.metafields.custom.no_onion_no_garlic | metafield_text }}",
+            "tag_icon": "shopify://shop_images/no_onion_no_garlic.webp",
+            "tag_bg_override": "",
+            "tag_text_override": ""
+          }
+        },
+        "offer_card_D8Dd7E": {
+          "type": "offer_card",
+          "settings": {
+            "offer_title": "FREE DELIVERY",
+            "offer_badge": "Auto discount",
+            "card_header_bg": "#ffb21c8f",
+            "offer_description": "FREE SHIPPING ABOVE ₹599/-"
+          }
+        },
+        "offer_card_z9GPp9": {
+          "type": "offer_card",
+          "settings": {
+            "offer_title": "BUY 2 GET Free Shipping",
+            "offer_badge": "Auto discount",
+            "card_header_bg": "#ffb21c8f",
+            "offer_description": "Buy 2 pickles of 250g & Get FREE SHIPPING"
+          }
+        },
+        "offer_card_fajFXD": {
+          "type": "offer_card",
+          "settings": {
+            "offer_title": "BUY Product Above ₹749 & Get 10% OFF",
+            "offer_badge": "Auto discount",
+            "card_header_bg": "#ffb21c8f",
+            "offer_description": "10% OFF ON ₹749/- ORDER VALUE"
+          }
+        },
+        "usp_icon_gMkkqH": {
+          "type": "usp_icon",
+          "settings": {
+            "usp_label": "Hygienic Handmade"
+          }
+        },
+        "usp_icon_Mgeei7": {
+          "type": "usp_icon",
+          "settings": {
+            "usp_label": "Premium Ingredients"
+          }
+        },
+        "usp_icon_bJBK4m": {
+          "type": "usp_icon",
+          "settings": {
+            "usp_label": "Sun Dried in Barnis"
+          }
+        },
+        "usp_icon_94zcBw": {
+          "type": "usp_icon",
+          "settings": {
+            "usp_label": "No Preservatives"
+          }
+        }
+      },
+      "block_order": [
+        "product_tag_d8xTHi",
+        "product_tag_gx3afr",
+        "product_tag_HjfxpW",
+        "product_tag_JaiEDT",
+        "product_tag_eMQitg",
+        "offer_card_D8Dd7E",
+        "offer_card_z9GPp9",
+        "offer_card_fajFXD",
+        "usp_icon_gMkkqH",
+        "usp_icon_Mgeei7",
+        "usp_icon_bJBK4m",
+        "usp_icon_94zcBw"
+      ],
+      "name": "FD Product Detail",
+      "settings": {
+        "primary_color": "#f3a222",
+        "accent_color": "#cc1226",
+        "text_color": "#111111",
+        "background_color": "#ffffff",
+        "sale_badge_bg": "#d62628",
+        "sale_badge_text_color": "#ffffff",
+        "star_color": "#f3a222",
+        "tag_bg_color": "#f8f8f8",
+        "tag_text_color": "#333333",
+        "add_to_cart_bg": "#cc1226",
+        "add_to_cart_text_color": "#ffffff",
+        "add_to_cart_hover_bg": "#a80e1e",
+        "buy_now_bg": "#f3a222",
+        "buy_now_text_color": "#000000",
+        "variant_active_border": "#f3a222",
+        "variant_active_header_bg": "#f3a222",
+        "base_font_size": 16,
+        "border_radius": 10,
+        "mrp_label": "MRP",
+        "tax_note": "(Inclusive of all taxes)",
+        "shelf_life_label": "Shelf Life",
+        "shelf_life_text": "12 months from the date of packaging",
+        "add_to_cart_text": "Add to Cart",
+        "adding_text": "Adding…",
+        "added_text": "Added ✓",
+        "sold_out_text": "Sold Out",
+        "show_buy_now": true,
+        "buy_now_text": "Buy It Now",
+        "show_quantity": true,
+        "show_reviews_row": true,
+        "review_score": 5,
+        "review_text": "4.7 | 823 Reviews",
+        "show_amazon_rating": true,
+        "amazon_star_image": "shopify://shop_images/Amazon_seller.png",
+        "amazon_rating_text": "4.1 | 425 Reviews on Amazon",
+        "show_urgency": true,
+        "urgency_min": 20,
+        "urgency_max": 80,
+        "urgency_unit": "sold",
+        "urgency_suffix_text": "in last 12 hours",
+        "show_trust_banners": true,
+        "trust_banner_1": "FREE Shipping on orders above ₹599",
+        "trust_banner_2": "FLAT 10% OFF on orders above ₹749",
+        "show_pincode_checker": true,
+        "pincode_header_text": "Check Delivery Date",
+        "pincode_label": "Estimated Delivery",
+        "pincode_placeholder": "Enter pincode",
+        "pincode_btn_text": "Check",
+        "pin_available_msg": "Usually delivered within 3 to 5 days to {pin}",
+        "pin_unavailable_msg": "Delivery not available to {pin}",
+        "pin_invalid_msg": "Please enter a valid 6-digit pincode",
+        "pin_checking_msg": "Checking availability…",
+        "show_offers": true,
+        "offers_heading": "Limited Offers 🏷️",
+        "offers_prepaid_text": "",
+        "show_breadcrumb": true,
+        "show_tags": true,
+        "show_sale_badge": true,
+        "show_per_unit": true,
+        "show_usp_icons": true,
+        "show_ingredient_icons": true,
+        "enable_zoom": true
+      }
+    },
+    "dp_product_faqs": {
+      "type": "dp-product-faqs",
+      "blocks": {
+        "faq_Tw7Qmk": {
+          "type": "faq",
+          "settings": {
+            "question": "Description",
+            "answer": "{{ product.description }}"
+          }
+        },
+        "faq_VNiGxf": {
+          "type": "faq",
+          "settings": {
+            "question": "Ingredients",
+            "answer": "<p>{{ product.metafields.custom.ingredients | metafield_tag }}</p>"
+          }
+        },
+        "faq_B4mz96": {
+          "type": "faq",
+          "settings": {
+            "question": "Shelf Life",
+            "answer": "<p>Q. How should I store the Homemade Mango Pickle?<br/><br/>A. Store it in a cool and dry place and refrigerate after opening. Always use a dry spoon when serving to maintain freshness and prevent contamination.<br/><br/>Q. What is the shelf life?<br/><br/>A. Best before 12 months from the date of packaging when stored properly.</p>"
+          }
+        },
+        "faq_CKHxM7": {
+          "type": "faq",
+          "settings": {
+            "question": "Storage Instructions",
+            "answer": "<p>Q: How should I store this product?<br/>A: Store in a cool and dry place away from direct sunlight. Do not refrigerate.<br/><br/>Q: What precautions should I take when using this product?<br/>A: Always use a dry spoon when scooping. Avoid using wet utensils as moisture can affect the product quality.<br/><br/>Q: How do I maintain freshness?<br/>A: Stir occasionally to maintain consistency and ensure even distribution of ingredients.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_Tw7Qmk",
+        "faq_VNiGxf",
+        "faq_B4mz96",
+        "faq_CKHxM7"
+      ],
+      "settings": {
+        "subtitle": "Product Details",
+        "title": "Product Information",
+        "bg_color": "#ffffff",
+        "border_color": "#ebd9c2",
+        "accent_color": "#cc1226",
+        "show_contact_card": false,
+        "contact_title": "Have More Questions?",
+        "contact_text": "For any more queries reach out to us at support@arhamfoods.co.in and we will be happy to assist you.",
+        "contact_btn_label": "Contact Us",
+        "contact_btn_link": "/pages/contact",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "product-page-tab": {
+      "type": "product-page-tab",
+      "blocks": {
+        "f9332aee-ca1e-4993-ad5c-e3d5984789cc": {
+          "type": "tab_description",
+          "settings": {
+            "title_description": "About This Item"
+          }
+        },
+        "0e2c2c01-948c-43f1-ae77-e8dbabaf8f55": {
+          "type": "tab_reviews",
+          "settings": {
+            "title_reviews": "Reviews"
+          }
+        }
+      },
+      "block_order": [
+        "f9332aee-ca1e-4993-ad5c-e3d5984789cc",
+        "0e2c2c01-948c-43f1-ae77-e8dbabaf8f55"
+      ],
+      "disabled": true,
+      "settings": {
+        "hide_tabs": false,
+        "accordion_tabs": false,
+        "cl_bg": "",
+        "show_border": false,
+        "cl_line": "#f2f2f6",
+        "mg": "0,0,80px,0",
+        "pd": "",
+        "bd": 15,
+        "mg_mb": "0,0,40px,0",
+        "pd_mb": ""
+      }
+    },
+    "0ad0b897-1709-41a0-a125-eb4f05ad8eab": {
+      "type": "collection-carousel-product",
+      "blocks": {
+        "ac61b726-3fc2-4a37-9ac9-85e222f3b98e": {
+          "type": "product",
+          "settings": {
+            "product": "{{ section.settings.collection.metafields.custom.product_meta.value }}"
+          }
+        },
+        "d3b642d4-c2f3-4c3b-b897-54a59efc9cc7": {
+          "type": "product",
+          "settings": {
+            "product": "{{ section.settings.collection.metafields.custom.product_meta.value }}"
+          }
+        },
+        "bc9aeabb-f816-4d9f-ae11-dd7bcd5c7cce": {
+          "type": "product",
+          "settings": {
+            "product": "multicolored-nail-polishes"
+          }
+        },
+        "d82e48d7-6b9d-4ebd-9b3e-b471b30f90b8": {
+          "type": "product",
+          "settings": {
+            "product": "makeup-essentials-kit"
+          }
+        },
+        "537cddfd-6e38-4f28-951f-b2672e6dc5bb": {
+          "type": "product",
+          "settings": {
+            "product": "makeup-brush"
+          }
+        },
+        "61a8fbe0-463e-4012-b59b-15b297bf70a2": {
+          "type": "product",
+          "settings": {
+            "product": "refreshing-body-mist"
+          }
+        },
+        "5a239b8a-22c2-4dc1-a4f1-977c2695a935": {
+          "type": "product",
+          "settings": {
+            "product": "waterproof-bold-mascara"
+          }
+        }
+      },
+      "block_order": [
+        "ac61b726-3fc2-4a37-9ac9-85e222f3b98e",
+        "d3b642d4-c2f3-4c3b-b897-54a59efc9cc7",
+        "bc9aeabb-f816-4d9f-ae11-dd7bcd5c7cce",
+        "d82e48d7-6b9d-4ebd-9b3e-b471b30f90b8",
+        "537cddfd-6e38-4f28-951f-b2672e6dc5bb",
+        "61a8fbe0-463e-4012-b59b-15b297bf70a2",
+        "5a239b8a-22c2-4dc1-a4f1-977c2695a935"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "You May Also Like",
+        "head_description": "",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "display_type": "selected",
+        "collection": "all-products",
+        "use-all-product": true,
+        "max_count": 8,
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 4,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 3,
+        "notebook": 3,
+        "tablet": 3,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": false,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 10,
+        "vertical": false,
+        "layout_des": false,
+        "custom_width": false,
+        "container_width": 1200,
+        "cl_bg": "",
+        "mg": ",,,",
+        "pd": ",,0px,",
+        "mg_mb": ",,,",
+        "pd_mb": ",,0px,"
+      }
+    },
+    "custom_product_grid_7XFhGn": {
+      "type": "custom-product-grid",
+      "custom_css": [],
+      "name": "Custom Product Grid",
+      "settings": {
+        "heading": "You May Also Like",
+        "subheading": "",
+        "use_h1": false,
+        "collection": "all-products",
+        "products_to_show": 24,
+        "exclude_current_product": true,
+        "filter_metafield_key": "",
+        "badge_metafield_key_1": "custom.pure_peanut_oil",
+        "badge_metafield_key_2": "custom.sweet_tangy_spicy_tangy",
+        "badge_metafield_key_3": "custom.spicy_tangy",
+        "badge_metafield_key_4": "custom.pure_mustard_oil",
+        "badge_metafield_key_5": "custom.pure_peanut_oil",
+        "section_bg": "#fff6e8",
+        "card_bg": "#ffffff",
+        "card_border_color": "#e8e8e8",
+        "product_title_color": "#1a1a1a",
+        "heading_color": "#1a1a1a",
+        "subheading_color": "#666666",
+        "price_color": "#1a1a1a",
+        "compare_price_color": "#999999",
+        "rating_color": "#f9a825",
+        "variant_bg": "#ffffff",
+        "variant_text_color": "#1a1a1a",
+        "variant_border_color": "#dddddd",
+        "rating_text_color": "#555555",
+        "btn_bg": "#d32f2f",
+        "btn_text_color": "#ffffff",
+        "btn_hover_bg": "#b71c1c",
+        "btn_hover_text_color": "#ffffff",
+        "badge_bg": "#d32f2f",
+        "badge_text_color": "#ffffff",
+        "sale_badge_text": "Sale",
+        "sale_badge_bg": "#e53935",
+        "sale_badge_text_color": "#ffffff",
+        "soldout_badge_text": "Sold Out",
+        "soldout_badge_bg": "#333333",
+        "soldout_badge_text_color": "#ffffff",
+        "heading_font_size": 32,
+        "heading_font_size_mobile": 24,
+        "title_font_size": 15,
+        "title_font_size_mobile": 13,
+        "price_font_size": 15,
+        "variant_font_size": 13,
+        "btn_font_size": 13,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32,
+        "card_padding": 16,
+        "card_gap": 20,
+        "card_border_radius": 10,
+        "image_ratio": "square",
+        "image_border_radius": 8,
+        "btn_height": 46,
+        "btn_radius": 6,
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 4,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 4,
+        "notebook": 3,
+        "tablet": 2,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": true,
+        "dots": true,
+        "infinite": false,
+        "padding": 10,
+        "vertical": false
+      }
+    },
+    "1781781672c674c815": {
+      "type": "apps",
+      "blocks": {
+        "judgeme_review_widget": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judgeme_review_widget"
+      ],
+      "settings": {}
+    },
+    "dp_seo_faqs": {
+      "type": "dp-seo-faqs",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "Are DivyaPrabha Foods pickles handmade and preservative-free?",
+            "answer": "<p>Yes, all DivyaPrabha Foods pickles are 100% handmade and prepared without any artificial preservatives, chemicals, or synthetic colors, following traditional Saurashtra home recipes to ensure authentic taste and healthiness.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Which oil is used in preparing your pickles?",
+            "answer": "<p>We use premium quality oils, such as pure cold-pressed peanut oil or mustard oil depending on the specific recipe, to preserve the pickles naturally and enhance the traditional Saurashtra flavor profile.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "What is the shelf life of Saurashtra pickles and how should they be stored?",
+            "answer": "<p>Our homemade pickles have a shelf life of 12 months from the date of packaging. To maintain their freshness, store them in a cool, dry place away from direct sunlight, and always use a clean, dry spoon to serve them.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "Are the pickle jars made of food-grade materials?",
+            "answer": "<p>Absolutely. We pack all our homemade pickles in premium food-grade glass jars and containers to preserve their aroma, flavor, and freshness safely and sustainably.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "What are the health benefits of eating handmade pickles daily?",
+            "answer": "<p>Handmade pickles, especially those prepared via traditional sun-drying methods, are rich in natural antioxidants and beneficial bacteria (probiotics) that aid digestion, boost gut health, and improve immunity when consumed in moderation as part of a daily balanced diet.</p>"
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you use any artificial food colorings or flavors in your pickles?",
+            "answer": "<p>No, we do not use any synthetic colors or artificial flavors. The vibrant red color of our pickles comes naturally from premium-grade Byadgi or Kashmiri red chili powder, and the yellow from pure turmeric powder.</p>"
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "Why is Saurashtra home-style preparation unique?",
+            "answer": "<p>Our Saurashtra home-style pickles are unique because they are prepared in small batches using traditional sun-drying in barnis (porcelain jars). This slow process allows the spices to infuse deeply into the fruits, maintaining authentic flavor without needing any chemicals.</p>"
+          }
+        },
+        "faq_9": {
+          "type": "faq",
+          "settings": {
+            "question": "Are these pickles safe for kids and pregnant women?",
+            "answer": "<p>It is always recommended that pregnant women and children consume this product only under the guidance and advice of a qualified doctor or physician.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "faq_9"
+      ],
+      "settings": {
+        "subtitle": "Frequently Asked Questions",
+        "title": "Frequently Asked Questions",
+        "bg_color": "#fff8ee",
+        "border_color": "#ebd9c2",
+        "accent_color": "#cc1226",
+        "show_contact_card": true,
+        "contact_title": "Do you have more questions?",
+        "contact_text": "Reach out to our customer care team and we will be happy to assist you.",
+        "contact_btn_label": "Contact Us",
+        "contact_btn_link": "/pages/contact",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f": {
+      "type": "newsletter",
+      "settings": {
+        "width_c": 100,
+        "title": "",
+        "cl_title": "#0c0816",
+        "subtitle": "",
+        "cl_subtitle": "#0c0816",
+        "content": "Join Our Newsletter <br> and <a href=\"/collections/all\">Save 20% Off</a> on Your Next Purchase!.",
+        "cl_content": "#0c0816",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "layout": "container",
+        "design": "design-2",
+        "cl_bg": "",
+        "cl_bg_news": "#fafafa",
+        "cl_border": "#e7e1f4",
+        "mg": "40px,,,",
+        "pd": "0px,0px,0px,",
+        "mg_mb": "30px,,,",
+        "pd_mb": "30px,,30px,"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "612386e0-0c62-4e49-86c7-a00a229568f2",
+    "product_detail_section_XrCG9E",
+    "dp_product_faqs",
+    "product-page-tab",
+    "0ad0b897-1709-41a0-a125-eb4f05ad8eab",
+    "custom_product_grid_7XFhGn",
+    "1781781672c674c815",
+    "dp_seo_faqs",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f"
+  ]
+}

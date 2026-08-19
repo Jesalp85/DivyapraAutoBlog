@@ -1,0 +1,82 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "show_title_page": false,
+        "h_position": "center",
+        "v_position": "middle",
+        "txt_align": "center",
+        "bg_breadcrumb_blog": "shopify://shop_images/title-bg.jpg",
+        "bg": "#E7E1F4",
+        "b_height": 200,
+        "mg_bottom": 80,
+        "mobile_bg": "#E7E1F4",
+        "mobile_ht": 160,
+        "mobile_mg_bottom": 40
+      }
+    },
+    "main": {
+      "type": "main-wishlist",
+      "settings": {
+        "title": "Your favourite product",
+        "content": "Commodo sociosqu venenatis cras dolor sagittis integer luctus maecenas.",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "visible": 4,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 3,
+        "notebook": 2,
+        "tablet": 2,
+        "landscape": 2,
+        "portrait": 1,
+        "mobile": 1,
+        "padding": 10,
+        "layout": false,
+        "cl_bg": "rgba(0,0,0,0)",
+        "mg": "",
+        "pd": "0,0,100px,0",
+        "mg_mb": "",
+        "pd_mb": "50px,0,50px,0"
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f": {
+      "type": "newsletter",
+      "settings": {
+        "width_c": 100,
+        "title": "",
+        "cl_title": "#0C0816",
+        "subtitle": "",
+        "cl_subtitle": "#0C0816",
+        "content": "Join Our Newsletter <br> and <a href=\"/collections/all\">Save 20% Off</a> on Your Next Purchase!.",
+        "cl_content": "#0C0816",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "layout": "container",
+        "design": "design-2",
+        "cl_bg": "",
+        "cl_bg_news": "#FAFAFA",
+        "cl_border": "#E7E1F4",
+        "mg": "80px,,,",
+        "pd": "0px,0px,65px,",
+        "mg_mb": "40px,,,",
+        "pd_mb": "40px,,40px,"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f"
+  ]
+}

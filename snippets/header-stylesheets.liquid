@@ -1,0 +1,171 @@
+{%- style -%}
+  {%- capture style -%}
+    /*================ Typography ================*/
+    :root {
+    --color-bg-body:{{settings.color_body_bg}};
+    --color-text-body:{{settings.color_body_text}};
+    --color-title-contact:{{settings.color_title_contact}};
+
+    --color-main: {{settings.color_main}};
+    --color-eyebrow: {{settings.color_eyebrow}};
+    --color-breadcrum: {{settings.color_breadcrum}};
+    --color-paraghraph: {{settings.color_paraghraph}};
+    --color-secondary: {{settings.color_secondary}};
+    --color-orange: {{settings.color_orange}};
+    --color-lavender-purple: {{settings.color_lavender_purple}};
+    --color-green: {{settings.color_green}};
+
+    --color-link: {{settings.color_link}};
+    --color-link-hover: {{settings.color_link_hover}};
+
+    --color-scrollbar: {{settings.color_scrollbar}};
+    --color-border: {{settings.color_border}};
+
+    /*================ megamenu ================*/
+    --color-link-menu:{{settings.color_link_menu}};
+    --color-link-menu-heading:{{settings.color_menu_heading}};
+    --color-link-menu-sub:{{settings.color_link_menu_sub}};
+    --color-link-menu-hover:{{settings.color_link_menu_hover}};
+
+    /*================ product item ================*/
+    --color-name-product:{{settings.color_name_product }};
+    --color-name-product-hover:{{settings.color_name_product_hover }};
+    --color-star-product:{{settings.color_star_product }};
+
+    --color-compare-price-product:{{settings.color_compare_price_product }};
+    --color-price-product:{{settings.color_price_product }};
+    --color-current-product:{{settings.color_price_current_product }};
+
+    --color-cart-product:{{settings.color_cart_product }};
+    --color-out-product:{{settings.color_out_product }};
+
+    --color-btn-product:{{settings.color_btn_product }};
+    --color-btn-product-hover:{{settings.color_btn_product_hover }};
+    --color-tb-btn:{{settings.color_tb_btn }};
+
+    --bg-btn-product:{{settings.bg_btn_product }};
+    --bg-btn-product-hover:{{settings.bg_btn_product_hover }};
+
+    --color-label-hot:{{settings.color_label_hot }};
+    --color-label-new:{{settings.color_label_new }};
+    --color-label-sale:{{settings.color_label_sale }};
+    --color-label-in:{{settings.color_label_in }};
+    --color-label-out:{{settings.color_label_out }};
+
+    /*================ Butoom ================*/
+
+    --color-btn-text:{{settings.color_btn_text }};
+    --color-btn:{{settings.color_btn }};
+    --color-border-btn:{{settings.color_border_btn }};
+    --color-btn-text_hover:{{settings.color_btn_text_hover }};
+    --color-btn-hover:{{settings.color_btn_hover }};
+    --color-border-btn-hover:{{settings.color_border_btn_hover }};
+     /*================ Butoom Previous & Next ================*/
+      --color-cl-btn-p-n:{{settings.cl_btn_p_n }};
+      --color-bg-btn-p-n:{{settings.bg_btn_p_n }};
+      --color-cl-btn-p-n-hover:{{settings.cl_btn_p_n_hover }};
+      --color-bg-btn-p-n-hover:{{settings.bg_btn_p_n_hover }};
+      --bg-purple:{{settings.bg_purple }};
+
+      --ui-border-radius:{{settings.border}}px;
+        --ui-gap:{{settings.gap}}px;
+        --ui-row:-{{settings.gap}}px;
+
+        --ui-gap-mobile:{{settings.gap_mobile}}px;
+        --ui-row-mobile:-{{settings.gap_mobile}}px;
+
+        --ui-container-width:{{settings.cusotm_width}}px;
+
+    }
+    .hero_canvas:before,
+    .mfp-container,.mobile_bkg_show,.mask-overlay{
+      cursor: url({{'cursor-close.png' | asset_url}}),pointer !important;
+    }
+    .frm_search_cat select {
+      background-image: url({{'icon_down.png' | asset_url}});
+      background-position: right 20px top 50%;
+      background-size: auto 6px;
+      background-repeat: no-repeat;
+    }
+    .content-video .number:before{
+      -webkit-mask: url({{'icon_1.svg' | asset_url}}) no-repeat center center;
+      mask: url({{'icon_1.svg' | asset_url}}) no-repeat center center;
+    }
+    {%- endcapture -%}
+  {{ style | strip_newlines }}
+{%- endstyle -%}
+
+{%- assign type_name = request.page_type -%}
+
+{%- comment -%} CRITICAL CSS (Loaded synchronously for fast initial render) {%- endcomment -%}
+{{ 'style.pre_theme.css' | asset_url | stylesheet_tag }}
+{{ 'dukamarket.css' | asset_url | stylesheet_tag }}
+{{ 'header.css' | asset_url | stylesheet_tag }}
+{{ 'global.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} ASYNCHRONOUS NON-CRITICAL CSS (Loaded in background to avoid render blocking) {%- endcomment -%}
+<link rel="stylesheet" href="{{ 'style.line-awesome.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'style.line-awesome.min.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link rel="stylesheet" href="{{ 'style.font-awesome.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'style.font-awesome.min.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link rel="stylesheet" href="{{ 'style.fotorama.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'style.fotorama.min.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link rel="stylesheet" href="{{ 'style.magnific-popup.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'style.magnific-popup.min.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link rel="stylesheet" href="{{ 'style.slick.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'style.slick.min.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link rel="stylesheet" href="{{ 'animate.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'animate.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link rel="stylesheet" href="{{ 'skeleton.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'skeleton.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% assign import_footer = settings.select_footer | plus: 0 %}
+{% capture styleFooter %}footer{{import_footer}}.css{% endcapture %}
+<link rel="stylesheet" href="{{ styleFooter | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ styleFooter | asset_url | stylesheet_tag }}</noscript>
+
+{%- comment -%} PAGE SPECIFIC STYLES {%- endcomment -%}
+{% if type_name == 'cart' %}
+  {{ 'page-cart.css' | asset_url | stylesheet_tag }}
+{% endif %}
+{% if type_name == '404' %}
+  {{ '404.css' | asset_url | stylesheet_tag }}
+{% endif %}
+{% if type_name == 'page' %}
+  {{ 'pages.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'vertical_menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'vertical_menu.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link rel="stylesheet" href="{{ 'product.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'product.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% if type_name == 'product' %}
+  {{ 'product_page.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% if type_name == 'blog' or type_name == 'article' %}
+  {{ 'blog.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% if rtlClasses == 'rtl' %}
+  {{ 'rtl.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% if settings.use_custom_variants %}
+  {{ 'custom-color-variants.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% if settings.custom_css %}
+  {{ 'custom.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'smart-cart.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'smart-cart.css' | asset_url | stylesheet_tag }}</noscript>

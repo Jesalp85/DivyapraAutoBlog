@@ -1,0 +1,2017 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "9db669ec-e36b-42f0-a69e-c98e639e4bf0": {
+      "type": "hero-bannar",
+      "blocks": {
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-1": {
+          "type": "menu",
+          "settings": {
+            "title": "Nail Polishes",
+            "collection": "all",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-2": {
+          "type": "menu",
+          "settings": {
+            "title": "Eye Makeup",
+            "collection": "all",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-3": {
+          "type": "menu",
+          "settings": {
+            "title": "Lipsticks",
+            "collection": "all",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-4": {
+          "type": "menu",
+          "settings": {
+            "title": "Makeup",
+            "collection": "all",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-5": {
+          "type": "menu",
+          "settings": {
+            "title": "Fragrances",
+            "collection": "all",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-6": {
+          "type": "menu",
+          "settings": {
+            "title": "Body Care",
+            "collection": "all",
+            "open_link": "_blank"
+          }
+        }
+      },
+      "block_order": [
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-1",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-2",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-3",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-4",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-5",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-6"
+      ],
+      "disabled": true,
+      "settings": {
+        "background_image": "shopify://shop_images/ChatGPT_Image_Jun_1_2026_03_58_45_PM_1.png",
+        "background_color": "#e7e1f4",
+        "heading_text": "Elevate Your Skin,",
+        "heading_text_color": "#0c0816",
+        "heading_text_span": "Elevate Your Confidence",
+        "heading_text_span_color": "#0c0816",
+        "paragraph_text": "At Beautify, we believe in empowering everyone to feel confident in their skin. Our high-quality, carefully curated products are designed to enhance your natural beauty. Join us on a journey to radiant...",
+        "button_link": "shopify://collections/all",
+        "button_text": "View Collection",
+        "banner_image_alt": "Hero Banner Image 500x500",
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 2,
+        "widescreen": 2,
+        "desktop": 2,
+        "laptop": 2,
+        "notebook": 2,
+        "tablet": 2,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 2,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": false,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 20,
+        "vertical": false,
+        "use_eq_height": true,
+        "image_ratio": "ratio1_1",
+        "layout": "container",
+        "cl_bg": "",
+        "mg": "0px,,10px,",
+        "pd": "0px,,0px,",
+        "mg_mb": "0px,,10px,",
+        "pd_mb": ""
+      }
+    },
+    "slideshow_XRqKXm": {
+      "type": "slideshow",
+      "blocks": {
+        "img_AWYytx": {
+          "type": "img",
+          "settings": {
+            "video": "shopify://files/videos/divyaprabhafoods banner video.mp4",
+            "image_sl": "shopify://shop_images/Banner_1.webp",
+            "image_sl_mobile": "shopify://shop_images/Mobile_banner.webp",
+            "link_img": "",
+            "open_link": "_self",
+            "cusotm-width": 50,
+            "h_position": "center",
+            "v_position": "middle",
+            "txt_align": "center"
+          }
+        },
+        "space_KWNpQa": {
+          "type": "space",
+          "settings": {
+            "hide_mobile": false,
+            "sp": 460,
+            "mobile_sp": 10
+          }
+        }
+      },
+      "block_order": [
+        "img_AWYytx",
+        "space_KWNpQa"
+      ],
+      "custom_css": [
+        ".wrap_slide,.image,.img_slide,.slick-slide {padding: 0 !important; margin: 0 !important;}",
+        "img {width: 100%; height: auto; display: block;}",
+        "div[data-wrapper-slidershow] .content-item .alo-video .video-play {display: none;}"
+      ],
+      "name": "1. Slideshow",
+      "settings": {
+        "hidden": false,
+        "full-screen": true,
+        "h_des": "650px",
+        "h_tb": "500px",
+        "h_mb": "350px",
+        "border": 10,
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 1,
+        "widescreen": 1,
+        "desktop": 1,
+        "laptop": 1,
+        "notebook": 1,
+        "tablet": 1,
+        "landscape": 1,
+        "portrait": 1,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": false,
+        "fade": false,
+        "fade_zoom": false,
+        "center-Mode": false,
+        "adaptive-Height": true,
+        "dots": false,
+        "infinite": false,
+        "padding": 0,
+        "vertical": false,
+        "position_dots": "left",
+        "style_dots": "default",
+        "custom_width": false,
+        "container_width": 1200,
+        "layout": "full-width",
+        "cl_bg": "#f5f5f5",
+        "mg": "0",
+        "pd": "0",
+        "mg_mb": "",
+        "pd_mb": ""
+      }
+    },
+    "dp_fssai_marquee": {
+      "type": "dp-fssai-marquee",
+      "blocks": {
+        "fssai_1": {
+          "type": "fssai_item",
+          "settings": {
+            "text": "FSSAI REGISTERED",
+            "link": ""
+          }
+        },
+        "fssai_2": {
+          "type": "fssai_item",
+          "settings": {
+            "text": "FSSAI REGISTERED",
+            "link": ""
+          }
+        },
+        "fssai_item_TydTJy": {
+          "type": "fssai_item",
+          "settings": {
+            "text": "FSSAI REGISTERED",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "fssai_1",
+        "fssai_2",
+        "fssai_item_TydTJy"
+      ],
+      "settings": {
+        "speed": 15,
+        "bg_color": "#ea8123",
+        "text_color": "#ffffff",
+        "border_color": "rgba(0,0,0,0)",
+        "border_thickness": 0,
+        "logo_height": 48,
+        "text_font_size": 12,
+        "text_weight": "500",
+        "item_gap": 80,
+        "logo_height_mobile": 32,
+        "text_font_size_mobile": 10,
+        "item_gap_mobile": 40,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "slideshow_BkCciM": {
+      "type": "slideshow",
+      "blocks": {
+        "img_rfybJH": {
+          "type": "img",
+          "settings": {
+            "video": "shopify://files/videos/Banner Video.mp4",
+            "image_sl": "shopify://shop_images/Banner_1.webp",
+            "image_sl_mobile": "shopify://shop_images/Mobile_banner.webp",
+            "link_img": "",
+            "open_link": "_self",
+            "cusotm-width": 50,
+            "h_position": "center",
+            "v_position": "middle",
+            "txt_align": "center"
+          }
+        },
+        "img_LAztVk": {
+          "type": "img",
+          "disabled": true,
+          "settings": {
+            "image_sl": "shopify://shop_images/Banner_1.webp",
+            "image_sl_mobile": "shopify://shop_images/Mobile_banner.webp",
+            "link_img": "",
+            "open_link": "_self",
+            "cusotm-width": 50,
+            "h_position": "center",
+            "v_position": "middle",
+            "txt_align": "center"
+          }
+        },
+        "img_gneh73": {
+          "type": "img",
+          "disabled": true,
+          "settings": {
+            "image_sl": "shopify://shop_images/Banner_1.webp",
+            "image_sl_mobile": "shopify://shop_images/Mobile_banner.webp",
+            "link_img": "",
+            "open_link": "_self",
+            "cusotm-width": 50,
+            "h_position": "center",
+            "v_position": "middle",
+            "txt_align": "center"
+          }
+        }
+      },
+      "block_order": [
+        "img_rfybJH",
+        "img_LAztVk",
+        "img_gneh73"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".wrap_slide,.image,.img_slide,.slick-slide {padding: 0 !important; margin: 0 !important;}",
+        "img {width: 100%; height: auto; display: block;}"
+      ],
+      "name": "1. Slideshow",
+      "settings": {
+        "hidden": false,
+        "full-screen": true,
+        "h_des": "650px",
+        "h_tb": "500px",
+        "h_mb": "350px",
+        "border": 10,
+        "use-slider": false,
+        "slides-To-Scroll": 1,
+        "visible": 1,
+        "widescreen": 1,
+        "desktop": 1,
+        "laptop": 1,
+        "notebook": 1,
+        "tablet": 1,
+        "landscape": 1,
+        "portrait": 1,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": false,
+        "fade": false,
+        "fade_zoom": false,
+        "center-Mode": false,
+        "adaptive-Height": true,
+        "dots": false,
+        "infinite": false,
+        "padding": 3,
+        "vertical": false,
+        "position_dots": "right",
+        "style_dots": "style3",
+        "custom_width": false,
+        "container_width": 1200,
+        "layout": "full-width",
+        "cl_bg": "#f5f5f5",
+        "mg": "0px, 0px, 0px, 0px",
+        "pd": "0px, 0px, 0px, 0px",
+        "mg_mb": "0px, 0px, 0px, 0px",
+        "pd_mb": "0px, 0px, 0px, 0px"
+      }
+    },
+    "bc2de8b4-dfdd-46d2-b8a8-175f92d877ba": {
+      "type": "collection-featured",
+      "blocks": {
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-1": {
+          "type": "menu",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_dlolh7dlolh7dlol.webp",
+            "title": "All Products",
+            "collection": "all-products",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-2": {
+          "type": "menu",
+          "settings": {
+            "image": "shopify://shop_images/All_Pickles.webp",
+            "title": "Pickles",
+            "collection": "pickles",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-3": {
+          "type": "menu",
+          "settings": {
+            "image": "shopify://shop_images/Spices.webp",
+            "title": "Spices Powder",
+            "collection": "sweet-pickle-saurashtra-s-authentic-flavors-from-gujarat",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-4": {
+          "type": "menu",
+          "settings": {
+            "image": "shopify://shop_images/combo.webp",
+            "title": "Combo Offer",
+            "collection": "divyaprabha-foods-spices-masala-collection-authentic-kashmiri-chili-powder-reshampatti-aachar-masala-more",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-5": {
+          "type": "menu",
+          "settings": {
+            "image": "shopify://shop_images/Aachar_masala.webp",
+            "title": "Masala",
+            "collection": "all",
+            "open_link": "_blank"
+          }
+        }
+      },
+      "block_order": [
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-1",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-2",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-3",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-4",
+        "template--21324546343230__bc2de8b4-dfdd-46d2-b8a8-175f92d877ba-menu-5"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".collection-list-featured .slick-track {margin-left: auto !important; margin-right: auto !important;}"
+      ],
+      "settings": {
+        "title": "",
+        "text_size": "small",
+        "text_transform": "capitalize",
+        "show_n_p": true,
+        "use-all-collection": false,
+        "border": 3,
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 6,
+        "widescreen": 6,
+        "desktop": 6,
+        "laptop": 5,
+        "notebook": 3,
+        "tablet": 3,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 2,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 20,
+        "vertical": false,
+        "use_eq_height": true,
+        "image_ratio": "ratio1_1",
+        "layout": "container",
+        "cl_bg": "",
+        "mg": "20px,,40px,",
+        "pd": "",
+        "mg_mb": "20px,,20px,",
+        "pd_mb": ""
+      }
+    },
+    "custom_product_grid_TBrBP4": {
+      "type": "custom-product-grid",
+      "name": "Custom Product Grid",
+      "settings": {
+        "heading": "Authentic Saurashtra Homemade Pickles",
+        "subheading": "Premium Sun-Dried Traditional Gujarati Pickles (Baa nu Athanu)",
+        "use_h1": true,
+        "collection": "all-products",
+        "products_to_show": 24,
+        "exclude_current_product": true,
+        "filter_metafield_key": "",
+        "badge_metafield_key_1": "custom.pure_peanut_oil",
+        "badge_metafield_key_2": "custom.sweet_tangy_spicy_tangy",
+        "badge_metafield_key_3": "custom.spicy_tangy",
+        "badge_metafield_key_4": "custom.pure_mustard_oil",
+        "badge_metafield_key_5": "custom.pure_peanut_oil",
+        "section_bg": "#ffffff",
+        "card_bg": "#ffffff",
+        "card_border_color": "#e8e8e8",
+        "product_title_color": "#1a1a1a",
+        "heading_color": "#1a1a1a",
+        "subheading_color": "#666666",
+        "price_color": "#1a1a1a",
+        "compare_price_color": "#999999",
+        "rating_color": "#f9a825",
+        "variant_bg": "#ffffff",
+        "variant_text_color": "#1a1a1a",
+        "variant_border_color": "#dddddd",
+        "rating_text_color": "#555555",
+        "btn_bg": "#d32f2f",
+        "btn_text_color": "#ffffff",
+        "btn_hover_bg": "#b71c1c",
+        "btn_hover_text_color": "#ffffff",
+        "badge_bg": "#b71c1c",
+        "badge_text_color": "#ffffff",
+        "sale_badge_text": "Sale",
+        "sale_badge_bg": "#e53935",
+        "sale_badge_text_color": "#ffffff",
+        "soldout_badge_text": "Sold Out",
+        "soldout_badge_bg": "#333333",
+        "soldout_badge_text_color": "#ffffff",
+        "heading_font_size": 32,
+        "heading_font_size_mobile": 24,
+        "title_font_size": 15,
+        "title_font_size_mobile": 13,
+        "price_font_size": 15,
+        "variant_font_size": 13,
+        "btn_font_size": 13,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32,
+        "card_padding": 16,
+        "card_gap": 20,
+        "card_border_radius": 10,
+        "image_ratio": "square",
+        "image_border_radius": 8,
+        "btn_height": 46,
+        "btn_radius": 6,
+        "use-slider": false,
+        "slides-To-Scroll": 1,
+        "visible": 4,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 4,
+        "notebook": 3,
+        "tablet": 2,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 10,
+        "vertical": false
+      }
+    },
+    "collection_list_slider_rxaJez": {
+      "type": "collection-list-slider",
+      "blocks": {
+        "collection_mT3cAm": {
+          "type": "collection",
+          "settings": {
+            "collection": "divyaprabha-foods-spices-masala-collection-authentic-kashmiri-chili-powder-reshampatti-aachar-masala-more",
+            "title": "title",
+            "content": "test",
+            "btn_name": "Shop Now"
+          }
+        },
+        "collection_4WLUbC": {
+          "type": "collection",
+          "settings": {
+            "collection": "tangyspicy-pickle",
+            "title": "",
+            "content": "",
+            "btn_name": "Shop Now"
+          }
+        },
+        "collection_7LBBnJ": {
+          "type": "collection",
+          "settings": {
+            "collection": "sweet-pickle-saurashtra-s-authentic-flavors-from-gujarat",
+            "title": "",
+            "content": "",
+            "btn_name": "Shop Now"
+          }
+        },
+        "collection_TYBj6M": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "content": "",
+            "btn_name": "Shop Now"
+          }
+        },
+        "collection_Er7F6h": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "content": "",
+            "btn_name": "Shop Now"
+          }
+        },
+        "collection_Bjf9hL": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "content": "",
+            "btn_name": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "collection_mT3cAm",
+        "collection_4WLUbC",
+        "collection_7LBBnJ",
+        "collection_TYBj6M",
+        "collection_Er7F6h",
+        "collection_Bjf9hL"
+      ],
+      "disabled": true,
+      "name": "Collection list slider",
+      "settings": {
+        "title": "Popular Categories",
+        "text_size": "medium",
+        "text_transform": "none",
+        "border": 0,
+        "num_p_qty": false,
+        "use_eq_height": false,
+        "image_ratio": "ratio3_2",
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 5,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 4,
+        "notebook": 3,
+        "tablet": 3,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 10,
+        "vertical": false,
+        "layout": false,
+        "cl_bg": "rgba(0,0,0,0)",
+        "mg": "",
+        "pd": "",
+        "mg_mb": "",
+        "pd_mb": ""
+      }
+    },
+    "79417091-7f3f-43bb-b035-db1e4988e824": {
+      "type": "Image-grid",
+      "blocks": {
+        "template--21324546343230__79417091-7f3f-43bb-b035-db1e4988e824-image-1": {
+          "type": "image",
+          "settings": {
+            "bg_color": "rgba(0,0,0,0)",
+            "bg_image": "shopify://shop_images/Traditional_Recipes.webp",
+            "btn_link": "shopify://products/chana-keri-methi-pickle-gujarati-methia-achar",
+            "open_link": "_blank",
+            "subtitle": "",
+            "title": "\ud83e\udd6d Traditional Recipes",
+            "cl_title": "#ffffff",
+            "content": "",
+            "cl_content": "#ffffff",
+            "h_position": "left",
+            "v_position": "top",
+            "txt_align": "left",
+            "mg_bottom": 5
+          }
+        },
+        "template--21324546343230__79417091-7f3f-43bb-b035-db1e4988e824-image-2": {
+          "type": "image",
+          "settings": {
+            "bg_color": "rgba(0,0,0,0)",
+            "bg_image": "shopify://shop_images/100_Natural_Ingredients.webp",
+            "btn_link": "shopify://products/aachar-masala-ready-pickle-mix-gujarati-methia-sambhar",
+            "open_link": "_blank",
+            "subtitle": "",
+            "title": "\ud83c\udf3f 100% Natural Ingredients",
+            "cl_title": "#ffffff",
+            "content": "",
+            "cl_content": "#ffffff",
+            "h_position": "left",
+            "v_position": "top",
+            "txt_align": "left",
+            "mg_bottom": 5
+          }
+        },
+        "template--21324546343230__79417091-7f3f-43bb-b035-db1e4988e824-image-3": {
+          "type": "image",
+          "settings": {
+            "bg_color": "rgba(0,0,0,0)",
+            "bg_image": "shopify://shop_images/Freshly_Packed_Delivered1.webp",
+            "btn_link": "shopify://collections/all",
+            "open_link": "_blank",
+            "subtitle": "",
+            "title": "\ud83d\ude9a Freshly Packed & Delivered",
+            "cl_title": "#ffffff",
+            "content": "",
+            "cl_content": "#ffffff",
+            "h_position": "left",
+            "v_position": "top",
+            "txt_align": "left",
+            "mg_bottom": 5
+          }
+        }
+      },
+      "block_order": [
+        "template--21324546343230__79417091-7f3f-43bb-b035-db1e4988e824-image-1",
+        "template--21324546343230__79417091-7f3f-43bb-b035-db1e4988e824-image-2",
+        "template--21324546343230__79417091-7f3f-43bb-b035-db1e4988e824-image-3"
+      ],
+      "custom_css": [
+        ".type_image_grid .content-image .title {line-height: 120%; background-color: #100b0b59;}"
+      ],
+      "settings": {
+        "hide_mobile": false,
+        "title": "",
+        "text_size": "medium",
+        "text_transform": "none",
+        "border": 3,
+        "layout": "container",
+        "custom_width": false,
+        "container_width": 1200,
+        "cl_bg": "#fafafa",
+        "mg": ",,0px,",
+        "pd": "",
+        "mg_mb": ",,0px,",
+        "pd_mb": ""
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f676": {
+      "type": "hero-bannar-v2",
+      "settings": {
+        "enable_hero_section": true,
+        "color_red": "#b01215",
+        "color_brown": "#3d1f0f",
+        "color_gold": "#e5a842",
+        "color_cream": "#fff8ee",
+        "background_color": "#fff6e8",
+        "color_text": "#2d1206",
+        "color_muted": "#6b4c3b",
+        "color_border": "#e8d5c0",
+        "title_text": "About Us",
+        "heading_text": "Our Pickle Story",
+        "paragraph_text": "There are some flavors that never leave us.   The aroma of a freshly opened pickle jar at the family dining table. The taste of mango pickle served with hot parathas during summer vacations. The recipes lovingly prepared by mothers and grandmothers that made every meal special.  As life became faster, many of these traditional homemade flavors slowly disappeared from our kitchens. That is why Divya Prabha Foods was born. Our mission is simple: To preserve authentic Indian pickle-making traditions and bring the same homemade taste to families across India.",
+        "usp1_icon": "\ud83e\udd6d",
+        "usp1_text": "Generational recipes, unchanged since 1980",
+        "usp2_icon": "\u2600\ufe0f",
+        "usp2_text": "100% Sun-dried in traditional clay Barnis",
+        "usp3_icon": "\ud83d\udeab",
+        "usp3_text": "Zero preservatives, zero artificial colours",
+        "usp4_icon": "\u2764\ufe0f",
+        "usp4_text": "Small handcrafted batches, packed with care",
+        "quote_text": "Every pickle we make is Baa's love sealed in a jar \u2014 a tradition we refuse to shortcut.",
+        "quote_author": "Divya Prabha, Founder",
+        "button_text": "Read Our Full Story",
+        "button_link": "shopify://pages/about-us",
+        "banner_image": "shopify://shop_images/Traditional_receipe.webp",
+        "banner_image_alt": "Hero Banner Image 500x500",
+        "accent_icon": "\u2600\ufe0f",
+        "accent_title": "Sun-dried Mangoes",
+        "accent_subtitle": "Traditional method",
+        "badge_icon": "\ud83e\uded9",
+        "badge_text": "Baa's Love \ud83d\udc9b",
+        "stat1_number": "40+",
+        "stat1_label": "Yrs Legacy",
+        "stat2_number": "20+",
+        "stat2_label": "Recipes",
+        "stat3_number": "10K+",
+        "stat3_label": "Families"
+      }
+    },
+    "dp_why_choose_us_LJK7kb": {
+      "type": "dp-why-choose-us",
+      "blocks": {
+        "feature_4EPaxw": {
+          "type": "feature",
+          "settings": {
+            "icon": "\ud83e\udd6d",
+            "title": "100% Sun-Dried",
+            "description": "Mangoes and spices cured under the warm Saurashtra sun for authentic, deep flavour."
+          }
+        },
+        "feature_e8xNWf": {
+          "type": "feature",
+          "settings": {
+            "icon": "\ud83d\udeab",
+            "title": "Zero Preservatives",
+            "description": "Free from artificial colours, vinegars, and chemicals. Pure as Baa intended."
+          }
+        },
+        "feature_zppaGA": {
+          "type": "feature",
+          "settings": {
+            "icon": "\ud83c\udffa",
+            "title": "Clay Barni Matured",
+            "description": "Slowly ripened inside traditional clay jars for that earthy, complex Saurashtra taste."
+          }
+        },
+        "feature_4FB4WL": {
+          "type": "feature",
+          "settings": {
+            "icon": "\u2764\ufe0f",
+            "title": "Made with Baa's Love",
+            "description": "A recipe born from four generations of family tradition \u2014 every jar holds a story."
+          }
+        }
+      },
+      "block_order": [
+        "feature_4EPaxw",
+        "feature_e8xNWf",
+        "feature_zppaGA",
+        "feature_4FB4WL"
+      ],
+      "name": "Why Choose Us",
+      "settings": {
+        "enable_section": true,
+        "bg_color": "#fff8ee",
+        "card_bg": "#ffffff",
+        "color_red": "#b01215",
+        "color_gold": "#e5a842",
+        "color_brown": "#3d1f0f",
+        "color_cream": "#fff8ee",
+        "color_text": "#2d1206",
+        "color_muted": "#6b4c3b",
+        "color_border": "#e8d5c0",
+        "label": "Why Choose Us",
+        "heading": "Made with love, sealed with tradition",
+        "subtext": "Every jar of Divya Prabha pickles is a promise \u2014 pure ingredients, honest methods, and a taste that takes you home.",
+        "strip_text": "Authentic Saurashtra Pickles",
+        "strip_sep": "\ud83e\udd6d"
+      }
+    },
+    "d0ba855a-e236-4ab7-929a-45d5fe956c54": {
+      "type": "benefit",
+      "blocks": {
+        "73295955-3f96-4cd2-a676-bbbf88b1da9e": {
+          "type": "shipping",
+          "settings": {
+            "icon": "",
+            "icon_img": "shopify://shop_images/No_Chemicals._No_Shortcuts..webp",
+            "icon_svg": "",
+            "title": "No Chemicals. No Shortcuts.",
+            "text": "No artificial colours, no preservatives, no compromises. Just sun-dried spices, cold-pressed mustard oil and age-old Saurashtra recipes."
+          }
+        },
+        "b6a8b6bd-b3a6-4329-832b-7a4589bc8c04": {
+          "type": "shipping",
+          "settings": {
+            "icon": "",
+            "icon_img": "shopify://shop_images/Sun-Dried._Slow-Made._Timeless..webp",
+            "icon_svg": "",
+            "title": "Sun-Dried. Slow-Made. Timeless.",
+            "text": "Our achaar is made the old way \u2014 sun-dried mangoes, hand-ground masalas and slow marination. No machine shortcuts, no factory flavours."
+          }
+        },
+        "60eadd53-0c74-48e7-a6f6-00b7dd83d3a0": {
+          "type": "shipping",
+          "settings": {
+            "icon": "",
+            "icon_img": "shopify://shop_images/Stays_Fresh._Naturally..webp",
+            "icon_svg": "",
+            "title": "Stays Fresh. Naturally.",
+            "text": "Our pickles stay fresh for 12+ months \u2014 not because of preservatives, but because of pure mustard oil, salt and the wisdom of traditional preservation techniques."
+          }
+        },
+        "9c29d511-faaf-4397-ac89-573fbc35fd34": {
+          "type": "shipping",
+          "settings": {
+            "icon": "",
+            "icon_img": "shopify://shop_images/Hygienic_Kitchen._Honest_Ingredients..webp",
+            "icon_svg": "",
+            "title": "Hygienic Kitchen. Honest Ingredients.",
+            "text": "Made in a clean home kitchen with traceable, handpicked ingredients. Every batch is tasted before it leaves \u2014 because Baa accepts nothing less."
+          }
+        }
+      },
+      "block_order": [
+        "73295955-3f96-4cd2-a676-bbbf88b1da9e",
+        "b6a8b6bd-b3a6-4329-832b-7a4589bc8c04",
+        "60eadd53-0c74-48e7-a6f6-00b7dd83d3a0",
+        "9c29d511-faaf-4397-ac89-573fbc35fd34"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".alo-benefit {display: block;}",
+        ".type_shipping .alo-benefit .content p {overflow: visible;}"
+      ],
+      "settings": {
+        "hidden": false,
+        "head_title": "Why Choose Us",
+        "head_description": "",
+        "br_radius": 5,
+        "source": "2",
+        "style": "horizontal",
+        "col_pr": "3",
+        "col_pr_tb": "6",
+        "col_pr_mb": "6",
+        "layout": "container",
+        "cl_bg": "",
+        "cl_icon": "#0d0908",
+        "cl_heading": "#0d0908",
+        "cl_text": "#92949f",
+        "cl_border": "#fafafa",
+        "mg": "40px,,80px,",
+        "pd": "",
+        "mg_mb": "40px,,40px,",
+        "pd_mb": ""
+      }
+    },
+    "0ad0b897-1709-41a0-a125-eb4f05ad8eab": {
+      "type": "collection-carousel-product",
+      "blocks": {
+        "ac61b726-3fc2-4a37-9ac9-85e222f3b98e": {
+          "type": "product",
+          "settings": {
+            "product": "chana-keri-methi-pickle-gujarati-methia-achar"
+          }
+        },
+        "d3b642d4-c2f3-4c3b-b897-54a59efc9cc7": {
+          "type": "product",
+          "settings": {
+            "product": "chhundo-pickle-sweet-shredded-mango-achar-gujarati"
+          }
+        },
+        "bc9aeabb-f816-4d9f-ae11-dd7bcd5c7cce": {
+          "type": "product",
+          "settings": {
+            "product": "gor-keri-pickle-jaggery-mango-achar-gujarati"
+          }
+        },
+        "d82e48d7-6b9d-4ebd-9b3e-b471b30f90b8": {
+          "type": "product",
+          "settings": {
+            "product": "gor-keri-pickle-jaggery-mango-achar-gujarati"
+          }
+        },
+        "537cddfd-6e38-4f28-951f-b2672e6dc5bb": {
+          "type": "product",
+          "settings": {
+            "product": "gunda-keri-pickle-lasode-ka-achar-gujarati"
+          }
+        },
+        "61a8fbe0-463e-4012-b59b-15b297bf70a2": {
+          "type": "product",
+          "settings": {
+            "product": "hing-powder-pure-asafoetida-gold-quality-organic"
+          }
+        },
+        "5a239b8a-22c2-4dc1-a4f1-977c2695a935": {
+          "type": "product",
+          "settings": {
+            "product": "mango-pickle-traditional-keri-achar-gujarati"
+          }
+        },
+        "baf759c8-7b0f-442d-9ecd-7036f4eb5b5c": {
+          "type": "product",
+          "settings": {
+            "product": "sweet-lime-pickle-nimbu-ka-achaar-gujarati"
+          }
+        },
+        "product_pmPFMD": {
+          "type": "product",
+          "settings": {
+            "product": "sweet-mango-pickle-meethi-keri-achar-homemade"
+          }
+        }
+      },
+      "block_order": [
+        "ac61b726-3fc2-4a37-9ac9-85e222f3b98e",
+        "d3b642d4-c2f3-4c3b-b897-54a59efc9cc7",
+        "bc9aeabb-f816-4d9f-ae11-dd7bcd5c7cce",
+        "d82e48d7-6b9d-4ebd-9b3e-b471b30f90b8",
+        "537cddfd-6e38-4f28-951f-b2672e6dc5bb",
+        "61a8fbe0-463e-4012-b59b-15b297bf70a2",
+        "5a239b8a-22c2-4dc1-a4f1-977c2695a935",
+        "baf759c8-7b0f-442d-9ecd-7036f4eb5b5c",
+        "product_pmPFMD"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Best Sellers",
+        "head_description": "Explore our top-rated, customer-favorite products that everyone\u2019s loving!",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "display_type": "selected",
+        "collection": "protein-powders",
+        "use-all-product": true,
+        "max_count": 9,
+        "use-slider": false,
+        "slides-To-Scroll": 1,
+        "visible": 4,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 3,
+        "notebook": 2,
+        "tablet": 2,
+        "landscape": 1,
+        "portrait": 1,
+        "mobile": 1,
+        "rows": 2,
+        "autoplay": false,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 10,
+        "vertical": false,
+        "layout_des": false,
+        "custom_width": false,
+        "container_width": 1200,
+        "cl_bg": "",
+        "mg": "80px,,80px,",
+        "pd": "",
+        "mg_mb": "40px,,40px,",
+        "pd_mb": ""
+      }
+    },
+    "9db669ec-e36b-42f0-a69e-c98e639e4bf6": {
+      "type": "product-countdown-banner",
+      "settings": {
+        "bg_image": "shopify://shop_images/Banner_50_off.webp",
+        "cl_bg": "#8f0d0f",
+        "subtitle": "Spring Sale",
+        "year_count_down": "2026",
+        "month_count_down": "7",
+        "day_count_down": "15",
+        "btn": "Shop Now",
+        "button_link": "shopify://collections/all",
+        "cl_btn": "#f3f0fa",
+        "cl_btn_hover": "#0c0816",
+        "bg_cl": "#0c0816",
+        "bg_cl_hover": "#f3f0fa",
+        "title": "Feeder Brushes for a limited time only",
+        "title_span_text": "20% Off on Combo",
+        "title_span_color": "#f3f0fa",
+        "mg": "20px ,0 ,20px, 0",
+        "pd": "80px ,0px, 80px, 0px",
+        "mg_mb": "10px, 0 ,10px, 0",
+        "pd_mb": "40px, 0px ,40px ,0px"
+      }
+    },
+    "178229545295d73325": {
+      "type": "apps",
+      "settings": {}
+    },
+    "1782295741c4cc0662": {
+      "type": "apps",
+      "settings": {}
+    },
+    "5052f17b-16c8-45fc-a760-5a6ce3342235": {
+      "type": "brand-slider",
+      "blocks": {
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-1": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-2": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-3": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-4": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-5": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-6": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-7": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-8": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-9": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        },
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-10": {
+          "type": "brand",
+          "settings": {
+            "url": "#",
+            "open_link": "_blank"
+          }
+        }
+      },
+      "block_order": [
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-1",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-2",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-3",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-4",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-5",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-6",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-7",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-8",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-9",
+        "template--21324546343230__5052f17b-16c8-45fc-a760-5a6ce3342235-brand-10"
+      ],
+      "disabled": true,
+      "settings": {
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 5,
+        "widescreen": 5,
+        "desktop": 4,
+        "laptop": 4,
+        "notebook": 4,
+        "tablet": 3,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 2,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "2000",
+        "arrows": false,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": true,
+        "dots": false,
+        "infinite": true,
+        "padding": 10,
+        "vertical": false,
+        "show_view_all": false,
+        "layout": false,
+        "border": 3,
+        "use_eq_height": true,
+        "image_ratio": "ratio2_1",
+        "cl_bg": "#8f0c0f",
+        "cl_border": "#fafafa",
+        "mg": ",,60px,",
+        "pd": "",
+        "mg_mb": "40px,,40px,",
+        "pd_mb": ""
+      }
+    },
+    "text_horizontal_running_m9hX7d": {
+      "type": "text-horizontal-running",
+      "blocks": {
+        "text_kYeFpq": {
+          "type": "text",
+          "settings": {
+            "text": "Free shipping above \u20b9599",
+            "url": "",
+            "open_link": "_blank"
+          }
+        },
+        "text_6PAp6G": {
+          "type": "text",
+          "settings": {
+            "text": "5% off on your first order",
+            "url": "",
+            "open_link": "_blank"
+          }
+        },
+        "text_B8dFXL": {
+          "type": "text",
+          "settings": {
+            "text": "Upto 25% off on combos",
+            "url": "",
+            "open_link": "_blank"
+          }
+        },
+        "text_PTYVRD": {
+          "type": "text",
+          "settings": {
+            "text": "Free shipping above \u20b9599",
+            "url": "",
+            "open_link": "_blank"
+          }
+        },
+        "text_jNqfaV": {
+          "type": "text",
+          "settings": {
+            "text": "5% off on your first order",
+            "url": "",
+            "open_link": "_blank"
+          }
+        },
+        "text_4yHPJf": {
+          "type": "text",
+          "settings": {
+            "text": "Upto 25% off on combos",
+            "url": "",
+            "open_link": "_blank"
+          }
+        }
+      },
+      "block_order": [
+        "text_kYeFpq",
+        "text_6PAp6G",
+        "text_B8dFXL",
+        "text_PTYVRD",
+        "text_jNqfaV",
+        "text_4yHPJf"
+      ],
+      "custom_css": [],
+      "name": "SEO Keywords",
+      "settings": {
+        "healing_speed": 10,
+        "layout": false,
+        "cl_bg": "#b01215",
+        "cl_text": "#fff",
+        "mg": "",
+        "pd": "",
+        "mg_mb": "",
+        "pd_mb": ""
+      }
+    },
+    "2f399b88-d4b1-42e5-afa6-99135e10ab05": {
+      "type": "featured_blog",
+      "disabled": true,
+      "settings": {
+        "title": "Our Resent Blogs",
+        "head_description": "Catch up on the latest insights, tips, and trends from our recent blogs.",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "blog": "news",
+        "use-all-post": true,
+        "br_radius": 1,
+        "show-cate-blog": false,
+        "show-post-info": true,
+        "show-name-blog": true,
+        "show-description": false,
+        "show-read_more": true,
+        "use_eq_height": true,
+        "image_ratio": "ratio3_3",
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 4,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 3,
+        "notebook": 2,
+        "tablet": 2,
+        "landscape": 2,
+        "portrait": 1,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": true,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": false,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": true,
+        "padding": 10,
+        "vertical": false,
+        "layout": "container",
+        "cl_bg": "",
+        "mg": ",,80px,",
+        "pd": "",
+        "mg_mb": ",,40px,",
+        "pd_mb": ""
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f678": {
+      "type": "google-map",
+      "disabled": true,
+      "settings": {
+        "use_contact_map": true,
+        "map_iframe": "<iframe width=\"100%\" height=\"600\" style=\"border:0\" src=\"https://www.google.com/maps/embed/v1/search?q=1200+Beverly+Street,+Mountain+View,+CA,+United+States&key=AIzaSyCeVrTUW_JTL2UKUT0-85wiwusOJZ48yMM\" allowfullscreen=\"\"></iframe>"
+      }
+    },
+    "dp_popular_searches": {
+      "type": "dp-popular-searches",
+      "blocks": {
+        "tag_1": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Mango Pickle Online",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_2": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Traditional Gujarati Keri Achar",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_3": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Rajapuri Mango Pickle",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_4": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gujarati Baa nu Athanu",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_5": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Homemade Keri nu Athanu",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_6": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Saurashtra Mango Pickle",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_7": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Raw Mango Achar Online",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_8": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Mustard Oil Keri Achar",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_9": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Preservative Free Mango Pickle",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_10": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Kathiyawadi Mango Pickle",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_11": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Authentic Keri Pickle India",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_12": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sun Cured Mango Achar",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_13": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Kachi Ghani Mustard Oil Pickle",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_14": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Grandma Style Mango Pickle",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_15": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Pure Homemade Aam Ka Achar",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_16": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Spicy Keri Athanu",
+            "link": "/products/mango-pickle-traditional-keri-achar-gujarati",
+            "category": "mango"
+          }
+        },
+        "tag_17": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Katka Keri Cut Mango",
+            "link": "/products/katka-keri-pickle-homemade-gujarati-mango-achar",
+            "category": "mango"
+          }
+        },
+        "tag_18": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gujarati Cut Mango Pickle",
+            "link": "/products/katka-keri-pickle-homemade-gujarati-mango-achar",
+            "category": "mango"
+          }
+        },
+        "tag_19": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Katka Keri nu Athanu",
+            "link": "/products/katka-keri-pickle-homemade-gujarati-mango-achar",
+            "category": "mango"
+          }
+        },
+        "tag_20": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Crunchy Raw Mango Achar",
+            "link": "/products/katka-keri-pickle-homemade-gujarati-mango-achar",
+            "category": "mango"
+          }
+        },
+        "tag_21": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Gor Keri Pickle Online",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_22": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Jaggery Sweet Mango Pickle",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_23": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gujarati Gorkeri Achar",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_24": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Organic Jaggery Mango Pickle",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_25": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sweet & Tangy Keri Athanu",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_26": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gud Ka Achar Online",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_27": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Traditional Gorkeri Recipe",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_28": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gujarati Sweet Mango Pickle",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_29": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gor Keri Athanu Buy Online",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_30": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Saurashtra Gor Keri",
+            "link": "/products/gor-keri-pickle-jaggery-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_31": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Gujarati Chhundo Online",
+            "link": "/products/chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_32": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sun Cured Mango Chhundo",
+            "link": "/products/chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_33": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Shredded Mango Sweet Relish",
+            "link": "/products/chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_34": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sweet Chunda Pickle Online",
+            "link": "/products/chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_35": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gujarati Chhundo Athanu",
+            "link": "/products/chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_36": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Traditional Chunda Recipe",
+            "link": "/products/chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_37": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sweet Grated Mango Achar",
+            "link": "/products/chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+            "category": "sweet"
+          }
+        },
+        "tag_38": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Sweet Mango Pickle Online",
+            "link": "/products/sweet-mango-pickle-meethi-keri-achar-homemade",
+            "category": "sweet"
+          }
+        },
+        "tag_39": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Meethi Keri Achar Online",
+            "link": "/products/sweet-mango-pickle-meethi-keri-achar-homemade",
+            "category": "sweet"
+          }
+        },
+        "tag_40": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sweet Homemade Mango Pickle",
+            "link": "/products/sweet-mango-pickle-meethi-keri-achar-homemade",
+            "category": "sweet"
+          }
+        },
+        "tag_41": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Gunda Keri Pickle Online",
+            "link": "/products/gunda-keri-pickle-lasode-ka-achar-gujarati",
+            "category": "gujarati"
+          }
+        },
+        "tag_42": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gujarati Lasode Ka Achar",
+            "link": "/products/gunda-keri-pickle-lasode-ka-achar-gujarati",
+            "category": "gujarati"
+          }
+        },
+        "tag_43": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Stuffed Gunda Pickle Online",
+            "link": "/products/gunda-keri-pickle-lasode-ka-achar-gujarati",
+            "category": "gujarati"
+          }
+        },
+        "tag_44": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Kathiyawadi Gunda Keri Athanu",
+            "link": "/products/gunda-keri-pickle-lasode-ka-achar-gujarati",
+            "category": "gujarati"
+          }
+        },
+        "tag_45": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gunda Mango Pickle Buy Online",
+            "link": "/products/gunda-keri-pickle-lasode-ka-achar-gujarati",
+            "category": "gujarati"
+          }
+        },
+        "tag_46": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Lasora Pickle Online India",
+            "link": "/products/gunda-keri-pickle-lasode-ka-achar-gujarati",
+            "category": "gujarati"
+          }
+        },
+        "tag_47": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Chana Keri Methi Pickle",
+            "link": "/products/chana-keri-methi-pickle-gujarati-methia-achar",
+            "category": "gujarati"
+          }
+        },
+        "tag_48": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sprouted Chickpea Mango Achar",
+            "link": "/products/chana-keri-methi-pickle-gujarati-methia-achar",
+            "category": "gujarati"
+          }
+        },
+        "tag_49": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Gujarati Methia Keri Athanu",
+            "link": "/products/chana-keri-methi-pickle-gujarati-methia-achar",
+            "category": "gujarati"
+          }
+        },
+        "tag_50": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Methi Mango Pickle Online",
+            "link": "/products/chana-keri-methi-pickle-gujarati-methia-achar",
+            "category": "gujarati"
+          }
+        },
+        "tag_51": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Fenugreek Raw Mango Pickle",
+            "link": "/products/chana-keri-methi-pickle-gujarati-methia-achar",
+            "category": "gujarati"
+          }
+        },
+        "tag_52": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Chana Keri Achar Online",
+            "link": "/products/chana-keri-methi-pickle-gujarati-methia-achar",
+            "category": "gujarati"
+          }
+        },
+        "tag_53": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Mumbai",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_54": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Delhi",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_55": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Bangalore",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_56": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Ahmedabad",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_57": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Pune",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_58": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Hyderabad",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_59": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Surat",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_60": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Vadodara",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_61": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickles Online Rajkot",
+            "link": "/collections/pickles",
+            "category": "regional"
+          }
+        },
+        "tag_62": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Shop All Pickles & Spices",
+            "link": "/collections/all-products",
+            "category": "general"
+          }
+        },
+        "tag_63": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Best Indian Pickles Online",
+            "link": "/collections/best-seller",
+            "category": "general"
+          }
+        },
+        "tag_64": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Pure Homemade Achar Store",
+            "link": "/collections/homemade-pickles",
+            "category": "general"
+          }
+        },
+        "tag_65": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Organic Pickles Buy Online",
+            "link": "/collections/organic-pickles",
+            "category": "general"
+          }
+        },
+        "tag_66": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Zero Preservatives Achar",
+            "link": "/collections/organic-pickles",
+            "category": "general"
+          }
+        },
+        "tag_67": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Traditional Gujarati Foods",
+            "link": "/collections/traditional-gujarati-foods",
+            "category": "gujarati"
+          }
+        },
+        "tag_68": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Gujarati Achar Masala",
+            "link": "/collections/all-masala",
+            "category": "spices"
+          }
+        },
+        "tag_69": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Pure Organic Spices Online",
+            "link": "/collections/all-spices",
+            "category": "spices"
+          }
+        },
+        "tag_70": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Buy Pickle Combos Online",
+            "link": "/collections/all-combo-offers",
+            "category": "general"
+          }
+        },
+        "tag_71": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Tangy & Spicy Gujarati Pickles",
+            "link": "/collections/tangyspicy-pickle",
+            "category": "mango"
+          }
+        },
+        "tag_72": {
+          "type": "keyword_link",
+          "settings": {
+            "keyword": "Sweet & Tangy Pickles",
+            "link": "/collections/sweet-tangy",
+            "category": "sweet"
+          }
+        }
+      },
+      "block_order": [
+        "tag_1",
+        "tag_2",
+        "tag_3",
+        "tag_4",
+        "tag_5",
+        "tag_6",
+        "tag_7",
+        "tag_8",
+        "tag_9",
+        "tag_10",
+        "tag_11",
+        "tag_12",
+        "tag_13",
+        "tag_14",
+        "tag_15",
+        "tag_16",
+        "tag_17",
+        "tag_18",
+        "tag_19",
+        "tag_20",
+        "tag_21",
+        "tag_22",
+        "tag_23",
+        "tag_24",
+        "tag_25",
+        "tag_26",
+        "tag_27",
+        "tag_28",
+        "tag_29",
+        "tag_30",
+        "tag_31",
+        "tag_32",
+        "tag_33",
+        "tag_34",
+        "tag_35",
+        "tag_36",
+        "tag_37",
+        "tag_38",
+        "tag_39",
+        "tag_40",
+        "tag_41",
+        "tag_42",
+        "tag_43",
+        "tag_44",
+        "tag_45",
+        "tag_46",
+        "tag_47",
+        "tag_48",
+        "tag_49",
+        "tag_50",
+        "tag_51",
+        "tag_52",
+        "tag_53",
+        "tag_54",
+        "tag_55",
+        "tag_56",
+        "tag_57",
+        "tag_58",
+        "tag_59",
+        "tag_60",
+        "tag_61",
+        "tag_62",
+        "tag_63",
+        "tag_64",
+        "tag_65",
+        "tag_66",
+        "tag_67",
+        "tag_68",
+        "tag_69",
+        "tag_70",
+        "tag_71",
+        "tag_72"
+      ],
+      "settings": {
+        "title": "POPULAR SEARCHES",
+        "title_alignment": "left",
+        "style_preset": "pills",
+        "bg_color": "#fdf6ed",
+        "title_color": "#2d1206",
+        "tag_bg_color": "#ffffff",
+        "tag_text_color": "#6b4c3b",
+        "tag_border_color": "#e8d5c0",
+        "tag_hover_bg_color": "#b01215",
+        "tag_hover_text_color": "#ffffff",
+        "tag_hover_border_color": "#b01215",
+        "padding_top": 30,
+        "padding_bottom": 30,
+        "margin_top": 20,
+        "margin_bottom": 20
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f": {
+      "type": "newsletter",
+      "settings": {
+        "width_c": 100,
+        "title": "",
+        "cl_title": "#0c0816",
+        "subtitle": "",
+        "cl_subtitle": "#0c0816",
+        "content": "Join Our Newsletter <br> and <a href=\"/collections/all\">Save 20% Off</a> on Your Next Purchase!.",
+        "cl_content": "#0c0816",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "layout": "container",
+        "design": "design-2",
+        "cl_bg": "",
+        "cl_bg_news": "#fafafa",
+        "cl_border": "#8f0c0f",
+        "mg": "80px,,,",
+        "pd": "0px,0px,65px,",
+        "mg_mb": "40px,,,",
+        "pd_mb": "40px,,40px,"
+      }
+    }
+  },
+  "order": [
+    "9db669ec-e36b-42f0-a69e-c98e639e4bf0",
+    "slideshow_XRqKXm",
+    "dp_fssai_marquee",
+    "slideshow_BkCciM",
+    "bc2de8b4-dfdd-46d2-b8a8-175f92d877ba",
+    "custom_product_grid_TBrBP4",
+    "collection_list_slider_rxaJez",
+    "79417091-7f3f-43bb-b035-db1e4988e824",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f676",
+    "dp_why_choose_us_LJK7kb",
+    "d0ba855a-e236-4ab7-929a-45d5fe956c54",
+    "0ad0b897-1709-41a0-a125-eb4f05ad8eab",
+    "9db669ec-e36b-42f0-a69e-c98e639e4bf6",
+    "178229545295d73325",
+    "1782295741c4cc0662",
+    "5052f17b-16c8-45fc-a760-5a6ce3342235",
+    "text_horizontal_running_m9hX7d",
+    "2f399b88-d4b1-42e5-afa6-99135e10ab05",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f678",
+    "dp_popular_searches",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f"
+  ]
+}

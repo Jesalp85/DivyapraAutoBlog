@@ -1,0 +1,1680 @@
+{% assign sid = section.id %}
+{% render 'article-json-ld' %}
+
+<section id="laber_{{ sid }}" class="dp-article-page">
+  <!-- ARTICLE HERO BREADCRUMB & HEADER -->
+  <div class="dp-article-hero">
+    <div class="container">
+      <nav class="dp-article-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span>/</span> <a href="{{ blog.url }}">{{ blog.title | default: "Blog" }}</a> <span>/</span> <span class="current">{{ article.title | default: "Top 10 Homemade Pickles in India" }}</span>
+      </nav>
+
+      <div class="dp-article-header">
+        <div class="dp-article-tags">
+          <span class="dp-post-tag">{{ article.tags.first | default: "Heritage Recipes" }}</span>
+          <span class="dp-post-dot">•</span>
+          <span class="dp-post-read">7 min read</span>
+
+          <!-- GOOGLE TRANSLATE WIDGET -->
+          <div class="dp-translate-widget">
+            <span class="dp-translate-title">🌐 Translate Article:</span>
+            <div id="google_translate_element"></div>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+          function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+              pageLanguage: 'en',
+              includedLanguages: 'gu,hi,mr,ta,te,kn,ml,bn,pa,en,es,fr,de,ar',
+              layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+              autoDisplay: false
+            }, 'google_translate_element');
+          }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+        <h1 class="dp-article-title">
+          {{ article.title | default: "Top 10 Homemade Pickles in India: Authentic Taste, Traditional Methods & Cultural Flavours" }}
+        </h1>
+        
+        <div class="dp-article-author-bar">
+          <div class="dp-author">
+            <div class="dp-author__avatar">👵</div>
+            <div class="dp-author__info">
+              <strong>Written by Baa & The Kitchen Team</strong>
+              <span>Master Pickle Artisan at DivyaPrabha</span>
+            </div>
+          </div>
+          <div class="dp-article-date">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            {{ article.published_at | date: "%B %d, %Y" | default: "July 31, 2026" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED IMAGE BANNER -->
+  <div class="container">
+    <div class="dp-article-media">
+      {%- assign hero_seo_alt = article.title | escape | append: " - Focus Keyword: " | append: article.tags.first -%}
+      {%- if article.image -%}
+        <img src="{{ article.image | image_url: width: 1400 }}" alt="{{ hero_seo_alt }}">
+      {%- else -%}
+        <img src="https://cdn.shopify.com/s/files/1/0752/0904/8278/files/SpecialMangoBig.webp?v=1782721972" alt="{{ hero_seo_alt }}">
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- MAIN 2-COLUMN LAYOUT -->
+  <div class="container dp-article-main-container">
+    <div class="dp-article-grid-layout">
+      
+      <!-- LEFT COLUMN: ARTICLE CONTENT -->
+      <main class="dp-article-main-content">
+        <!-- SOCIAL SHARE BAR -->
+        <div class="dp-share-bar">
+          <span class="dp-share-label">Share Article:</span>
+          
+          <!-- WhatsApp -->
+          <a href="https://api.whatsapp.com/send?text={{ article.title | url_encode }}%20{{ shop.url }}{{ article.url }}" target="_blank" class="dp-share-btn dp-share-btn--wa" title="Share on WhatsApp" aria-label="Share on WhatsApp">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg>
+            <span>WhatsApp</span>
+          </a>
+
+          <!-- Facebook -->
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}" target="_blank" class="dp-share-btn dp-share-btn--fb" title="Share on Facebook" aria-label="Share on Facebook">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            <span>Facebook</span>
+          </a>
+
+          <!-- X / Twitter -->
+          <a href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&url={{ shop.url }}{{ article.url }}" target="_blank" class="dp-share-btn dp-share-btn--x" title="Share on X" aria-label="Share on X">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <span>X</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ shop.url }}{{ article.url }}" target="_blank" class="dp-share-btn dp-share-btn--in" title="Share on LinkedIn" aria-label="Share on LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+
+          <!-- Pinterest -->
+          {% assign pin_img = article.image | image_url: width: 1000 %}
+          <a href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ article.url }}&media={{ pin_img }}&description={{ article.title | url_encode }}" target="_blank" class="dp-share-btn dp-share-btn--pin" title="Pin on Pinterest" aria-label="Pin on Pinterest">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026l.032-.026z"/></svg>
+            <span>Pinterest</span>
+          </a>
+
+          <!-- Copy Link -->
+          <button onclick="dpCopyArticleUrl(this)" class="dp-share-btn dp-share-btn--copy" title="Copy Article Link" aria-label="Copy Article Link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            <span>Copy Link</span>
+          </button>
+        </div>
+
+        <script>
+          function dpCopyArticleUrl(btn) {
+            navigator.clipboard.writeText(window.location.href).then(function() {
+              var origHTML = btn.innerHTML;
+              btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Copied!</span>';
+              btn.style.background = '#2e7d32';
+              btn.style.borderColor = '#2e7d32';
+              btn.style.color = '#ffffff';
+              setTimeout(function() {
+                btn.innerHTML = origHTML;
+                btn.style.background = '';
+                btn.style.borderColor = '';
+                btn.style.color = '';
+              }, 2200);
+            });
+          }
+        </script>
+
+        <!-- LISTEN TO ARTICLE AUDIO PLAYER WIDGET -->
+        <div class="dp-audio-player-wrap" id="dpAudioPlayerWidget">
+          <div class="dp-audio-player">
+            <div class="dp-audio-top-row">
+              <button class="dp-audio-play-btn" id="dpAudioPlayBtn" aria-label="Listen to Article">
+                <svg class="dp-icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="dp-icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </button>
+              <div class="dp-audio-info">
+                <div class="dp-audio-header">
+                  <span class="dp-audio-title">🎧 Listen to Article</span>
+                  <span class="dp-audio-time" id="dpAudioTime">0:00 / 0:00</span>
+                </div>
+                <div class="dp-audio-progress-bar" id="dpAudioProgressTrack">
+                  <div class="dp-audio-progress-fill" id="dpAudioProgressFill"></div>
+                </div>
+              </div>
+            </div>
+            <div class="dp-audio-controls">
+              <select id="dpAudioVoiceSelect" class="dp-audio-voice-select" aria-label="Select Voice">
+                <option value="0">👩 Loading Voices...</option>
+              </select>
+              <select id="dpAudioSpeedSelect" class="dp-audio-speed" aria-label="Playback Speed">
+                <option value="1">1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          (function() {
+            var playBtn = document.getElementById('dpAudioPlayBtn');
+            if (!playBtn) return;
+
+            var playIcon = playBtn.querySelector('.dp-icon-play');
+            var pauseIcon = playBtn.querySelector('.dp-icon-pause');
+            var timeDisplay = document.getElementById('dpAudioTime');
+            var progressFill = document.getElementById('dpAudioProgressFill');
+            var progressTrack = document.getElementById('dpAudioProgressTrack');
+            var speedSelect = document.getElementById('dpAudioSpeedSelect');
+            var voiceSelect = document.getElementById('dpAudioVoiceSelect');
+
+            var synth = window.speechSynthesis;
+            var utterance = null;
+            var isPlaying = false;
+            var isPaused = false;
+            var articleText = "";
+            var textWords = [];
+            var totalEstSeconds = 0;
+            var timerInterval = null;
+            var elapsedSeconds = 0;
+            var availableFemaleVoices = [];
+
+              function populateVoices() {
+                if (!synth || !voiceSelect) return;
+                var voices = synth.getVoices();
+                if (!voices || !voices.length) return;
+
+                var excludeNames = ['bad news', 'bahh', 'bells', 'boing', 'bubbles', 'cellos', 'organ', 'superstar', 'trinoids', 'wobble', 'zarvox', 'whisper', 'pipe', 'sin-ji', 'albert', 'alva', 'amél', 'amira', 'bad news', 'carmit', 'damayanti', 'daria', 'eddy', 'ellen', 'flo'];
+                
+                var validVoices = voices.filter(function(v) {
+                  var nameLower = (v.name || '').toLowerCase();
+                  return !excludeNames.some(function(ex) { return nameLower.includes(ex); });
+                });
+
+                var indianKeywords = ['india', 'indian', 'veena', 'neerja', 'heera', 'raveena', 'priya', 'lekha', 'komal', 'rishi', 'prabhat', 'ravi', 'aditi', 'shruti', 'meera', 'kanya', 'geeta', 'ananya', 'aarav'];
+                var indianLangs = ['en-in', 'hi-in', 'gu-in', 'mr-in', 'ta-in', 'te-in', 'kn-in', 'ml-in', 'bn-in', 'pa-in'];
+
+                function isIndian(v) {
+                  var langLower = (v.lang || '').toLowerCase();
+                  var nameLower = (v.name || '').toLowerCase();
+                  var langMatch = indianLangs.some(function(l) { return langLower.includes(l); });
+                  var nameMatch = indianKeywords.some(function(k) { return nameLower.includes(k); });
+                  return langMatch || nameMatch;
+                }
+
+                var filteredVoices = validVoices.filter(isIndian);
+
+                if (!filteredVoices.length) {
+                  filteredVoices = validVoices.filter(function(v) {
+                    return (v.lang || '').toLowerCase().startsWith('en');
+                  }).slice(0, 2);
+                }
+
+                if (!filteredVoices.length) {
+                  filteredVoices = validVoices.slice(0, 2);
+                }
+
+                availableFemaleVoices = filteredVoices;
+                voiceSelect.innerHTML = '';
+
+                filteredVoices.forEach(function(voice, index) {
+                  var option = document.createElement('option');
+                  option.value = index;
+                  var rawName = voice.name || 'Voice ' + (index + 1);
+                  var cleanName = rawName.replace(/Microsoft |Google |Apple /gi, '').replace(/\(Natural\)/gi, '').replace(/\(Online\)/gi, '').trim();
+                  
+                  var langLower = (voice.lang || '').toLowerCase();
+                  var nameLower = rawName.toLowerCase();
+
+                  if (nameLower.includes('lekha')) {
+                    option.textContent = "👩 Lekha (Indian Voice)";
+                  } else if (nameLower.includes('veena')) {
+                    option.textContent = "👩 Veena (Indian English)";
+                  } else if (nameLower.includes('neerja')) {
+                    option.textContent = "👩 Neerja (Indian Voice)";
+                  } else if (nameLower.includes('heera')) {
+                    option.textContent = "👩 Heera (Indian Voice)";
+                  } else if (nameLower.includes('rishi')) {
+                    option.textContent = "👨 Rishi (Indian Voice)";
+                  } else if (nameLower.includes('raveena') || nameLower.includes('priya')) {
+                    option.textContent = "👩 " + cleanName + " (Indian Voice)";
+                  } else if (langLower.includes('hi-in')) {
+                    option.textContent = "👩 Hindi Voice (India)";
+                  } else if (langLower.includes('gu-in')) {
+                    option.textContent = "👩 Gujarati Voice (India)";
+                  } else if (langLower.includes('en-in')) {
+                    option.textContent = "👩 " + cleanName + " (Indian English)";
+                  } else {
+                    option.textContent = "👩 " + cleanName + " (Indian Voice)";
+                  }
+
+                  voiceSelect.appendChild(option);
+                });
+              }
+
+            if (synth.onvoiceschanged !== undefined) {
+              synth.onvoiceschanged = populateVoices;
+            }
+            setTimeout(populateVoices, 300);
+
+            function extractArticleText() {
+              var articleEl = document.querySelector('.dp-article-content');
+              if (!articleEl) return "";
+              var clone = articleEl.cloneNode(true);
+              var removeEls = clone.querySelectorAll('script, style, button, .dp-cta-box, form');
+              removeEls.forEach(function(el) { el.remove(); });
+              var text = clone.innerText || clone.textContent || "";
+              return text.replace(/\s+/g, ' ').trim();
+            }
+
+            function formatTime(sec) {
+              var m = Math.floor(sec / 60);
+              var s = Math.floor(sec % 60);
+              return m + ":" + (s < 10 ? "0" : "") + s;
+            }
+
+            function updateTimeDisplay() {
+              var currentSpd = parseFloat(speedSelect.value) || 1;
+              var adjTotal = Math.ceil(totalEstSeconds / currentSpd);
+              if (elapsedSeconds > adjTotal) elapsedSeconds = adjTotal;
+              timeDisplay.textContent = formatTime(elapsedSeconds) + " / " + formatTime(adjTotal);
+              var pct = adjTotal > 0 ? (elapsedSeconds / adjTotal) * 100 : 0;
+              progressFill.style.width = Math.min(100, pct) + "%";
+            }
+
+            function initAudioData() {
+              articleText = extractArticleText();
+              textWords = articleText.split(' ');
+              totalEstSeconds = Math.ceil((textWords.length / 150) * 60) || 60;
+              updateTimeDisplay();
+              populateVoices();
+            }
+
+            function startTimer() {
+              clearInterval(timerInterval);
+              timerInterval = setInterval(function() {
+                if (isPlaying && !isPaused) {
+                  elapsedSeconds++;
+                  updateTimeDisplay();
+                }
+              }, 1000);
+            }
+
+            function stopTimer() {
+              clearInterval(timerInterval);
+            }
+
+            function toggleAudio() {
+              if (!synth) {
+                alert("Text-to-speech audio is not supported in your browser.");
+                return;
+              }
+
+              if (isPlaying && !isPaused) {
+                synth.pause();
+                isPaused = true;
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+                stopTimer();
+                return;
+              }
+
+              if (isPlaying && isPaused) {
+                synth.resume();
+                isPaused = false;
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+                startTimer();
+                return;
+              }
+
+              if (!articleText) initAudioData();
+              if (!articleText) return;
+
+              synth.cancel();
+              utterance = new SpeechSynthesisUtterance(articleText);
+              utterance.rate = (parseFloat(speedSelect.value) || 1) * 0.95;
+              utterance.pitch = 1.3;
+
+              var selectedIdx = parseInt(voiceSelect.value) || 0;
+              if (availableFemaleVoices[selectedIdx]) {
+                utterance.voice = availableFemaleVoices[selectedIdx];
+                utterance.lang = availableFemaleVoices[selectedIdx].lang || 'en-IN';
+              } else {
+                utterance.lang = 'en-IN';
+              }
+
+              utterance.onstart = function() {
+                isPlaying = true;
+                isPaused = false;
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+                startTimer();
+              };
+
+              utterance.onend = function() {
+                isPlaying = false;
+                isPaused = false;
+                elapsedSeconds = 0;
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+                progressFill.style.width = "0%";
+                stopTimer();
+                updateTimeDisplay();
+              };
+
+              utterance.onerror = function() {
+                isPlaying = false;
+                isPaused = false;
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+                stopTimer();
+              };
+
+              synth.speak(utterance);
+            }
+
+            playBtn.addEventListener('click', toggleAudio);
+
+            voiceSelect.addEventListener('change', function() {
+              if (isPlaying && utterance) {
+                synth.cancel();
+                isPlaying = false;
+                isPaused = false;
+                stopTimer();
+                toggleAudio();
+              }
+            });
+
+            speedSelect.addEventListener('change', function() {
+              if (isPlaying && utterance) {
+                synth.cancel();
+                isPlaying = false;
+                isPaused = false;
+                stopTimer();
+                toggleAudio();
+              } else {
+                updateTimeDisplay();
+              }
+            });
+
+            progressTrack.addEventListener('click', function(e) {
+              if (!totalEstSeconds) return;
+              var rect = progressTrack.getBoundingClientRect();
+              var clickX = e.clientX - rect.left;
+              var pct = clickX / rect.width;
+              var currentSpd = parseFloat(speedSelect.value) || 1;
+              var adjTotal = Math.ceil(totalEstSeconds / currentSpd);
+              elapsedSeconds = Math.floor(pct * adjTotal);
+              updateTimeDisplay();
+            });
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', initAudioData);
+            } else {
+              initAudioData();
+            }
+          })();
+        </script>
+
+        <!-- ARTICLE BODY -->
+        <article class="dp-article-content">
+          {%- if article.content != blank -%}
+            {{ article.content }}
+          {%- else -%}
+            <!-- DEMO ARTICLE CONTENT -->
+            <p class="dp-lead">
+              In an Indian household, a meal is never truly complete without a jar of homemade pickle resting on the dining table. The sharp, irresistible aroma of cold-pressed mustard oil, sun-dried raw mangoes, and hand-ground spices instantly evokes memories of hot summers and grandmothers lovingly preparing jars that lasted an entire year.
+            </p>
+
+            <h2>1. Traditional Rajapuri Raw Mango Pickle (Aam Ka Achar)</h2>
+            <p>Known as the King of Indian Pickles, authentic raw mango pickle holds a permanent throne in Indian homes. Made with firm Rajapuri raw mangoes, cold-pressed mustard oil, and split fenugreek seeds.</p>
+
+            <h2>2. Saurashtra Stuffed Red Chilli Pickle (Bharwa Lal Mirch)</h2>
+            <p>A winter delicacy prepared from vibrant red Banarasi chillies stuffed with hand-ground mustard, fennel, amchur, and roasted spices.</p>
+
+            <h2>3. Sweet & Tangy Khatti Meethi Gorkeri</h2>
+            <p>Prized Gujarati sweet mango pickle slow-infused in natural organic jaggery syrup with cinnamon and cloves.</p>
+
+            <h2>4. Sun-Dried Spicy Garlic Chutney / Achar (Lasan Achar)</h2>
+            <p>Pounded garlic cloves sun-dried and pickled in a hot red chilli & mustard oil infusion.</p>
+
+            <h2>5. Salt-Cured Digestive Lemon Pickle (Nimbu Ka Achar)</h2>
+            <p>Thin-skinned juicy lemons cured slowly in rock salt (Sendha Namak), ajwain, and black pepper.</p>
+          {%- endif -%}
+        </article>
+
+        <!-- AUTHOR BIO CARD -->
+        <div class="dp-author-bio">
+          <div class="dp-author-bio__avatar">👵</div>
+          <div class="dp-author-bio__details">
+            <h4>About Baa (Mother of Founder)</h4>
+            <p>
+              Baa has been handcrafting traditional Gujarati pickles, papads, and chutneys for over 45 years in Saurashtra. Every batch produced at DivyaPrabha Foods is personally tasted and approved by Baa.
+            </p>
+            <a href="/pages/about-us" class="dp-author-bio__link">Read Our Family Story →</a>
+          </div>
+        </div>
+
+        <!-- COMMENT FORM -->
+        {%- include 'blog-comment-form' -%}
+      </main>
+
+      <!-- RIGHT COLUMN: STICKY BRAND SIDEBAR -->
+      <aside class="dp-article-sidebar">
+        <div class="dp-sticky-sidebar-inner">
+          
+          <!-- WIDGET 1: OUR PRODUCTS -->
+          <div class="dp-sidebar-widget dp-sidebar-widget--products">
+            <div class="dp-widget-title-wrap">
+              <span class="dp-widget-icon">🫙</span>
+              <h3 class="dp-widget-title">Our Pickles & Products</h3>
+            </div>
+            <div class="dp-sidebar-products-list">
+              {% assign sidebar_collection = collections['all'] %}
+              {% if sidebar_collection.products.size > 0 %}
+                {% for product in sidebar_collection.products limit: 5 %}
+                  <div class="dp-product-mini-card">
+                    <div class="dp-product-mini-card__img">
+                      <a href="{{ product.url }}">
+                        {% if product.featured_image %}
+                          <img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy">
+                        {% else %}
+                          <div class="dp-product-mini-card__placeholder">🫙</div>
+                        {% endif %}
+                      </a>
+                      {% if product.compare_at_price > product.price %}
+                        <span class="dp-mini-badge">Sale</span>
+                      {% elsif forloop.first %}
+                        <span class="dp-mini-badge">Bestseller</span>
+                      {% endif %}
+                    </div>
+                    <div class="dp-product-mini-card__info">
+                      <h4><a href="{{ product.url }}">{{ product.title }}</a></h4>
+                      <div class="dp-product-price">
+                        <span class="dp-price-current">{{ product.price | money }}</span>
+                        {% if product.compare_at_price > product.price %}
+                          <span class="dp-price-old">{{ product.compare_at_price | money }}</span>
+                        {% endif %}
+                      </div>
+                      <a href="{{ product.url }}" class="dp-mini-buy-btn">Buy Now →</a>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- WIDGET 2: ALL CATEGORIES -->
+          <div class="dp-sidebar-widget dp-sidebar-widget--categories">
+            <div class="dp-widget-title-wrap">
+              <span class="dp-widget-icon">📂</span>
+              <h3 class="dp-widget-title">Categories</h3>
+            </div>
+            <ul class="dp-category-list">
+              {% assign art_core_cats = "Heritage Recipes,Health & Spices,Buying Guides,Pickle Pairings,Artisanal Craft" | split: "," %}
+              {% for cat_item in art_core_cats %}
+                {% assign cat_clean = cat_item | strip %}
+                {% assign cat_lower = cat_clean | downcase %}
+                {% assign cat_count = 0 %}
+                {% for art in blog.articles %}
+                  {% if art.tags contains cat_clean %}
+                    {% assign cat_count = cat_count | plus: 1 %}
+                  {% endif %}
+                {% endfor %}
+                <li>
+                  <a href="{{ blog.url }}/tagged/{{ cat_clean | handle }}">
+                    <span>{% if cat_lower contains 'heritage' %}🥭{% elsif cat_lower contains 'health' %}🌶️{% elsif cat_lower contains 'buy' %}🛒{% elsif cat_lower contains 'pair' %}🍱{% else %}🫙{% endif %} {{ cat_clean }}</span>
+                    <span class="dp-cat-count">({{ cat_count }})</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <!-- WIDGET 3: BLOG TOPICS / RECENT POSTS -->
+          <div class="dp-sidebar-widget dp-sidebar-widget--topics">
+            <div class="dp-widget-title-wrap">
+              <span class="dp-widget-icon">📝</span>
+              <h3 class="dp-widget-title">Blog Topics</h3>
+            </div>
+            <ul class="dp-recent-topics-list">
+              {% if blog.articles.size > 0 %}
+                {% for art_topic in blog.articles limit: 6 %}
+                  <li>
+                    <span class="dp-topic-tag">{{ art_topic.tags.first | default: "Recipe" }}</span>
+                    <a href="{{ art_topic.url }}">{{ art_topic.title }}</a>
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+
+          <!-- WIDGET 4: AUTOMATIC FOCUS KEYWORDS / TAG CLOUD -->
+          <div class="dp-sidebar-widget dp-sidebar-widget--tags">
+            <div class="dp-widget-title-wrap">
+              <span class="dp-widget-icon">🏷️</span>
+              <h3 class="dp-widget-title">Focus Keywords</h3>
+            </div>
+            <div class="dp-keywords-cloud dp-keywords-cloud--collapsed" id="dpKeywordsCloud">
+              {% if blog.all_tags.size > 0 %}
+                {% assign categories_filter = "Heritage Recipes,Health & Spices,Buying Guides,Pickle Pairings,Artisanal Craft" %}
+                {% for tag in blog.all_tags %}
+                  {% assign tag_clean = tag | strip %}
+                  {% unless categories_filter contains tag_clean %}
+                    {% assign is_current_tag = false %}
+                    {% if article.tags contains tag_clean %}
+                      {% assign is_current_tag = true %}
+                    {% endif %}
+                    <a href="{{ blog.url }}/tagged/{{ tag_clean | handle }}" class="dp-tag-pill {% if is_current_tag %}active{% endif %}">#{{ tag_clean }}</a>
+                  {% endunless %}
+                {% endfor %}
+              {% endif %}
+            </div>
+            <button type="button" class="dp-show-more-tags-btn" id="dpShowMoreTagsBtn" onclick="toggleDpKeywords()">
+              <span class="dp-btn-text">+ Show More Keywords</span>
+              <span class="dp-btn-arrow">↓</span>
+            </button>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{%- style -%}
+#laber_{{ sid }} {
+  --dp-red: {{ section.settings.color_red | default: '#b01215' }};
+  --dp-red-dark: #8c0e10;
+  --dp-brown: {{ section.settings.color_brown | default: '#3d1f0f' }};
+  --dp-gold: {{ section.settings.color_gold | default: '#e5a842' }};
+  --dp-cream: {{ section.settings.color_cream | default: '#fff8ee' }};
+  --dp-warm-bg: {{ section.settings.color_warm_bg | default: '#fdf6ed' }};
+  --dp-text: {{ section.settings.color_text | default: '#2d1206' }};
+  --dp-muted: {{ section.settings.color_muted | default: '#6b4c3b' }};
+  --dp-border: {{ section.settings.color_border | default: '#e8d5c0' }};
+
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#laber_{{ sid }} .dp-article-page {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--dp-text);
+  background: #fff;
+  padding-bottom: 60px;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+#laber_{{ sid }} .container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+#laber_{{ sid }} .dp-article-hero {
+  background: var(--dp-warm-bg);
+  border-bottom: 1px solid var(--dp-border);
+  padding: 40px 0 32px;
+}
+#laber_{{ sid }} .dp-article-breadcrumb {
+  font-size: 13px;
+  color: var(--dp-muted);
+  margin-bottom: 16px;
+  word-break: break-word;
+}
+#laber_{{ sid }} .dp-article-breadcrumb a {
+  color: var(--dp-brown);
+  text-decoration: none;
+  font-weight: 600;
+}
+#laber_{{ sid }} .dp-article-breadcrumb .current {
+  color: var(--dp-red);
+  font-weight: 700;
+}
+#laber_{{ sid }} .dp-article-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+#laber_{{ sid }} .dp-post-tag {
+  color: var(--dp-red);
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#laber_{{ sid }} .dp-post-dot { color: var(--dp-border); }
+#laber_{{ sid }} .dp-post-read { font-size: 13px; color: var(--dp-muted); }
+
+#laber_{{ sid }} .dp-article-title {
+  font-size: clamp(22px, 3.8vw, 38px);
+  font-weight: 900;
+  color: var(--dp-brown);
+  line-height: 1.28;
+  margin-bottom: 20px;
+  word-break: break-word;
+}
+
+#laber_{{ sid }} .dp-article-author-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--dp-border);
+  padding-top: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+#laber_{{ sid }} .dp-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#laber_{{ sid }} .dp-author__avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--dp-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+#laber_{{ sid }} .dp-author__info strong {
+  display: block;
+  font-size: 13.5px;
+  color: var(--dp-brown);
+}
+#laber_{{ sid }} .dp-author__info span {
+  font-size: 11.5px;
+  color: var(--dp-muted);
+}
+#laber_{{ sid }} .dp-article-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--dp-muted);
+  font-weight: 600;
+}
+
+#laber_{{ sid }} .dp-article-media {
+  margin: 24px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(61,31,15,0.06);
+}
+#laber_{{ sid }} .dp-article-media img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+/* 2-COLUMN GRID LAYOUT */
+#laber_{{ sid }} .dp-article-main-container {
+  padding-top: 24px;
+}
+#laber_{{ sid }} .dp-article-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 36px;
+  align-items: start;
+}
+
+#laber_{{ sid }} .dp-article-main-content {
+  min-width: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* SHARE BAR */
+#laber_{{ sid }} .dp-share-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  border-radius: 50px;
+  margin-bottom: 28px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  flex-wrap: wrap;
+  box-shadow: 0 4px 14px rgba(61,31,15,0.04);
+}
+
+#laber_{{ sid }} .dp-share-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--dp-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+}
+
+#laber_{{ sid }} .dp-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all 0.22s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  line-height: 1;
+}
+
+#laber_{{ sid }} .dp-share-btn svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+#laber_{{ sid }} .dp-share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.14);
+}
+
+/* WhatsApp */
+#laber_{{ sid }} .dp-share-btn--wa {
+  background: #25D366;
+  color: #ffffff !important;
+}
+#laber_{{ sid }} .dp-share-btn--wa:hover {
+  background: #20bd5a;
+}
+
+/* Facebook */
+#laber_{{ sid }} .dp-share-btn--fb {
+  background: #1877F2;
+  color: #ffffff !important;
+}
+#laber_{{ sid }} .dp-share-btn--fb:hover {
+  background: #1365d0;
+}
+
+/* X / Twitter */
+#laber_{{ sid }} .dp-share-btn--x {
+  background: #0f1419;
+  color: #ffffff !important;
+}
+#laber_{{ sid }} .dp-share-btn--x:hover {
+  background: #000000;
+}
+
+/* LinkedIn */
+#laber_{{ sid }} .dp-share-btn--in {
+  background: #0A66C2;
+  color: #ffffff !important;
+}
+#laber_{{ sid }} .dp-share-btn--in:hover {
+  background: #08529c;
+}
+
+/* Pinterest */
+#laber_{{ sid }} .dp-share-btn--pin {
+  background: #E60023;
+  color: #ffffff !important;
+}
+#laber_{{ sid }} .dp-share-btn--pin:hover {
+  background: #bd001c;
+}
+
+/* AUDIO PLAYER WIDGET */
+#laber_{{ sid }} .dp-audio-player-wrap {
+  margin-bottom: 28px;
+}
+
+#laber_{{ sid }} .dp-audio-player {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #fffcf7 0%, #fdf5ea 100%);
+  border: 1.5px solid var(--dp-border);
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(61,31,15,0.05);
+}
+
+#laber_{{ sid }} .dp-audio-top-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#laber_{{ sid }} .dp-audio-play-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--dp-red);
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(176,18,21,0.3);
+  transition: all 0.22s ease;
+  flex-shrink: 0;
+}
+
+#laber_{{ sid }} .dp-audio-play-btn:hover {
+  background: var(--dp-red-dark);
+  transform: scale(1.06);
+}
+
+#laber_{{ sid }} .dp-audio-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#laber_{{ sid }} .dp-audio-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+#laber_{{ sid }} .dp-audio-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--dp-brown);
+}
+
+#laber_{{ sid }} .dp-audio-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--dp-muted);
+}
+
+#laber_{{ sid }} .dp-audio-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e8dbcb;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+#laber_{{ sid }} .dp-audio-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--dp-red);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+#laber_{{ sid }} .dp-audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#laber_{{ sid }} .dp-audio-voice-select {
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  color: var(--dp-brown);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+  max-width: 170px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#laber_{{ sid }} .dp-audio-speed {
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  color: var(--dp-brown);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+/* GOOGLE TRANSLATE WIDGET STYLING */
+#laber_{{ sid }} .dp-translate-widget {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  padding: 4px 12px;
+  border-radius: 30px;
+  margin-left: auto;
+  box-shadow: 0 2px 8px rgba(61,31,15,0.04);
+}
+
+#laber_{{ sid }} .dp-translate-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--dp-brown);
+  white-space: nowrap;
+}
+
+#google_translate_element {
+  display: inline-block;
+}
+
+.goog-te-gadget-simple {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  font-family: inherit !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.goog-te-gadget-simple img {
+  display: none !important;
+}
+
+.goog-te-gadget-simple span {
+  color: var(--dp-brown) !important;
+  font-weight: 700 !important;
+}
+
+.goog-te-menu-value span {
+  color: var(--dp-brown) !important;
+  font-weight: 700 !important;
+}
+
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+/* ARTICLE CONTENT MOBILE OVERFLOW SAFETY */
+#laber_{{ sid }} .dp-article-content {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--dp-text);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+#laber_{{ sid }} .dp-article-content img,
+#laber_{{ sid }} .dp-article-content iframe,
+#laber_{{ sid }} .dp-article-content video,
+#laber_{{ sid }} .dp-article-content svg {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 12px;
+  box-sizing: border-box !important;
+}
+
+#laber_{{ sid }} .dp-article-content table {
+  display: block;
+  overflow-x: auto;
+  width: 100% !important;
+  max-width: 100% !important;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+#laber_{{ sid }} .dp-article-content h2,
+#laber_{{ sid }} .dp-article-content h3,
+#laber_{{ sid }} .dp-article-content h4 {
+  color: var(--dp-brown);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-top: 32px;
+  margin-bottom: 14px;
+  word-break: break-word;
+}
+#laber_{{ sid }} .dp-article-content h2 { font-size: clamp(20px, 3vw, 26px); }
+#laber_{{ sid }} .dp-article-content h3 { font-size: clamp(18px, 2.5vw, 22px); }
+
+#laber_{{ sid }} .dp-article-content p {
+  margin-bottom: 20px;
+}
+
+/* CTA BOXES INSIDE ARTICLES */
+#laber_{{ sid }} .dp-article-content div[style*="border"],
+#laber_{{ sid }} .dp-article-content [class*="cta"],
+#laber_{{ sid }} .dp-article-content [class*="box"],
+#laber_{{ sid }} .dp-article-content [class*="card"] {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  word-break: break-word !important;
+}
+
+/* AUTHOR BIO */
+#laber_{{ sid }} .dp-author-bio {
+  display: flex;
+  gap: 20px;
+  background: var(--dp-warm-bg);
+  border: 1px solid var(--dp-border);
+  border-radius: 20px;
+  padding: 24px;
+  margin-top: 40px;
+  align-items: center;
+}
+
+/* STICKY SIDEBAR */
+#laber_{{ sid }} .dp-article-sidebar {
+  position: sticky;
+  top: 100px;
+  z-index: 10;
+  width: 100%;
+}
+#laber_{{ sid }} .dp-sticky-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+#laber_{{ sid }} .dp-sidebar-widget {
+  background: var(--dp-warm-bg);
+  border: 1px solid var(--dp-border);
+  border-radius: 20px;
+  padding: 22px 18px;
+  box-shadow: 0 4px 18px rgba(61,31,15,0.04);
+}
+
+#laber_{{ sid }} .dp-widget-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--dp-border);
+}
+
+#laber_{{ sid }} .dp-widget-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+#laber_{{ sid }} .dp-widget-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dp-brown);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+/* MINI PRODUCT CARDS */
+#laber_{{ sid }} .dp-sidebar-products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#laber_{{ sid }} .dp-product-mini-card {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 14px !important;
+  align-items: center !important;
+  background: #ffffff !important;
+  border: 1px solid var(--dp-border) !important;
+  border-radius: 16px !important;
+  padding: 12px !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 12px rgba(61, 31, 15, 0.03) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#laber_{{ sid }} .dp-product-mini-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(61, 31, 15, 0.08) !important;
+  border-color: rgba(176, 18, 21, 0.3) !important;
+}
+
+#laber_{{ sid }} .dp-product-mini-card__img {
+  width: 76px !important;
+  min-width: 76px !important;
+  max-width: 76px !important;
+  height: 76px !important;
+  flex: 0 0 76px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: var(--dp-warm-bg) !important;
+  border: 1px solid var(--dp-border) !important;
+}
+
+#laber_{{ sid }} .dp-product-mini-card__img a {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#laber_{{ sid }} .dp-product-mini-card__img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+#laber_{{ sid }} .dp-mini-badge {
+  position: absolute !important;
+  top: 4px !important;
+  left: 4px !important;
+  z-index: 2 !important;
+  background: var(--dp-red) !important;
+  color: #ffffff !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  padding: 2px 6px !important;
+  border-radius: 20px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 2px 6px rgba(176, 18, 21, 0.3) !important;
+}
+
+#laber_{{ sid }} .dp-product-mini-card__info {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: calc(100% - 90px) !important;
+}
+
+#laber_{{ sid }} .dp-product-mini-card__info h4 {
+  font-size: 13.5px;
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 0;
+}
+
+#laber_{{ sid }} .dp-product-mini-card__info h4 a {
+  color: var(--dp-brown);
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+#laber_{{ sid }} .dp-product-mini-card__info h4 a:hover {
+  color: var(--dp-red);
+}
+
+#laber_{{ sid }} .dp-product-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#laber_{{ sid }} .dp-price-current {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--dp-red);
+}
+
+#laber_{{ sid }} .dp-price-old {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dp-muted);
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+#laber_{{ sid }} .dp-mini-buy-btn {
+  background: var(--dp-red);
+  color: #ffffff !important;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 50px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  margin-top: 4px;
+  box-shadow: 0 3px 8px rgba(176, 18, 21, 0.22);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+#laber_{{ sid }} .dp-mini-buy-btn:hover {
+  background: var(--dp-red-dark);
+  transform: translateX(2px);
+  box-shadow: 0 5px 12px rgba(176, 18, 21, 0.38);
+  color: #ffffff !important;
+}
+
+/* SIDEBAR CATEGORIES */
+#laber_{{ sid }} .dp-category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#laber_{{ sid }} .dp-category-list li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--dp-brown);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+#laber_{{ sid }} .dp-category-list li a:hover {
+  background: var(--dp-red);
+  color: #ffffff;
+  border-color: var(--dp-red);
+}
+
+#laber_{{ sid }} .dp-cat-count {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* SIDEBAR RECENT TOPICS */
+#laber_{{ sid }} .dp-recent-topics-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#laber_{{ sid }} .dp-recent-topics-list li {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--dp-border);
+}
+#laber_{{ sid }} .dp-recent-topics-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+#laber_{{ sid }} .dp-topic-tag {
+  display: inline-block;
+  background: rgba(229, 168, 66, 0.2);
+  color: var(--dp-brown);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+#laber_{{ sid }} .dp-recent-topics-list a {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  text-decoration: none;
+  line-height: 1.4;
+  display: block;
+  transition: color 0.2s ease;
+}
+#laber_{{ sid }} .dp-recent-topics-list a:hover {
+  color: var(--dp-red);
+}
+
+/* KEYWORDS CLOUD */
+#laber_{{ sid }} .dp-keywords-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#laber_{{ sid }} .dp-tag-pill {
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  color: var(--dp-brown);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+#laber_{{ sid }} .dp-tag-pill.active,
+#laber_{{ sid }} .dp-tag-pill:hover {
+  background: var(--dp-red);
+  color: #ffffff;
+  border-color: var(--dp-red);
+}
+
+/* RESPONSIVE BREAKPOINTS FOR MULTI-DEVICE SUPPORT */
+@media screen and (max-width: 1100px) {
+  #laber_{{ sid }} .dp-article-grid-layout {
+    grid-template-columns: 1fr 300px !important;
+    gap: 28px !important;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  #laber_{{ sid }} .dp-article-grid-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+  #laber_{{ sid }} .dp-article-main-content {
+    order: 1 !important;
+    width: 100% !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  #laber_{{ sid }} .dp-article-sidebar {
+    order: 2 !important;
+    position: static !important;
+    margin-top: 36px !important;
+    width: 100% !important;
+  }
+  #laber_{{ sid }} .dp-sidebar-widget {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 520px !important;
+  }
+  #laber_{{ sid }} .dp-widget-title-wrap {
+    justify-content: center !important;
+  }
+  #laber_{{ sid }} .dp-keywords-cloud {
+    justify-content: center !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #laber_{{ sid }} .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  #laber_{{ sid }} .dp-article-hero {
+    padding: 28px 0 20px !important;
+  }
+  #laber_{{ sid }} .dp-article-title {
+    font-size: 21px !important;
+    line-height: 1.32 !important;
+  }
+  #laber_{{ sid }} .dp-article-author-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  #laber_{{ sid }} .dp-article-media {
+    margin: 16px 0 !important;
+    border-radius: 12px !important;
+  }
+  #laber_{{ sid }} .dp-article-media img {
+    max-height: 260px !important;
+  }
+  #laber_{{ sid }} .dp-article-content {
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+  }
+  #laber_{{ sid }} .dp-author-bio {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 18px 16px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #laber_{{ sid }} .dp-share-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    padding: 8px 12px !important;
+    gap: 6px !important;
+    border-radius: 50px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  #laber_{{ sid }} .dp-share-label {
+    font-size: 10.5px !important;
+    letter-spacing: 0 !important;
+    margin-right: 2px !important;
+    white-space: nowrap !important;
+  }
+  #laber_{{ sid }} .dp-share-btn {
+    width: 35px !important;
+    min-width: 35px !important;
+    max-width: 35px !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    max-height: 35px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex: 0 0 35px !important;
+    display: inline-flex !important;
+  }
+  #laber_{{ sid }} .dp-share-btn span {
+    display: none !important; /* HIDE ALL BUTTON TEXT LABELS ON MOBILE — SHOW ONLY CIRCULAR ICON BUTTONS */
+  }
+  #laber_{{ sid }} .dp-share-btn svg {
+    margin: 0 !important;
+    width: 15px !important;
+    height: 15px !important;
+  }
+  #laber_{{ sid }} .dp-audio-player-wrap {
+    padding: 0 !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  #laber_{{ sid }} .dp-audio-player {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 14px 16px !important;
+    border-radius: 16px !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+  #laber_{{ sid }} .dp-audio-top-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    flex: 0 0 auto !important;
+  }
+  #laber_{{ sid }} .dp-audio-play-btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    flex: 0 0 44px !important;
+    box-sizing: border-box !important;
+  }
+  #laber_{{ sid }} .dp-audio-info {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    width: calc(100% - 56px) !important;
+    box-sizing: border-box !important;
+  }
+  #laber_{{ sid }} .dp-audio-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+  #laber_{{ sid }} .dp-audio-title {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+  #laber_{{ sid }} .dp-audio-time {
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+  #laber_{{ sid }} .dp-audio-progress-bar {
+    width: 100% !important;
+    height: 6px !important;
+    margin-top: 4px !important;
+  }
+  #laber_{{ sid }} .dp-audio-controls {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: 0 !important;
+    gap: 8px !important;
+    box-sizing: border-box !important;
+  }
+  #laber_{{ sid }} .dp-audio-voice-select {
+    max-width: calc(100% - 62px) !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    height: 34px !important;
+    font-size: 11.5px !important;
+    padding: 0 8px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+  }
+  #laber_{{ sid }} .dp-audio-speed {
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    height: 34px !important;
+    font-size: 11.5px !important;
+    padding: 0 6px !important;
+    border-radius: 10px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #laber_{{ sid }} .dp-article-title {
+    font-size: 18px !important;
+  }
+  #laber_{{ sid }} .dp-sidebar-widget {
+    padding: 18px 14px !important;
+  }
+}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "DivyaPrabha Article",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_red",
+      "label": "Brand Red",
+      "default": "#b01215"
+    },
+    {
+      "type": "color",
+      "id": "color_brown",
+      "label": "Brand Deep Brown",
+      "default": "#3d1f0f"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Brand Gold",
+      "default": "#e5a842"
+    },
+    {
+      "type": "color",
+      "id": "color_cream",
+      "label": "Brand Cream",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "color_warm_bg",
+      "label": "Brand Warm BG",
+      "default": "#fdf6ed"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text Color",
+      "default": "#2d1206"
+    },
+    {
+      "type": "color",
+      "id": "color_muted",
+      "label": "Muted Text",
+      "default": "#6b4c3b"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Border Color",
+      "default": "#e8d5c0"
+    }
+  ]
+}
+{% endschema %}

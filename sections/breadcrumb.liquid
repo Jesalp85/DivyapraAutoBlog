@@ -1,0 +1,1089 @@
+{% comment %} {% include 'breadcrumb' %}
+{% style %}
+  .breadcrumbs{
+         {% if section.settings.bg_breadcrumb_blog != blank %}
+         	background-image: url('{{ section.settings.bg_breadcrumb_blog | img_url:"1920x"}}');
+         {% endif %}
+         margin-bottom:{{section.settings.mg_bottom}}px ;
+         background-color:{{section.settings.bg}};
+  }
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum{
+  	height:{{section.settings.b_height}}px ;
+  }
+     @media (max-width: 1024px) {
+         .breadcrumbs{
+        	 	background: {{section.settings.mobile_bg}};
+         	margin-bottom:{{section.settings.mobile_mg_bottom}}px ;
+  	}
+         .breadcrumbs .outline-breadcrum .wrap-breadcrum{
+         	height:{{section.settings.mobile_ht}}px ;
+         }
+     }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Breadcrumb",
+  "class": "laber_section laber-breadcrumb",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title_page",
+      "label": "Show title page",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "h_position",
+      "label": "Horizontal Position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "v_position",
+      "label": "Vertical Position",
+      "default": "top",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "txt_align",
+      "label": "Text Align",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_breadcrumb_blog",
+      "label": "Background banner"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background color",
+      "default": "#fff"
+    },
+    
+    {
+      "type": "range",
+      "id": "b_height",
+      "label": "height",
+      "default": 70,
+      "min": 0,
+      "max": 450,
+      "step": 10,
+      "unit": "px" 
+    },
+    {
+      "type": "range",
+      "id": "mg_bottom",
+      "label": "Margin bottom",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile settings"
+    },
+    {
+      "type": "color",
+      "id": "mobile_bg",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "mobile_ht",
+      "label": "height",
+      "default": 30,
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_mg_bottom",
+      "label": "Margin bottom",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %} {% endcomment %}
+
+
+{% comment %} {% include 'breadcrumb' %}
+{% style %}
+  .breadcrumbs{
+         {% if section.settings.bg_breadcrumb_blog != blank %}
+         	background-image: url('{{ section.settings.bg_breadcrumb_blog | img_url:"1920x"}}');
+         {% endif %}
+         margin-bottom:{{section.settings.mg_bottom}}px !important;
+         background-color:{{section.settings.bg}};
+  }
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum{
+  	height:{{section.settings.b_height}}px !important;
+  }
+  
+  /* Desktop Title Styles - Sab pe !important lagaya gaya hai */
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h1,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h2,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h3,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .page-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .section-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .breadcrumb-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum [class*="title"],
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum span,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum div,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum p,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum strong,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum b {
+    font-size: {{ section.settings.title_font_size }}px !important;
+    font-weight: {{ section.settings.title_font_weight_value }} !important;
+    text-transform: {{ section.settings.title_text_transform }} !important;
+    letter-spacing: {{ section.settings.title_letter_spacing }}px !important;
+    line-height: 1.3 !important;
+  }
+  
+  /* Title Color with !important */
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h1,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h2,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h3,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .page-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .section-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .breadcrumb-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum [class*="title"],
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum span,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum div,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum p {
+    color: {{ section.settings.title_color }} !important;
+  }
+  
+  /* Mobile Title Styles with !important */
+  @media (max-width: 768px) {
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum h1,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum h2,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum h3,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .page-title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .section-title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .breadcrumb-title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum [class*="title"],
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum span,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum div,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum p {
+      font-size: {{ section.settings.mobile_title_font_size }}px !important;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .breadcrumbs{
+      background: {{section.settings.mobile_bg}} !important;
+      margin-bottom:{{section.settings.mobile_mg_bottom}}px !important;
+    }
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum{
+      height:{{section.settings.mobile_ht}}px !important;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Breadcrumb",
+  "class": "laber_section laber-breadcrumb",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title_page",
+      "label": "Show title page",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "h_position",
+      "label": "Horizontal Position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "v_position",
+      "label": "Vertical Position",
+      "default": "top",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "txt_align",
+      "label": "Text Align",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "🎨 Title Typography Settings"
+    },
+    {
+      "type": "paragraph",
+      "content": "Adjust the title size, weight, and style from here - Changes will apply instantly!"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "📏 Title Font Size (Desktop)",
+      "default": 32,
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_title_font_size",
+      "label": "📱 Title Font Size (Mobile)",
+      "default": 22,
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight_value",
+      "label": "💪 Title Font Weight",
+      "default": "bold",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal (400)"
+        },
+        {
+          "value": "300",
+          "label": "Light (300)"
+        },
+        {
+          "value": "500",
+          "label": "Medium (500)"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold (600)"
+        },
+        {
+          "value": "bold",
+          "label": "Bold (700)"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold (800)"
+        },
+        {
+          "value": "900",
+          "label": "Black (900)"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_text_transform",
+      "label": "🔤 Title Text Transform",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "UPPERCASE"
+        },
+        {
+          "value": "lowercase",
+          "label": "lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize Each Word"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "label": "📏 Title Letter Spacing",
+      "default": 0,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "🎨 Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "🖼️ Background Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_breadcrumb_blog",
+      "label": "Background Banner Image"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "b_height",
+      "label": "📏 Section Height (Desktop)",
+      "default": 70,
+      "min": 0,
+      "max": 450,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mg_bottom",
+      "label": "📏 Margin Bottom (Desktop)",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "📱 Mobile Settings"
+    },
+    {
+      "type": "color",
+      "id": "mobile_bg",
+      "label": "Background Color (Mobile)",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "mobile_ht",
+      "label": "📏 Section Height (Mobile)",
+      "default": 50,
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_mg_bottom",
+      "label": "📏 Margin Bottom (Mobile)",
+      "default": 30,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %} {% endcomment %}
+
+{% style %}
+  .breadcrumbs{
+         {% if section.settings.bg_breadcrumb_blog != blank %}
+         	background-image: url('{{ section.settings.bg_breadcrumb_blog | img_url:"1920x"}}');
+         {% endif %}
+         margin-bottom:{{section.settings.mg_bottom}}px !important;
+         background-color:{{section.settings.bg}};
+  }
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum{
+  	height:{{section.settings.b_height}}px !important;
+  }
+  
+  /* Desktop Title Styles */
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h1,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h2,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h3,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .page-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .section-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .breadcrumb-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum [class*="title"],
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum span,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum div,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum p,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum strong,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum b {
+    font-size: {{ section.settings.title_font_size }}px !important;
+    font-weight: {{ section.settings.title_font_weight_value }} !important;
+    text-transform: {{ section.settings.title_text_transform }} !important;
+    letter-spacing: {{ section.settings.title_letter_spacing }}px !important;
+    line-height: 1.3 !important;
+  }
+  
+  /* Title Color */
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h1,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h2,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum h3,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .page-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .section-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum .breadcrumb-title,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum [class*="title"],
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum span,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum div,
+  .breadcrumbs .outline-breadcrum .wrap-breadcrum p {
+    color: {{ section.settings.title_color }} !important;
+  }
+  
+  /* Breadcrumb Links Styling */
+  .breadcrumbs a {
+    color: {{ section.settings.breadcrumb_link_color | default: '#666666' }} !important;
+    text-decoration: none;
+  }
+  
+  .breadcrumbs a:hover {
+    color: {{ section.settings.breadcrumb_link_hover_color | default: '#000000' }} !important;
+    text-decoration: underline;
+  }
+  
+  .breadcrumbs .separator {
+    margin: 0 5px;
+    color: {{ section.settings.separator_color | default: '#999999' }} !important;
+  }
+  
+  .breadcrumbs .current-page {
+    color: {{ section.settings.current_page_color | default: '#000000' }} !important;
+    font-weight: 500;
+  }
+  
+  /* Mobile Title Styles */
+  @media (max-width: 768px) {
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum h1,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum h2,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum h3,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .page-title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .section-title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum .breadcrumb-title,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum [class*="title"],
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum span,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum div,
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum p {
+      font-size: {{ section.settings.mobile_title_font_size }}px !important;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .breadcrumbs{
+      background: {{section.settings.mobile_bg}} !important;
+      margin-bottom:{{section.settings.mobile_mg_bottom}}px !important;
+    }
+    .breadcrumbs .outline-breadcrum .wrap-breadcrum{
+      height:{{section.settings.mobile_ht}}px !important;
+    }
+  }
+{% endstyle %}
+
+{%- unless template == 'index' -%}
+<nav class="breadcrumbs" role="navigation" aria-label="breadcrumbs">
+  <div class="outline-breadcrum">
+    <div class="wrap-breadcrum">
+      <div class="container">
+        <div class="breadcrumb-inner" style="text-align: {{ section.settings.txt_align }};">
+          
+          <!-- Breadcrumb Trail -->
+          <div class="breadcrumb-trail">
+            <a href="/" title="Home">Home</a>
+            
+            {%- case template -%}
+            
+              {%- when 'product' -%}
+                <!-- Product Page Breadcrumb -->
+                <span class="separator" aria-hidden="true"> / </span>
+                
+                {%- comment -%} Try to get current collection from URL param {%- endcomment -%}
+                {%- assign current_collection = collection -%}
+                
+                {%- comment -%} If no collection in context, try to get from product's collections {%- endcomment -%}
+                {%- if current_collection == blank and product.collections.size > 0 -%}
+                  {%- assign current_collection = product.collections | first -%}
+                {%- endif -%}
+                
+                {%- if current_collection != blank -%}
+                  <a href="{{ current_collection.url }}">{{ current_collection.title }}</a>
+                  <span class="separator" aria-hidden="true"> / </span>
+                {%- endif -%}
+                
+                <span class="current-page">{{ product.title }}</span>
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">{{ product.title }}</h1>
+                {%- endif -%}
+              
+              {%- when 'collection' -%}
+                <!-- Collection Page Breadcrumb -->
+                <span class="separator" aria-hidden="true"> / </span>
+                
+                {%- if current_tags -%}
+                  <a href="{{ collection.url }}">{{ collection.title }}</a>
+                  <span class="separator" aria-hidden="true"> / </span>
+                  <span class="current-page">{{ current_tags | join: ' + ' }}</span>
+                {%- else -%}
+                  <span class="current-page">{{ collection.title }}</span>
+                {%- endif -%}
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">{{ collection.title }}</h1>
+                {%- endif -%}
+              
+              {%- when 'blog' -%}
+                <!-- Blog Listing Page Breadcrumb -->
+                <span class="separator" aria-hidden="true"> / </span>
+                <span class="current-page">{{ blog.title }}</span>
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">{{ blog.title }}</h1>
+                {%- endif -%}
+              
+              {%- when 'article' -%}
+                <!-- Article Page Breadcrumb -->
+                <span class="separator" aria-hidden="true"> / </span>
+                <a href="{{ blog.url }}">{{ blog.title }}</a>
+                <span class="separator" aria-hidden="true"> / </span>
+                <span class="current-page">{{ article.title }}</span>
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">{{ article.title }}</h1>
+                {%- endif -%}
+              
+              {%- when 'page' -%}
+                <!-- Regular Page Breadcrumb -->
+                <span class="separator" aria-hidden="true"> / </span>
+                <span class="current-page">{{ page.title }}</span>
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">{{ page.title }}</h1>
+                {%- endif -%}
+              
+              {%- when 'search' -%}
+                <!-- Search Page Breadcrumb -->
+                <span class="separator" aria-hidden="true"> / </span>
+                <span class="current-page">Search</span>
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">Search Results</h1>
+                {%- endif -%}
+              
+              {%- when 'cart' -%}
+                <!-- Cart Page Breadcrumb -->
+                <span class="separator" aria-hidden="true"> / </span>
+                <span class="current-page">Shopping Cart</span>
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">Shopping Cart</h1>
+                {%- endif -%}
+              
+              {%- else -%}
+                <!-- Default/Other Pages -->
+                <span class="separator" aria-hidden="true"> / </span>
+                <span class="current-page">{{ page_title }}</span>
+                
+                {%- if section.settings.show_title_page -%}
+                  <h1 class="page-title">{{ page_title }}</h1>
+                {%- endif -%}
+              
+            {%- endcase -%}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://{{ shop.domain }}"
+    }
+    {%- case template -%}
+      {%- when 'product' -%}
+        {%- assign current_collection = collection -%}
+        {%- if current_collection == blank and product.collections.size > 0 -%}
+          {%- assign current_collection = product.collections | first -%}
+        {%- endif -%}
+        {%- if current_collection != blank -%}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ current_collection.title | json }},
+            "item": "https://{{ shop.domain }}{{ current_collection.url }}"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{ product.title | json }},
+            "item": "https://{{ shop.domain }}{{ product.url }}"
+          }
+        {%- else -%}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ product.title | json }},
+            "item": "https://{{ shop.domain }}{{ product.url }}"
+          }
+        {%- endif -%}
+      {%- when 'collection' -%}
+        {%- if current_tags -%}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ collection.title | json }},
+            "item": "https://{{ shop.domain }}{{ collection.url }}"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{ current_tags | join: ' + ' | json }},
+            "item": "https://{{ shop.domain }}{{ collection.url }}/{{ current_tags | join: '+' }}"
+          }
+        {%- else -%}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ collection.title | json }},
+            "item": "https://{{ shop.domain }}{{ collection.url }}"
+          }
+        {%- endif -%}
+      {%- when 'blog' -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ blog.title | json }},
+          "item": "https://{{ shop.domain }}{{ blog.url }}"
+        }
+      {%- when 'article' -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ blog.title | json }},
+          "item": "https://{{ shop.domain }}{{ blog.url }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ article.title | json }},
+          "item": "https://{{ shop.domain }}{{ article.url }}"
+        }
+      {%- when 'page' -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ page.title | json }},
+          "item": "https://{{ shop.domain }}{{ page.url }}"
+        }
+      {%- else -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ page_title | json }},
+          "item": "https://{{ shop.domain }}{{ request.path }}"
+        }
+    {%- endcase -%}
+  ]
+}
+</script>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Breadcrumb",
+  "class": "laber_section laber-breadcrumb",
+  "settings": [
+    {
+      "type": "header",
+      "content": "📌 Layout Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title_page",
+      "label": "Show Title Page",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "h_position",
+      "label": "Horizontal Position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "v_position",
+      "label": "Vertical Position",
+      "default": "top",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "txt_align",
+      "label": "Text Align",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "🎨 Title Typography Settings"
+    },
+    {
+      "type": "paragraph",
+      "content": "Adjust the title size, weight, and style from here"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "📏 Title Font Size (Desktop)",
+      "default": 32,
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_title_font_size",
+      "label": "📱 Title Font Size (Mobile)",
+      "default": 22,
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight_value",
+      "label": "💪 Title Font Weight",
+      "default": "bold",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal (400)"
+        },
+        {
+          "value": "300",
+          "label": "Light (300)"
+        },
+        {
+          "value": "500",
+          "label": "Medium (500)"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold (600)"
+        },
+        {
+          "value": "bold",
+          "label": "Bold (700)"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold (800)"
+        },
+        {
+          "value": "900",
+          "label": "Black (900)"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_text_transform",
+      "label": "🔤 Title Text Transform",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "UPPERCASE"
+        },
+        {
+          "value": "lowercase",
+          "label": "lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize Each Word"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "label": "📏 Title Letter Spacing",
+      "default": 0,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "🎨 Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "🔗 Breadcrumb Links Styling"
+    },
+    {
+      "type": "color",
+      "id": "breadcrumb_link_color",
+      "label": "Link Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "breadcrumb_link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator (>) Color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "current_page_color",
+      "label": "Current Page Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "🖼️ Background Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_breadcrumb_blog",
+      "label": "Background Banner Image"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "b_height",
+      "label": "📏 Section Height (Desktop)",
+      "default": 70,
+      "min": 0,
+      "max": 450,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mg_bottom",
+      "label": "📏 Margin Bottom (Desktop)",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "📱 Mobile Settings"
+    },
+    {
+      "type": "color",
+      "id": "mobile_bg",
+      "label": "Background Color (Mobile)",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "mobile_ht",
+      "label": "📏 Section Height (Mobile)",
+      "default": 50,
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_mg_bottom",
+      "label": "📏 Margin Bottom (Mobile)",
+      "default": 30,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}

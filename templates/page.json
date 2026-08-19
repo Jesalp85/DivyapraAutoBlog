@@ -1,0 +1,54 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "show_title_page": false,
+        "h_position": "center",
+        "v_position": "middle",
+        "txt_align": "left",
+        "title_font_size": 10,
+        "mobile_title_font_size": 10,
+        "title_font_weight_value": "bold",
+        "title_text_transform": "none",
+        "title_letter_spacing": 0,
+        "title_color": "#000000",
+        "breadcrumb_link_color": "#666666",
+        "breadcrumb_link_hover_color": "#000000",
+        "separator_color": "#999999",
+        "current_page_color": "#000000",
+        "bg": "#f7f7f9",
+        "b_height": 20,
+        "mg_bottom": 0,
+        "mobile_bg": "#f5f5f5",
+        "mobile_ht": 20,
+        "mobile_mg_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_page": false,
+        "cl_bg": "#ffffff",
+        "pd_c": "",
+        "mg": "",
+        "pd": "80px,0,80px,0",
+        "mg_mb": "",
+        "pd_mb": "50px,0,50px,0"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main"
+  ]
+}

@@ -1,0 +1,1886 @@
+{% comment %}
+  Custom Collection Page with Left Sidebar Filters
+  EXACT same product card design as custom-product-grid.liquid (homepage)
+  File: sections/custom-collection-with-filters.liquid
+{% endcomment %}
+
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign products_per_page = section.settings.products_per_page | default: 9
+-%}
+
+<style>
+/* ======================================================
+   COLLECTION PAGE — mirrors custom-product-grid card CSS
+   All values driven by section settings / CSS vars
+   ====================================================== */
+
+#ccp-{{ section.id }} {
+  --ccp-primary:       {{ section.settings.btn_bg }};
+  --ccp-primary-hover: {{ section.settings.btn_hover_bg }};
+  --ccp-primary-text:  {{ section.settings.btn_text_color }};
+  --ccp-hover-text:    {{ section.settings.btn_hover_text_color }};
+  --ccp-card-bg:       {{ section.settings.card_bg }};
+  --ccp-card-border:   {{ section.settings.card_border_color }};
+  --ccp-title-color:   {{ section.settings.product_title_color }};
+  --ccp-price-color:   {{ section.settings.price_color }};
+  --ccp-compare-color: {{ section.settings.compare_price_color }};
+  --ccp-badge-bg:      {{ section.settings.badge_bg }};
+  --ccp-badge-text:    {{ section.settings.badge_text_color }};
+  --ccp-sale-bg:       {{ section.settings.sale_badge_bg }};
+  --ccp-sale-text:     {{ section.settings.sale_badge_text_color }};
+  --ccp-sold-bg:       {{ section.settings.soldout_badge_bg }};
+  --ccp-sold-text:     {{ section.settings.soldout_badge_text_color }};
+  --ccp-rating-color:  {{ section.settings.rating_color }};
+  --ccp-variant-bg:    {{ section.settings.variant_bg }};
+  --ccp-variant-text:  {{ section.settings.variant_text_color }};
+  --ccp-card-radius:   {{ section.settings.card_border_radius }}px;
+  --ccp-img-radius:    {{ section.settings.image_border_radius }}px;
+  --ccp-btn-radius:    {{ section.settings.btn_radius }}px;
+  --ccp-btn-height:    {{ section.settings.btn_height }}px;
+  --ccp-card-pad:      {{ section.settings.card_padding }}px;
+  --ccp-card-gap:      {{ section.settings.card_gap }}px;
+  --ccp-title-sz:      {{ section.settings.title_font_size }}px;
+  --ccp-price-sz:      {{ section.settings.price_font_size }}px;
+  --ccp-btn-sz:        {{ section.settings.btn_font_size }}px;
+  --ccp-variant-sz:    {{ section.settings.variant_font_size }}px;
+  --ccp-sidebar-w:     {{ section.settings.sidebar_width }}px;
+  --ccp-sidebar-bg:    {{ section.settings.sidebar_bg | default: '#ffffff' }};
+  --ccp-page-bg:       {{ section.settings.page_bg }};
+  --ccp-sidebar-hd-bg: {{ section.settings.sidebar_header_bg }};
+  --ccp-sidebar-hd-cl: {{ section.settings.sidebar_header_color }};
+  --ccp-filter-bd:     {{ section.settings.filter_border_color }};
+  --ccp-filter-txt:    {{ section.settings.filter_text_color }};
+  --ccp-filter-cb:     {{ section.settings.filter_checkbox_color }};
+  --ccp-filter-title-sz: {{ section.settings.filter_title_font_size }}px;
+  --ccp-filter-option-sz: {{ section.settings.filter_option_font_size }}px;
+  background: var(--ccp-page-bg);
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+}
+
+@media (max-width: 767px) {
+  #ccp-{{ section.id }} {
+    padding: {{ section.settings.padding_top_mobile }}px 0 {{ section.settings.padding_bottom_mobile }}px;
+  }
+}
+
+/* ── Wrapper ── */
+#ccp-{{ section.id }} .ccp-page {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ── Breadcrumb ── */
+#ccp-{{ section.id }} .ccp-breadcrumb {
+  padding: 12px 0 16px;
+  font-size: 13px;
+  color: {{ section.settings.breadcrumb_color }};
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+#ccp-{{ section.id }} .ccp-breadcrumb a { color: {{ section.settings.breadcrumb_color }}; text-decoration: none; }
+#ccp-{{ section.id }} .ccp-breadcrumb a:hover { text-decoration: underline; }
+
+/* ── Collection Banner ── */
+#ccp-{{ section.id }} .ccp-banner {
+  border-radius: {{ section.settings.banner_radius }}px;
+  background-size: cover; background-position: center;
+  min-height: {{ section.settings.banner_height }}px;
+  display: flex; align-items: flex-end; overflow: hidden;
+  margin-bottom: 20px; position: relative;
+}
+#ccp-{{ section.id }} .ccp-banner__overlay {
+  background: linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 100%);
+  padding: 24px; width: 100%;
+}
+#ccp-{{ section.id }} .ccp-banner__title {
+  font-size: {{ section.settings.banner_title_size }}px;
+  font-weight: 700; color: #fff; margin: 0 0 6px;
+}
+#ccp-{{ section.id }} .ccp-banner__desc { color: rgba(255,255,255,.85); font-size: 14px; }
+#ccp-{{ section.id }} .ccp-plain-title {
+  font-size: {{ section.settings.banner_title_size }}px;
+  font-weight: 700; color: var(--ccp-title-color); margin: 0 0 20px;
+}
+
+/* ── Mobile bar ── */
+#ccp-{{ section.id }} .ccp-mobile-bar {
+  display: none; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 10px 0; margin-bottom: 14px;
+  border-bottom: 1px solid var(--ccp-filter-bd);
+}
+#ccp-{{ section.id }} .ccp-filter-toggle-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--ccp-primary); color: var(--ccp-primary-text);
+  border: none; border-radius: 6px; padding: 9px 16px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+}
+#ccp-{{ section.id }} .ccp-active-pill {
+  background: {{ section.settings.sale_badge_bg }};
+  color: var(--ccp-sale-text); border-radius: 50%;
+  width: 18px; height: 18px; font-size: 11px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+#ccp-{{ section.id }} .ccp-mobile-sort { display: flex; align-items: center; gap: 6px; }
+
+/* ── Layout ── */
+#ccp-{{ section.id }} .ccp-layout { display: flex; gap: 24px; align-items: flex-start; }
+
+/* ======================================================
+   SIDEBAR
+   ====================================================== */
+#ccp-{{ section.id }} .ccp-sidebar {
+  width: var(--ccp-sidebar-w);
+  flex-shrink: 0;
+  border: 1px solid var(--ccp-filter-bd);
+  border-radius: 10px; overflow: hidden;
+  position: sticky; top: 80px;
+  max-height: calc(100vh - 100px); overflow-y: auto;
+  scrollbar-width: thin;
+  background: var(--ccp-sidebar-bg);
+}
+#ccp-{{ section.id }} .ccp-sidebar-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; background: var(--ccp-sidebar-hd-bg);
+  color: var(--ccp-sidebar-hd-cl); position: sticky; top: 0; z-index: 2;
+}
+#ccp-{{ section.id }} .ccp-sidebar-title { font-size: 14px; font-weight: 700; letter-spacing: .02em; }
+#ccp-{{ section.id }} .ccp-clear-all-btn {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.4);
+  color: var(--ccp-sidebar-hd-cl); font-size: 11px; padding: 3px 10px;
+  border-radius: 20px; cursor: pointer; display: none;
+}
+#ccp-{{ section.id }} .ccp-close-sidebar {
+  display: none; background: none; border: none;
+  color: var(--ccp-sidebar-hd-cl); font-size: 20px; cursor: pointer;
+}
+
+/* Filter groups */
+#ccp-{{ section.id }} .ccp-filter-group { border-bottom: 1px solid var(--ccp-filter-bd); }
+#ccp-{{ section.id }} .ccp-filter-group:last-child { border-bottom: none; }
+#ccp-{{ section.id }} .ccp-fg-header {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px; background: none; border: none;
+  font-size: var(--ccp-filter-title-sz); font-weight: 700; color: var(--ccp-filter-txt);
+  cursor: pointer; text-align: left;
+}
+#ccp-{{ section.id }} .ccp-fg-header:hover { background: rgba(0,0,0,.03); }
+#ccp-{{ section.id }} .active-collection-link { background: rgba(0,0,0,.03); }
+#ccp-{{ section.id }} .ccp-chevron { transition: transform .2s; }
+#ccp-{{ section.id }} .ccp-fg-header[aria-expanded="false"] .ccp-chevron { transform: rotate(-90deg); }
+#ccp-{{ section.id }} .ccp-fg-body { padding: 4px 16px 12px; }
+#ccp-{{ section.id }} .ccp-fg-body.ccp-closed { display: none; }
+
+/* Filter reset row */
+#ccp-{{ section.id }} .ccp-f-reset-row { display: flex; justify-content: flex-end; margin-bottom: 6px; }
+#ccp-{{ section.id }} .ccp-f-reset { font-size: 11px; color: {{ section.settings.filter_reset_color }}; text-decoration: underline; cursor: pointer; }
+
+/* Filter list */
+#ccp-{{ section.id }} .ccp-f-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+#ccp-{{ section.id }} .ccp-f-item {}
+#ccp-{{ section.id }} .ccp-f-item--disabled { opacity: .38; }
+#ccp-{{ section.id }} .ccp-f-label {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 4px; cursor: pointer; font-size: var(--ccp-filter-option-sz);
+  border-radius: 6px; transition: background .12s; color: var(--ccp-filter-txt);
+}
+#ccp-{{ section.id }} .ccp-f-label:hover { background: rgba(0,0,0,.04); }
+#ccp-{{ section.id }} .ccp-f-checkbox { display: none; }
+#ccp-{{ section.id }} .ccp-f-cb-custom {
+  width: 16px; height: 16px; border: 2px solid #d1d5db;
+  border-radius: 3px; flex-shrink: 0; display: inline-flex;
+  align-items: center; justify-content: center;
+  transition: all .15s; background: #fff;
+}
+#ccp-{{ section.id }} .ccp-f-checkbox:checked + .ccp-f-cb-custom {
+  background: var(--ccp-filter-cb); border-color: var(--ccp-filter-cb);
+}
+#ccp-{{ section.id }} .ccp-f-checkbox:checked + .ccp-f-cb-custom::after {
+  content: ''; width: 8px; height: 5px;
+  border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+  transform: rotate(-45deg) translateY(-1px);
+}
+#ccp-{{ section.id }} .ccp-f-count { color: #9ca3af; font-size: 12px; margin-left: auto; }
+#ccp-{{ section.id }} .ccp-color-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.12); flex-shrink: 0;
+}
+
+/* Price range */
+#ccp-{{ section.id }} .ccp-price-info { font-size: 12px; color: #6b7280; margin-bottom: 10px; }
+#ccp-{{ section.id }} .ccp-price-inputs { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+#ccp-{{ section.id }} .ccp-pi-wrap {
+  flex: 1; display: flex; align-items: center; gap: 4px;
+  border: 1px solid var(--ccp-filter-bd); border-radius: 6px; padding: 6px 8px;
+}
+#ccp-{{ section.id }} .ccp-currency { font-size: 12px; color: #6b7280; }
+#ccp-{{ section.id }} .ccp-pi {
+  border: none; outline: none; width: 100%; font-size: 13px;
+  color: var(--ccp-filter-txt); background: transparent;
+}
+#ccp-{{ section.id }} .ccp-pi-sep { color: #9ca3af; font-size: 12px; }
+#ccp-{{ section.id }} .ccp-slider-track {
+  position: relative; height: 4px;
+  background: var(--ccp-filter-bd); border-radius: 2px; margin: 4px 0 14px;
+}
+#ccp-{{ section.id }} .ccp-slider-fill {
+  position: absolute; height: 100%; background: var(--ccp-filter-cb); border-radius: 2px;
+}
+#ccp-{{ section.id }} .ccp-range-input {
+  position: absolute; width: 100%; height: 4px;
+  background: transparent; top: 0; pointer-events: none; -webkit-appearance: none;
+}
+#ccp-{{ section.id }} .ccp-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--ccp-filter-cb); border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2); cursor: pointer; pointer-events: all;
+}
+#ccp-{{ section.id }} .ccp-range-input::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--ccp-filter-cb); border: 2px solid #fff; cursor: pointer; pointer-events: all;
+}
+
+/* ======================================================
+   MAIN — toolbar, grid
+   ====================================================== */
+#ccp-{{ section.id }} .ccp-main { flex: 1; min-width: 0; }
+
+/* Toolbar */
+#ccp-{{ section.id }} .ccp-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap; margin-bottom: 16px;
+  padding-bottom: 14px; border-bottom: 1px solid var(--ccp-filter-bd);
+}
+#ccp-{{ section.id }} .ccp-prod-count { font-size: 13px; color: #6b7280; margin: 0; }
+#ccp-{{ section.id }} .ccp-active-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+#ccp-{{ section.id }} .ccp-active-tag {
+  background: var(--ccp-primary); color: var(--ccp-primary-text);
+  border: none; border-radius: 20px; padding: 3px 10px 3px 12px;
+  font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+}
+#ccp-{{ section.id }} .ccp-toolbar-right { display: flex; align-items: center; gap: 10px; }
+#ccp-{{ section.id }} .ccp-grid-toggle { display: flex; gap: 4px; }
+#ccp-{{ section.id }} .ccp-grid-btn {
+  width: 32px; height: 32px; border: 1px solid var(--ccp-filter-bd);
+  border-radius: 6px; background: #fff; color: #6b7280;
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+#ccp-{{ section.id }} .ccp-grid-btn:hover,
+#ccp-{{ section.id }} .ccp-grid-btn.active {
+  background: var(--ccp-primary); border-color: var(--ccp-primary);
+  color: var(--ccp-primary-text);
+}
+#ccp-{{ section.id }} .ccp-sort-wrap { display: flex; align-items: center; gap: 6px; }
+#ccp-{{ section.id }} .ccp-sort-label { font-size: 13px; color: #6b7280; white-space: nowrap; }
+#ccp-{{ section.id }} .ccp-sort-select {
+  border: 1px solid var(--ccp-filter-bd); border-radius: 6px;
+  padding: 7px 28px 7px 10px; font-size: 13px; color: var(--ccp-filter-txt);
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 8px center;
+  -webkit-appearance: none; cursor: pointer; outline: none;
+}
+
+/* ── PRODUCT GRID — EXACT match to homepage custom-product-grid ── */
+#ccp-{{ section.id }} .ccp-grid {
+  display: grid;
+  gap: var(--ccp-card-gap);
+}
+#ccp-{{ section.id }} .ccp-grid[data-cols="2"] { grid-template-columns: repeat(2, 1fr); }
+#ccp-{{ section.id }} .ccp-grid[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+#ccp-{{ section.id }} .ccp-grid[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
+
+/* ── Card — mirrors .cpg-card ── */
+#ccp-{{ section.id }} .ccp-card {
+  background: var(--ccp-card-bg);
+  border: 1px solid var(--ccp-card-border);
+  border-radius: var(--ccp-card-radius);
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: box-shadow .2s ease;
+}
+#ccp-{{ section.id }} .ccp-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.10); }
+
+/* Image wrap — mirrors .cpg-img-wrap */
+#ccp-{{ section.id }} .ccp-img-wrap {
+  position: relative; overflow: hidden;
+  width: 100%; display: block; cursor: pointer;
+}
+{%- if section.settings.image_ratio == 'square' -%}
+  #ccp-{{ section.id }} .ccp-img-wrap { padding-top: 100%; }
+{%- elsif section.settings.image_ratio == 'portrait' -%}
+  #ccp-{{ section.id }} .ccp-img-wrap { padding-top: 120%; }
+{%- else -%}
+  #ccp-{{ section.id }} .ccp-img-wrap { padding-top: 75%; }
+{%- endif -%}
+
+#ccp-{{ section.id }} .ccp-img-wrap img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: var(--ccp-img-radius) var(--ccp-img-radius) 0 0;
+  transition: transform .3s ease, opacity .3s ease;
+}
+#ccp-{{ section.id }} .ccp-img-primary { opacity: 1; z-index: 1; }
+#ccp-{{ section.id }} .ccp-img-hover   { opacity: 0; z-index: 2; }
+#ccp-{{ section.id }} .ccp-card:hover .ccp-img-hover  { opacity: 1; }
+#ccp-{{ section.id }} .ccp-card:hover .ccp-img-primary { opacity: 0; }
+#ccp-{{ section.id }} .ccp-card:hover .ccp-img-wrap img { transform: scale(1.03); }
+
+/* Badges — mirrors .cpg-badge-overlay */
+#ccp-{{ section.id }} .ccp-badge-overlay {
+  position: absolute; top: 10px; left: 10px;
+  display: flex; flex-direction: column; gap: 4px; z-index: 3; pointer-events: none;
+}
+#ccp-{{ section.id }} .ccp-badge-sale,
+#ccp-{{ section.id }} .ccp-badge-soldout {
+  display: inline-block; padding: 3px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+#ccp-{{ section.id }} .ccp-badge-sale    { background: var(--ccp-sale-bg); color: var(--ccp-sale-text); }
+#ccp-{{ section.id }} .ccp-badge-soldout { background: var(--ccp-sold-bg); color: var(--ccp-sold-text); }
+
+/* Card body — mirrors .cpg-body */
+#ccp-{{ section.id }} .ccp-body {
+  padding: var(--ccp-card-pad);
+  display: flex; flex-direction: column; flex: 1;
+}
+
+/* Title — mirrors .cpg-title */
+#ccp-{{ section.id }} .ccp-title {
+  font-size: var(--ccp-title-sz); color: var(--ccp-title-color);
+  font-weight: 600; margin: 0 0 8px; line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+#ccp-{{ section.id }} .ccp-title a { color: inherit; text-decoration: none; }
+
+/* Rating — mirrors .cpg-rating */
+#ccp-{{ section.id }} .ccp-rating {
+  display: flex; align-items: center; gap: 5px; margin-bottom: 8px;
+  font-size: 13px; color: var(--ccp-rating-color);
+}
+#ccp-{{ section.id }} .ccp-rating .star { font-size: 14px; }
+#ccp-{{ section.id }} .ccp-rating .rcount { color: #555; font-size: 12px; }
+
+/* Tags — mirrors .cpg-tags */
+#ccp-{{ section.id }} .ccp-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+#ccp-{{ section.id }} .ccp-tag {
+  background: var(--ccp-badge-bg); color: var(--ccp-badge-text);
+  padding: 3px 9px; border-radius: 20px; font-size: 11px;
+  font-weight: 500; white-space: nowrap;
+}
+
+/* Bottom section — mirrors .cpg-bottom */
+#ccp-{{ section.id }} .ccp-bottom {
+  margin-top: auto; display: flex; flex-direction: column; gap: 8px;
+}
+
+/* Variant select — mirrors .cpg-variant-select */
+#ccp-{{ section.id }} .ccp-variant-select {
+  width: 100%; padding: 8px 32px 8px 10px;
+  border: 1px solid #ddd; border-radius: 6px;
+  background: var(--ccp-variant-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+  -webkit-appearance: none; appearance: none;
+  font-size: var(--ccp-variant-sz); color: var(--ccp-variant-text);
+  cursor: pointer; font-family: inherit;
+}
+#ccp-{{ section.id }} .ccp-variant-select:focus { outline: 2px solid var(--ccp-primary); outline-offset: 1px; }
+
+/* Price — mirrors .cpg-price-wrap */
+#ccp-{{ section.id }} .ccp-price-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+#ccp-{{ section.id }} .ccp-price { font-size: var(--ccp-price-sz); color: var(--ccp-price-color); font-weight: 700; }
+#ccp-{{ section.id }} .ccp-compare { font-size: calc(var(--ccp-price-sz) - 2px); color: var(--ccp-compare-color); text-decoration: line-through; font-weight: 400; }
+
+/* Error msg */
+#ccp-{{ section.id }} .ccp-error-msg { color: #c62828; font-size: 12px; text-align: center; min-height: 16px; }
+
+/* ATC button — mirrors .cpg-atc-btn */
+#ccp-{{ section.id }} .ccp-atc-btn {
+  width: 100%; height: var(--ccp-btn-height);
+  background: var(--ccp-primary); color: var(--ccp-primary-text);
+  border: none; border-radius: var(--ccp-btn-radius);
+  font-size: var(--ccp-btn-sz); font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; cursor: pointer;
+  transition: background .2s, color .2s, opacity .2s;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; font-family: inherit; text-decoration: none;
+}
+#ccp-{{ section.id }} .ccp-atc-btn:hover:not(:disabled) {
+  background: var(--ccp-primary-hover); color: var(--ccp-hover-text);
+}
+#ccp-{{ section.id }} .ccp-atc-btn:disabled { opacity: .7; cursor: not-allowed; }
+#ccp-{{ section.id }} .ccp-atc-btn.loading { opacity: .8; }
+#ccp-{{ section.id }} .ccp-atc-btn.success { background: #2e7d32; color: #fff; }
+#ccp-{{ section.id }} .ccp-atc-btn.soldout-btn { background: #aaa; cursor: not-allowed; }
+#ccp-{{ section.id }} .ccp-atc-btn.soldout-btn:hover { background: #aaa; }
+
+/* No products */
+#ccp-{{ section.id }} .ccp-no-products {
+  grid-column: 1 / -1; text-align: center; padding: 60px 20px;
+}
+#ccp-{{ section.id }} .ccp-no-products p { color: #888; margin-bottom: 16px; }
+
+/* Pagination */
+#ccp-{{ section.id }} .ccp-pagination {
+  grid-column: 1 / -1; padding: 24px 0 0;
+  display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;
+}
+#ccp-{{ section.id }} .ccp-pagination a,
+#ccp-{{ section.id }} .ccp-pagination span {
+  min-width: 36px; height: 36px; display: inline-flex;
+  align-items: center; justify-content: center;
+  border: 1px solid var(--ccp-filter-bd); border-radius: 6px;
+  font-size: 13px; text-decoration: none; color: var(--ccp-filter-txt); padding: 0 10px;
+  transition: all .15s;
+}
+#ccp-{{ section.id }} .ccp-pagination a:hover { border-color: var(--ccp-primary); color: var(--ccp-primary); }
+#ccp-{{ section.id }} .ccp-pagination .current { background: var(--ccp-primary); border-color: var(--ccp-primary); color: var(--ccp-primary-text); }
+
+/* Overlay */
+#ccp-{{ section.id }} .ccp-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.45); z-index: 900;
+}
+#ccp-{{ section.id }} .ccp-overlay.open { display: block; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 767px) {
+  #ccp-{{ section.id }} .ccp-mobile-bar { display: flex; }
+  #ccp-{{ section.id }} .ccp-layout { display: block; }
+  #ccp-{{ section.id }} .ccp-sort-wrap { display: none; }
+
+  /* Sidebar becomes off-canvas */
+  #ccp-{{ section.id }} .ccp-sidebar {
+    position: fixed; top: 0; left: -100%;
+    width: min(85vw, 320px); height: 100vh; max-height: 100vh;
+    z-index: 1000; border-radius: 0; border: none;
+    transition: left .28s ease; overflow-y: auto;
+  }
+  #ccp-{{ section.id }} .ccp-sidebar.open { left: 0; }
+  #ccp-{{ section.id }} .ccp-close-sidebar { display: block !important; }
+
+  #ccp-{{ section.id }} .ccp-grid[data-cols="2"],
+  #ccp-{{ section.id }} .ccp-grid[data-cols="3"],
+  #ccp-{{ section.id }} .ccp-grid[data-cols="4"] { grid-template-columns: repeat(2, 1fr); }
+  #ccp-{{ section.id }} .ccp-grid { gap: 10px; }
+  #ccp-{{ section.id }} .ccp-body { padding: 10px; }
+  #ccp-{{ section.id }} .ccp-title { font-size: {{ section.settings.title_font_size_mobile }}px; }
+  #ccp-{{ section.id }} .ccp-atc-btn { font-size: 12px; height: 40px; }
+  #ccp-{{ section.id }} .ccp-variant-select { font-size: 12px; }
+  #ccp-{{ section.id }} .ccp-tag { font-size: 10px; padding: 2px 7px; }
+}
+
+@media (max-width: 480px) {
+  #ccp-{{ section.id }} .ccp-grid[data-cols="2"],
+  #ccp-{{ section.id }} .ccp-grid[data-cols="3"],
+  #ccp-{{ section.id }} .ccp-grid[data-cols="4"] { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 360px) {
+  #ccp-{{ section.id }} .ccp-grid[data-cols="2"],
+  #ccp-{{ section.id }} .ccp-grid[data-cols="3"],
+  #ccp-{{ section.id }} .ccp-grid[data-cols="4"] { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  #ccp-{{ section.id }} .ccp-grid[data-cols="3"] { grid-template-columns: repeat(2, 1fr); }
+  #ccp-{{ section.id }} .ccp-grid[data-cols="4"] { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+<div id="ccp-{{ section.id }}" class="ccp-section" data-currency="{{ cart.currency.symbol }}">
+  <div class="ccp-page">
+
+    {%- comment -%} Breadcrumb {%- endcomment -%}
+    {% if section.settings.show_breadcrumb %}
+    <nav class="ccp-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">{{ section.settings.breadcrumb_home | default: 'Home' }}</a>
+      <span aria-hidden="true">{{ section.settings.breadcrumb_sep | default: '/' }}</span>
+      <span aria-current="page">{{ collection.title }}</span>
+    </nav>
+    {% endif %}
+
+    {%- comment -%} Collection Banner {%- endcomment -%}
+    {% if section.settings.show_collection_banner %}
+      {% if section.settings.show_collection_image and collection.image %}
+        <div class="ccp-banner" style="background-image:url('{{ collection.image | image_url: width: 1400 }}');" role="img" aria-label="{{ collection.title }}">
+          <div class="ccp-banner__overlay">
+            <h1 class="ccp-banner__title">{{ collection.title }}</h1>
+            {% if section.settings.show_collection_desc and collection.description != blank %}
+              <p class="ccp-banner__desc">{{ collection.description | strip_html | truncate: 160 }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% else %}
+        <h1 class="ccp-plain-title">{{ collection.title }}</h1>
+        {% if section.settings.show_collection_desc and collection.description != blank %}
+          <p style="color:#666;margin-bottom:16px;">{{ collection.description | strip_html | truncate: 200 }}</p>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+
+    {%- comment -%} Mobile bar {%- endcomment -%}
+    <div class="ccp-mobile-bar">
+      <button class="ccp-filter-toggle-btn" id="ccpFilterOpen" aria-expanded="false" aria-controls="ccpSidebar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        {{ section.settings.filter_btn_label | default: 'Filters' }}
+        <span class="ccp-active-pill" id="ccpActivePill" style="display:none;" aria-hidden="true"></span>
+      </button>
+      <div class="ccp-mobile-sort">
+        <select class="ccp-sort-select" onchange="window['CCPc_{{ section.id }}'].doSort(this.value)">
+          {% for opt in collection.sort_options %}
+            <option value="{{ opt.value }}" {% if opt.value == sort_by %}selected{% endif %}>{{ opt.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="ccp-layout">
+
+      {%- comment -%} ===== SIDEBAR ===== {%- endcomment -%}
+      <aside class="ccp-sidebar" id="ccpSidebar" aria-label="Product filters">
+        <div class="ccp-sidebar-hd">
+          <span class="ccp-sidebar-title">{{ section.settings.sidebar_title | default: 'Product Categories' }}</span>
+          <button class="ccp-clear-all-btn" id="ccpClearAll" onclick="window['CCPc_{{ section.id }}'].clearAll()">
+            {{ section.settings.clear_all_label | default: 'Clear All' }}
+          </button>
+          <button class="ccp-close-sidebar" id="ccpSidebarClose" aria-label="Close filters">✕</button>
+        </div>
+
+        <div class="ccp-sidebar-body">
+
+          {%- comment -%} 1. Price Filter (Native Storefront Price Filter) {%- endcomment -%}
+          {%- for filter in collection.filters -%}
+            {%- if filter.type == 'price_range' -%}
+              {%- assign fid = filter.label | handleize -%}
+              <div class="ccp-filter-group">
+                <button class="ccp-fg-header" aria-expanded="true"
+                  aria-controls="ccpFgBody-{{ fid }}"
+                  onclick="window['CCPc_{{ section.id }}'].toggleGroup('{{ fid }}')"
+                >
+                  <span>{{ filter.label }}</span>
+                  <svg class="ccp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="ccp-fg-body" id="ccpFgBody-{{ fid }}">
+                  <p class="ccp-price-info">
+                    {{ section.settings.price_info_label | default: 'Highest price:' }}
+                    <strong>{{ filter.range_max | money }}</strong>
+                  </p>
+                  <div class="ccp-price-inputs">
+                    <div class="ccp-pi-wrap">
+                      <span class="ccp-currency">{{ cart.currency.symbol }}</span>
+                      <input type="number" class="ccp-pi" id="prMin-{{ fid }}"
+                        name="{{ filter.min_value.param_name }}"
+                        placeholder="{{ section.settings.price_from_label | default: 'From' }}"
+                        min="0" max="{{ filter.range_max | divided_by: 100 }}"
+                        value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | remove: ',' }}{% endif %}"
+                        onchange="window['CCPc_{{ section.id }}'].applyFilters()"
+                      >
+                    </div>
+                    <span class="ccp-pi-sep">—</span>
+                    <div class="ccp-pi-wrap">
+                      <span class="ccp-currency">{{ cart.currency.symbol }}</span>
+                      <input type="number" class="ccp-pi" id="prMax-{{ fid }}"
+                        name="{{ filter.max_value.param_name }}"
+                        placeholder="{{ section.settings.price_to_label | default: 'To' }}"
+                        min="0" max="{{ filter.range_max | divided_by: 100 }}"
+                        value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | remove: ',' }}{% endif %}"
+                        onchange="window['CCPc_{{ section.id }}'].applyFilters()"
+                      >
+                    </div>
+                  </div>
+                  <div class="ccp-slider-track" id="sliderTrack-{{ fid }}">
+                    <div class="ccp-slider-fill" id="sliderFill-{{ fid }}"></div>
+                    <input type="range" class="ccp-range-input"
+                      min="0" max="{{ filter.range_max | divided_by: 100 }}"
+                      value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | remove: ',' }}{% else %}0{% endif %}"
+                      oninput="window['CCPc_{{ section.id }}'].syncSlider(this,'min','{{ fid }}')"
+                      onchange="window['CCPc_{{ section.id }}'].applyFilters()"
+                    >
+                    <input type="range" class="ccp-range-input"
+                      min="0" max="{{ filter.range_max | divided_by: 100 }}"
+                      value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | remove: ',' }}{% else %}{{ filter.range_max | divided_by: 100 }}{% endif %}"
+                      oninput="window['CCPc_{{ section.id }}'].syncSlider(this,'max','{{ fid }}')"
+                      onchange="window['CCPc_{{ section.id }}'].applyFilters()"
+                    >
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- comment -%} 2. Collection wise Filter {%- endcomment -%}
+          {%- if section.settings.collection_menu != blank -%}
+            <div class="ccp-filter-group">
+              <button class="ccp-fg-header" aria-expanded="true"
+                aria-controls="ccpFgBody-collections"
+                onclick="window['CCPc_{{ section.id }}'].toggleGroup('collections')"
+              >
+                <span>Collections</span>
+                <svg class="ccp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="ccp-fg-body" id="ccpFgBody-collections">
+                <ul class="ccp-f-list">
+                  {%- for link in linklists[section.settings.collection_menu].links -%}
+                    {%- if link.type == 'collection_link' or link.type == 'catalog_link' -%}
+                      <li class="ccp-f-item">
+                        <label class="ccp-f-label {% if link.active %}active-collection-link{% endif %}" onclick="window.location.href='{{ link.url }}'">
+                          <span class="ccp-f-cb-custom" aria-hidden="true" style="border-radius:50%; {% if link.active %}background:var(--ccp-filter-cb); border-color:var(--ccp-filter-cb);{% endif %}"></span>
+                          <span style="{% if link.active %}font-weight:700; color:var(--ccp-filter-cb);{% endif %}">{{ link.title }}</span>
+                        </label>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} 3. Product metafields wise filter {%- endcomment -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'custom_filter' -%}
+              <div class="ccp-filter-group" {{ block.shopify_attributes }}>
+                <button class="ccp-fg-header" aria-expanded="true"
+                  aria-controls="ccpFgBody-custom-{{ block.id }}"
+                  onclick="window['CCPc_{{ section.id }}'].toggleGroup('custom-{{ block.id }}')"
+                >
+                  <span>{{ block.settings.filter_label }}</span>
+                  <svg class="ccp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="ccp-fg-body" id="ccpFgBody-custom-{{ block.id }}">
+                  {%- assign opts = block.settings.filter_options | split: ',' -%}
+                  <ul class="ccp-f-list">
+                    {%- for opt in opts -%}
+                      {%- assign oc = opt | strip -%}
+                      <li class="ccp-f-item">
+                        <label class="ccp-f-label">
+                          <input type="checkbox" class="ccp-f-checkbox"
+                            name="filter.p.m.{{ block.settings.metafield_key }}"
+                            value="{{ oc }}"
+                            onchange="window['CCPc_{{ section.id }}'].applyFilters()"
+                          >
+                          <span class="ccp-f-cb-custom" aria-hidden="true"></span>
+                          <span>{{ oc }}</span>
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+        </div>
+      </aside>
+
+      {%- comment -%} ===== MAIN CONTENT ===== {%- endcomment -%}
+      <main class="ccp-main" id="ccpMain">
+
+        {%- comment -%} Toolbar {%- endcomment -%}
+        <div class="ccp-toolbar" role="toolbar" aria-label="Collection filters and sorting">
+          <div>
+            {% if section.settings.show_product_count %}
+              <p class="ccp-prod-count">{{ collection.products_count }} {{ section.settings.products_label | default: 'products' }}</p>
+            {% endif %}
+            <div class="ccp-active-tags" id="ccpActiveTags" aria-live="polite"></div>
+          </div>
+          <div class="ccp-toolbar-right">
+            {% if section.settings.show_grid_toggle %}
+            <div class="ccp-grid-toggle" role="group" aria-label="Grid layout">
+              <button class="ccp-grid-btn {% if section.settings.default_columns == '2' %}active{% endif %}" data-cols="2" onclick="window['CCPc_{{ section.id }}'].setGrid(2,this)" aria-label="2 columns">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 14 14" aria-hidden="true"><rect x="0" y="0" width="6" height="6"/><rect x="8" y="0" width="6" height="6"/><rect x="0" y="8" width="6" height="6"/><rect x="8" y="8" width="6" height="6"/></svg>
+              </button>
+              <button class="ccp-grid-btn {% if section.settings.default_columns == '3' %}active{% endif %}" data-cols="3" onclick="window['CCPc_{{ section.id }}'].setGrid(3,this)" aria-label="3 columns">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 18 14" aria-hidden="true"><rect x="0" y="0" width="4" height="6"/><rect x="7" y="0" width="4" height="6"/><rect x="14" y="0" width="4" height="6"/><rect x="0" y="8" width="4" height="6"/><rect x="7" y="8" width="4" height="6"/><rect x="14" y="8" width="4" height="6"/></svg>
+              </button>
+              {% if section.settings.show_4col_toggle %}
+              <button class="ccp-grid-btn {% if section.settings.default_columns == '4' %}active{% endif %}" data-cols="4" onclick="window['CCPc_{{ section.id }}'].setGrid(4,this)" aria-label="4 columns">
+                <svg width="16" height="14" fill="currentColor" viewBox="0 0 22 14" aria-hidden="true"><rect x="0" y="0" width="4" height="6"/><rect x="6" y="0" width="4" height="6"/><rect x="12" y="0" width="4" height="6"/><rect x="18" y="0" width="4" height="6"/><rect x="0" y="8" width="4" height="6"/><rect x="6" y="8" width="4" height="6"/><rect x="12" y="8" width="4" height="6"/><rect x="18" y="8" width="4" height="6"/></svg>
+              </button>
+              {% endif %}
+            </div>
+            {% endif %}
+            <div class="ccp-sort-wrap">
+              <label class="ccp-sort-label" for="ccpSort">{{ section.settings.sort_label | default: 'Sort by' }}:</label>
+              <select class="ccp-sort-select" id="ccpSort" onchange="window['CCPc_{{ section.id }}'].doSort(this.value)">
+                {% for opt in collection.sort_options %}
+                  <option value="{{ opt.value }}" {% if opt.value == sort_by %}selected{% endif %}>{{ opt.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%} Product Grid {%- endcomment -%}
+        {%- paginate collection.products by products_per_page -%}
+
+        <div class="ccp-grid" id="ccpGrid" data-cols="{{ section.settings.default_columns }}" role="list">
+
+          {%- for product in collection.products -%}
+            {%- liquid
+              assign current_variant = product.selected_or_first_available_variant
+              assign has_variants = false
+              if product.variants.size > 1
+                assign has_variants = true
+              endif
+              assign is_sold_out = false
+              unless product.available
+                assign is_sold_out = true
+              endunless
+              assign is_bestseller = false
+              assign p_title = product.title | downcase | strip
+              assign p_handle = product.handle | downcase | strip
+              if p_title contains 'gor keri' or p_handle contains 'gor-keri' or p_title contains 'gunda keri' or p_handle contains 'gunda-keri'
+                assign is_bestseller = true
+              endif
+              assign product_url = product.url | within: collection
+            -%}
+
+            {%- capture mf_data -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'custom_filter' -%}
+                  {%- assign parts = block.settings.metafield_key | split: '.' -%}
+                  {%- assign ns = parts[0] -%}
+                  {%- assign key = parts[1] -%}
+                  {%- assign mf = product.metafields[ns][key] -%}
+                  {%- if mf != blank -%}
+                    data-mf-{{ block.settings.metafield_key | replace: '.', '-' }}="{%- if mf.value.first != blank -%}{%- for val in mf.value -%}{{ val | escape | downcase }}{% unless forloop.last %}|{% endunless %}{%- endfor -%}{%- else -%}{{ mf.value | escape | downcase }}{%- endif -%}"
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+
+            <div class="ccp-card" role="listitem"
+              data-product-id="{{ product.id }}"
+              data-index="{{ forloop.index }}"
+              data-original-index="{{ forloop.index }}"
+              data-price="{{ current_variant.price | divided_by: 100.0 }}"
+              data-compare-price="{% if current_variant.compare_at_price %}{{ current_variant.compare_at_price | divided_by: 100.0 }}{% else %}0{% endif %}"
+              data-title="{{ product.title | escape }}"
+              data-created-at="{{ product.created_at | date: '%s' }}"
+              data-available="{{ product.available }}"
+              {{ mf_data }}
+            >
+
+              {%- comment -%} Image {%- endcomment -%}
+              <a href="{{ product_url }}" class="ccp-img-wrap" aria-label="{{ product.title | escape }}">
+                 {%- if product.featured_image -%}
+                   <img class="ccp-img-primary"
+                     src="{{ product.featured_image | image_url: width: 360 }}"
+                     srcset="{{ product.featured_image | image_url: width: 360 }} 360w, {{ product.featured_image | image_url: width: 600 }} 600w"
+                     sizes="(max-width: 576px) 180px, 300px"
+                     alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                     loading="lazy" width="300" height="300">
+                   {%- if product.images.size > 1 -%}
+                     <img class="ccp-img-hover"
+                       src="{{ product.images[1] | image_url: width: 360 }}"
+                       srcset="{{ product.images[1] | image_url: width: 360 }} 360w, {{ product.images[1] | image_url: width: 600 }} 600w"
+                       sizes="(max-width: 576px) 180px, 300px"
+                       alt="{{ product.images[1].alt | default: product.title | escape }}"
+                       loading="lazy" width="300" height="300">
+                   {%- endif -%}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'ccp-img-primary' }}
+                {%- endif -%}
+                <div class="ccp-badge-overlay">
+                  {%- if is_sold_out -%}
+                    <span class="ccp-badge-soldout">{{ section.settings.soldout_badge_text | default: 'Sold Out' }}</span>
+                  {%- elsif is_bestseller -%}
+                    <span class="ccp-badge-sale ccp-badge-bestseller">Best Seller</span>
+                  {%- endif -%}
+                </div>
+              </a>
+
+              {%- comment -%} Card Body {%- endcomment -%}
+              <div class="ccp-body">
+
+                {%- comment -%} Title {%- endcomment -%}
+                <h3 class="ccp-title">
+                  <a href="{{ product_url }}">{{ product.title }}</a>
+                </h3>
+
+                {%- comment -%} Rating metafields {%- endcomment -%}
+                {%- liquid
+                  assign rv = product.metafields.reviews.rating.value
+                  assign rc = product.metafields.reviews.rating_count.value
+                -%}
+                {%- if rv != blank and rc != blank -%}
+                  <div class="ccp-rating" aria-label="Rated {{ rv }} out of 5, {{ rc }} reviews">
+                    <span class="star" aria-hidden="true">★</span>
+                    <span>{{ rv }}</span>
+                    <span class="rcount">| {{ rc }} Reviews</span>
+                  </div>
+                {%- endif -%}
+
+                <!-- Feature Tags from product metafield or tags -->
+                {%- liquid
+                  assign badge_rendered = false
+                  assign has_metafield_badges = false
+                  assign badge_values = ""
+                  
+                  if section.settings.badge_metafield_key_1 != blank
+                    assign parts1 = section.settings.badge_metafield_key_1 | split: '.'
+                    assign ns1 = parts1[0]
+                    assign key1 = parts1[1]
+                    assign metafield1 = product.metafields[ns1][key1]
+                    if metafield1 != blank
+                      if metafield1.value.first != blank or metafield1.value.size > 0
+                        for val in metafield1.value
+                          assign badge_values = badge_values | append: val | append: '|'
+                        endfor
+                      else
+                        assign badge_values = badge_values | append: metafield1.value | append: '|'
+                      endif
+                      assign has_metafield_badges = true
+                    endif
+                  endif
+                  
+                  if section.settings.badge_metafield_key_2 != blank
+                    assign parts2 = section.settings.badge_metafield_key_2 | split: '.'
+                    assign ns2 = parts2[0]
+                    assign key2 = parts2[1]
+                    assign metafield2 = product.metafields[ns2][key2]
+                    if metafield2 != blank
+                      if metafield2.value.first != blank or metafield2.value.size > 0
+                        for val in metafield2.value
+                          assign badge_values = badge_values | append: val | append: '|'
+                        endfor
+                      else
+                        assign badge_values = badge_values | append: metafield2.value | append: '|'
+                      endif
+                      assign has_metafield_badges = true
+                    endif
+                  endif
+                  
+                  if section.settings.badge_metafield_key_3 != blank
+                    assign parts3 = section.settings.badge_metafield_key_3 | split: '.'
+                    assign ns3 = parts3[0]
+                    assign key3 = parts3[1]
+                    assign metafield3 = product.metafields[ns3][key3]
+                    if metafield3 != blank
+                      if metafield3.value.first != blank or metafield3.value.size > 0
+                        for val in metafield3.value
+                          assign badge_values = badge_values | append: val | append: '|'
+                        endfor
+                      else
+                        assign badge_values = badge_values | append: metafield3.value | append: '|'
+                      endif
+                      assign has_metafield_badges = true
+                    endif
+                  endif
+                  
+                  if section.settings.badge_metafield_key_4 != blank
+                    assign parts4 = section.settings.badge_metafield_key_4 | split: '.'
+                    assign ns4 = parts4[0]
+                    assign key4 = parts4[1]
+                    assign metafield4 = product.metafields[ns4][key4]
+                    if metafield4 != blank
+                      if metafield4.value.first != blank or metafield4.value.size > 0
+                        for val in metafield4.value
+                          assign badge_values = badge_values | append: val | append: '|'
+                        endfor
+                      else
+                        assign badge_values = badge_values | append: metafield4.value | append: '|'
+                      endif
+                      assign has_metafield_badges = true
+                    endif
+                  endif
+                  
+                  if section.settings.badge_metafield_key_5 != blank
+                    assign parts5 = section.settings.badge_metafield_key_5 | split: '.'
+                    assign ns5 = parts5[0]
+                    assign key5 = parts5[1]
+                    assign metafield5 = product.metafields[ns5][key5]
+                    if metafield5 != blank
+                      if metafield5.value.first != blank or metafield5.value.size > 0
+                        for val in metafield5.value
+                          assign badge_values = badge_values | append: val | append: '|'
+                        endfor
+                      else
+                        assign badge_values = badge_values | append: metafield5.value | append: '|'
+                      endif
+                      assign has_metafield_badges = true
+                    endif
+                  endif
+                -%}
+                
+                {%- if has_metafield_badges -%}
+                  <div class="ccp-tags" aria-label="Product features">
+                    {%- assign badge_arr = badge_values | split: '|' | uniq -%}
+                    {%- for badge_val in badge_arr -%}
+                      {%- if badge_val != '' -%}
+                        <span class="ccp-tag">{{ badge_val }}</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  {%- assign badge_rendered = true -%}
+                {%- endif -%}
+
+                {%- unless badge_rendered -%}
+                  <!-- Fallback to feature: tags or plain tags if no metafield specified or found -->
+                  {%- assign filtered_tags = '' -%}
+                  {%- for tag in product.tags -%}
+                    {%- if tag contains 'feature:' -%}
+                      {%- assign tag_label = tag | remove: 'feature:' | strip -%}
+                      {%- assign filtered_tags = filtered_tags | append: tag_label | append: '|' -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  {%- if filtered_tags != '' -%}
+                    <div class="ccp-tags" aria-label="Product features">
+                      {%- assign tag_arr = filtered_tags | split: '|' -%}
+                      {%- for tag_label in tag_arr -%}
+                        {%- if tag_label != '' -%}
+                          <span class="ccp-tag">{{ tag_label }}</span>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    {%- if product.tags.size > 0 -%}
+                      <div class="ccp-tags" aria-label="Product tags">
+                        {%- for tag in product.tags limit: 3 -%}
+                          <span class="ccp-tag">{{ tag }}</span>
+                        {%- endfor -%}
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endunless -%}
+
+                {%- comment -%} Bottom: variant + price + ATC {%- endcomment -%}
+                <div class="ccp-bottom">
+
+                  {%- if has_variants -%}
+                    <select class="ccp-variant-select"
+                      aria-label="Select variant for {{ product.title | escape }}"
+                      data-product-handle="{{ product.handle }}"
+                      data-product-id="{{ product.id }}"
+                    >
+                      {%- for variant in product.variants -%}
+                        <option value="{{ variant.id }}"
+                          data-price="{{ variant.price }}"
+                          data-compare-price="{{ variant.compare_at_price }}"
+                          data-available="{{ variant.available }}"
+                          {%- if variant == current_variant %} selected{%- endif -%}
+                        >
+                          {{ variant.title }} - {{ variant.price | money }}
+                          {%- if variant.compare_at_price > variant.price %} (MRP {{ variant.compare_at_price | money }}){%- endif -%}
+                          {%- unless variant.available %} – Sold Out{%- endunless -%}
+                        </option>
+                      {%- endfor -%}
+                    </select>
+                  {%- endif -%}
+
+                  <div class="ccp-price-wrap">
+                    <span class="ccp-price" data-price-display data-raw-price="{{ current_variant.price }}"></span>
+                    <span class="ccp-compare" data-compare-display data-raw-compare="{{ current_variant.compare_at_price }}"
+                      {%- unless current_variant.compare_at_price > current_variant.price %} style="display:none;"{%- endunless -%}
+                    ></span>
+                  </div>
+
+                  <div class="ccp-error-msg" role="alert" aria-live="polite" data-error-msg></div>
+
+                  {%- if is_sold_out -%}
+                    <button class="ccp-atc-btn soldout-btn" disabled>{{ section.settings.soldout_badge_text | default: 'Sold Out' }}</button>
+                  {%- else -%}
+                    <button class="ccp-atc-btn" data-atc-btn
+                      data-variant-id="{{ current_variant.id }}"
+                      aria-label="Add {{ product.title | escape }} to cart"
+                    >{{ section.settings.atc_label | default: 'Add to Cart' }}</button>
+                  {%- endif -%}
+
+                </div>
+              </div>
+            </div>
+
+          {%- else -%}
+            <div class="ccp-no-products">
+              <p>{{ section.settings.no_products_text | default: 'No products found.' }}</p>
+              <a href="{{ collection.url }}" class="ccp-atc-btn" style="display:inline-flex;width:auto;padding:0 24px;">
+                {{ section.settings.clear_all_label | default: 'Clear Filters' }}
+              </a>
+            </div>
+          {%- endfor -%}
+
+          <div class="ccp-no-products ccp-no-products-fallback" style="display:none;">
+            <p>{{ section.settings.no_products_text | default: 'No products found.' }}</p>
+            <button type="button" class="ccp-atc-btn" style="display:inline-flex;width:auto;padding:0 24px;" onclick="window['CCPc_{{ section.id }}'].clearAll()">
+              {{ section.settings.clear_all_label | default: 'Clear Filters' }}
+            </button>
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="ccp-pagination" aria-label="Pagination">
+              {{ paginate | default_pagination }}
+            </nav>
+          {%- endif -%}
+
+        </div>{%- comment -%} /grid {%- endcomment -%}
+
+        {%- endpaginate -%}
+
+      </main>
+    </div>
+
+  {%- comment -%} Mobile overlay {%- endcomment -%}
+  <div class="ccp-overlay" id="ccpOverlay" onclick="window['CCPc_{{ section.id }}'].closeSidebar()" aria-hidden="true"></div>
+
+  <!-- Collection SEO Description & FAQ Section Wrapper -->
+  <div class="dp-collection-seo-wrapper" style="max-width: 1320px; margin: 48px auto 32px auto; padding: 36px 32px; background: #fdf6ed; border: 1px solid #e8d5c0; border-radius: 20px; color: #3d1f0f; box-shadow: 0 4px 16px rgba(61,31,15,0.04); box-sizing: border-box;">
+    <style>
+      .dp-collection-seo-content h2 { color: #b01215; font-size: 24px; font-weight: 800; margin-top: 24px; margin-bottom: 12px; line-height: 1.3; }
+      .dp-collection-seo-content h2:first-child { margin-top: 0; }
+      .dp-collection-seo-content h3 { color: #3d1f0f; font-size: 18px; font-weight: 700; margin-top: 20px; margin-bottom: 10px; line-height: 1.4; }
+      .dp-collection-seo-content p { color: #45474f; font-size: 15px; line-height: 1.7; margin-bottom: 14px; }
+      .dp-collection-seo-content ul, .dp-collection-seo-content ol { padding-left: 22px; margin-bottom: 16px; }
+      .dp-collection-seo-content li { color: #45474f; font-size: 15px; line-height: 1.7; margin-bottom: 8px; }
+      .dp-collection-seo-content a { color: #b01215; font-weight: bold; text-decoration: underline; }
+    </style>
+
+    {% if collection.description != blank %}
+      <!-- 1. Description Added in Shopify Admin (Renders BEFORE FAQ) -->
+      <div class="dp-collection-seo-content" style="margin-bottom: 32px;">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+
+    {%- comment -%} 2. DYNAMIC COLLECTION FAQ ENGINE (Tailored per collection title/handle) {%- endcomment -%}
+    {% assign c_handle = collection.handle | downcase %}
+    {% assign c_title = collection.title | escape %}
+
+    {% if c_handle contains 'mango' or c_handle contains 'keri' %}
+      {% assign faq_q1 = "What makes authentic DivyaPrabha " | append: c_title | append: " unique?" %}
+      {% assign faq_a1 = "DivyaPrabha " | append: c_title | append: " is handcrafted in small artisanal batches following Baa's 45+ year Saurashtra recipe. We use sour Rajapuri raw mangoes, rooftop solar sun-curing, cold-pressed yellow mustard oil (Kachi Ghani), and zero artificial preservatives or palm oil." %}
+      {% assign faq_q2 = "Which raw mango variety is used in DivyaPrabha " | append: c_title | append: "?" %}
+      {% assign faq_a2 = "We exclusively use premium hand-selected Rajapuri raw mangoes from Gujarat, famous for their dense, fibrous flesh, low water content, and long-lasting crispness." %}
+      {% assign faq_q3 = "How are mango pickles preserved naturally for 12+ months?" %}
+      {% assign faq_a3 = "Our natural 4-stage preservation relies on 8-hour solar sun-drying, mineral Sendha Namak (rock salt), antimicrobial Rai Kuria, and 100% submersion in cold-pressed yellow mustard oil." %}
+      {% assign faq_q4 = "Are DivyaPrabha " | append: c_title | append: " free from palm oil and vinegar?" %}
+      {% assign faq_a4 = "Yes! All DivyaPrabha pickles are 100% free from refined palm oil, synthetic vinegar (acetic acid), sodium benzoate, or chemical food dyes." %}
+      {% assign faq_q5 = "How should I store " | append: c_title | append: " jars at home?" %}
+      {% assign faq_a5 = "Keep in a cool, dry pantry inside glass or ceramic Martban jars. Always use a clean dry spoon, keep submerged under mustard oil, and do not refrigerate." %}
+
+    {% elsif c_handle contains 'sweet' or c_handle contains 'gor' or c_handle contains 'chhundo' %}
+      {% assign faq_q1 = "Are DivyaPrabha " | append: c_title | append: " 100% refined sugar-free?" %}
+      {% assign faq_a1 = "Yes! Our sweet pickles are 100% refined sugar-free. We use organic, unrefined jaggery (Gur) slow-caramelized under natural solar heat with zero white sugar or corn syrup." %}
+      {% assign faq_q2 = "What is the difference between Gor Keri and Chhundo?" %}
+      {% assign faq_a2 = "Gor Keri features thick raw mango cubes infused with organic jaggery, cinnamon & Kashmiri red chilli, while Chhundo is a fine sun-cured shredded mango relish slow-matured with roasted cumin." %}
+      {% assign faq_q3 = "Are sweet pickles suitable for children and travel lunchboxes?" %}
+      {% assign faq_a3 = "Absolutely! They are iron-rich, non-spicy, and pair perfectly with Methi Thepla, Puri, Parathas, Khakhra, or school tiffin boxes." %}
+      {% assign faq_q4 = "How long do sweet pickles stay fresh?" %}
+      {% assign faq_a4 = "Natural solar heat caramelizes the organic jaggery syrup, preserving the achaar naturally for 12 to 24 months in lead-free ceramic Martban jars." %}
+      {% assign faq_q5 = "How should I store " | append: c_title | append: " jars at home?" %}
+      {% assign faq_a5 = "Keep in a cool dry pantry. Always use a clean dry wooden or steel spoon. Keep stored at normal room temperature (do not refrigerate)." %}
+
+    {% elsif c_handle contains 'organic' %}
+      {% assign faq_q1 = "What makes DivyaPrabha " | append: c_title | append: " 100% natural and organic?" %}
+      {% assign faq_a1 = "All ingredients are farm-fresh, cured with Himalayan pink rock salt (Sendha Namak), and submerged in pure wood-pressed mustard oil with zero synthetic chemicals." %}
+      {% assign faq_q2 = "Do organic pickles contain any chemical preservatives or acetic acid?" %}
+      {% assign faq_a2 = "Zero chemical preservatives, zero synthetic vinegar, zero sodium benzoate, and zero artificial color additives." %}
+      {% assign faq_q3 = "What are the probiotic health benefits of sun-cured achaar?" %}
+      {% assign faq_a3 = "Solar sun-curing preserves beneficial digestive microflora, raw fruit enzymes, and gut-nourishing Omega-3 fatty acids." %}
+      {% assign faq_q4 = "Why is wood-pressed yellow mustard oil superior for organic pickles?" %}
+      {% assign faq_a4 = "Wood-pressed Kachi Ghani yellow mustard oil provides a mild, non-pungent flavor and forms a natural protective oxygen barrier against mold spore formation." %}
+      {% assign faq_q5 = "What is the shelf life of " | append: c_title | append: "?" %}
+      {% assign faq_a5 = "12 to 24 months naturally when stored in a cool pantry with dry cutlery under oil submersion." %}
+
+    {% else %}
+      {% assign faq_q1 = "What makes authentic DivyaPrabha " | append: c_title | append: " unique?" %}
+      {% assign faq_a1 = "DivyaPrabha " | append: c_title | append: " is handcrafted in small artisanal batches following Baa's 45+ year family heritage recipe from Saurashtra using 100% natural ingredients, rooftop sun-curing, and wood-pressed yellow mustard oil." %}
+      {% assign faq_q2 = "How are DivyaPrabha " | append: c_title | append: " preserved naturally without chemicals?" %}
+      {% assign faq_a2 = "Our natural 4-stage preservation relies on 8-hour rooftop solar sun-drying, mineral-rich Himalayan Sendha Namak, antimicrobial split yellow mustard seeds (Rai Kuria), and complete submersion under pure mustard oil." %}
+      {% assign faq_q3 = "Why is wood-pressed yellow mustard oil used instead of commercial oil or vinegar?" %}
+      {% assign faq_a3 = "Wood-pressed yellow mustard oil provides a mild, golden nuttiness without harsh pungency, forming a natural oxygen barrier over the achaar that suppresses mold without cheap palm oil." %}
+      {% assign faq_q4 = "Where can I buy authentic " | append: c_title | append: " online?" %}
+      {% assign faq_a4 = "You can order authentic handcrafted DivyaPrabha pickles online directly at divyaprabhafoods.com with nationwide express delivery." %}
+      {% assign faq_q5 = "How should I store preservative-free " | append: c_title | append: " jars at home?" %}
+      {% assign faq_a5 = "Keep in a cool dry pantry inside glass or ceramic Martban jars. Always use a clean dry spoon, keep submerged under mustard oil, and do not refrigerate." %}
+    {% endif %}
+
+    <div class="dp-collection-faq-section" style="{% if collection.description != blank %}padding-top: 32px; border-top: 2px dashed #e8d5c0;{% endif %}">
+      <div style="text-align: center; margin-bottom: 28px;">
+        <span style="background: #b01215; color: #ffffff; font-size: 12px; font-weight: 800; padding: 5px 16px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 8px;">Customer Knowledge Base</span>
+        <h2 style="color: #b01215; font-size: 26px; font-weight: 800; margin: 6px 0;">Frequently Asked Questions (FAQs)</h2>
+        <p style="color: #6b4d3b; font-size: 15px; margin: 0;">Everything you need to know about {{ collection.title }}, storage, and natural ingredients.</p>
+      </div>
+
+      <style>
+        .dp-faq-item[open] { border-color: #b01215 !important; box-shadow: 0 6px 18px rgba(176,18,21,0.08) !important; }
+        .dp-faq-item[open] .dp-faq-icon { transform: rotate(45deg); color: #b01215 !important; }
+        .dp-faq-item summary::-webkit-details-marker { display: none; }
+      </style>
+
+      <div class="dp-faq-accordion-list" style="display: flex; flex-direction: column; gap: 14px;">
+        
+        <details class="dp-faq-item" style="background: #ffffff; border: 1px solid #e8d5c0; border-radius: 14px; padding: 18px 22px; box-shadow: 0 3px 10px rgba(61,31,15,0.03); transition: all 0.25s ease;">
+          <summary style="display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; color: #3d1f0f; list-style: none; outline: none; cursor: pointer;">
+            <span style="display: flex; align-items: center; gap: 12px;">
+              <span style="background: #fdf6ed; color: #b01215; border: 1px solid #e8d5c0; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0;">Q</span>
+              {{ faq_q1 }}
+            </span>
+            <span class="dp-faq-icon" style="color: #b01215; font-size: 22px; font-weight: bold; transition: transform 0.25s ease; flex-shrink: 0;">+</span>
+          </summary>
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #f4e8d8; color: #45474f; font-size: 15px; line-height: 1.7;">
+            {{ faq_a1 }}
+          </div>
+        </details>
+
+        <details class="dp-faq-item" style="background: #ffffff; border: 1px solid #e8d5c0; border-radius: 14px; padding: 18px 22px; box-shadow: 0 3px 10px rgba(61,31,15,0.03); transition: all 0.25s ease;">
+          <summary style="display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; color: #3d1f0f; list-style: none; outline: none; cursor: pointer;">
+            <span style="display: flex; align-items: center; gap: 12px;">
+              <span style="background: #fdf6ed; color: #b01215; border: 1px solid #e8d5c0; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0;">Q</span>
+              {{ faq_q2 }}
+            </span>
+            <span class="dp-faq-icon" style="color: #b01215; font-size: 22px; font-weight: bold; transition: transform 0.25s ease; flex-shrink: 0;">+</span>
+          </summary>
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #f4e8d8; color: #45474f; font-size: 15px; line-height: 1.7;">
+            {{ faq_a2 }}
+          </div>
+        </details>
+
+        <details class="dp-faq-item" style="background: #ffffff; border: 1px solid #e8d5c0; border-radius: 14px; padding: 18px 22px; box-shadow: 0 3px 10px rgba(61,31,15,0.03); transition: all 0.25s ease;">
+          <summary style="display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; color: #3d1f0f; list-style: none; outline: none; cursor: pointer;">
+            <span style="display: flex; align-items: center; gap: 12px;">
+              <span style="background: #fdf6ed; color: #b01215; border: 1px solid #e8d5c0; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0;">Q</span>
+              {{ faq_q3 }}
+            </span>
+            <span class="dp-faq-icon" style="color: #b01215; font-size: 22px; font-weight: bold; transition: transform 0.25s ease; flex-shrink: 0;">+</span>
+          </summary>
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #f4e8d8; color: #45474f; font-size: 15px; line-height: 1.7;">
+            {{ faq_a3 }}
+          </div>
+        </details>
+
+        <details class="dp-faq-item" style="background: #ffffff; border: 1px solid #e8d5c0; border-radius: 14px; padding: 18px 22px; box-shadow: 0 3px 10px rgba(61,31,15,0.03); transition: all 0.25s ease;">
+          <summary style="display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; color: #3d1f0f; list-style: none; outline: none; cursor: pointer;">
+            <span style="display: flex; align-items: center; gap: 12px;">
+              <span style="background: #fdf6ed; color: #b01215; border: 1px solid #e8d5c0; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0;">Q</span>
+              {{ faq_q4 }}
+            </span>
+            <span class="dp-faq-icon" style="color: #b01215; font-size: 22px; font-weight: bold; transition: transform 0.25s ease; flex-shrink: 0;">+</span>
+          </summary>
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #f4e8d8; color: #45474f; font-size: 15px; line-height: 1.7;">
+            {{ faq_a4 }}
+          </div>
+        </details>
+
+        <details class="dp-faq-item" style="background: #ffffff; border: 1px solid #e8d5c0; border-radius: 14px; padding: 18px 22px; box-shadow: 0 3px 10px rgba(61,31,15,0.03); transition: all 0.25s ease;">
+          <summary style="display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 16px; color: #3d1f0f; list-style: none; outline: none; cursor: pointer;">
+            <span style="display: flex; align-items: center; gap: 12px;">
+              <span style="background: #fdf6ed; color: #b01215; border: 1px solid #e8d5c0; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0;">Q</span>
+              {{ faq_q5 }}
+            </span>
+            <span class="dp-faq-icon" style="color: #b01215; font-size: 22px; font-weight: bold; transition: transform 0.25s ease; flex-shrink: 0;">+</span>
+          </summary>
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #f4e8d8; color: #45474f; font-size: 15px; line-height: 1.7;">
+            {{ faq_a5 }}
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- DYNAMIC JSON-LD FAQ SCHEMA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": {{ faq_q1 | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq_a1 | json }}
+          }
+        },
+        {
+          "@type": "Question",
+          "name": {{ faq_q2 | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq_a2 | json }}
+          }
+        },
+        {
+          "@type": "Question",
+          "name": {{ faq_q3 | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq_a3 | json }}
+          }
+        },
+        {
+          "@type": "Question",
+          "name": {{ faq_q4 | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq_a4 | json }}
+          }
+        },
+        {
+          "@type": "Question",
+          "name": {{ faq_q5 | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq_a5 | json }}
+          }
+        }
+      ]
+    }
+    </script>
+  </div>
+</div>
+
+<script>
+window.Shopify = window.Shopify || {};
+window.Shopify.money_format = window.Shopify.money_format || {{ shop.money_format | json }};
+
+(function() {
+  'use strict';
+
+  var ROOT = document.getElementById('ccp-{{ section.id }}');
+  if (!ROOT) return;
+
+  // ─── Money formatter (same as custom-product-grid) ──────────────────────
+  function fmt(cents) {
+    var amt = (cents / 100).toFixed(2).replace(/\.00$/, '');
+    if (window.Shopify && window.Shopify.money_format) {
+      return window.Shopify.money_format.replace(/\{\{\s*amount[^}]*\}\}/g, amt);
+    }
+    var sym = ROOT.getAttribute('data-currency') || '₹';
+    return sym + amt;
+  }
+
+  // ─── Init prices on load ─────────────────────────────────────────────────
+  function initPrices() {
+    ROOT.querySelectorAll('.ccp-card').forEach(function(card) {
+      var pe = card.querySelector('[data-price-display]');
+      var ce = card.querySelector('[data-compare-display]');
+      if (pe) {
+        var rp = parseInt(pe.getAttribute('data-raw-price') || '0', 10);
+        if (rp > 0) pe.textContent = fmt(rp);
+      }
+      if (ce) {
+        var rc = parseInt(ce.getAttribute('data-raw-compare') || '0', 10);
+        var rp2 = pe ? parseInt(pe.getAttribute('data-raw-price') || '0', 10) : 0;
+        if (rc > rp2 && rc > 0) { ce.textContent = fmt(rc); ce.style.display = ''; }
+        else { ce.style.display = 'none'; }
+      }
+    });
+  }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initPrices); }
+  else { initPrices(); }
+
+  // ─── Variant change ──────────────────────────────────────────────────────
+  ROOT.addEventListener('change', function(e) {
+    if (!e.target.classList.contains('ccp-variant-select')) return;
+    var sel  = e.target;
+    var card = sel.closest('.ccp-card');
+    var opt  = sel.options[sel.selectedIndex];
+    var price   = opt.getAttribute('data-price');
+    var compare = opt.getAttribute('data-compare-price');
+    var avail   = opt.getAttribute('data-available') === 'true';
+    var vid     = opt.value;
+
+    var pe  = card.querySelector('[data-price-display]');
+    var ce  = card.querySelector('[data-compare-display]');
+    var btn = card.querySelector('[data-atc-btn]');
+    var err = card.querySelector('[data-error-msg]');
+
+    if (pe && price) {
+      pe.textContent = fmt(parseInt(price,10));
+      pe.setAttribute('data-raw-price', price);
+      card.setAttribute('data-price', (parseInt(price, 10) / 100).toString());
+    }
+    if (ce) {
+      if (compare && parseInt(compare,10) > parseInt(price,10)) {
+        ce.textContent = fmt(parseInt(compare,10)); ce.style.display = '';
+        ce.setAttribute('data-raw-compare', compare);
+        card.setAttribute('data-compare-price', (parseInt(compare, 10) / 100).toString());
+      } else {
+        ce.textContent = ''; ce.style.display = 'none';
+        card.setAttribute('data-compare-price', '0');
+      }
+    }
+    card.setAttribute('data-available', avail ? 'true' : 'false');
+    var saleBadge = card.querySelector('.ccp-badge-sale:not(.ccp-badge-bestseller)');
+    if (saleBadge) saleBadge.style.display = (compare && parseInt(compare,10) > parseInt(price,10)) ? '' : 'none';
+
+
+    if (btn) {
+      btn.setAttribute('data-variant-id', vid);
+      if (!avail) {
+        btn.disabled = true; btn.textContent = '{{ section.settings.unavailable_label | default: "Unavailable" }}';
+        btn.classList.add('soldout-btn');
+      } else {
+        btn.disabled = false; btn.textContent = '{{ section.settings.atc_label | default: "Add to Cart" }}';
+        btn.classList.remove('soldout-btn');
+      }
+    }
+    if (err) err.textContent = '';
+  });
+
+  // ─── Add to Cart (opens sidebar cart — same logic as custom-product-grid) ─
+  ROOT.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-atc-btn]');
+    if (!btn || btn.disabled) return;
+
+    var card = btn.closest('.ccp-card');
+    var vid  = btn.getAttribute('data-variant-id');
+    var err  = card.querySelector('[data-error-msg]');
+
+    if (!vid) { if (err) err.textContent = 'Please select a variant.'; return; }
+
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btn.textContent = '{{ section.settings.adding_label | default: "Adding..." }}';
+    if (err) err.textContent = '';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: JSON.stringify({ id: parseInt(vid, 10), quantity: 1, sections: 'minicart', sections_url: window.location.pathname })
+    })
+    .then(function(r) {
+      if (!r.ok) return r.json().then(function(d) { throw new Error(d.description || 'Error adding to cart.'); });
+      return r.json();
+    })
+    .then(function(data) {
+      btn.classList.remove('loading');
+      btn.classList.add('success');
+      btn.textContent = '{{ section.settings.added_label | default: "Added ✓" }}';
+
+      if (data.sections && data.sections['minicart']) {
+        injectAndOpenCart(data.sections['minicart']);
+      } else {
+        openSidebarCart();
+      }
+
+      setTimeout(function() {
+        btn.classList.remove('success');
+        btn.textContent = '{{ section.settings.atc_label | default: "Add to Cart" }}';
+        btn.disabled = false;
+      }, 2500);
+    })
+    .catch(function(ex) {
+      btn.classList.remove('loading');
+      btn.textContent = '{{ section.settings.atc_label | default: "Add to Cart" }}';
+      btn.disabled = false;
+      if (err) err.textContent = ex.message || 'Could not add to cart.';
+    });
+  });
+
+  // ─── Inject mini-cart HTML + open drawer (IDENTICAL to homepage section) ─
+  function injectAndOpenCart(html) {
+    var popup = document.getElementById('js_cart_popup');
+    if (!popup) { openSidebarCart(); return; }
+    var parser  = new DOMParser();
+    var doc     = parser.parseFromString(html, 'text/html');
+    var newSec  = doc.querySelector('[id^="shopify-section"], .shopify-section');
+    var oldSec  = popup.querySelector('[id^="shopify-section"]');
+    if (newSec && oldSec) oldSec.innerHTML = newSec.innerHTML;
+    else if (newSec) popup.innerHTML = newSec.outerHTML;
+    updateCartCount();
+    popup.classList.add('act_opened');
+    document.body.classList.add('js_cart_popup_open');
+  }
+
+  function updateCartCount() {
+    fetch('/cart.js').then(function(r) { return r.json(); }).then(function(c) {
+      document.querySelectorAll(
+        '[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,' +
+        '.header__cart-count,.js-cart-count,.cart-count-bubble'
+      ).forEach(function(el) { el.textContent = c.item_count; if (c.item_count > 0) el.removeAttribute('hidden'); });
+    }).catch(function(){});
+  }
+
+  function openSidebarCart() {
+    // PRIMARY: Cosmetics theme #js_cart_popup
+    var popup = document.getElementById('js_cart_popup');
+    if (popup) {
+      fetch('/?sections=minicart')
+        .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function(j) {
+          if (j && j['minicart']) {
+            var parser = new DOMParser();
+            var doc    = parser.parseFromString(j['minicart'], 'text/html');
+            var ns     = doc.querySelector('[id^="shopify-section"], .shopify-section');
+            var os     = popup.querySelector('[id^="shopify-section"]');
+            if (ns && os) os.innerHTML = ns.innerHTML;
+          }
+        }).catch(function(){}).finally(function() {
+          updateCartCount();
+          popup.classList.add('act_opened');
+          document.body.classList.add('js_cart_popup_open');
+        });
+      return;
+    }
+    // Fallback for other themes
+    fetch('/cart.js').then(function(r){return r.json();}).then(function(c){
+      document.querySelectorAll('[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,.header__cart-count,.js-cart-count,.cart-count-bubble').forEach(function(el){el.textContent=c.item_count;if(c.item_count>0)el.removeAttribute('hidden');});
+      document.dispatchEvent(new CustomEvent('cart:updated',{detail:{cart:c},bubbles:true}));
+    }).catch(function(){});
+    var drawers = ['#cart-drawer','cart-drawer','[id*="CartDrawer"]','[id*="cart-drawer"]','[data-drawer="cart"]','.cart-drawer','#sidebar-cart','.sidebar-cart','#mini-cart','.mini-cart','.ajax-cart','[id*="mini-cart"]','[id*="MiniCart"]','.drawer--cart','[data-cart-drawer]'];
+    var d = null;
+    for (var i=0;i<drawers.length;i++){d=document.querySelector(drawers[i]);if(d)break;}
+    if(d){['is-open','active','open','is-active','visible','shown'].forEach(function(c){d.classList.add(c);});d.removeAttribute('hidden');}
+    ['cart:open','cart:refresh','cart:updated','cart-drawer:open','drawer:open:cart','theme:cart:open'].forEach(function(ev){document.dispatchEvent(new CustomEvent(ev,{bubbles:true}));window.dispatchEvent(new CustomEvent(ev,{bubbles:true}));});
+    if(window.theme){if(window.theme.cart&&typeof window.theme.cart.open==='function')window.theme.cart.open();if(window.theme.drawer&&typeof window.theme.drawer.open==='function')window.theme.drawer.open('cart');}
+    document.body.classList.add('js-drawer-open','js-drawer-open-cart','cart-open','drawer-open');
+  }
+
+  // ─── COLLECTION CONTROLLER ───────────────────────────────────────────────
+  window['CCPc_{{ section.id }}'] = {
+
+    doSort: function(val) {
+      var grid = document.getElementById('ccpGrid');
+      if (!grid) return;
+      var cards = Array.prototype.slice.call(grid.querySelectorAll('.ccp-card'));
+      cards.sort(function(a, b) {
+        var aPrice = parseFloat(a.getAttribute('data-price') || '0');
+        var bPrice = parseFloat(b.getAttribute('data-price') || '0');
+        var aTitle = (a.getAttribute('data-title') || '').trim().toLowerCase();
+        var bTitle = (b.getAttribute('data-title') || '').trim().toLowerCase();
+        var aDate = parseInt(a.getAttribute('data-created-at') || '0', 10);
+        var bDate = parseInt(b.getAttribute('data-created-at') || '0', 10);
+        var aIdx = parseInt(a.getAttribute('data-original-index') || '0', 10);
+        var bIdx = parseInt(b.getAttribute('data-original-index') || '0', 10);
+
+        if (val === 'price-ascending') {
+          return aPrice - bPrice;
+        } else if (val === 'price-descending') {
+          return bPrice - aPrice;
+        } else if (val === 'title-ascending') {
+          return aTitle.localeCompare(bTitle);
+        } else if (val === 'title-descending') {
+          return bTitle.localeCompare(aTitle);
+        } else if (val === 'created-ascending') {
+          return aDate - bDate;
+        } else if (val === 'created-descending') {
+          return bDate - aDate;
+        } else {
+          return aIdx - bIdx;
+        }
+      });
+      cards.forEach(function(card) {
+        grid.appendChild(card);
+      });
+      var pag = grid.querySelector('.ccp-pagination');
+      if (pag) {
+        grid.appendChild(pag);
+      }
+      var u = new URL(window.location.href);
+      u.searchParams.set('sort_by', val);
+      history.replaceState(null, '', u.toString());
+    },
+
+    setGrid: function(cols, btn) {
+      var grid = document.getElementById('ccpGrid');
+      if (grid) grid.setAttribute('data-cols', cols);
+      ROOT.querySelectorAll('.ccp-grid-btn').forEach(function(b){ b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+    },
+
+    toggleGroup: function(id) {
+      var body   = document.getElementById('ccpFgBody-' + id);
+      var header = body && body.previousElementSibling;
+      if (!body) return;
+      var closed = body.classList.toggle('ccp-closed');
+      if (header) header.setAttribute('aria-expanded', !closed);
+    },
+
+    applyFilters: function() {
+      var priceMinInp = ROOT.querySelector('[id^="prMin-"]');
+      var priceMaxInp = ROOT.querySelector('[id^="prMax-"]');
+      var minPrice = priceMinInp && priceMinInp.value ? parseFloat(priceMinInp.value) : 0;
+      var maxPrice = priceMaxInp && priceMaxInp.value ? parseFloat(priceMaxInp.value) : Infinity;
+
+      var activeMetafieldFilters = {};
+      ROOT.querySelectorAll('.ccp-f-checkbox:checked').forEach(function(cb) {
+        var key = cb.name.replace('filter.p.m.', '').replace(/\./g, '-');
+        if (!activeMetafieldFilters[key]) {
+          activeMetafieldFilters[key] = [];
+        }
+        activeMetafieldFilters[key].push(cb.value.toLowerCase().trim());
+      });
+
+      var cards = ROOT.querySelectorAll('#ccpGrid .ccp-card');
+      cards.forEach(function(card) {
+        var match = true;
+        var cardPrice = parseFloat(card.getAttribute('data-price') || '0');
+        if (cardPrice < minPrice || cardPrice > maxPrice) {
+          match = false;
+        }
+        if (match) {
+          for (var filterKey in activeMetafieldFilters) {
+            var checkedVals = activeMetafieldFilters[filterKey];
+            if (checkedVals.length > 0) {
+              var attrName = 'data-mf-' + filterKey;
+              var cardAttr = card.getAttribute(attrName);
+              if (!cardAttr) {
+                match = false;
+                break;
+              }
+              var cardVals = cardAttr.split('|').map(function(v) { return v.toLowerCase().trim(); });
+              var overlap = checkedVals.some(function(val) {
+                return cardVals.indexOf(val) !== -1;
+              });
+              if (!overlap) {
+                match = false;
+                break;
+              }
+            }
+          }
+        }
+        if (match) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      var visibleCards = ROOT.querySelectorAll('#ccpGrid .ccp-card:not([style*="display: none"])');
+      var countEl = ROOT.querySelector('.ccp-prod-count');
+      if (countEl) {
+        var labelUnit = countEl.getAttribute('data-unit') || '{{ section.settings.products_label | default: "products" }}';
+        countEl.textContent = visibleCards.length + ' ' + labelUnit;
+      }
+
+      var fallback = ROOT.querySelector('.ccp-no-products-fallback');
+      if (fallback) {
+        fallback.style.display = visibleCards.length === 0 ? 'block' : 'none';
+      }
+
+      // Sync active tags
+      var cartSymbol = ROOT.getAttribute('data-currency') || '₹';
+      var activeTags = [];
+      var count = 0;
+      if (priceMinInp && priceMinInp.value) {
+        activeTags.push({ type: 'price-min', key: priceMinInp.name, val: 'Min: ' + cartSymbol + priceMinInp.value });
+        count++;
+      }
+      if (priceMaxInp && priceMaxInp.value) {
+        activeTags.push({ type: 'price-max', key: priceMaxInp.name, val: 'Max: ' + cartSymbol + priceMaxInp.value });
+        count++;
+      }
+      ROOT.querySelectorAll('.ccp-f-checkbox:checked').forEach(function(cb) {
+        activeTags.push({ type: 'metafield', key: cb.name, val: cb.value, checkbox: cb });
+        count++;
+      });
+
+      var pill = document.getElementById('ccpActivePill');
+      if (pill) {
+        if (count > 0) {
+          pill.textContent = count;
+          pill.style.display = 'inline-flex';
+        } else {
+          pill.style.display = 'none';
+        }
+      }
+      var clearBtn = document.getElementById('ccpClearAll');
+      if (clearBtn) {
+        clearBtn.style.display = count > 0 ? 'inline-block' : 'none';
+      }
+
+      var tagsEl = document.getElementById('ccpActiveTags');
+      if (tagsEl) {
+        tagsEl.innerHTML = '';
+        activeTags.forEach(function(t) {
+          var btn = document.createElement('button');
+          btn.className = 'ccp-active-tag';
+          btn.innerHTML = t.val + ' <span aria-hidden="true">✕</span>';
+          btn.setAttribute('aria-label', 'Remove filter: ' + t.val);
+          btn.onclick = function() {
+            if (t.type === 'price-min') {
+              priceMinInp.value = '';
+              var sliderMin = ROOT.querySelector('.ccp-range-input[min]');
+              if (sliderMin) { sliderMin.value = 0; }
+              var filterId = priceMinInp.id.replace('prMin-', '');
+              window['CCPc_{{ section.id }}']._updateFill(filterId);
+            } else if (t.type === 'price-max') {
+              priceMaxInp.value = '';
+              var sliderMax = ROOT.querySelector('.ccp-range-input[max]');
+              if (sliderMax) { sliderMax.value = sliderMax.max; }
+              var filterId = priceMaxInp.id.replace('prMax-', '');
+              window['CCPc_{{ section.id }}']._updateFill(filterId);
+            } else if (t.type === 'metafield') {
+              t.checkbox.checked = false;
+            }
+            window['CCPc_{{ section.id }}'].applyFilters();
+          };
+          tagsEl.appendChild(btn);
+        });
+      }
+
+      // Sync URL parameter state without reload
+      var u = new URL(window.location.href);
+      var toDelete = [];
+      u.searchParams.forEach(function(_, k){ if(k.startsWith('filter.')) toDelete.push(k); });
+      toDelete.forEach(function(k){ u.searchParams.delete(k); });
+      ROOT.querySelectorAll('.ccp-f-checkbox:checked').forEach(function(cb){
+        u.searchParams.append(cb.name, cb.value);
+      });
+      if (priceMinInp && priceMinInp.value) {
+        u.searchParams.set(priceMinInp.name, priceMinInp.value);
+      }
+      if (priceMaxInp && priceMaxInp.value) {
+        u.searchParams.set(priceMaxInp.name, priceMaxInp.value);
+      }
+      u.searchParams.delete('page');
+      history.replaceState(null, '', u.toString());
+    },
+
+    clearAll: function() {
+      ROOT.querySelectorAll('.ccp-f-checkbox').forEach(function(cb){ cb.checked = false; });
+      var priceMinInp = ROOT.querySelector('[id^="prMin-"]');
+      var priceMaxInp = ROOT.querySelector('[id^="prMax-"]');
+      if (priceMinInp) priceMinInp.value = '';
+      if (priceMaxInp) priceMaxInp.value = '';
+
+      var sliders = ROOT.querySelectorAll('.ccp-range-input');
+      if (sliders.length > 0) sliders[0].value = 0;
+      if (sliders.length > 1) sliders[1].value = sliders[1].max;
+
+      // Update fills
+      var priceTrack = ROOT.querySelector('.ccp-slider-track');
+      if (priceTrack) {
+        var filterId = priceTrack.id.replace('sliderTrack-', '');
+        this._updateFill(filterId);
+      }
+
+      this.applyFilters();
+    },
+
+    syncSlider: function(range, type, filterId) {
+      var inp = document.getElementById('pr' + (type === 'min' ? 'Min' : 'Max') + '-' + filterId);
+      if (inp) inp.value = range.value;
+      this._updateFill(filterId);
+    },
+
+    _updateFill: function(id) {
+      var track = document.getElementById('sliderTrack-' + id);
+      if (!track) return;
+      var ranges = track.querySelectorAll('.ccp-range-input');
+      var fill   = document.getElementById('sliderFill-' + id);
+      if (!fill || ranges.length < 2) return;
+      var mn = parseFloat(ranges[0].min), mx = parseFloat(ranges[0].max);
+      var vmin = parseFloat(ranges[0].value), vmax = parseFloat(ranges[1].value);
+      fill.style.left  = ((vmin - mn) / (mx - mn) * 100) + '%';
+      fill.style.right = (100 - (vmax - mn) / (mx - mn) * 100) + '%';
+    },
+
+    openSidebar: function() {
+      var sb = document.getElementById('ccpSidebar');
+      var ov = document.getElementById('ccpOverlay');
+      if (sb) { sb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      if (ov) ov.classList.add('open');
+      var tog = document.getElementById('ccpFilterOpen');
+      if (tog) tog.setAttribute('aria-expanded', 'true');
+    },
+
+    closeSidebar: function() {
+      var sb = document.getElementById('ccpSidebar');
+      var ov = document.getElementById('ccpOverlay');
+      if (sb) { sb.classList.remove('open'); document.body.style.overflow = ''; }
+      if (ov) ov.classList.remove('open');
+      var tog = document.getElementById('ccpFilterOpen');
+      if (tog) tog.setAttribute('aria-expanded', 'false');
+    },
+
+    _syncActiveFromURL: function() {
+      var u = new URL(window.location.href);
+
+      // Reset checkboxes
+      ROOT.querySelectorAll('.ccp-f-checkbox').forEach(function(cb){ cb.checked = false; });
+
+      // Reset price fields
+      var priceMinInp = ROOT.querySelector('[id^="prMin-"]');
+      var priceMaxInp = ROOT.querySelector('[id^="prMax-"]');
+      if (priceMinInp) priceMinInp.value = '';
+      if (priceMaxInp) priceMaxInp.value = '';
+
+      u.searchParams.forEach(function(val, key) {
+        if (!key.startsWith('filter.')) return;
+        if (key.includes('price.gte')) {
+          if (priceMinInp) {
+            priceMinInp.value = val;
+            var filterId = priceMinInp.id.replace('prMin-', '');
+            var sliders = ROOT.querySelectorAll('.ccp-range-input');
+            if (sliders.length > 0) {
+              sliders[0].value = val;
+              window['CCPc_{{ section.id }}']._updateFill(filterId);
+            }
+          }
+        } else if (key.includes('price.lte')) {
+          if (priceMaxInp) {
+            priceMaxInp.value = val;
+            var filterId = priceMaxInp.id.replace('prMax-', '');
+            var sliders = ROOT.querySelectorAll('.ccp-range-input');
+            if (sliders.length > 1) {
+              sliders[1].value = val;
+              window['CCPc_{{ section.id }}']._updateFill(filterId);
+            }
+          }
+        } else {
+          ROOT.querySelectorAll('.ccp-f-checkbox[name="' + key + '"][value="' + val + '"]').forEach(function(cb){ cb.checked = true; });
+        }
+      });
+
+      this.applyFilters();
+
+      var sortVal = u.searchParams.get('sort_by');
+      if (sortVal) {
+        var sortSelect = document.getElementById('ccpSort');
+        if (sortSelect) {
+          sortSelect.value = sortVal;
+          this.doSort(sortVal);
+        }
+      }
+    },
+
+    init: function() {
+      var self = this;
+      this._syncActiveFromURL();
+      var open  = document.getElementById('ccpFilterOpen');
+      var close = document.getElementById('ccpSidebarClose');
+      if (open)  open.addEventListener('click',  function(){ self.openSidebar(); });
+      if (close) close.addEventListener('click', function(){ self.closeSidebar(); });
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ window['CCPc_{{ section.id }}'].init(); });
+  } else {
+    window['CCPc_{{ section.id }}'].init();
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection with Filters",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "⚙️ Layout" },
+    { "type": "range", "id": "products_per_page", "label": "Products Per Page", "min": 1, "max": 48, "step": 1, "default": 9 },
+    { "type": "select", "id": "default_columns", "label": "Default Columns", "options": [{"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}], "default": "3" },
+    { "type": "checkbox", "id": "show_grid_toggle", "label": "Show Grid Toggle", "default": true },
+    { "type": "checkbox", "id": "show_4col_toggle", "label": "Show 4-column Option", "default": false },
+    { "type": "range", "id": "sidebar_width", "label": "Sidebar Width (px)", "min": 200, "max": 360, "step": 10, "default": 260 },
+    { "type": "range", "id": "card_gap", "label": "Card Gap (px)", "min": 4, "max": 40, "step": 2, "default": 16 },
+    { "type": "range", "id": "padding_top", "label": "Top Padding Desktop (px)", "min": 0, "max": 100, "step": 4, "default": 20 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom Padding Desktop (px)", "min": 0, "max": 100, "step": 4, "default": 60 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top Padding Mobile (px)", "min": 0, "max": 60, "step": 4, "default": 12 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom Padding Mobile (px)", "min": 0, "max": 60, "step": 4, "default": 32 },
+
+    { "type": "header", "content": "🏷️ Collection Header" },
+    { "type": "checkbox", "id": "show_collection_banner", "label": "Show Collection Title/Banner", "default": true },
+    { "type": "checkbox", "id": "show_collection_image", "label": "Use Collection Image as Banner", "default": true },
+    { "type": "checkbox", "id": "show_collection_desc", "label": "Show Collection Description", "default": true },
+    { "type": "range", "id": "banner_height", "label": "Banner Min Height (px)", "min": 80, "max": 360, "step": 10, "default": 180 },
+    { "type": "range", "id": "banner_radius", "label": "Banner Border Radius (px)", "min": 0, "max": 24, "step": 2, "default": 8 },
+    { "type": "range", "id": "banner_title_size", "label": "Banner Title Size (px)", "min": 16, "max": 56, "step": 2, "default": 28 },
+
+    { "type": "header", "content": "🗺️ Breadcrumb" },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show Breadcrumb", "default": true },
+    { "type": "text", "id": "breadcrumb_home", "label": "Home Label", "default": "Home" },
+    { "type": "text", "id": "breadcrumb_sep", "label": "Separator", "default": "/" },
+    { "type": "color", "id": "breadcrumb_color", "label": "Breadcrumb Text Color", "default": "#888888" },
+
+    { "type": "header", "content": "🔽 Filter Panel Labels" },
+    { "type": "text", "id": "sidebar_title", "label": "Sidebar Heading", "default": "Product Categories" },
+    { "type": "link_list", "id": "collection_menu", "label": "Collection Navigation Menu" },
+    { "type": "text", "id": "filter_btn_label", "label": "Mobile Filter Button", "default": "Filters" },
+    { "type": "text", "id": "reset_label", "label": "Reset Link Label", "default": "Reset" },
+    { "type": "text", "id": "clear_all_label", "label": "Clear All Label", "default": "Clear All" },
+    { "type": "checkbox", "id": "show_filter_counts", "label": "Show Count Next to Filter Option", "default": true },
+    { "type": "checkbox", "id": "show_color_swatches", "label": "Show Color Swatches", "default": true },
+    { "type": "text", "id": "color_label", "label": "Color Filter Label (must match Shopify filter name)", "default": "Color" },
+    { "type": "text", "id": "price_info_label", "label": "Price Range Info Text", "default": "Highest price:" },
+    { "type": "text", "id": "price_from_label", "label": "Price From Placeholder", "default": "From" },
+    { "type": "text", "id": "price_to_label", "label": "Price To Placeholder", "default": "To" },
+
+    { "type": "header", "content": "📊 Toolbar Labels" },
+    { "type": "checkbox", "id": "show_product_count", "label": "Show Product Count", "default": true },
+    { "type": "text", "id": "products_label", "label": "Product Count Unit", "default": "products" },
+    { "type": "text", "id": "sort_label", "label": "Sort Label", "default": "Sort by" },
+
+    { "type": "header", "content": "🛍️ Product Card Labels" },
+    { "type": "text", "id": "atc_label", "label": "Add to Cart Button", "default": "Add to Cart" },
+    { "type": "text", "id": "adding_label", "label": "Adding State", "default": "Adding..." },
+    { "type": "text", "id": "added_label", "label": "Added State", "default": "Added ✓" },
+    { "type": "text", "id": "unavailable_label", "label": "Unavailable Label", "default": "Unavailable" },
+    { "type": "text", "id": "no_products_text", "label": "No Products Message", "default": "No products found matching your filters." },
+
+    { "type": "header", "content": "🎨 Page & Sidebar Colors" },
+    { "type": "color", "id": "page_bg", "label": "Page Background", "default": "#ffffff" },
+    { "type": "color", "id": "sidebar_bg", "label": "Sidebar Background", "default": "#ffffff" },
+    { "type": "color", "id": "sidebar_header_bg", "label": "Sidebar Header Background", "default": "#8B0000" },
+    { "type": "color", "id": "sidebar_header_color", "label": "Sidebar Header Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "filter_border_color", "label": "Filter Border / Divider Color", "default": "#ebebeb" },
+    { "type": "color", "id": "filter_text_color", "label": "Filter Label Text Color", "default": "#1a1a1a" },
+    { "type": "color", "id": "filter_checkbox_color", "label": "Checkbox / Slider Active Color", "default": "#8B0000" },
+    { "type": "color", "id": "filter_reset_color", "label": "Reset Link Color", "default": "#888888" },
+
+    { "type": "header", "content": "🎨 Card Colors (matches Homepage)" },
+    { "type": "color", "id": "card_bg", "label": "Card Background", "default": "#ffffff" },
+    { "type": "color", "id": "card_border_color", "label": "Card Border Color", "default": "#e8e8e8" },
+    { "type": "color", "id": "product_title_color", "label": "Product Title Color", "default": "#1a1a1a" },
+    { "type": "color", "id": "price_color", "label": "Price Color", "default": "#1a1a1a" },
+    { "type": "color", "id": "compare_price_color", "label": "Compare Price Color", "default": "#999999" },
+    { "type": "color", "id": "rating_color", "label": "Star Rating Color", "default": "#f9a825" },
+    { "type": "color", "id": "variant_bg", "label": "Variant Dropdown Background", "default": "#ffffff" },
+    { "type": "color", "id": "variant_text_color", "label": "Variant Dropdown Text Color", "default": "#1a1a1a" },
+    { "type": "color", "id": "btn_bg", "label": "Button Background", "default": "#d32f2f" },
+    { "type": "color", "id": "btn_text_color", "label": "Button Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "btn_hover_bg", "label": "Button Hover Background", "default": "#b71c1c" },
+    { "type": "color", "id": "btn_hover_text_color", "label": "Button Hover Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "badge_bg", "label": "Feature Tag Background", "default": "#b71c1c" },
+    { "type": "color", "id": "badge_text_color", "label": "Feature Tag Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "sale_badge_bg", "label": "Sale Badge Background", "default": "#e53935" },
+    { "type": "color", "id": "sale_badge_text_color", "label": "Sale Badge Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "soldout_badge_bg", "label": "Sold Out Badge Background", "default": "#333333" },
+    { "type": "color", "id": "soldout_badge_text_color", "label": "Sold Out Badge Text Color", "default": "#ffffff" },
+
+    { "type": "header", "content": "✏️ Typography" },
+    { "type": "range", "id": "filter_title_font_size", "label": "Filter Title Size (px)", "min": 10, "max": 24, "step": 1, "default": 14 },
+    { "type": "range", "id": "filter_option_font_size", "label": "Filter Option Size (px)", "min": 10, "max": 20, "step": 1, "default": 13 },
+    { "type": "range", "id": "title_font_size", "label": "Product Title Size (desktop, px)", "min": 12, "max": 24, "step": 1, "default": 15 },
+    { "type": "range", "id": "title_font_size_mobile", "label": "Product Title Size (mobile, px)", "min": 11, "max": 18, "step": 1, "default": 13 },
+    { "type": "range", "id": "price_font_size", "label": "Price Size (px)", "min": 12, "max": 24, "step": 1, "default": 15 },
+    { "type": "range", "id": "variant_font_size", "label": "Variant Dropdown Size (px)", "min": 11, "max": 18, "step": 1, "default": 13 },
+    { "type": "range", "id": "btn_font_size", "label": "Button Font Size (px)", "min": 11, "max": 18, "step": 1, "default": 13 },
+
+    { "type": "header", "content": "🖼️ Card Shape & Image" },
+    { "type": "select", "id": "image_ratio", "label": "Image Ratio", "options": [{"value":"square","label":"Square (1:1)"},{"value":"portrait","label":"Portrait (4:5)"},{"value":"landscape","label":"Landscape (4:3)"}], "default": "square" },
+    { "type": "range", "id": "image_border_radius", "label": "Image Border Radius (px)", "min": 0, "max": 20, "step": 1, "default": 8 },
+    { "type": "range", "id": "card_border_radius", "label": "Card Border Radius (px)", "min": 0, "max": 24, "step": 1, "default": 10 },
+    { "type": "range", "id": "card_padding", "label": "Card Padding (px)", "min": 8, "max": 32, "step": 2, "default": 16 },
+
+    { "type": "header", "content": "🔘 Button Shape" },
+    { "type": "range", "id": "btn_height", "label": "Button Height (px)", "min": 36, "max": 64, "step": 2, "default": 46 },
+    { "type": "range", "id": "btn_radius", "label": "Button Border Radius (px)", "min": 0, "max": 32, "step": 1, "default": 6 },
+
+    { "type": "header", "content": "📝 Badge Labels" },
+    { "type": "text", "id": "sale_badge_text", "label": "Sale Badge Text", "default": "Sale" },
+    { "type": "text", "id": "soldout_badge_text", "label": "Sold Out Badge Text", "default": "Sold Out" },
+    { "type": "text", "id": "badge_metafield_key_1", "label": "Badge Metafield Key 1", "default": "custom.pure_peanut_oil" },
+    { "type": "text", "id": "badge_metafield_key_2", "label": "Badge Metafield Key 2", "default": "custom.sweet_tangy_spicy_tangy" },
+    { "type": "text", "id": "badge_metafield_key_3", "label": "Badge Metafield Key 3", "default": "custom.spicy_tangy" },
+    { "type": "text", "id": "badge_metafield_key_4", "label": "Badge Metafield Key 4", "default": "custom.pure_mustard_oil" },
+    { "type": "text", "id": "badge_metafield_key_5", "label": "Badge Metafield Key 5", "default": "custom.pure_peanut_oil" }
+  ],
+  "blocks": [
+    {
+      "type": "custom_filter",
+      "name": "➕ Custom Filter",
+      "limit": 10,
+      "settings": [
+        { "type": "text", "id": "filter_label", "label": "Filter Title", "default": "Spice Level" },
+        { "type": "text", "id": "metafield_key", "label": "Metafield Key (e.g. custom.spice_level)", "default": "custom.spice_level" },
+        { "type": "textarea", "id": "filter_options", "label": "Options (comma separated)", "default": "Mild, Medium, Hot, Extra Hot" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Collection with Filters", "category": "Collection" }]
+}
+{% endschema %}

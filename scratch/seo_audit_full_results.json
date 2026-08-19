@@ -1,0 +1,800 @@
+{
+  "avg_score": 86.9,
+  "total_articles": 24,
+  "grade_distribution": {
+    "A+": 0,
+    "A": 12,
+    "B": 12,
+    "C": 0
+  },
+  "articles": [
+    {
+      "id": 665974374614,
+      "title": "Katka Keri Cut Mango Pickle: Gujarati Homemade Achar",
+      "title_len": 52,
+      "word_count": 764,
+      "tags": [
+        "Buying Guides"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-11T21:00:00+05:30",
+      "handle": "katka-keri-cut-mango-pickle-gujarati-homemade-achar",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665974341846,
+      "title": "Gunda Keri Pickle Buy Online: Lasode Ka Achar Guide",
+      "title_len": 51,
+      "word_count": 706,
+      "tags": [
+        "Heritage Recipes"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-11T18:00:00+05:30",
+      "handle": "gunda-keri-pickle-buy-online-lasode-ka-achar-guide",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665974309078,
+      "title": "Sun Cured Chhundo Pickle Online: Authentic Mango Relish",
+      "title_len": 55,
+      "word_count": 717,
+      "tags": [
+        "Artisanal Craft"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-11T15:00:00+05:30",
+      "handle": "sun-cured-chhundo-pickle-online-authentic-mango-relish",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665974276310,
+      "title": "Jaggery Gor Keri Achar Online: Sweet Gujarati Pickle",
+      "title_len": 52,
+      "word_count": 711,
+      "tags": [
+        "Artisanal Craft"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-11T12:00:00+05:30",
+      "handle": "jaggery-gor-keri-achar-online-sweet-gujarati-pickle",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665974243542,
+      "title": "Rajapuri Raw Mango Pickle Online: Saurashtra Achar Guide",
+      "title_len": 56,
+      "word_count": 759,
+      "tags": [
+        "Heritage Recipes"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-11T09:00:00+05:30",
+      "handle": "rajapuri-raw-mango-pickle-online-saurashtra-achar-guide",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665945145558,
+      "title": "Katka Keri Pickle Gujarati: Traditional Cut Mango Achar",
+      "title_len": 55,
+      "word_count": 612,
+      "tags": [
+        "Buying Guides"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-10T19:12:26+05:30",
+      "handle": "katka-keri-pickle-gujarati-traditional-cut-mango-achar",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665945112790,
+      "title": "Chana Keri Methi Achar: Sprouted Chickpea Mango Pickle",
+      "title_len": 54,
+      "word_count": 640,
+      "tags": [
+        "Health & Spices"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-10T19:12:25+05:30",
+      "handle": "chana-keri-methi-achar-sprouted-chickpea-mango-pickle",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665945080022,
+      "title": "Gujarati Chhundo Pickle Online: Authentic Sun-Cured Mango",
+      "title_len": 57,
+      "word_count": 657,
+      "tags": [
+        "Artisanal Craft"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-10T19:12:24+05:30",
+      "handle": "gujarati-chhundo-pickle-online-authentic-sun-cured-mango",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665945047254,
+      "title": "Gunda Keri Pickle Online: Gujarati Lasode Ka Achar Guide",
+      "title_len": 56,
+      "word_count": 747,
+      "tags": [
+        "Heritage Recipes"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-10T19:12:24+05:30",
+      "handle": "gunda-keri-pickle-online-gujarati-lasode-ka-achar-guide",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 93.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665945178326,
+      "title": "Jaggery Gor Keri Achar: Traditional Sweet Mango Pickle",
+      "title_len": 54,
+      "word_count": 588,
+      "tags": [
+        "Pickle Pairings"
+      ],
+      "invalid_tags": [],
+      "published_at": "2026-08-10T19:12:26+05:30",
+      "handle": "jaggery-gor-keri-achar-traditional-sweet-mango-pickle",
+      "scores": {
+        "title": 15,
+        "word_count": 4,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 10,
+        "uniqueness": 10
+      },
+      "total_score": 89.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915457750,
+      "title": "Saurashtra Mango Pickle: 100-Year Recipe & Secrets",
+      "title_len": 50,
+      "word_count": 962,
+      "tags": [
+        "100 Year Recipe",
+        "Artisanal Craft",
+        "Baa Ka Achar",
+        "Heritage Recipes",
+        "Rajapuri Mango Achar",
+        "Saurashtra Mango Pickle"
+      ],
+      "invalid_tags": [
+        "100 Year Recipe",
+        "Baa Ka Achar",
+        "Rajapuri Mango Achar",
+        "Saurashtra Mango Pickle"
+      ],
+      "published_at": "2026-08-09T16:39:51+05:30",
+      "handle": "the-100-year-old-saurashtra-mango-pickle-recipe-secret-ingredients-heritage-sun-drying-techniques",
+      "scores": {
+        "title": 15,
+        "word_count": 12,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 87.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915883734,
+      "title": "Indian Pickle & Meal Pairing Guide: Thepla, Paratha & Khichdi",
+      "title_len": 61,
+      "word_count": 1274,
+      "tags": [
+        "Achar Jugalbandi",
+        "Heritage Recipes",
+        "Indian Pickle Meal Pairing",
+        "Pickle Pairings",
+        "Thepla Paratha Khichdi"
+      ],
+      "invalid_tags": [
+        "Achar Jugalbandi",
+        "Indian Pickle Meal Pairing",
+        "Thepla Paratha Khichdi"
+      ],
+      "published_at": "2026-08-09T16:40:46+05:30",
+      "handle": "the-ultimate-indian-pickle-meal-pairing-guide-what-pairs-best-with-parathas-khichdi-thepla-dal-chawal",
+      "scores": {
+        "title": 11,
+        "word_count": 15,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 86.0,
+      "grade": "A",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915850966,
+      "title": "Spot Fake vs Pure Homemade Pickles: 5 Red Flags",
+      "title_len": 47,
+      "word_count": 822,
+      "tags": [
+        "Artisanal Craft",
+        "Buying Guides",
+        "No Palm Oil Achar",
+        "Pure Homemade Pickles",
+        "Spot Fake Pickles",
+        "Zero Chemical Vinegar"
+      ],
+      "invalid_tags": [
+        "No Palm Oil Achar",
+        "Pure Homemade Pickles",
+        "Spot Fake Pickles",
+        "Zero Chemical Vinegar"
+      ],
+      "published_at": "2026-08-09T16:40:42+05:30",
+      "handle": "how-to-spot-fake-vs-pure-homemade-pickles-5-red-flags-in-commercial-store-bought-achar",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915818198,
+      "title": "Methia Mango Pickle (Methi Aam) for Gut & Sugar Support",
+      "title_len": 55,
+      "word_count": 754,
+      "tags": [
+        "Blood Sugar Support",
+        "Fenugreek Methi Kuria",
+        "Health & Spices",
+        "Heritage Recipes",
+        "Methia Mango Pickle"
+      ],
+      "invalid_tags": [
+        "Blood Sugar Support",
+        "Fenugreek Methi Kuria",
+        "Methia Mango Pickle"
+      ],
+      "published_at": "2026-08-09T16:40:38+05:30",
+      "handle": "fenugreek-rich-methia-mango-pickle-methi-aam-the-ancient-indian-pickle-for-blood-sugar-gut-support",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915785430,
+      "title": "Sun-Dried Garlic Pickle (Lasan Achar): Health Secrets",
+      "title_len": 53,
+      "word_count": 758,
+      "tags": [
+        "Allicin Immunity Boost",
+        "Artisanal Craft",
+        "Health & Spices",
+        "Lasan Achar",
+        "Sun Dried Garlic Pickle"
+      ],
+      "invalid_tags": [
+        "Allicin Immunity Boost",
+        "Lasan Achar",
+        "Sun Dried Garlic Pickle"
+      ],
+      "published_at": "2026-08-09T16:40:34+05:30",
+      "handle": "sun-dried-garlic-pickle-lasan-achar-immune-boosting-benefits-saurashtra-kitchen-secrets",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915752662,
+      "title": "Oil-Free Lemon Pickle (Nimbu Achar) for Digestion",
+      "title_len": 49,
+      "word_count": 774,
+      "tags": [
+        "Ayurvedic Digestion",
+        "Health & Spices",
+        "Heritage Recipes",
+        "Oil Free Lemon Pickle",
+        "Sendha Namak Achar"
+      ],
+      "invalid_tags": [
+        "Ayurvedic Digestion",
+        "Oil Free Lemon Pickle",
+        "Sendha Namak Achar"
+      ],
+      "published_at": "2026-08-09T16:40:31+05:30",
+      "handle": "oil-free-salt-cured-lemon-pickle-nimbu-ka-achar-ayurveda-s-ancient-secret-for-digestion-acid-reflux",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915687126,
+      "title": "Probiotic Benefits of Indian Pickles for Gut Health",
+      "title_len": 51,
+      "word_count": 761,
+      "tags": [
+        "Artisanal Craft",
+        "Gut Health Microbiome",
+        "Health & Spices",
+        "Lactic Acid Fermentation",
+        "Probiotic Indian Pickles"
+      ],
+      "invalid_tags": [
+        "Gut Health Microbiome",
+        "Lactic Acid Fermentation",
+        "Probiotic Indian Pickles"
+      ],
+      "published_at": "2026-08-09T16:40:22+05:30",
+      "handle": "are-traditional-indian-pickles-good-for-gut-health-the-hidden-probiotic-benefits-of-sun-cured-achaar",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915654358,
+      "title": "Stuffed Red Chilli Pickle (Bharwa Lal Mirch) Buying Guide",
+      "title_len": 57,
+      "word_count": 780,
+      "tags": [
+        "Banarasi Lal Mirch",
+        "Buying Guides",
+        "Heritage Recipes",
+        "Rai Saunf Stuffing",
+        "Stuffed Red Chilli Pickle"
+      ],
+      "invalid_tags": [
+        "Banarasi Lal Mirch",
+        "Rai Saunf Stuffing",
+        "Stuffed Red Chilli Pickle"
+      ],
+      "published_at": "2026-08-09T16:40:18+05:30",
+      "handle": "saurashtra-banarasi-stuffed-red-chilli-pickle-bharwa-lal-mirch-history-spices-buying-guide",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915621590,
+      "title": "Gujarati Gorkeri & Chunda: Organic Jaggery vs Sugar",
+      "title_len": 51,
+      "word_count": 784,
+      "tags": [
+        "Gujarati Gorkeri",
+        "Health & Spices",
+        "Heritage Recipes",
+        "Organic Jaggery Achar",
+        "Traditional Chhundo"
+      ],
+      "invalid_tags": [
+        "Gujarati Gorkeri",
+        "Organic Jaggery Achar",
+        "Traditional Chhundo"
+      ],
+      "published_at": "2026-08-09T16:40:14+05:30",
+      "handle": "traditional-gujarati-sweet-tangy-gorkeri-chunda-natural-organic-jaggery-vs-refined-sugar-pickles",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915588822,
+      "title": "Buy Homemade Mango Pickle Online: Sun-Dried & Pure Oil",
+      "title_len": 54,
+      "word_count": 803,
+      "tags": [
+        "Authentic Keri Achar Online",
+        "Buy Mango Pickle Online",
+        "Buying Guides",
+        "Glass Jar Packaging",
+        "Heritage Recipes"
+      ],
+      "invalid_tags": [
+        "Authentic Keri Achar Online",
+        "Buy Mango Pickle Online",
+        "Glass Jar Packaging"
+      ],
+      "published_at": "2026-08-09T16:40:10+05:30",
+      "handle": "buy-authentic-homemade-mango-pickle-online-why-sun-dried-cold-pressed-mustard-oil-makes-all-the-difference",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915490518,
+      "title": "Cold-Pressed Mustard Oil in Pickles: Science & Benefits",
+      "title_len": 55,
+      "word_count": 863,
+      "tags": [
+        "Antimicrobial Preservation",
+        "Artisanal Craft",
+        "Cold Pressed Mustard Oil",
+        "Health & Spices",
+        "Kachi Ghani Oil"
+      ],
+      "invalid_tags": [
+        "Antimicrobial Preservation",
+        "Cold Pressed Mustard Oil",
+        "Kachi Ghani Oil"
+      ],
+      "published_at": "2026-08-09T16:39:54+05:30",
+      "handle": "why-cold-pressed-kachi-ghani-mustard-oil-is-mandatory-for-authentic-indian-pickles",
+      "scores": {
+        "title": 15,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665621692630,
+      "title": "Top 10 Homemade Pickles in India: Authentic Taste, Traditional Methods & Cultural Flavours",
+      "title_len": 90,
+      "word_count": 1217,
+      "tags": [
+        "Buying Guides",
+        "Heritage Recipes",
+        "Homemade Pickles India",
+        "Sun Dried Achar",
+        "Zero Preservatives"
+      ],
+      "invalid_tags": [
+        "Homemade Pickles India",
+        "Sun Dried Achar",
+        "Zero Preservatives"
+      ],
+      "published_at": "2026-08-10T00:28:46+05:30",
+      "handle": "top-10-homemade-pickles-in-india",
+      "scores": {
+        "title": 8,
+        "word_count": 15,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 83.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915556054,
+      "title": "Gujarati Kerda & Mix Veg Pickle: Saurashtra Heritage Delicacy",
+      "title_len": 61,
+      "word_count": 810,
+      "tags": [
+        "Artisanal Craft",
+        "Gujarati Kerda Pickle",
+        "Gunda Keri Achar",
+        "Heritage Recipes",
+        "Wild Kutch Berries"
+      ],
+      "invalid_tags": [
+        "Gujarati Kerda Pickle",
+        "Gunda Keri Achar",
+        "Wild Kutch Berries"
+      ],
+      "published_at": "2026-08-09T16:40:04+05:30",
+      "handle": "traditional-gujarati-kerda-mix-veg-pickle-forgotten-heritage-delicacy-of-saurashtra",
+      "scores": {
+        "title": 11,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 79.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    },
+    {
+      "id": 665915523286,
+      "title": "5 Traditional Indian Chutneys That Transform Ghar Ka Khana",
+      "title_len": 58,
+      "word_count": 815,
+      "tags": [
+        "Garlic Red Chilli Chutney",
+        "Heritage Recipes",
+        "Pickle Pairings",
+        "Silbatta Stone Pounded",
+        "Traditional Indian Chutneys"
+      ],
+      "invalid_tags": [
+        "Garlic Red Chilli Chutney",
+        "Silbatta Stone Pounded",
+        "Traditional Indian Chutneys"
+      ],
+      "published_at": "2026-08-09T16:39:58+05:30",
+      "handle": "5-traditional-indian-chutneys-that-transform-everyday-ghar-ka-khana",
+      "scores": {
+        "title": 10,
+        "word_count": 8,
+        "schema": 15.0,
+        "faq": 10,
+        "cta_img": 15.0,
+        "link_safety": 10,
+        "tag_taxonomy": 0,
+        "uniqueness": 10
+      },
+      "total_score": 78.0,
+      "grade": "B",
+      "has_article_schema": true,
+      "has_faq_schema": true,
+      "has_cta": true,
+      "invalid_links": []
+    }
+  ]
+}

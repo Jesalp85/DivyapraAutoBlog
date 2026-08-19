@@ -1,0 +1,497 @@
+{% liquid
+  assign sid = section.id 
+%}
+   
+{%- if section.settings.hidden == false -%}
+{%- render 'section_style' -%}
+{%- style -%}
+  #laber_{{sid}} {
+    background-color: {{ section.settings.cl_bg }};
+  }
+  #laber_{{sid}} .item-faq {
+    margin-bottom: {{ section.settings.item_spacing | default: 16 }}px;
+  }
+  #laber_{{sid}} .js-item-faq {
+    background-color: {{ section.settings.bg_item_color | default: '#ffffff' }};
+    border: 1px solid {{ section.settings.border_item_color | default: '#ebebeb' }};
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #laber_{{sid}} .js-item-faq:hover {
+    border-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    {%- if section.settings.faq_shadow -%}
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    {%- endif -%}
+    transform: translateY(-1px);
+  }
+
+  #laber_{{sid}} .js-item-faq.active {
+    border-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    background-color: #fffdfb;
+    {%- if section.settings.faq_shadow -%}
+      box-shadow: 0 4px 14px rgba(243, 162, 34, 0.05);
+    {%- endif -%}
+  }
+
+  #laber_{{sid}} .heading-title {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #laber_{{sid}} .heading-title a {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111111;
+    line-height: 1.4;
+    text-decoration: none;
+    flex-grow: 1;
+    display: block;
+    transition: color 0.2s ease;
+  }
+
+  #laber_{{sid}} .js-item-faq.active .heading-title a {
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+  }
+
+  #laber_{{sid}} .faqs-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  #laber_{{sid}} .js-item-faq:hover .faqs-icon {
+    background-color: #f0f0f0;
+  }
+
+  #laber_{{sid}} .js-item-faq.active .faqs-icon {
+    background-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    transform: rotate(180deg);
+  }
+
+  #laber_{{sid}} .faqs-icon::before,
+  #laber_{{sid}} .faqs-icon::after {
+    content: '';
+    position: absolute;
+    background-color: #444444;
+    transition: all 0.3s ease;
+  }
+
+  #laber_{{sid}} .js-item-faq.active .faqs-icon::before,
+  #laber_{{sid}} .js-item-faq.active .faqs-icon::after {
+    background-color: #ffffff;
+  }
+
+  #laber_{{sid}} .faqs-icon::before {
+    width: 12px;
+    height: 2px;
+  }
+
+  #laber_{{sid}} .faqs-icon::after {
+    width: 2px;
+    height: 12px;
+  }
+
+  #laber_{{sid}} .js-item-faq.active .faqs-icon::after {
+    height: 0px;
+  }
+
+  #laber_{{sid}} .content-faq {
+    padding: 0;
+    margin-top: 0;
+    display: none;
+    overflow: hidden;
+  }
+
+  #laber_{{sid}} .content-faq p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #4a4a4a;
+    margin: 12px 0 0 0;
+    text-align: left;
+  }
+
+  #laber_{{sid}} .wrap_title.style2 {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+
+  #laber_{{sid}} .wrap_title.style2 .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111111;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+
+  #laber_{{sid}} .wrap_title.style2 .section-subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 767px) {
+    #laber_{{sid}} .js-item-faq {
+      padding: 16px 20px;
+    }
+    #laber_{{sid}} .heading-title a {
+      font-size: 15px;
+    }
+    #laber_{{sid}} .wrap_title.style2 .section-title {
+      font-size: 22px;
+    }
+  }
+{%- endstyle -%}
+
+<section id="laber_{{sid}}">
+  <div class="container {% if section.settings.layout == "full-width"%}{{section.settings.layout}}{% endif %}">
+    {% if section.settings.title != blank or section.settings.sub_title != blank %}
+    	<div class="wrap_title style2 {{ section.settings.text_size }}">
+    	  {% if section.settings.sub_title != blank %}
+    		  <span class="section-subtitle h4 alo-text-transform" style="--ui-text-transform:{{ section.settings.text_transform }}">{{section.settings.sub_title}}</span>
+    	  {% endif %}
+          {% if section.settings.title != blank %}
+    		  <h3 class="section-title h3 alo-text-transform" style="--ui-text-transform:{{ section.settings.text_transform }}">{{section.settings.title}}</h3>  
+    	  {% endif %}
+          {% if section.settings.content != blank %}
+    		  <div class="content">{{section.settings.content}}</div>
+    	  {% endif %}
+    	</div>
+    {% endif %}
+    
+    <div class="content_section">
+      {%- if section.settings.column_layout == '1' -%}
+        <div class="row">
+          <div class="col-12 col-lg-8 offset-lg-2">
+            {%- for block in section.blocks -%}
+              {%- assign show_block = false -%}
+              {%- if block.settings.text != blank or request.design_mode -%}
+                {%- assign show_block = true -%}
+              {%- endif -%}
+              {%- if show_block -%}
+                <div id="id_b_{{ block.id }}" class="item-faq" {{ block.shopify_attributes }}>
+                  <div class="js-item-faq item">	
+                    {% if block.settings.title != blank %}
+                      <h3 class="heading-title">
+                          <a href="javascript:void(0);" title="{{ block.settings.title | escape }}">{{ block.settings.title | escape }}</a>
+                          <span class="faqs-icon"></span>
+                      </h3>
+                    {% endif %}
+       
+                    {% if block.settings.text != blank %}
+                      <div class="content-faq">{{ block.settings.text }}</div>
+                    {%- else -%}
+                      <div class="content-faq" style="color: #999; font-style: italic;">[Empty block content - only visible in customizer]</div>
+                    {% endif %}
+                  </div>	
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- else -%}
+        <div class="row">
+          {%- for block in section.blocks -%}
+            {%- assign show_block = false -%}
+            {%- if block.settings.text != blank or request.design_mode -%}
+              {%- assign show_block = true -%}
+            {%- endif -%}
+            {%- if show_block -%}
+              <div class="col-lg-6 col-md-6 col-12">
+                <div id="id_b_{{ block.id }}" class="item-faq" {{ block.shopify_attributes }}>
+                  <div class="js-item-faq item">	
+                    {% if block.settings.title != blank %}
+                      <h3 class="heading-title">
+                          <a href="javascript:void(0);" title="{{ block.settings.title | escape }}">{{ block.settings.title | escape }}</a>
+                          <span class="faqs-icon"></span>
+                      </h3>
+                    {% endif %}
+       
+                    {% if block.settings.text != blank %}
+                      <div class="content-faq">{{ block.settings.text }}</div>
+                    {%- else -%}
+                      <div class="content-faq" style="color: #999; font-style: italic;">[Empty block content - only visible in customizer]</div>
+                    {% endif %}
+                  </div>	
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+    $(document).off('click', '#laber_{{sid}} .heading-title').on('click', '#laber_{{sid}} .heading-title', function(e) {
+      e.preventDefault();
+      var $item = $(this).closest('.js-item-faq');
+      var $content = $item.find('.content-faq');
+      
+      $content.slideToggle("fast");
+      $item.toggleClass('active');
+    });
+  });
+</script>
+{%- endif -%}
+{%- render 'section_style' -%} 
+{%- schema -%}
+  {
+    "name": "FAQ - section",
+    "class": "cms_section faq-section",
+	"max_blocks": 10,
+    "settings": [
+      {
+      "type": "checkbox",
+      "id": "hidden",
+      "label": "Hidden Section?",
+      "default": false
+      },
+      {
+        "type": "select",
+        "id": "column_layout",
+        "label": "Column Layout",
+        "default": "2",
+        "options": [
+          {
+            "value": "1",
+            "label": "Single Column (Centered & Narrow)"
+          },
+          {
+            "value": "2",
+            "label": "Two Columns (Grid)"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Accent Color (Icon & Active)",
+        "default": "#cc1226"
+      },
+      {
+        "type": "color",
+        "id": "bg_item_color",
+        "label": "FAQ Card Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "border_item_color",
+        "label": "FAQ Card Border Color",
+        "default": "#ebebeb"
+      },
+      {
+        "type": "range",
+        "id": "item_spacing",
+        "label": "Spacing Between FAQ Cards",
+        "default": 16,
+        "min": 8,
+        "max": 40,
+        "step": 2,
+        "unit": "px"
+      },
+      {
+        "type": "checkbox",
+        "id": "faq_shadow",
+        "label": "Enable Subtle Card Shadow?",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "== Title Settings"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Frequently Asked Questions",
+        "default": "Text column with image"
+      },
+      
+      {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub title",
+        "default": "Why Choose Us"
+      }, 
+	  {
+        "type": "textarea",
+        "id": "content",
+        "label": "Content",
+        "default": "Class aptent taciti sociosqu ad litora torquent per conubia nostra per inceptos vel pretium<br> lectus qua. Nunc id cursus metus ididunt ut labore metus episcing."
+      }, 
+      {
+      "type": "select",
+      "id": "text_size",
+      "default": "medium",
+      "options": [
+        {
+          "value": "small",
+          "label": "small"
+       },
+       {
+          "value": "medium",
+          "label": "Medium"
+       },
+       {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "label": "Text size"
+    },
+    {
+        "type": "select",
+        "id": "text_transform",
+        "default": "none",
+        "options": [
+         {
+            "value": "none",
+            "label": "None"
+         },
+         {
+            "value": "capitalize",
+            "label": "Capitalize"
+         },
+         {
+            "value": "lowercase",
+            "label": "Lowercase"
+         },
+         {
+            "value": "uppercase",
+            "label": "Uppercase"
+          }
+        ],
+        "label": "Text transform:"
+      },
+      {
+        "type": "header",
+        "content": "== Design Options"
+      },
+		{
+        "type": "select",
+        "id": "layout",
+        "options": [
+         {
+            "value": "container",
+            "label": "Container"
+         },
+         {
+            "value": "full-width",
+            "label": "Full Width"
+          }
+        ],
+        "label": "Layout"
+      },
+      {
+      "type": "color",
+      "id": "cl_bg",
+      "label": "Background color",
+      "default": "#fff"
+      },
+      {
+      "type": "text",
+      "id": "mg",
+      "label": "Margin",
+      "info":"Margin top, margin right, margin bottom, margin left. If you not use to blank"
+      },
+      {
+      "type": "text",
+      "id": "pd",
+      "label": "Padding",
+      "info":"Padding top, padding right, padding bottom, padding left. If you not use to blank"
+      },
+      {
+      "type": "header",
+      "content": "== Design Mobile Options"
+      },
+      {
+      "type": "text",
+      "id": "mg_mb",
+      "label": "Margin"
+      },
+      {
+      "type": "text",
+      "id": "pd_mb",
+      "label": "Padding"
+      }
+    ],
+	"blocks": [{
+    "type": "faq",
+    "name": "Faq",
+    "settings": [
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Problems sending or receiving messages?"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Curabitur lacinia purus vitae lorem porttitor fermentum. In in mattis erat mattis libero. Donec volutpat faucibus elit cursus interdum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>"
+        },
+        {
+        "type": "url",
+        "id": "link",
+        "label": "link"
+        }, 
+        {
+        "type": "select",
+        "id": "open_link",
+        "options": [
+        {
+        "value": "_self",
+        "label": "Current window (_self)"
+        },
+        {
+        "value": "_blank",
+        "label": "New window (_blank)"
+        }
+        ],
+        "label": "Open link in",
+        "default": "_blank"
+        }
+
+      ]
+    }],
+    "presets": [
+      {
+        "name": "FAQ - section",
+        "category": "Images",
+		"blocks": [
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" }
+        ]
+      }
+    ]
+  }
+{% endschema %}

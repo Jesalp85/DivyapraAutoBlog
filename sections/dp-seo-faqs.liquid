@@ -1,0 +1,518 @@
+{% liquid
+  assign sid = section.id 
+%}
+
+{%- style -%}
+  #dp-seo-faqs-{{ sid }} {
+    background-color: {{ section.settings.bg_color | default: '#fff8ee' }};
+    padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+  }
+  @media (max-width: 767px) {
+    #dp-seo-faqs-{{ sid }} {
+      padding-top: {{ section.settings.padding_top_mobile | default: 40 }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile | default: 40 }}px;
+    }
+  }
+
+  .dp-seo-faqs-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .dp-seo-faqs-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .dp-seo-faqs-subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .dp-seo-faqs-title {
+    font-family: "Gill Sans MT", sans-serif;
+    font-size: clamp(26px, 2.5vw, 36px);
+    font-weight: 700;
+    color: #1a1208;
+    margin: 0;
+  }
+
+  .dp-seo-faqs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    align-items: start;
+  }
+
+  {%- if section.settings.show_contact_card -%}
+  @media (min-width: 992px) {
+    .dp-seo-faqs-grid {
+      grid-template-columns: 7fr 3fr;
+    }
+  }
+  {%- endif -%}
+
+  /* Accordion styling */
+  .dp-seo-faqs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dp-seo-faq-item {
+    background-color: #ffffff;
+    border: 1px solid {{ section.settings.border_color | default: '#ebd9c2' }};
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .dp-seo-faq-item:hover {
+    border-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    box-shadow: 0 4px 15px rgba(26, 18, 8, 0.05);
+  }
+
+  .dp-seo-faq-item.active {
+    border-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    box-shadow: 0 4px 18px rgba(26, 18, 8, 0.06);
+  }
+
+  .dp-seo-faq-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .dp-seo-faq-question-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .dp-seo-faq-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+  }
+
+  .dp-seo-faq-question {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1208;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .dp-seo-faq-toggle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: #8d7b68;
+  }
+
+  .dp-seo-faq-item.active .dp-seo-faq-toggle {
+    transform: rotate(180deg);
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+  }
+
+  .dp-seo-faq-content-wrap {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .dp-seo-faq-content {
+    padding: 0 24px 20px 62px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #4a3e3d;
+    margin: 0;
+  }
+
+  .dp-seo-faq-content p {
+    margin: 0 0 10px 0;
+    color: #4a3e3d;
+  }
+  .dp-seo-faq-content p:last-child {
+    margin: 0;
+  }
+
+  /* Contact Card Styling */
+  .dp-seo-faq-contact-card {
+    background-color: #ffffff;
+    border: 1px solid {{ section.settings.border_color | default: '#ebd9c2' }};
+    border-radius: 12px;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  }
+
+  .dp-seo-faq-contact-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #fff4e6;
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .dp-seo-faq-contact-title {
+    font-family: "Gill Sans MT", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1208;
+    margin: 0 0 10px 0;
+  }
+
+  .dp-seo-faq-contact-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #5d504f;
+    margin: 0 0 20px 0;
+  }
+
+  .dp-seo-faq-contact-btn {
+    display: inline-block;
+    background-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
+  }
+
+  .dp-seo-faq-contact-btn:hover {
+    filter: brightness(0.9);
+  }
+
+  .dp-seo-faq-contact-btn:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 767px) {
+    .dp-seo-faq-trigger {
+      padding: 16px 20px;
+    }
+    .dp-seo-faq-content {
+      padding: 0 20px 16px 20px;
+    }
+    .dp-seo-faq-question {
+      font-size: 15px;
+    }
+  }
+{%- endstyle -%}
+
+<section id="dp-seo-faqs-{{ sid }}" class="dp-seo-faqs-section">
+  <div class="dp-seo-faqs-wrapper">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="dp-seo-faqs-header">
+        {%- if section.settings.subtitle != blank -%}
+          <span class="dp-seo-faqs-subtitle">{{ section.settings.subtitle }}</span>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="dp-seo-faqs-title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="dp-seo-faqs-grid">
+      <div class="dp-seo-faqs-list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq' -%}
+            {%- assign has_content = false -%}
+            {%- if block.settings.question != blank and block.settings.answer != blank -%}
+              {%- assign has_content = true -%}
+            {%- endif -%}
+
+            {%- if has_content or request.design_mode -%}
+              <div class="dp-seo-faq-item" {{ block.shopify_attributes }}>
+                <button type="button" class="dp-seo-faq-trigger" aria-expanded="false">
+                  <div class="dp-seo-faq-question-wrap">
+                    <span class="dp-seo-faq-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                      </svg>
+                    </span>
+                    <h3 class="dp-seo-faq-question">{{ block.settings.question }}</h3>
+                  </div>
+                  <span class="dp-seo-faq-toggle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </span>
+                </button>
+                <div class="dp-seo-faq-content-wrap">
+                  <div class="dp-seo-faq-content">
+                    {{ block.settings.answer }}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.show_contact_card -%}
+        <div class="dp-seo-faq-contact-card">
+          <span class="dp-seo-faq-contact-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </span>
+          <h3 class="dp-seo-faq-contact-title">{{ section.settings.contact_title | default: 'Have More Questions?' }}</h3>
+          <p class="dp-seo-faq-contact-text">{{ section.settings.contact_text | default: 'Reach out to our customer care team and we will be happy to assist you.' }}</p>
+          {%- if section.settings.contact_btn_label != blank and section.settings.contact_btn_link != blank -%}
+            <a href="{{ section.settings.contact_btn_link }}" class="dp-seo-faq-contact-btn">{{ section.settings.contact_btn_label }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Dynamically generated JSON-LD FAQPage Schema for Search Engine SEO {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- assign first_faq = true -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'faq' and block.settings.question != blank and block.settings.answer != blank -%}
+        {%- unless first_faq -%},{%- endunless -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.question | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ block.settings.answer | strip_html | strip | json }}
+          }
+        }
+        {%- assign first_faq = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+<script>
+  (function() {
+    document.addEventListener("DOMContentLoaded", function() {
+      const wrapperId = 'dp-seo-faqs-{{ sid }}';
+      const wrapper = document.getElementById(wrapperId);
+      if (!wrapper) return;
+
+      const triggers = wrapper.querySelectorAll('.dp-seo-faq-trigger');
+      triggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+          const item = this.closest('.dp-seo-faq-item');
+          const contentWrap = item.querySelector('.dp-seo-faq-content-wrap');
+          const isOpen = item.classList.contains('active');
+
+          // Close other active items
+          wrapper.querySelectorAll('.dp-seo-faq-item.active').forEach(activeItem => {
+            if (activeItem !== item) {
+              activeItem.classList.remove('active');
+              activeItem.querySelector('.dp-seo-faq-trigger').setAttribute('aria-expanded', 'false');
+              activeItem.querySelector('.dp-seo-faq-content-wrap').style.maxHeight = '0';
+            }
+          });
+
+          // Toggle current item
+          if (isOpen) {
+            item.classList.remove('active');
+            this.setAttribute('aria-expanded', 'false');
+            contentWrap.style.maxHeight = '0';
+          } else {
+            item.classList.add('active');
+            this.setAttribute('aria-expanded', 'true');
+            contentWrap.style.maxHeight = contentWrap.scrollHeight + 'px';
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "SEO FAQ Section",
+    "class": "dp-section-seo-faqs",
+    "settings": [
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Frequently Asked Questions"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Frequently Asked Questions"
+      },
+      {
+        "type": "header",
+        "content": "🎨 Colors & Themes"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#fff8ee"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "label": "Card Border Color",
+        "default": "#ebd9c2"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Brand Accent Color (Active/Buttons)",
+        "default": "#cc1226"
+      },
+      {
+        "type": "header",
+        "content": "✉️ Contact Helper Card"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_contact_card",
+        "label": "Show Contact Card?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "contact_title",
+        "label": "Contact Title",
+        "default": "Do you have more questions?"
+      },
+      {
+        "type": "textarea",
+        "id": "contact_text",
+        "label": "Contact Text",
+        "default": "Reach out to our customer care team and we will be happy to assist you."
+      },
+      {
+        "type": "text",
+        "id": "contact_btn_label",
+        "label": "Button Label",
+        "default": "Contact Us"
+      },
+      {
+        "type": "url",
+        "id": "contact_btn_link",
+        "label": "Button Link"
+      },
+      {
+        "type": "header",
+        "content": "📐 Spacing (Padding)"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding Top (Desktop)",
+        "default": 60,
+        "min": 20,
+        "max": 120,
+        "step": 5,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding Bottom (Desktop)",
+        "default": 60,
+        "min": 20,
+        "max": 120,
+        "step": 5,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_top_mobile",
+        "label": "Padding Top (Mobile)",
+        "default": 40,
+        "min": 10,
+        "max": 80,
+        "step": 5,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom_mobile",
+        "label": "Padding Bottom (Mobile)",
+        "default": 40,
+        "min": 10,
+        "max": 80,
+        "step": 5,
+        "unit": "px"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "faq",
+        "name": "FAQ Accordion Item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "question",
+            "label": "Question",
+            "default": "Which oil is used in this Homemade Pickle?"
+          },
+          {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Answer",
+            "default": "<p>We use premium cold-pressed oils (such as cold-pressed mustard oil or peanut oil depending on the specific recipe) to retain natural health benefits and authentic Saurashtra flavor.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "SEO FAQ Section",
+        "category": "Custom",
+        "blocks": [
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" }
+        ]
+      }
+    ]
+  }
+{% endschema %}

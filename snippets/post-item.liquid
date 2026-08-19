@@ -1,0 +1,93 @@
+{% assign image = article.image %}
+{% assign url = article.url %}
+<article class="post-item post_laber_loop">
+  <div class="item  rounded-2">
+    {% if image != blank %}
+      <div class="images-card w-full overflow-hidden">
+        {% render 'responsive-image'
+          , image: image
+          , aspect_ratio: aspect_ratio
+          , image_class: 'w-full h-full'
+          , url: url
+        %}
+      </div>
+    {% endif %}
+    <div class="post-info">
+      <div class="wrap-date">
+        <div class="item-meta inner-date m-0 d-flex gap-1 align-items-center">
+          <p class="m-0 month">{{ article.created_at | date: '%b' }}</p>
+          <p class="m-0 day">{{ article.created_at | date: '%d' }}</p>
+          ,
+          <p class="m-0 year">{{ article.created_at | date: '%Y' }}</p>
+          &nbsp;
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="4"
+              height="4"
+              viewBox="0 0 4 4"
+              fill="none">
+              <circle
+                cx="2"
+                cy="2"
+                r="2"
+                fill="#92949F" />
+            </svg>
+          </div>
+          &nbsp;
+          {% if section.settings['show-post-info'] %}
+            <div class="meta-post">
+              <div class="item-meta author">
+                <span>by {{ article.author }}</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      {% if section.settings['show-cate-blog'] %}
+        <div class="blog">
+          <a href="{{blog.url}}">{{ blog.title }}</a>
+        </div>
+      {% endif %}
+      {% if section.settings['show-name-blog'] %}
+        <div class="head head-article ">
+          {% if section.settings['show-name-blog'] %}
+            <div class="title_blog my-2 my-lg-3">
+              <h3>
+                <a
+                  href="{{ article.url }}"
+                  title="{{ article.title }}"
+                  class="post-title">{{ article.title }}</a>
+              </h3>
+            </div>
+          {% endif %}
+
+          {% if section.settings['show-description'] %}
+            <div class="main-info-post">
+              {% if article.excerpt.size > 0 %}
+                {{ article.excerpt | strip_html | truncatewords: 12 }}
+              {% else %}
+                <div class="des">
+                  <p>{{ article.content | strip_html | truncatewords: 12 }}</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="">
+        {% if section.settings['show-read_more'] %}
+          <div class="read_more">
+            <a
+              href="{{ article.url }}"
+              title="{{ article.title }}"
+              class="btn btn-primary rounded-3">
+              {{ 'blogs.article.read_more' | t }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,1331 @@
+{% assign sid = section.id %}
+
+<section id="laber_{{ sid }}" class="dp-about-page">
+
+  <!-- ===== HERO BANNER ===== -->
+  <div class="dp-about-hero">
+    <div class="dp-about-hero__overlay"></div>
+    <div class="dp-about-hero__content container">
+      {%- if section.settings.hero_tag != blank -%}
+        <span class="dp-about-hero__tag">{{ section.settings.hero_tag | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.hero_title != blank -%}
+        <h1 class="dp-about-hero__title">{{ section.settings.hero_title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.hero_sub != blank -%}
+        <p class="dp-about-hero__sub">{{ section.settings.hero_sub | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.hero_btn_text != blank -%}
+        <a href="{{ section.settings.hero_btn_link | default: '/collections/all' }}" class="dp-about-btn">{{ section.settings.hero_btn_text | escape }}</a>
+      {%- endif -%}
+    </div>
+    <div class="dp-about-hero__scroll">
+      <span></span>
+    </div>
+  </div>
+
+  <!-- ===== ORIGIN STORY ===== -->
+  <div class="dp-story container">
+    <div class="dp-story__grid">
+      <div class="dp-story__text" data-aos="fade-right">
+        {%- if section.settings.story_label != blank -%}
+          <span class="dp-label">{{ section.settings.story_label | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.story_heading != blank -%}
+          <h2>{{ section.settings.story_heading }}</h2>
+        {%- endif -%}
+        <div class="dp-story__quote">
+          <svg width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 24V14.4C0 10.56 0.96 7.28 2.88 4.56C4.88 1.84 7.84 0.159999 11.76 0V4.32C9.68 4.72 8.08 5.72 6.96 7.32C5.84 8.84 5.28 10.68 5.28 12.84H11.04V24H0ZM20.96 24V14.4C20.96 10.56 21.92 7.28 23.84 4.56C25.84 1.84 28.8 0.159999 32.72 0L32.72 4.32C30.64 4.72 29.04 5.72 27.92 7.32C26.8 8.84 26.24 10.68 26.24 12.84H32V24H20.96Z" fill="#c0392b" fill-opacity="0.2"/></svg>
+        </div>
+        {%- if section.settings.story_body_1 != blank -%}
+          <p class="dp-story__body">{{ section.settings.story_body_1 }}</p>
+        {%- endif -%}
+        {%- if section.settings.story_body_2 != blank -%}
+          <p class="dp-story__body">{{ section.settings.story_body_2 }}</p>
+        {%- endif -%}
+        {%- if section.settings.story_body_3 != blank -%}
+          <p class="dp-story__body">{{ section.settings.story_body_3 }}</p>
+        {%- endif -%}
+        <div class="dp-story__stats">
+          {%- if section.settings.stat1_num != blank -%}
+            <div class="dp-stat">
+              <strong>{{ section.settings.stat1_num | escape }}</strong><span>{{ section.settings.stat1_label | escape }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.stat2_num != blank -%}
+            <div class="dp-stat">
+              <strong>{{ section.settings.stat2_num | escape }}</strong><span>{{ section.settings.stat2_label | escape }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.stat3_num != blank -%}
+            <div class="dp-stat">
+              <strong>{{ section.settings.stat3_num | escape }}</strong><span>{{ section.settings.stat3_label | escape }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="dp-story__visual" data-aos="fade-left">
+        <div class="dp-story__img-wrap">
+          <div class="dp-story__img-main">
+            {%- if section.settings.story_image != blank -%}
+              <img src="{{ section.settings.story_image | image_url: width: 800 }}" alt="{{ section.settings.story_image.alt | default: 'Divya Prabha Foods Story' | escape }}" loading="lazy">
+            {%- else -%}
+              <img src="{{ 'AboutUs.png' | asset_url }}" alt="Divya Prabha Foods Story" loading="lazy" onerror="this.style.display='none'; this.parentNode.classList.add('dp-img-fallback')">
+            {%- endif -%}
+            <div class="dp-story__badge">
+              <span class="dp-story__badge-icon">{{ section.settings.badge_icon | default: '🫙' | escape }}</span>
+              <span>{{ section.settings.badge_title | default: 'Handcrafted with Love' | escape }}</span>
+            </div>
+          </div>
+          <div class="dp-story__img-accent">
+            <div class="dp-accent-card">
+              <div class="dp-accent-icon">{{ section.settings.accent_icon | default: '☀️' | escape }}</div>
+              <p>{{ section.settings.accent_title | default: 'Sun-dried Mangoes' | escape }}</p>
+              <small>{{ section.settings.accent_subtitle | default: 'Traditional Saurashtra method' | escape }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== THE PROCESS ===== -->
+  <div class="dp-process">
+    <div class="container">
+      <div class="dp-section-head">
+        <span class="dp-label">{{ section.settings.process_label | default: 'How We Make It' | escape }}</span>
+        <h2>{{ section.settings.process_heading }}</h2>
+        <p>{{ section.settings.process_sub | escape }}</p>
+      </div>
+      <div class="dp-process__steps">
+        {%- assign process_steps = section.blocks | where: 'type', 'process_step' -%}
+        {%- for block in process_steps -%}
+          {%- if forloop.index > 1 -%}
+            <div class="dp-process__step-line"></div>
+          {%- endif -%}
+          <div class="dp-process__step" {{ block.shopify_attributes }}>
+            <div class="dp-process__step-icon">
+              <span>{{ block.settings.step_icon | escape }}</span>
+            </div>
+            <div class="dp-process__step-num">
+              {%- if forloop.index < 10 -%}0{%- endif -%}{{ forloop.index }}
+            </div>
+            <h3>{{ block.settings.step_title | escape }}</h3>
+            <p>{{ block.settings.step_desc | escape }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VALUES ===== -->
+  <div class="dp-values container">
+    <div class="dp-section-head">
+      <span class="dp-label">{{ section.settings.values_label | default: 'Our Promise' | escape }}</span>
+      <h2>{{ section.settings.values_heading | default: 'What Makes Our Pickles Different' | escape }}</h2>
+    </div>
+    <div class="dp-values__grid">
+      {%- assign value_cards = section.blocks | where: 'type', 'value_card' -%}
+      {%- for block in value_cards -%}
+        <div class="dp-value-card{% if block.settings.is_highlight %} dp-value-card--highlight{% endif %}" {{ block.shopify_attributes }}>
+          <div class="dp-value-card__icon">{{ block.settings.card_icon | escape }}</div>
+          <h3>{{ block.settings.card_title | escape }}</h3>
+          <p>{{ block.settings.card_desc | escape }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <!-- ===== EMOTIONAL CTA BAND ===== -->
+  <div class="dp-emotion-band">
+    <div class="container dp-emotion-band__inner">
+      <div class="dp-emotion-band__text">
+        <h2>{{ section.settings.emotion_heading }}</h2>
+        {%- if section.settings.emotion_body_1 != blank -%}
+          <p>{{ section.settings.emotion_body_1 | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.emotion_body_2 != blank -%}
+          <p>{{ section.settings.emotion_body_2 | escape }}</p>
+        {%- endif -%}
+      </div>
+      <div class="dp-emotion-band__cta">
+        {%- if section.settings.emotion_btn1_text != blank -%}
+          <a href="{{ section.settings.emotion_btn1_link | default: '/collections/all' }}" class="dp-about-btn dp-about-btn--white">{{ section.settings.emotion_btn1_text | escape }}</a>
+        {%- endif -%}
+        {%- if section.settings.emotion_btn2_text != blank -%}
+          <a href="{{ section.settings.emotion_btn2_link | default: '/pages/contact' }}" class="dp-about-btn dp-about-btn--outline">{{ section.settings.emotion_btn2_text | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FROM FOUNDER ===== -->
+  <div class="dp-founder container">
+    <div class="dp-section-head">
+      <span class="dp-label">{{ section.settings.founder_label | default: 'From Our Heart' | escape }}</span>
+      <h2>{{ section.settings.founder_heading | default: 'A Letter from the Founder' | escape }}</h2>
+    </div>
+    <div class="dp-founder__card">
+      <div class="dp-founder__quote-mark">"</div>
+      <blockquote class="dp-founder__quote">
+        {{ section.settings.founder_quote | newline_to_br }}
+      </blockquote>
+      <div class="dp-founder__sig">
+        <div class="dp-founder__sig-name">{{ section.settings.founder_sig_name | escape }}</div>
+        <div class="dp-founder__sig-place">{{ section.settings.founder_sig_place | escape }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ADDRESS & CONTACT ===== -->
+  <div class="dp-contact-strip container">
+    {%- assign contact_cards = section.blocks | where: 'type', 'contact_card' -%}
+    {%- for block in contact_cards -%}
+      <div class="dp-contact-card" {{ block.shopify_attributes }}>
+        <div class="dp-contact-card__icon">{{ block.settings.card_icon | escape }}</div>
+        <div>
+          <h4>{{ block.settings.card_title | escape }}</h4>
+          <p>
+            {{ block.settings.card_text | newline_to_br }}
+            {%- if block.settings.card_link != blank and block.settings.card_link_text != blank -%}
+              <br><a href="{{ block.settings.card_link }}">{{ block.settings.card_link_text | escape }}</a>
+            {%- endif -%}
+          </p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+</section>
+
+{%- style -%}
+/* ======================================
+   DIVYA PRABHA FOODS — ABOUT US PAGE
+   Premium Brand-Aligned Stylesheet
+   ====================================== */
+
+#laber_{{ sid }} {
+  --dp-red: {{ section.settings.color_red }};
+  --dp-red-dark: color-mix(in srgb, {{ section.settings.color_red }} 85%, black);
+  --dp-brown: {{ section.settings.color_brown }};
+  --dp-gold: {{ section.settings.color_gold }};
+  --dp-cream: {{ section.settings.color_cream }};
+  --dp-warm-bg: {{ section.settings.color_warm_bg }};
+  --dp-text: {{ section.settings.color_text }};
+  --dp-muted: {{ section.settings.color_muted }};
+  --dp-border: {{ section.settings.color_border }};
+}
+
+/* --- Global Reset for this page --- */
+.dp-about-page {
+  font-family: 'Inter', 'Gill Sans MT', sans-serif;
+  color: var(--dp-text);
+  overflow-x: hidden;
+}
+
+/* --- Container Style --- */
+.dp-about-page .container {
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .dp-about-page .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* ---- HERO ---- */
+.dp-about-hero {
+  position: relative;
+  min-height: 90vh;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--dp-brown) 40%, black) 0%, var(--dp-brown) 40%, color-mix(in srgb, var(--dp-brown) 40%, var(--dp-red) 30%) 70%, var(--dp-brown) 100%);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.dp-about-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+.dp-about-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(176,18,21,0.3) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(229,168,66,0.15) 0%, transparent 50%);
+}
+.dp-about-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  padding: 100px 0 80px;
+}
+.dp-about-hero__tag {
+  display: inline-block;
+  background: rgba(229,168,66,0.2);
+  border: 1px solid rgba(229,168,66,0.4);
+  color: var(--dp-gold);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+.dp-about-hero__title {
+  font-size: clamp(42px, 7vw, 88px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+.dp-about-hero__title em {
+  font-style: italic;
+  color: var(--dp-gold);
+}
+.dp-about-hero__sub {
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(255,248,238,0.85);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 560px;
+}
+.dp-about-btn {
+  display: inline-block;
+  background: var(--dp-red);
+  color: #fff;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border: 2px solid var(--dp-red);
+}
+.dp-about-btn:hover {
+  background: var(--dp-gold);
+  border-color: var(--dp-gold);
+  color: var(--dp-brown);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(176,18,21,0.3);
+}
+.dp-about-btn--white {
+  background: #fff;
+  color: var(--dp-brown);
+  border-color: #fff;
+}
+.dp-about-btn--white:hover {
+  background: var(--dp-gold);
+  border-color: var(--dp-gold);
+  color: var(--dp-brown);
+}
+.dp-about-btn--outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,0.5);
+  margin-left: 16px;
+}
+.dp-about-btn--outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+}
+.dp-about-hero__scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+.dp-about-hero__scroll span {
+  display: block;
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(229,168,66,0.8), transparent);
+  margin: 0 auto;
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 1; height: 60px; }
+  50% { opacity: 0.3; height: 30px; }
+}
+
+/* ---- LABELS & SECTION HEADS ---- */
+.dp-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dp-red);
+  background: rgba(176,18,21,0.08);
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+.dp-section-head {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 60px;
+}
+.dp-section-head h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  color: var(--dp-brown);
+  line-height: 1.2;
+  margin: 12px 0;
+}
+.dp-section-head p {
+  font-size: 17px;
+  color: var(--dp-muted);
+  line-height: 1.7;
+}
+
+/* ---- STORY SECTION ---- */
+.dp-story {
+  padding: 100px 0;
+}
+.dp-story__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.dp-story__text .dp-label {
+  display: block;
+  width: fit-content;
+}
+.dp-story__text h2 {
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 800;
+  color: var(--dp-brown);
+  line-height: 1.15;
+  margin: 16px 0 8px;
+}
+.dp-story__quote {
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+.dp-story__body {
+  font-size: 16px;
+  color: var(--dp-muted);
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+.dp-story__body strong {
+  color: var(--dp-brown);
+}
+.dp-story__stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--dp-border);
+}
+.dp-stat strong {
+  display: block;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--dp-red);
+  line-height: 1;
+}
+.dp-stat span {
+  font-size: 13px;
+  color: var(--dp-muted);
+  display: block;
+  margin-top: 4px;
+}
+.dp-story__visual {
+  position: relative;
+}
+.dp-story__img-wrap {
+  position: relative;
+}
+.dp-story__img-main {
+  background: linear-gradient(135deg, var(--dp-warm-bg), var(--dp-cream));
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(61,31,15,0.2);
+}
+.dp-story__img-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.dp-story__img-main:hover img {
+  transform: scale(1.03);
+}
+.dp-img-fallback {
+  background: linear-gradient(135deg, #fdf0de, #f5d9a8);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.dp-img-fallback::after {
+  content: '🫙';
+  font-size: 80px;
+}
+.dp-story__badge {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(61,31,15,0.9);
+  backdrop-filter: blur(8px);
+  color: var(--dp-cream);
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dp-story__badge-icon {
+  font-size: 18px;
+}
+.dp-story__img-accent {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  z-index: 3;
+}
+.dp-accent-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 24px;
+  box-shadow: 0 10px 40px rgba(61,31,15,0.15);
+  text-align: center;
+  width: 160px;
+}
+.dp-accent-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+.dp-accent-card p {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  margin: 0 0 4px;
+}
+.dp-accent-card small {
+  font-size: 11px;
+  color: var(--dp-muted);
+}
+
+/* ---- PROCESS SECTION ---- */
+.dp-process {
+  background: var(--dp-brown);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+.dp-process::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--dp-red), var(--dp-gold), var(--dp-red));
+}
+.dp-process .dp-label {
+  color: var(--dp-gold);
+  background: rgba(229,168,66,0.15);
+}
+.dp-process .dp-section-head h2 {
+  color: var(--dp-cream);
+}
+.dp-process .dp-section-head p {
+  color: rgba(255,248,238,0.7);
+}
+.dp-process__steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+.dp-process__step {
+  flex: 1;
+  text-align: center;
+  padding: 0 24px;
+}
+.dp-process__step-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, rgba(229,168,66,0.3), rgba(229,168,66,0.7), rgba(229,168,66,0.3));
+  flex-shrink: 0;
+  margin-top: 60px;
+}
+.dp-process__step-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 16px;
+  border: 2px solid var(--dp-red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.dp-process__step-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--dp-gold);
+  margin-bottom: 12px;
+}
+.dp-process__step h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dp-cream);
+  margin-bottom: 12px;
+}
+.dp-process__step p {
+  font-size: 14px;
+  color: rgba(255,248,238,0.65);
+  line-height: 1.7;
+}
+
+/* ---- VALUES SECTION ---- */
+.dp-values {
+  padding: 100px 0;
+}
+.dp-values__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.dp-value-card {
+  background: var(--dp-warm-bg);
+  border-radius: 20px;
+  padding: 36px 28px;
+  border: 1px solid var(--dp-border);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.dp-value-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--dp-red), var(--dp-gold));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+.dp-value-card:hover::before {
+  transform: scaleX(1);
+}
+.dp-value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(61,31,15,0.12);
+  border-color: transparent;
+}
+.dp-value-card--highlight {
+  background: var(--dp-brown);
+  border-color: transparent;
+}
+.dp-value-card--highlight h3 {
+  color: var(--dp-cream) !important;
+}
+.dp-value-card--highlight p {
+  color: rgba(255,248,238,0.75) !important;
+}
+.dp-value-card--highlight::before {
+  background: linear-gradient(to right, var(--dp-gold), var(--dp-red));
+}
+.dp-value-card__icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+  display: block;
+}
+.dp-value-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  margin-bottom: 12px;
+}
+.dp-value-card p {
+  font-size: 14px;
+  color: var(--dp-muted);
+  line-height: 1.7;
+}
+
+/* ---- EMOTION BAND ---- */
+.dp-emotion-band {
+  background: linear-gradient(135deg, var(--dp-red-dark) 0%, var(--dp-red) 50%, #d32f2f 100%);
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+.dp-emotion-band::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+.dp-emotion-band__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+.dp-emotion-band__text {
+  flex: 1;
+}
+.dp-emotion-band__text h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.dp-emotion-band__text h2 em {
+  color: var(--dp-gold);
+  font-style: italic;
+}
+.dp-emotion-band__text p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.dp-emotion-band__cta {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+/* ---- FOUNDER LETTER ---- */
+.dp-founder {
+  padding: 100px 0;
+}
+.dp-founder__card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--dp-warm-bg);
+  border-radius: 32px;
+  padding: 60px;
+  border: 1px solid var(--dp-border);
+  position: relative;
+}
+.dp-founder__quote-mark {
+  font-size: 180px;
+  color: var(--dp-red);
+  opacity: 0.1;
+  position: absolute;
+  top: -20px;
+  left: 40px;
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+.dp-founder__quote {
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--dp-muted);
+  font-style: normal;
+  border: none;
+  padding: 0;
+  margin: 0 0 36px;
+  position: relative;
+  z-index: 1;
+}
+.dp-founder__quote em {
+  font-style: italic;
+  color: var(--dp-red);
+  font-weight: 600;
+}
+.dp-founder__sig {
+  border-top: 1px solid var(--dp-border);
+  padding-top: 24px;
+}
+.dp-founder__sig-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dp-brown);
+}
+.dp-founder__sig-place {
+  font-size: 14px;
+  color: var(--dp-muted);
+  margin-top: 4px;
+}
+
+/* ---- CONTACT STRIP ---- */
+.dp-contact-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding-bottom: 80px;
+}
+.dp-contact-card {
+  background: var(--dp-cream);
+  border: 1px solid var(--dp-border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+.dp-contact-card:hover {
+  box-shadow: 0 12px 32px rgba(61,31,15,0.1);
+  transform: translateY(-3px);
+}
+.dp-contact-card__icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.dp-contact-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  margin: 0 0 8px;
+}
+.dp-contact-card p {
+  font-size: 14px;
+  color: var(--dp-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.dp-contact-card a {
+  color: var(--dp-red);
+  font-weight: 600;
+  text-decoration: none;
+}
+.dp-contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ======================================
+   RESPONSIVE STYLES
+   ====================================== */
+
+@media (max-width: 1024px) {
+  .dp-story__grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  .dp-story__visual {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .dp-story__img-accent {
+    right: 0;
+  }
+  .dp-process__steps {
+    flex-direction: column;
+    align-items: center;
+  }
+  .dp-process__step {
+    width: 100%;
+    max-width: 400px;
+  }
+  .dp-process__step-line {
+    width: 2px;
+    height: 40px;
+    margin: 0 auto;
+    background: linear-gradient(to bottom, rgba(229,168,66,0.3), rgba(229,168,66,0.7), rgba(229,168,66,0.3));
+  }
+  .dp-values__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dp-emotion-band__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .dp-contact-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dp-about-hero {
+    min-height: 100vh;
+  }
+  .dp-about-hero__content {
+    padding: 120px 0 80px;
+    max-width: 100%;
+  }
+  .dp-story {
+    padding: 60px 0;
+  }
+  .dp-story__stats {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .dp-process {
+    padding: 60px 0;
+  }
+  .dp-values {
+    padding: 60px 0;
+  }
+  .dp-values__grid {
+    grid-template-columns: 1fr;
+  }
+  .dp-founder {
+    padding: 60px 0;
+  }
+  .dp-founder__card {
+    padding: 40px 28px;
+  }
+  .dp-emotion-band {
+    padding: 60px 0;
+  }
+  .dp-about-btn--outline {
+    margin-left: 0;
+    display: block;
+  }
+  .dp-contact-strip {
+    padding-bottom: 60px;
+  }
+  .dp-accent-card {
+    width: 130px;
+    padding: 14px 16px;
+  }
+  .dp-accent-icon {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dp-about-hero__title {
+    font-size: 38px;
+  }
+  .dp-about-hero__sub {
+    font-size: 15px;
+  }
+  .dp-emotion-band__cta {
+    width: 100%;
+  }
+  .dp-about-btn {
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
+  .dp-about-btn--outline {
+    margin-left: 0;
+  }
+  .dp-founder__card {
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+  .dp-contact-card {
+    padding: 24px 20px;
+  }
+}
+{%- endstyle -%}
+
+{%- schema -%}
+{
+  "name": "DP About Us",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color Customizer"
+    },
+    {
+      "type": "color",
+      "id": "color_red",
+      "label": "Red (Accent Color)",
+      "default": "#b01215"
+    },
+    {
+      "type": "color",
+      "id": "color_brown",
+      "label": "Brown (Secondary Color)",
+      "default": "#3d1f0f"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Gold (Highlight Accent)",
+      "default": "#e5a842"
+    },
+    {
+      "type": "color",
+      "id": "color_cream",
+      "label": "Cream (Background Accent)",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "color_warm_bg",
+      "label": "Warm BG (Section BG)",
+      "default": "#fdf6ed"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Main Text Color",
+      "default": "#2d1206"
+    },
+    {
+      "type": "color",
+      "id": "color_muted",
+      "label": "Muted Text Color",
+      "default": "#6b4c3b"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Border Color",
+      "default": "#e8d5c0"
+    },
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "text",
+      "id": "hero_tag",
+      "label": "Tag",
+      "default": "Est. 2018 · Saurashtra, Gujarat"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "A Jar Full of<br><em>Baa's Love</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_sub",
+      "label": "Subtitle",
+      "default": "Every pickle we make carries a memory — of grandmothers humming in summer kitchens, of sun-dried mangoes on rooftop terraces, of recipes passed down not through books, but through loving hands."
+    },
+    {
+      "type": "text",
+      "id": "hero_btn_text",
+      "label": "Button Text",
+      "default": "Taste Our Story"
+    },
+    {
+      "type": "url",
+      "id": "hero_btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Story Section"
+    },
+    {
+      "type": "text",
+      "id": "story_label",
+      "label": "Label",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Heading",
+      "default": "Some Flavours<br>Are Never Forgotten"
+    },
+    {
+      "type": "textarea",
+      "id": "story_body_1",
+      "label": "Body Paragraph 1",
+      "default": "There are some flavours that never leave us. The aroma of a freshly opened pickle jar at the family dining table. The taste of raw mango pickle served with hot parathas during summer vacations. The recipes lovingly prepared by mothers and grandmothers — never written down, only felt in the heart and remembered in the hands."
+    },
+    {
+      "type": "textarea",
+      "id": "story_body_2",
+      "label": "Body Paragraph 2",
+      "default": "As life became faster, many of these traditional homemade flavours slowly disappeared from our kitchens — replaced by factory jars with artificial preservatives and pale, chemical tastes. <strong>That is why Divya Prabha Foods was born.</strong>"
+    },
+    {
+      "type": "textarea",
+      "id": "story_body_3",
+      "label": "Body Paragraph 3",
+      "default": "Our founder's mother — lovingly called <strong>\"Baa\"</strong> in Gujarati — had been making pickles the traditional Saurashtra way for over four decades. In 2018, what started as small jars shared with neighbours became a movement to bring authentic taste back to every Indian home."
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Main Story Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_icon",
+      "label": "Badge Icon (Emoji)",
+      "default": "🫙"
+    },
+    {
+      "type": "text",
+      "id": "badge_title",
+      "label": "Badge Title",
+      "default": "Handcrafted with Love"
+    },
+    {
+      "type": "text",
+      "id": "accent_icon",
+      "label": "Accent Icon (Emoji)",
+      "default": "☀️"
+    },
+    {
+      "type": "text",
+      "id": "accent_title",
+      "label": "Accent Title",
+      "default": "Sun-dried Mangoes"
+    },
+    {
+      "type": "text",
+      "id": "accent_subtitle",
+      "label": "Accent Subtitle",
+      "default": "Traditional Saurashtra method"
+    },
+    {
+      "type": "text",
+      "id": "stat1_num",
+      "label": "Stat 1 Number",
+      "default": "7+"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 Label",
+      "default": "Years of Tradition"
+    },
+    {
+      "type": "text",
+      "id": "stat2_num",
+      "label": "Stat 2 Number",
+      "default": "25+"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 Label",
+      "default": "Pickle Varieties"
+    },
+    {
+      "type": "text",
+      "id": "stat3_num",
+      "label": "Stat 3 Number",
+      "default": "10,000+"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 Label",
+      "default": "Happy Families"
+    },
+    {
+      "type": "header",
+      "content": "Process Section"
+    },
+    {
+      "type": "text",
+      "id": "process_label",
+      "label": "Label",
+      "default": "How We Make It"
+    },
+    {
+      "type": "text",
+      "id": "process_heading",
+      "label": "Heading",
+      "default": "Made the Old Way.<br>The Only Right Way."
+    },
+    {
+      "type": "textarea",
+      "id": "process_sub",
+      "label": "Subtitle",
+      "default": "No shortcuts. No factory floors. Just time-honoured techniques passed through generations."
+    },
+    {
+      "type": "header",
+      "content": "Values Section"
+    },
+    {
+      "type": "text",
+      "id": "values_label",
+      "label": "Label",
+      "default": "Our Promise"
+    },
+    {
+      "type": "text",
+      "id": "values_heading",
+      "label": "Heading",
+      "default": "What Makes Our Pickles Different"
+    },
+    {
+      "type": "header",
+      "content": "Emotion Band"
+    },
+    {
+      "type": "text",
+      "id": "emotion_heading",
+      "label": "Heading",
+      "default": "Every Jar Tells a Story of<br><em>Ghar Ka Khana</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "emotion_body_1",
+      "label": "Paragraph 1",
+      "default": "When you open a jar of Divya Prabha Foods, close your eyes for a moment. That aroma — sharp, tangy, warm with spice — that's not just pickle. That's Sunday mornings at Baa's house. That's monsoon evenings with hot rotis. That's home."
+    },
+    {
+      "type": "textarea",
+      "id": "emotion_body_2",
+      "label": "Paragraph 2",
+      "default": "We don't just make pickles. We preserve memories."
+    },
+    {
+      "type": "text",
+      "id": "emotion_btn1_text",
+      "label": "Button 1 Text",
+      "default": "Shop Our Pickles"
+    },
+    {
+      "type": "url",
+      "id": "emotion_btn1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "emotion_btn2_text",
+      "label": "Button 2 Text",
+      "default": "Talk to Us"
+    },
+    {
+      "type": "url",
+      "id": "emotion_btn2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "header",
+      "content": "Founder Letter"
+    },
+    {
+      "type": "text",
+      "id": "founder_label",
+      "label": "Label",
+      "default": "From Our Heart"
+    },
+    {
+      "type": "text",
+      "id": "founder_heading",
+      "label": "Heading",
+      "default": "A Letter from the Founder"
+    },
+    {
+      "type": "textarea",
+      "id": "founder_quote",
+      "label": "Quote Content",
+      "default": "I remember sitting in my mother's kitchen as a child, watching her work with pickles for hours — cutting, mixing, tasting, adjusting — with no recipe card, no measurements. Just instinct, memory, and decades of love.<br><br>When I moved to the city, I realised what I had taken for granted. No pickle in any store came close. They all tasted of factories, not of family. That's when I called Baa and said — <em>\"Let's share your pickles with the world.\"</em><br><br>Today, when a customer messages us saying our Aam Achar reminded them of their childhood home, we feel our purpose confirmed. We're not just selling food. We're delivering belonging.<br><br>Thank you for being part of our family."
+    },
+    {
+      "type": "text",
+      "id": "founder_sig_name",
+      "label": "Signature Name",
+      "default": "— The Divya Prabha Family"
+    },
+    {
+      "type": "text",
+      "id": "founder_sig_place",
+      "label": "Signature Location",
+      "default": "Virar, Palghar · Maharashtra"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "process_step",
+      "name": "Process Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step_icon",
+          "label": "Icon (Emoji)",
+          "default": "🥭"
+        },
+        {
+          "type": "text",
+          "id": "step_title",
+          "label": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "step_desc",
+          "label": "Step Description"
+        }
+      ]
+    },
+    {
+      "type": "value_card",
+      "name": "Value Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "card_icon",
+          "label": "Icon (Emoji)",
+          "default": "🚫"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card Title"
+        },
+        {
+          "type": "textarea",
+          "id": "card_desc",
+          "label": "Card Description"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_highlight",
+          "label": "Highlight Card",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "contact_card",
+      "name": "Contact Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "card_icon",
+          "label": "Icon (Emoji)",
+          "default": "📍"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card Title"
+        },
+        {
+          "type": "textarea",
+          "id": "card_text",
+          "label": "Card Text"
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "Card Link"
+        },
+        {
+          "type": "text",
+          "id": "card_link_text",
+          "label": "Card Link Text"
+        }
+      ]
+    }
+  ]
+}
+{%- endschema -%}

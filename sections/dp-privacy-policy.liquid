@@ -1,0 +1,581 @@
+{% assign sid = section.id %}
+
+<section id="laber_{{ sid }}" class="dp-pp-page">
+
+  <!-- ===== HERO BANNER ===== -->
+  <div class="dp-pp-hero">
+    <div class="dp-pp-hero__overlay"></div>
+    <div class="dp-pp-hero__content container">
+      <h1 class="dp-pp-hero__title">{{ section.settings.hero_title | escape }}</h1>
+      {%- if section.settings.hero_sub != blank -%}
+        <p class="dp-pp-hero__sub">{{ section.settings.hero_sub | escape }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- ===== QUICK HIGHLIGHTS ===== -->
+  <div class="dp-pp-highlights container">
+    <div class="dp-pp-highlights__grid">
+      {%- assign highlights = section.blocks | where: 'type', 'highlight_card' -%}
+      {%- for block in highlights -%}
+        <div class="dp-pp-highlight-card" {{ block.shopify_attributes }}>
+          <div class="dp-pp-highlight-card__icon">{{ block.settings.card_icon | escape }}</div>
+          <h3>{{ block.settings.card_title | escape }}</h3>
+          <p>{{ block.settings.card_desc | escape }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <!-- ===== ACCORDION LIST ===== -->
+  <div class="dp-pp-body container">
+    <div class="dp-section-head">
+      {%- if section.settings.section_label != blank -%}
+        <span class="dp-label">{{ section.settings.section_label | escape }}</span>
+      {%- endif -%}
+      <h2>{{ section.settings.section_heading | escape }}</h2>
+    </div>
+
+    <div class="dp-pp-accordion-wrapper">
+      {%- assign accordions = section.blocks | where: 'type', 'privacy_accordion' -%}
+      {%- for block in accordions -%}
+        <div class="dp-pp-accordion-item" {{ block.shopify_attributes }}>
+          <button class="dp-pp-accordion-header">
+            <span>{{ block.settings.title | escape }}</span>
+            <span class="dp-pp-accordion-icon">+</span>
+          </button>
+          <div class="dp-pp-accordion-content">
+            <div class="dp-pp-accordion-content-inner">
+              <p>{{ block.settings.content | newline_to_br }}</p>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <!-- ===== HELP STRIP ===== -->
+  <div class="dp-pp-contact-strip">
+    <div class="container dp-pp-contact-strip__inner">
+      <div class="dp-pp-contact-strip__text">
+        <h2>{{ section.settings.contact_heading | escape }}</h2>
+        <p>{{ section.settings.contact_sub | escape }}</p>
+      </div>
+      <div class="dp-pp-contact-strip__cta">
+        {%- if section.settings.contact_btn1_text != blank -%}
+          <a href="{{ section.settings.contact_btn1_link | default: '#' }}" class="dp-pp-btn dp-pp-btn--white">{{ section.settings.contact_btn1_text | escape }}</a>
+        {%- endif -%}
+        {%- if section.settings.contact_btn2_text != blank -%}
+          <a href="{{ section.settings.contact_btn2_link | default: '/pages/contact' }}" class="dp-pp-btn dp-pp-btn--outline">{{ section.settings.contact_btn2_text | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{%- style -%}
+/* ======================================
+   DIVYA PRABHA FOODS — PRIVACY POLICY
+   Premium Scoped Theme Layout
+   ====================================== */
+
+#laber_{{ sid }} {
+  --dp-red: {{ section.settings.color_red }};
+  --dp-red-dark: color-mix(in srgb, {{ section.settings.color_red }} 85%, black);
+  --dp-brown: {{ section.settings.color_brown }};
+  --dp-gold: {{ section.settings.color_gold }};
+  --dp-cream: {{ section.settings.color_cream }};
+  --dp-warm-bg: {{ section.settings.color_warm_bg }};
+  --dp-text: {{ section.settings.color_text }};
+  --dp-muted: {{ section.settings.color_muted }};
+  --dp-border: {{ section.settings.color_border }};
+}
+
+.dp-pp-page {
+  font-family: 'Inter', 'Gill Sans MT', sans-serif;
+  color: var(--dp-text);
+  background-color: var(--dp-warm-bg);
+  overflow-x: hidden;
+  padding-bottom: 0;
+}
+
+/* ---- HERO ---- */
+.dp-pp-hero {
+  position: relative;
+  min-height: 45vh;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--dp-brown) 40%, black) 0%, var(--dp-brown) 40%, color-mix(in srgb, var(--dp-brown) 40%, var(--dp-red) 30%) 70%, var(--dp-brown) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.dp-pp-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+.dp-pp-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(176,18,21,0.2) 0%, transparent 80%);
+}
+.dp-pp-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 80px 20px;
+}
+.dp-pp-hero__title {
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.dp-pp-hero__sub {
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--dp-gold);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* ---- HIGHLIGHTS ---- */
+.dp-pp-highlights {
+  margin-top: -50px;
+  position: relative;
+  z-index: 5;
+  padding: 0 15px;
+}
+.dp-pp-highlights__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.dp-pp-highlight-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px;
+  border: 1px solid var(--dp-border);
+  box-shadow: 0 10px 30px rgba(61,31,15,0.06);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.dp-pp-highlight-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(61,31,15,0.12);
+  border-color: var(--dp-gold);
+}
+.dp-pp-highlight-card__icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+.dp-pp-highlight-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  margin-bottom: 8px;
+}
+.dp-pp-highlight-card p {
+  font-size: 14px;
+  color: var(--dp-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---- ACCORDION ---- */
+.dp-pp-body {
+  padding: 80px 0;
+  max-width: 800px;
+}
+.dp-pp-accordion-wrapper {
+  background: #fff;
+  border: 1px solid var(--dp-border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(61,31,15,0.05);
+}
+.dp-pp-accordion-item {
+  border-bottom: 1px solid var(--dp-border);
+}
+.dp-pp-accordion-item:last-child {
+  border-bottom: none;
+}
+.dp-pp-accordion-header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 24px 32px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.dp-pp-accordion-header:hover {
+  background-color: var(--dp-cream);
+  color: var(--dp-red);
+}
+.dp-pp-accordion-icon {
+  font-size: 22px;
+  color: var(--dp-red);
+  transition: transform 0.3s ease;
+  font-weight: 400;
+}
+.dp-pp-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: var(--dp-warm-bg);
+}
+.dp-pp-accordion-content-inner {
+  padding: 24px 32px;
+  border-top: 1px solid rgba(232, 213, 192, 0.5);
+}
+.dp-pp-accordion-content-inner p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--dp-muted);
+  margin: 0;
+}
+
+/* Accordion Active state helper classes */
+.dp-pp-accordion-item.active .dp-pp-accordion-header {
+  background-color: var(--dp-cream);
+  color: var(--dp-red);
+}
+.dp-pp-accordion-item.active .dp-pp-accordion-icon {
+  transform: rotate(45deg);
+}
+
+/* ---- CONTACT STRIP ---- */
+.dp-pp-contact-strip {
+  background: linear-gradient(135deg, var(--dp-red-dark) 0%, var(--dp-red) 50%, #d32f2f 100%);
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+.dp-pp-contact-strip::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.dp-pp-contact-strip__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+.dp-pp-contact-strip__text {
+  flex: 1;
+}
+.dp-pp-contact-strip__text h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.dp-pp-contact-strip__text p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
+  margin: 0;
+}
+.dp-pp-contact-strip__cta {
+  flex-shrink: 0;
+  display: flex;
+  gap: 16px;
+}
+.dp-pp-btn {
+  display: inline-block;
+  background: var(--dp-red);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid var(--dp-red);
+  text-align: center;
+}
+.dp-pp-btn:hover {
+  background: var(--dp-gold);
+  border-color: var(--dp-gold);
+  color: var(--dp-brown);
+  transform: translateY(-2px);
+}
+.dp-pp-btn--white {
+  background: #fff;
+  color: var(--dp-brown);
+  border-color: #fff;
+}
+.dp-pp-btn--white:hover {
+  background: var(--dp-gold);
+  border-color: var(--dp-gold);
+  color: var(--dp-brown);
+}
+.dp-pp-btn--outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,0.5);
+}
+.dp-pp-btn--outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 991px) {
+  .dp-pp-highlights__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .dp-pp-highlights {
+    margin-top: -30px;
+  }
+  .dp-pp-contact-strip__inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+  }
+  .dp-pp-contact-strip__cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media (max-width: 575px) {
+  .dp-pp-accordion-header {
+    padding: 20px 24px;
+    font-size: 15px;
+  }
+  .dp-pp-accordion-content-inner {
+    padding: 20px 24px;
+  }
+  .dp-pp-contact-strip__cta {
+    flex-direction: column;
+    width: 100%;
+  }
+  .dp-pp-btn {
+    width: 100%;
+  }
+}
+{%- endstyle -%}
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const headers = document.querySelectorAll('#laber_{{ sid }} .dp-pp-accordion-header');
+  headers.forEach(header => {
+    header.addEventListener('click', function() {
+      const item = this.parentElement;
+      const content = this.nextElementSibling;
+      const isActive = item.classList.contains('active');
+      
+      // Close other items
+      document.querySelectorAll('#laber_{{ sid }} .dp-pp-accordion-item').forEach(i => {
+        if (i !== item) {
+          i.classList.remove('active');
+          i.querySelector('.dp-pp-accordion-content').style.maxHeight = null;
+          i.querySelector('.dp-pp-accordion-icon').textContent = '+';
+        }
+      });
+      
+      // Toggle current item
+      if (isActive) {
+        item.classList.remove('active');
+        content.style.maxHeight = null;
+        this.querySelector('.dp-pp-accordion-icon').textContent = '+';
+      } else {
+        item.classList.add('active');
+        content.style.maxHeight = content.scrollHeight + "px";
+        this.querySelector('.dp-pp-accordion-icon').textContent = '×';
+      }
+    });
+  });
+});
+</script>
+
+{%- schema -%}
+{
+  "name": "DP Privacy Policy",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color Theme"
+    },
+    {
+      "type": "color",
+      "id": "color_red",
+      "label": "Red Accent",
+      "default": "#b01215"
+    },
+    {
+      "type": "color",
+      "id": "color_brown",
+      "label": "Brown Brand secondary",
+      "default": "#3d1f0f"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Gold Highlight",
+      "default": "#e5a842"
+    },
+    {
+      "type": "color",
+      "id": "color_cream",
+      "label": "Cream Accent BG",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "color_warm_bg",
+      "label": "Warm Page BG",
+      "default": "#fdf6ed"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Primary Text",
+      "default": "#2d1206"
+    },
+    {
+      "type": "color",
+      "id": "color_muted",
+      "label": "Muted Text",
+      "default": "#6b4c3b"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Borders",
+      "default": "#e8d5c0"
+    },
+    {
+      "type": "header",
+      "content": "Hero Banner"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Subtitle",
+      "default": "Last updated on June 20, 2026"
+    },
+    {
+      "type": "header",
+      "content": "Privacy Content Header"
+    },
+    {
+      "type": "text",
+      "id": "section_label",
+      "label": "Section Label",
+      "default": "Security"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Our Commitment to Your Privacy"
+    },
+    {
+      "type": "header",
+      "content": "Contact / Help Banner"
+    },
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Need Clarification on Our Policies?",
+      "default": "Need Clarification on Our Policies?"
+    },
+    {
+      "type": "text",
+      "id": "contact_sub",
+      "label": "Contact Subtitle",
+      "default": "We are committed to securing your personal information. Reach out if you need details on how we store or protect your data."
+    },
+    {
+      "type": "text",
+      "id": "contact_btn1_text",
+      "label": "Button 1 Text",
+      "default": "WhatsApp Support"
+    },
+    {
+      "type": "url",
+      "id": "contact_btn1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "contact_btn2_text",
+      "label": "Button 2 Text",
+      "default": "Contact Page"
+    },
+    {
+      "type": "url",
+      "id": "contact_btn2_link",
+      "label": "Button 2 Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "highlight_card",
+      "name": "Highlight Card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "card_icon",
+          "label": "Icon (Emoji)",
+          "default": "🔒"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "card_desc",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "privacy_accordion",
+      "name": "Accordion Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Policy Content"
+        }
+      ]
+    }
+  ]
+}
+{%- endschema -%}

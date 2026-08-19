@@ -1,0 +1,38 @@
+<div class="product-item">
+  <div class="product-inner">
+    <ul class="group-flash">
+      {% assign date_published = product.published_at | date:'%Y%m%d' %}
+      {% assign date_now = 'now' | date:'%Y%m%d' %}
+      {% assign date_difference = date_now | minus: date_published %}
+      {% assign limit_day = settings.product_page_new_product | plus: 0%}
+      {% if date_difference <  limit_day%}
+      <li><span class="new flash">{{settings.collection_page_new_title}}</span></li>       	   
+      {% endif %}      
+      {%- assign is_bestseller = false -%}
+      {%- assign p_title = product.title | downcase | strip -%}
+      {%- assign p_handle = product.handle | downcase | strip -%}
+      {%- if p_title contains 'gor keri' or p_handle contains 'gor-keri' or p_title contains 'gunda keri' or p_handle contains 'gunda-keri' -%}
+        {%- assign is_bestseller = true -%}
+      {%- endif -%}
+      {% if is_bestseller %}
+        <li><span class="sale flash label--bestseller">Best Seller</span></li>
+      {% endif %}
+    </ul>
+    <div class="thumb">
+      <a href="{{ product.url | within: collection }}" data-pid="{{ product.variants.first.id }}" class="quickview-button quick-view"><span class="icon"><i class="fa fa-eye" aria-hidden="true"></i></span> {{settings.collection_page_quickview}}</a>
+      <a href="{{ product.url | within: collection }}" class="thumb-link"><img src="{{ product.featured_image.src | img_url: 'grande' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}"></a>
+    </div>
+    <div class="info">
+      <a href="{{ product.url | within: collection }}" class="product-name">{{ product.title }}</a>
+      <div class="price">
+        {% if on_sale %}
+        <span class="del">{{product.compare_at_price | money }}</span>
+        <span class="ins">{{product.variants[0].price | money }}</span>      
+        {% else %}
+        <span>{{product.variants[0].price | money }}</span>
+        {% endif %}
+      </div>
+    </div>
+    
+  </div>
+</div>  

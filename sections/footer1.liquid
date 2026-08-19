@@ -1,0 +1,1258 @@
+{% assign sid = section.id %}
+{%- assign full_width = section.settings.full_width -%}
+
+<section
+  id="laber_{{sid}}"
+  class="wow animate--slide-in"
+  style="--ui-border-color:{{ section.settings.cl_line }};">
+
+  <!-- Curvy Wave Divider Transition -->
+  <div class="footer-wave-top">
+    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display: block; width: 100%; height: 40px; margin-bottom: -1px;">
+      <path d="M0,0C240,30,480,60,720,60C960,60,1200,30,1440,0L1440,60L0,60Z" fill="{{ section.settings.cl_bg | default: '#2c1e1b' }}"></path>
+    </svg>
+  </div>
+
+  <div class="main-footer" style="
+      background-color: {{ section.settings.cl_bg }};
+      {% if section.settings.bg_image != blank %}
+        background-image: url({{ section.settings.bg_image | asset_url }});
+        background-size: cover;
+        background-position: center;
+      {% endif %}
+    ">
+    <div class="{% if section.settings.full_width %}full-width{% else %}container{% endif %}">
+      <div class="row">
+        {% render 'footer_1' %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{%- render 'section_style' -%}
+
+{%- style -%}
+  #laber_{{ sid }} {
+    position: relative;
+    padding-top: 0 !important;
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+  #laber_{{ sid }} .footer-wave-top {
+    line-height: 0;
+    width: 100%;
+    margin-top: 0;
+    background: transparent;
+    z-index: 5;
+    position: relative;
+  }
+  #laber_{{ sid }} .footer-wave-top svg {
+    display: block;
+    width: 100%;
+    height: 40px;
+    fill: {{ section.settings.cl_bg | default: '#2c1e1b' }};
+  }
+  #laber_{{ sid }} .main-footer {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+    margin-bottom: 0 !important;
+  }
+  #laber_{{ sid }} {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .laber-newsletter {
+    margin-bottom: 0 !important;
+  }
+  /* Heading styled with a premium gold touch */
+  #laber_{{ sid }} .widget-title .txt_title {
+    color: #e5a842 !important; /* Gold Heading color */
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    position: relative;
+    padding-bottom: 8px;
+    display: inline-block;
+    border-bottom: 2px solid #b11f24; /* brand red line */
+    margin-bottom: 24px;
+  }
+  #laber_{{ sid }} .widget-title .icon_mobile {
+    display: none !important;
+  }
+  
+  /* Link items styling */
+  #laber_{{ sid }} .menu_footer .menu li {
+    margin-bottom: 10px !important;
+  }
+  #laber_{{ sid }} .menu_footer .menu li a {
+    color: #f5ede2 !important; /* light cream text */
+    font-size: 14px !important;
+    transition: all 0.25s ease !important;
+    text-decoration: none;
+    opacity: 0.85;
+  }
+  #laber_{{ sid }} .menu_footer .menu li a:hover {
+    color: #f4b41a !important; /* hover gold */
+    padding-left: 5px;
+    opacity: 1;
+  }
+  
+  /* Left Logo and info widget */
+  #laber_{{ sid }} .alo-logo-footer {
+    color: #eadec9 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  #laber_{{ sid }} .alo-logo-footer .logo-footer {
+    margin-bottom: 15px !important;
+  }
+  #laber_{{ sid }} .alo-logo-footer .logo-footer img {
+    border-radius: 50%;
+    border: 2px solid #e5a842;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  #laber_{{ sid }} .alo-logo-footer .content {
+    color: #eadec9 !important;
+    margin-bottom: 15px !important;
+  }
+
+  /* Social sharing circular gold icons */
+  #laber_{{ sid }} .laber-social-link .list-socials {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  #laber_{{ sid }} .laber-social-link .list-socials li {
+    margin: 0 !important;
+  }
+  #laber_{{ sid }} .laber-social-link .list-socials li a {
+    width: 36px !important;
+    height: 36px !important;
+    background: #3e2723 !important; /* Dark warm brown */
+    color: #e5a842 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid #e5a842 !important;
+    font-size: 15px !important;
+    transition: all 0.25s ease !important;
+    text-decoration: none !important;
+  }
+  #laber_{{ sid }} .laber-social-link .list-socials li a:hover {
+    background: #b11f24 !important; /* brand red */
+    color: #ffffff !important;
+    border-color: #b11f24 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(177,31,36,0.3);
+  }
+{%- endstyle -%}
+
+{%- schema -%}
+  {
+    "name": "Footer main",
+    "class": "footer-main",
+    "max_blocks": 10,
+    "settings": [
+      {
+        "type": "header",
+        "content": "== Footer"
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "color",
+        "id": "cl_bg",
+        "label": "Background color",
+        "default": "#fff"
+      }, {
+        "type": "color",
+        "id": "cl_line",
+        "label": "Color Border",
+        "default": "#fff"
+      }, {
+        "type": "header",
+        "content": "Advanced settings"
+      }, {
+        "type": "text",
+        "id": "pd",
+        "label": "Padding",
+        "info": "Padding top, padding right, padding bottom, padding left. If you not use to blank"
+      }, {
+        "type": "header",
+        "content": "== Design Mobile Options"
+      }, {
+        "type": "text",
+        "id": "pd_mb",
+        "label": "Padding"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "mail",
+        "name": "Newsletter",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "center_align",
+            "label": "Center align",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Newsletter Signup"
+          },
+          {
+            "type": "color",
+            "id": "cl_heading",
+            "label": "Color Heading",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "default": "medium",
+            "options": [
+              {
+                "value": "small",
+                "label": "small"
+              }, {
+                "value": "medium",
+                "label": "Medium"
+              }, {
+                "value": "large",
+                "label": "Large"
+              }
+            ],
+            "label": "Text size"
+          }, {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              }, {
+                "value": "capitalize",
+                "label": "Capitalize"
+              }, {
+                "value": "lowercase",
+                "label": "Lowercase"
+              }, {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          }, {
+            "type": "text",
+            "id": "sub_contact",
+            "label": "Sub Contact",
+            "default": "(323) 576-1942"
+          }, {
+            "type": "color",
+            "id": "sub_contact_color",
+            "label": "Contact Text Color",
+            "default": "#8f0d0f"
+          }, {
+            "type": "text",
+            "id": "sub_mail",
+            "label": "Sub Mail",
+            "default": "exampleinfo@gmail.com"
+          }, {
+            "type": "text",
+            "id": "newsletter_lable",
+            "label": "Newsletter Label",
+            "default": "Subscribe Our Newsletter"
+          }, {
+            "type": "color",
+            "id": "cl_text",
+            "label": "Color Text",
+            "default": "#515D66"
+          }, {
+            "type": "color",
+            "id": "cl_btn",
+            "label": "Color button",
+            "default": "#515D66"
+          }, {
+            "type": "checkbox",
+            "id": "use_social",
+            "label": "Display social",
+            "default": false
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }, {
+            "type": "range",
+            "id": "border",
+            "label": "Border",
+            "min": 0,
+            "max": 50,
+            "step": 1,
+            "unit": "px",
+            "default": 0
+          }, {
+            "type": "range",
+            "id": "mg_b",
+            "label": "Margin bottom",
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "unit": "px",
+            "default": 60
+          }, {
+            "type": "range",
+            "id": "sm_mg_b",
+            "label": "Margin bottom (mobile)",
+            "min": 0,
+            "max": 50,
+            "step": 10,
+            "unit": "px",
+            "default": 30
+          }
+        ]
+      },
+      {
+        "type": "menu",
+        "name": "Menu",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Quick links"
+          },
+          {
+            "type": "color",
+            "id": "cl_heading",
+            "label": "Color Heading",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "default": "medium",
+            "options": [
+              {
+                "value": "small",
+                "label": "small"
+              }, {
+                "value": "medium",
+                "label": "Medium"
+              }, {
+                "value": "large",
+                "label": "Large"
+              }
+            ],
+            "label": "Text size"
+          },
+          {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              }, {
+                "value": "capitalize",
+                "label": "Capitalize"
+              }, {
+                "value": "lowercase",
+                "label": "Lowercase"
+              }, {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          }, {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Add menu"
+          }, {
+            "type": "color",
+            "id": "cl_link",
+            "label": "Color Link",
+            "default": "#fff"
+          }, {
+            "type": "color",
+            "id": "cl_link_hover",
+            "label": "Color Link (hover)",
+            "default": "#fff"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      },
+      {
+        "type": "contact_information",
+        "name": "Contact information",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_title",
+            "label": "Show Heading",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Contact information"
+          },
+          {
+            "type": "color",
+            "id": "cl_heading",
+            "label": "Color Heading",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "default": "medium",
+            "options": [
+              {
+                "value": "small",
+                "label": "Small"
+              }, {
+                "value": "medium",
+                "label": "Medium"
+              }, {
+                "value": "large",
+                "label": "Large"
+              }
+            ],
+            "label": "Text size"
+          }, {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              }, {
+                "value": "capitalize",
+                "label": "Capitalize"
+              }, {
+                "value": "lowercase",
+                "label": "Lowercase"
+              }, {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          }, {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description",
+            "default": "268 St, South New York/NY 98944, United States <br>Customersupport@example.com"
+          }, {
+            "type": "color",
+            "id": "cl_text",
+            "label": "Color text",
+            "default": "#2B38D1"
+          }, {
+            "type": "checkbox",
+            "id": "show_phone",
+            "label": "Show Phone",
+            "default": true
+          }, {
+            "type": "text",
+            "id": "text1",
+            "label": "Text",
+            "default": "Got Question? Call us 24/7"
+          }, {
+            "type": "color",
+            "id": "cl_phone",
+            "label": "Color Phone",
+            "default": "#2B38D1"
+          }, {
+            "type": "checkbox",
+            "id": "show_email",
+            "label": "Show Email",
+            "default": true
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Talk about your business"
+          },
+          {
+            "type": "color",
+            "id": "cl_heading",
+            "label": "Color Heading",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "default": "medium",
+            "options": [
+              {
+                "value": "small",
+                "label": "small"
+              }, {
+                "value": "medium",
+                "label": "Medium"
+              }, {
+                "value": "large",
+                "label": "Large"
+              }
+            ],
+            "label": "Text size"
+          },
+          {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              }, {
+                "value": "capitalize",
+                "label": "Capitalize"
+              }, {
+                "value": "lowercase",
+                "label": "Lowercase"
+              }, {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          }, {
+            "type": "richtext",
+            "id": "content",
+            "label": "Content",
+            "default": "<p>Share store details, promotions, or brand content with your customers.</p>"
+          }, {
+            "type": "color",
+            "id": "cl_content",
+            "label": "Color Content",
+            "default": "#fff"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      }, {
+        "type": "logo-footer",
+        "name": "Logo Footer",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "use_logo_footer",
+            "label": "Use logo footer",
+            "default": false
+          },
+          {
+            "type": "image_picker",
+            "id": "logo_footer",
+            "label": "Logo image at other footer"
+          },
+          {
+            "type": "range",
+            "id": "logo_max_width",
+            "label": "Custom logo width",
+            "min": 50,
+            "max": 250,
+            "step": 5,
+            "unit": "px",
+            "default": 115
+          },
+          {
+            "type": "textarea",
+            "id": "hotline",
+            "label": "Hotline",
+            "default": "<p class=\"title\">Hotline Free 24/24:</p> <p class=\"phone-number\">(+100) 123 456 7890</p>"
+          }, {
+            "type": "textarea",
+            "id": "content",
+            "label": "Content",
+            "default": "No matter whether you're doing basic repairs and maintenance,<br> modifying your car's street appeal and performance,<br> or adding high-tech lighting..."
+          }, {
+            "type": "color",
+            "id": "text_color",
+            "label": "Color text",
+            "default": "#fff"
+          }, {
+            "type": "paragraph",
+            "content": "-----------------------------------------------"
+          }, {
+            "type": "checkbox",
+            "id": "use_social",
+            "label": "Display social",
+            "default": true
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      }, {
+        "type": "html",
+        "name": "HTML",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "HTML"
+          },
+          {
+            "type": "color",
+            "id": "cl_heading",
+            "label": "Color Heading",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "default": "medium",
+            "options": [
+              {
+                "value": "small",
+                "label": "small"
+              }, {
+                "value": "medium",
+                "label": "Medium"
+              }, {
+                "value": "large",
+                "label": "Large"
+              }
+            ],
+            "label": "Text size"
+          },
+          {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              }, {
+                "value": "capitalize",
+                "label": "Capitalize"
+              }, {
+                "value": "lowercase",
+                "label": "Lowercase"
+              }, {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          }, {
+            "type": "html",
+            "id": "content",
+            "label": "Content",
+            "default": "<p>html code</p>"
+          }, {
+            "type": "color",
+            "id": "cl_content",
+            "label": "Color Content",
+            "default": "#fff"
+          }, {
+            "type": "image_picker",
+            "id": "img",
+            "label": "image"
+          }, {
+            "type": "range",
+            "id": "width_img",
+            "label": "Width img",
+            "min": 300,
+            "max": 500,
+            "step": 5,
+            "unit": "px",
+            "default": 385
+          }, {
+            "type": "checkbox",
+            "id": "use_social",
+            "label": "Display social",
+            "default": false
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      }, {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Title images"
+          },
+          {
+            "type": "color",
+            "id": "cl_heading",
+            "label": "Color Heading",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "default": "medium",
+            "options": [
+              {
+                "value": "small",
+                "label": "small"
+              }, {
+                "value": "medium",
+                "label": "Medium"
+              }, {
+                "value": "large",
+                "label": "Large"
+              }
+            ],
+            "label": "Text size"
+          },
+          {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              }, {
+                "value": "capitalize",
+                "label": "Capitalize"
+              }, {
+                "value": "lowercase",
+                "label": "Lowercase"
+              }, {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          }, {
+            "type": "image_picker",
+            "id": "image",
+            "label": "image"
+          }, {
+            "type": "url",
+            "id": "url",
+            "label": "Link (optional)"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      }, {
+        "type": "instagram",
+        "name": "Instagram",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Instagram"
+          },
+          {
+            "type": "color",
+            "id": "cl_heading",
+            "label": "Color Heading",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "default": "medium",
+            "options": [
+              {
+                "value": "small",
+                "label": "small"
+              }, {
+                "value": "medium",
+                "label": "Medium"
+              }, {
+                "value": "large",
+                "label": "Large"
+              }
+            ],
+            "label": "Text size"
+          },
+          {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              }, {
+                "value": "capitalize",
+                "label": "Capitalize"
+              }, {
+                "value": "lowercase",
+                "label": "Lowercase"
+              }, {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          }, {
+            "type": "checkbox",
+            "id": "use_eq_height",
+            "label": "Use equal height images?",
+            "default": false
+          }, {
+            "type": "select",
+            "id": "image_ratio",
+            "label": "Aspect Ratio",
+            "default": "ratio3_2",
+            "info": "Aspect Ratio Custom will settings in General panel.",
+            "options": [
+              {
+                "group": "Landscape",
+                "value": "ratio2_1",
+                "label": "2:1"
+              },
+              {
+                "group": "Landscape",
+                "value": "ratio3_2",
+                "label": "3:2"
+              },
+              {
+                "group": "Landscape",
+                "value": "ratio4_3",
+                "label": "4:3"
+              },
+              {
+                "group": "Squared",
+                "value": "ratio1_1",
+                "label": "1:1"
+              }, {
+                "group": "Portrait",
+                "value": "ratio3_4",
+                "label": "3:4"
+              }, {
+                "group": "Portrait",
+                "value": "ratio2_3",
+                "label": "2:3"
+              }, {
+                "group": "Portrait",
+                "value": "ratio1_2",
+                "label": "1:2"
+              }
+            ]
+          }, {
+            "type": "image_picker",
+            "id": "image1",
+            "label": "image 1"
+          }, {
+            "type": "url",
+            "id": "url1",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "image 2"
+          }, {
+            "type": "url",
+            "id": "url2",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image3",
+            "label": "image 3"
+          }, {
+            "type": "url",
+            "id": "url3",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image4",
+            "label": "image 4"
+          }, {
+            "type": "url",
+            "id": "url4",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image5",
+            "label": "image 5"
+          }, {
+            "type": "url",
+            "id": "url5",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image6",
+            "label": "image 6"
+          }, {
+            "type": "url",
+            "id": "url6",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image7",
+            "label": "image 7"
+          }, {
+            "type": "url",
+            "id": "url7",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image8",
+            "label": "image 8"
+          }, {
+            "type": "url",
+            "id": "url8",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image9",
+            "label": "image 9"
+          }, {
+            "type": "url",
+            "id": "url9",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image10",
+            "label": "image 10"
+          }, {
+            "type": "url",
+            "id": "url10",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image11",
+            "label": "image 11"
+          }, {
+            "type": "url",
+            "id": "url11",
+            "label": "Link (optional)"
+          }, {
+            "type": "image_picker",
+            "id": "image12",
+            "label": "image 12"
+          }, {
+            "type": "url",
+            "id": "url12",
+            "label": "Link (optional)"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      }
+    ]
+  }
+{%- endschema -%}

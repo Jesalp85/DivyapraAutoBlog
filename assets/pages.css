@@ -1,0 +1,407 @@
+/*============== FAQ'S page ============== */
+
+.page-faqs {}
+
+.page-faqs .head {
+  margin: 0;
+}
+
+.page-faqs .head .title {
+  font-size: 48px;
+  color: var(--color-main);
+  font-weight: 600;
+  line-height: 100px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.page-faqs .faqs_block:last-child {
+  padding-bottom: 30px;
+}
+
+.page-faqs .content-offset-right {
+  margin-left: auto;
+  order: 2;
+}
+
+@media (min-width: 1024px) {
+  .page-faqs .content-offset-right {
+    padding-left: 90px;
+    position: relative;
+  }
+
+  .page-faqs .content-offset-right:before {
+    content: "";
+    border-left: 1px solid #e5e8ec;
+    position: absolute;
+    top: 0;
+    left: 40px;
+    bottom: 0;
+    width: 1px;
+  }
+}
+
+.page-faqs .title_faqs {
+  color: #0C0816;
+  line-height: 120%;
+  font-size: clamp(26px, 2.083vw, 48px);
+  text-transform: capitalize;
+}
+
+.page-faqs .content .item {
+  margin-bottom: clamp(16px, 1.25vw, 30px);
+}
+
+.page-faqs .content .item.active {}
+
+.page-faqs .content .item:last-child {
+  margin-bottom: 0;
+}
+
+
+.page-faqs .content .item .heading-title {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  border-radius: 4px;
+  background: #E7E1F4;
+  padding: 0 12px;
+}
+
+.page-faqs .content .item a {
+  display: flex;
+  box-sizing: border-box;
+  text-decoration: none;
+  position: relative;
+  transition: color .2s ease-in-out;
+  border: none;
+  box-shadow: none;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 28px;
+  border-bottom: 1px solid #e6ecf0;
+  border-top: 1px solid #e6ecf0;
+  margin-top: -1px;
+  padding: 15px 0;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--color-text-body);
+}
+
+.page-faqs .content .item.active a {
+  color: var(--color-link-hover);
+}
+
+.page-faqs .content .item.first a {
+  border-top: none;
+}
+
+.page-faqs .content .item:last-child a {
+  border-bottom: none;
+}
+
+.page-faqs .content .item a .faqs-icon {
+  font-size: 20px;
+}
+
+.page-faqs .content .item.active a .faqs-icon i:before {
+  content: "\e9c0";
+}
+
+.page-faqs .content .item .content-faqs {
+  padding: 0 15px;
+  text-align: justify;
+  box-sizing: content-box;
+  overflow: hidden;
+  padding: 20px 0;
+  background: #fff !important;
+  border: 0 !important;
+  color: var(--color-text-body);
+  display: none;
+}
+
+.page-faqs .content .item.active .content-faqs {
+  display: block;
+}
+
+.page-faqs .content .item.active .content-faqs p {
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  color: #4d5574;
+}
+
+.page-faqs .content .item.active .content-faqs p strong {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.page-faqs .faq_content {}
+
+.page-faqs .faq_content h3 {
+  margin: 0 0 10px;
+  color: var(--color-main);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 40px;
+  text-transform: uppercase;
+}
+
+.page-faqs .faq_content .faq_desc {}
+
+.page-faqs .faq_content .faq_desc p {
+  line-height: 25px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.page-faqs .faq_content .faq_desc ul {
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.page-faqs .faq_content .faq_desc ul li {
+  line-height: 30px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.page-faqs .nav-accordion {
+  border: 1px solid #e5e8ec;
+  padding: 0 30px;
+  border-radius: 10px;
+}
+
+.page-faqs .nav-accordion li {
+  border-bottom: 1px solid #e6ecf0;
+  position: relative;
+}
+
+.page-faqs .nav-accordion li:last-child {
+  border-bottom: none;
+}
+
+.page-faqs .nav-accordion li a {
+  line-height: 50px;
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.page-faqs .nav-accordion li span.expand,
+.page-faqs .nav-accordion li span.collapse {
+  font-size: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.page-faqs .nav-accordion li span.collapse:before {
+  content: "\e94f";
+  font-family: icon-dukamarket;
+  font-size: 14px;
+}
+
+.page-faqs .nav-accordion li span.expand:before {
+  content: "\e952";
+  font-family: icon-dukamarket;
+  font-size: 14px;
+}
+
+.page-faqs .nav-accordion ul {
+  padding-left: 15px;
+}
+
+/* End FAQ'S */
+/*============== contat page ============== */
+.errorForm p {
+  color: var(--color-secondary);
+}
+
+.contact-page {}
+
+.contact-list-text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 0.833vw, 20px);
+}
+
+.map {
+  height: clamp(260px, 31.25vw, 700px);
+  overflow: hidden;
+  margin-top: clamp(48px, 4.167vw, 100px) !important;
+}
+
+.contact-page .successForm {
+  margin-bottom: 15px;
+  color: green;
+}
+
+.contact-page .info-item {
+  margin-bottom: clamp(16px, 1.25vw, 30px);
+  padding: 4px;
+  border-radius: 30px;
+  border: 1px solid #141516;
+}
+
+.contact-page .contact-info .title-form {
+  font-weight: 600;
+  color: #1E1F20;
+  line-height: normal;
+}
+
+.contact-page .contact-info p {
+  margin: 0;
+}
+
+
+.contact-page .contact-info p a {
+  font-size: clamp(14px, 0.938vw, 20px);
+  color: var(--color-paraghraph);
+}
+
+
+.icon-round {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  padding: 14px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #EAEAEC;
+}
+
+.content-form .contact-info .content,
+.content-form .information-form .content {
+  margin-bottom: clamp(12px, 0.833vw, 20px);
+}
+
+.content-form .information-form .address {
+  font-size: 16px;
+  color: #222222;
+  margin-bottom: 15px;
+}
+
+.content-form .information-form .work_time {
+  color: #57575c;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.content-form .information-form .phone {
+  font-size: 20px;
+  color: var(--color-main);
+  font-weight: 500;
+}
+
+.content-form .information-form .phone {
+  color: #222222;
+  font-size: 14px;
+}
+
+.contact-page .content-form .input-info {
+  height: 50px;
+  padding: 0 clamp(12px, 0.833vw, 20px);
+  margin-bottom: clamp(16px, 1.25vw, 30px);
+  min-width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  font-size: clamp(12px, 0.833vw, 20px);
+  color: #45474F;
+}
+
+.contact-page .content-form .input-info input::placeholder {
+  color: #92949F;
+}
+
+.contact-page .content-form textarea.input-info {
+  padding: 20px;
+  min-height: 160px;
+}
+
+.contact-page .content-form .group-button .submit {}
+
+.contact-page .map iframe {
+  width: 100%;
+}
+
+.sc-hihest-quality .text-content {}
+
+.sc-hihest-quality .text-content h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--color-main);
+  margin-bottom: 10px;
+}
+
+.sc-hihest-quality .text-content .rte-setting p {
+  margin: 0 0 10px 0;
+  line-height: 1;
+}
+
+.nb_sale {
+  height: auto;
+}
+
+.content-nb-sale {}
+
+.content-nb-sale .about-subtitle {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 24px;
+  margin-bottom: 20px;
+  color: var(--color-link-hover);
+}
+
+.content-nb-sale .about-title {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  color: var(--color-main);
+}
+
+.content-nb-sale .subheading {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.collection-wishlist .collection-wishlist-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.collection-wishlist .collection-wishlist-empty p {
+  font-size: 18px;
+  margin: 0;
+  color: var(--color-main);
+  font-weight: 500;
+}
+
+/*============== end contat page ============== */
+/* ipad pro */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {}
+
+/* ipad  */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+  .contact-page .contact-info,
+  .contact-page .information-form {
+    padding: 30px 0;
+  }
+}
+
+/* mobile  */
+@media only screen and (max-width: 767px) {}

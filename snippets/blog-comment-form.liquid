@@ -1,0 +1,159 @@
+<div class="dp-comment-form-wrap">
+  <h3 class="dp-comment-title">{{ 'blogs.comments.title' | t | default: "Leave A Comment" }}</h3>
+  <p class="dp-comment-sub">{{ 'blogs.comments.discription' | t | default: "Your email address will not be published. Required fields are marked *" }}</p>
+
+  {% form 'new_comment', article %}
+    {{ form.errors | default_errors }}
+    
+    <div class="dp-form-group">
+      <textarea
+        rows="5"
+        class="dp-input dp-input--textarea"
+        placeholder="{{'blogs.comments.message' | t | default: 'Write Your Comment...'}}"
+        id="message"
+        name="comment[body]"
+        required></textarea>
+    </div>
+
+    <div class="dp-form-row">
+      <div class="dp-form-col">
+        <div class="dp-input-field">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <input
+            type="text"
+            class="dp-input"
+            placeholder="{{'blogs.comments.name' | t | default: 'Your Name'}}"
+            id="name"
+            name="comment[author]"
+            required>
+        </div>
+      </div>
+      <div class="dp-form-col">
+        <div class="dp-input-field">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <input
+            type="email"
+            class="dp-input"
+            placeholder="{{'blogs.comments.email' | t | default: 'Your Email'}}"
+            id="email"
+            name="comment[email]"
+            required>
+        </div>
+      </div>
+    </div>
+
+    {% if blog.moderated? %}
+      <span class="dp-moderated-note">{{ 'blogs.comments.moderated' | t }}</span>
+    {% endif %}
+
+    <div class="dp-form-action">
+      <button class="dp-btn dp-btn--submit" type="submit">
+        {{ 'blogs.comments.post' | t | default: "Post Comment" }}
+      </button>
+    </div>
+  {% endform %}
+</div>
+
+<style>
+.dp-comment-form-wrap {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid var(--dp-border, #e8d5c0);
+  box-sizing: border-box;
+}
+.dp-comment-title {
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 800;
+  color: var(--dp-brown, #3d1f0f);
+  margin-bottom: 6px;
+}
+.dp-comment-sub {
+  font-size: 14px;
+  color: var(--dp-muted, #6b4c3b);
+  margin-bottom: 24px;
+}
+.dp-form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.dp-form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+.dp-form-col {
+  flex: 1;
+  min-width: 0;
+}
+.dp-input-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid var(--dp-border, #e8d5c0);
+  border-radius: 14px;
+  padding: 12px 16px;
+  background: #fff;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+  width: 100%;
+}
+.dp-input-field:focus-within {
+  border-color: var(--dp-red, #b01215);
+  box-shadow: 0 0 0 3px rgba(176,18,21,0.12);
+}
+.dp-input-field svg {
+  color: var(--dp-muted, #6b4c3b);
+  flex-shrink: 0;
+}
+.dp-input {
+  width: 100%;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-size: 15px;
+  color: var(--dp-brown, #3d1f0f);
+  box-shadow: none !important;
+}
+.dp-input--textarea {
+  border: 1.5px solid var(--dp-border, #e8d5c0) !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
+  background: #fff !important;
+  resize: vertical;
+  min-height: 120px;
+  box-sizing: border-box;
+}
+.dp-input--textarea:focus {
+  border-color: var(--dp-red, #b01215) !important;
+  box-shadow: 0 0 0 3px rgba(176,18,21,0.12) !important;
+}
+.dp-btn--submit {
+  background: var(--dp-red, #b01215);
+  color: #fff !important;
+  border: none;
+  padding: 14px 36px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.dp-btn--submit:hover {
+  background: #8f0c0f;
+  transform: translateY(-2px);
+}
+.dp-moderated-note {
+  display: block;
+  font-size: 12px;
+  color: var(--dp-muted, #6b4c3b);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+  .dp-form-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+</style>

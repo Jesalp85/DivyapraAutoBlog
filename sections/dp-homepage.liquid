@@ -1,0 +1,1260 @@
+{% assign sid = section.id %}
+
+<section id="laber_{{ sid }}" class="dp-home-page">
+
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+
+      {%- when 'hero' -%}
+        <!-- ===== HERO BANNER ===== -->
+        <div class="dp-hero" {{ block.shopify_attributes }}>
+          {%- if block.settings.image_desktop != blank -%}
+            <style>
+              #block_{{ block.id }} {
+                background-image: url('{{ block.settings.image_desktop | image_url: width: 1920 }}');
+              }
+              @media (max-width: 768px) {
+                #block_{{ block.id }} {
+                  background-image: url('{{ block.settings.image_mobile | default: block.settings.image_desktop | image_url: width: 768 }}');
+                }
+              }
+            </style>
+          {%- endif -%}
+          <div class="dp-hero__bg" id="block_{{ block.id }}">
+            <div class="dp-hero__overlay"></div>
+            <div class="dp-hero__content container">
+              {%- if block.settings.tagline != blank -%}
+                <span class="dp-hero__tag">{{ block.settings.tagline | escape }}</span>
+              {%- endif -%}
+              {%- if block.settings.heading != blank -%}
+                <h1 class="dp-hero__title">{{ block.settings.heading }}</h1>
+              {%- endif -%}
+              {%- if block.settings.subtitle != blank -%}
+                <p class="dp-hero__sub">{{ block.settings.subtitle | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.btn_text != blank -%}
+                <a href="{{ block.settings.btn_link | default: '/collections/all' }}" class="dp-btn">{{ block.settings.btn_text | escape }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+
+      {%- when 'usps' -%}
+        <!-- ===== WHY CHOOSE US ===== -->
+        <div class="dp-usps" {{ block.shopify_attributes }}>
+          <div class="dp-usps__bg-glow" aria-hidden="true"></div>
+          <div class="container">
+            <div class="dp-section-head dp-section-head--light">
+              <span class="dp-label dp-label--light">Why Choose Us</span>
+              <h2 class="dp-usps__heading">Made with <em>love</em>, sealed with tradition</h2>
+            </div>
+            <div class="dp-usps__grid">
+              {%- for i in (1..4) -%}
+                {%- assign icon_key = 'usp' | append: i | append: '_icon' -%}
+                {%- assign title_key = 'usp' | append: i | append: '_title' -%}
+                {%- assign desc_key = 'usp' | append: i | append: '_desc' -%}
+                {%- assign num = i | prepend: '0' | slice: -2, 2 -%}
+                {%- if block.settings[title_key] != blank -%}
+                  <div class="dp-usp-card">
+                    <div class="dp-usp-card__num">{{ num }}</div>
+                    <div class="dp-usp-card__icon-wrap">
+                      <span class="dp-usp-card__icon">{{ block.settings[icon_key] | default: '🫙' | escape }}</span>
+                    </div>
+                    <h3 class="dp-usp-card__title">{{ block.settings[title_key] | escape }}</h3>
+                    <p class="dp-usp-card__desc">{{ block.settings[desc_key] | escape }}</p>
+                    <div class="dp-usp-card__bar"></div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+      {%- when 'products' -%}
+        <!-- ===== BEST SELLERS GRID ===== -->
+        <div class="dp-products container" {{ block.shopify_attributes }}>
+          <div class="dp-section-head">
+            {%- if block.settings.subheading != blank -%}
+              <span class="dp-label">{{ block.settings.subheading | escape }}</span>
+            {%- endif -%}
+            {%- if block.settings.heading != blank -%}
+              <h2>{{ block.settings.heading | escape }}</h2>
+            {%- endif -%}
+          </div>
+
+          {%- assign collection_handle = block.settings.collection -%}
+          {%- assign limit = block.settings.limit | default: 4 -%}
+          <div class="dp-products__grid">
+            {%- if collection_handle != blank and collections[collection_handle].products.size > 0 -%}
+              {%- for product in collections[collection_handle].products limit: limit -%}
+                {%- assign current_variant = product.selected_or_first_available_variant -%}
+                {%- assign discount_pct = 0 -%}
+                {%- if current_variant.compare_at_price > current_variant.price -%}
+                  {%- assign discount_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+                {%- endif -%}
+                
+                <div class="dp-product-card">
+                  <div class="dp-product-card__media">
+                    {%- assign is_bestseller = false -%}
+                    {%- assign p_title = product.title | downcase | strip -%}
+                    {%- assign p_handle = product.handle | downcase | strip -%}
+                    {%- if p_title contains 'gor keri' or p_handle contains 'gor-keri' or p_title contains 'gunda keri' or p_handle contains 'gunda-keri' -%}
+                      {%- assign is_bestseller = true -%}
+                    {%- endif -%}
+                    {%- if is_bestseller -%}
+                      <span class="dp-badge dp-badge--discount">Best Seller</span>
+                    {%- endif -%}
+                    <a href="{{ product.url }}">
+                      <img src="{{ product.featured_image | image_url: width: 500, height: 500, crop: 'center' }}" alt="{{ product.title | escape }}" loading="lazy">
+                    </a>
+                  </div>
+                  <div class="dp-product-card__info">
+                    <h3 class="dp-product-card__title">
+                      <a href="{{ product.url }}">{{ product.title | escape }}</a>
+                    </h3>
+                    
+                    <div class="star-rating dp-stars">
+                      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                    </div>
+
+                    <div class="dp-product-card__price">
+                      <span class="dp-price-current">{{ current_variant.price | money }}</span>
+                      {%- if current_variant.compare_at_price > current_variant.price -%}
+                        <span class="dp-price-compare">{{ current_variant.compare_at_price | money }}</span>
+                      {%- endif -%}
+                    </div>
+                    
+                    <div class="dp-product-card__action">
+                      {%- if product.available -%}
+                        <form method="post" action="/cart/add" class="dp-quick-add-form">
+                          <input type="hidden" name="id" value="{{ current_variant.id }}">
+                          <button type="submit" class="dp-quick-add-btn">
+                            <span>Add to Cart</span>
+                          </button>
+                        </form>
+                      {%- else -%}
+                        <button class="dp-quick-add-btn dp-quick-add-btn--soldout" disabled>
+                          <span>Sold Out</span>
+                        </button>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for i in (1..4) -%}
+                <div class="dp-product-card dp-product-card--placeholder">
+                  <div class="dp-product-card__media">
+                    <div class="dp-placeholder-img">🍳</div>
+                  </div>
+                  <div class="dp-product-card__info">
+                    <h3 class="dp-product-card__title">Example Brand Pickle Jar</h3>
+                    <div class="dp-product-card__price">
+                      <span class="dp-price-current">₹399.00</span>
+                    </div>
+                    <div class="dp-product-card__action">
+                      <button class="dp-quick-add-btn" disabled>Add to Cart</button>
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </div>
+
+      {%- when 'story' -%}
+        <!-- ===== TRADITION STORY ===== -->
+        <div class="dp-story" {{ block.shopify_attributes }}>
+          <div class="container">
+            <div class="dp-story__grid">
+              <div class="dp-story__text">
+                {%- if block.settings.story_label != blank -%}
+                  <span class="dp-label">{{ block.settings.story_label | escape }}</span>
+                {%- endif -%}
+                {%- if block.settings.story_heading != blank -%}
+                  <h2>{{ block.settings.story_heading }}</h2>
+                {%- endif -%}
+                {%- if block.settings.story_body != blank -%}
+                  <p class="dp-story__body">{{ block.settings.story_body | newline_to_br }}</p>
+                {%- endif -%}
+                {%- if block.settings.story_btn_text != blank -%}
+                  <a href="{{ block.settings.story_btn_link | default: '/pages/about-us' }}" class="dp-btn dp-btn--outline">{{ block.settings.story_btn_text | escape }}</a>
+                {%- endif -%}
+              </div>
+              <div class="dp-story__visual">
+                <div class="dp-story__img-wrap">
+                  <div class="dp-story__img-main">
+                    {%- if block.settings.story_image != blank -%}
+                      <img src="{{ block.settings.story_image | image_url: width: 800 }}" alt="Our Tradition" loading="lazy">
+                    {%- else -%}
+                      <div class="dp-placeholder-img">🏺</div>
+                    {%- endif -%}
+                    {%- if block.settings.badge_text != blank -%}
+                      <div class="dp-story__badge">
+                        <span class="dp-story__badge-icon">{{ block.settings.badge_icon | default: '🫙' | escape }}</span>
+                        <span>{{ block.settings.badge_text | escape }}</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {%- when 'marquee' -%}
+        <!-- ===== RUNNING MARQUEE ===== -->
+        <div class="dp-marquee" {{ block.shopify_attributes }}>
+          <div class="dp-marquee__wrap">
+            <div class="dp-marquee__content">
+              {%- for i in (1..6) -%}
+                <span>{{ block.settings.text | escape }}</span>
+                {%- if block.settings.separator != blank -%}
+                  <span class="dp-marquee__sep">{{ block.settings.separator | escape }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+    {%- endcase -%}
+  {%- endfor -%}
+
+  <!-- ===== TESTIMONIALS (AGGREGATED FROM SEPARATE SECTION OR SCHEMA BLOCKS) ===== -->
+  {%- assign has_testimonials = false -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'testimonial' -%}
+      {%- assign has_testimonials = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if has_testimonials -%}
+    <div class="dp-testimonials">
+      <div class="container">
+        <div class="dp-section-head">
+          <span class="dp-label">{{ section.settings.testimonials_sub | default: 'Loved by Families' | escape }}</span>
+          <h2>{{ section.settings.testimonials_heading | default: 'What Our Customers Say' | escape }}</h2>
+        </div>
+        <div class="dp-testimonials__grid">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'testimonial' -%}
+              <div class="dp-testimonial-card" {{ block.shopify_attributes }}>
+                <div class="dp-testimonial-card__stars">
+                  {%- assign rating = block.settings.rating | default: 5 -%}
+                  {%- for star in (1..rating) -%}★{%- endfor -%}
+                </div>
+                <p class="dp-testimonial-card__text">"{{ block.settings.text | escape }}"</p>
+                <div class="dp-testimonial-card__meta">
+                  <strong>{{ block.settings.author | escape }}</strong>
+                  {%- if block.settings.location != blank -%}
+                    <span>· {{ block.settings.location | escape }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{%- style -%}
+/* ======================================
+   DIVYA PRABHA FOODS — HOMEPAGE STYLES
+   ====================================== */
+
+#laber_{{ sid }} {
+  --dp-red: {{ section.settings.color_red }};
+  --dp-red-dark: color-mix(in srgb, {{ section.settings.color_red }} 85%, black);
+  --dp-brown: {{ section.settings.color_brown }};
+  --dp-gold: {{ section.settings.color_gold }};
+  --dp-cream: {{ section.settings.color_cream }};
+  --dp-warm-bg: {{ section.settings.color_warm_bg }};
+  --dp-text: {{ section.settings.color_text }};
+  --dp-muted: {{ section.settings.color_muted }};
+  --dp-border: {{ section.settings.color_border }};
+}
+
+.dp-home-page {
+  font-family: 'Inter', sans-serif;
+  color: var(--dp-text);
+  overflow-x: hidden;
+  background-color: #fff;
+}
+
+.dp-home-page img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Layout Utility --- */
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- Typo / Section Headings --- */
+.dp-section-head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.dp-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--dp-red);
+  background: var(--dp-cream);
+  padding: 6px 16px;
+  border-radius: 50px;
+  margin-bottom: 12px;
+  border: 1px solid var(--dp-border);
+}
+.dp-section-head h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--dp-brown);
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* --- Button --- */
+.dp-btn {
+  display: inline-block;
+  background: var(--dp-red);
+  color: #fff !important;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border: 2px solid var(--dp-red);
+  box-shadow: 0 4px 15px rgba(176,18,21,0.15);
+}
+.dp-btn:hover {
+  background: var(--dp-red-dark);
+  border-color: var(--dp-red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(176,18,21,0.25);
+}
+.dp-btn--outline {
+  background: transparent;
+  color: var(--dp-red) !important;
+  border-color: var(--dp-red);
+  box-shadow: none;
+}
+.dp-btn--outline:hover {
+  background: var(--dp-red);
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(176,18,21,0.15);
+}
+
+/* ===== HERO BANNER ===== */
+.dp-hero {
+  position: relative;
+  background: var(--dp-brown);
+}
+.dp-hero__bg {
+  min-height: 85vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+.dp-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(61,31,15,0.85) 0%, rgba(61,31,15,0.4) 60%, transparent 100%);
+}
+.dp-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  padding: 80px 0;
+}
+.dp-hero__tag {
+  display: inline-block;
+  background: rgba(229,168,66,0.2);
+  border: 1px solid rgba(229,168,66,0.3);
+  color: var(--dp-gold);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+.dp-hero__title {
+  font-size: clamp(38px, 6vw, 72px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.dp-hero__title em {
+  font-style: italic;
+  color: var(--dp-gold);
+}
+.dp-hero__sub {
+  font-size: clamp(15px, 2vw, 18px);
+  color: rgba(255,248,238,0.85);
+  line-height: 1.6;
+  margin-bottom: 36px;
+}
+
+/* ===== WHY CHOOSE US / USP SECTION ===== */
+.dp-usps {
+  padding: 90px 0;
+  background: #1c0a03;
+  position: relative;
+  overflow: hidden;
+}
+.dp-usps__bg-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(176,18,21,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(229,168,66,0.07) 0%, transparent 45%);
+  pointer-events: none;
+}
+.dp-section-head--light .dp-label,
+.dp-label--light {
+  background: rgba(229,168,66,0.12) !important;
+  border-color: rgba(229,168,66,0.2) !important;
+  color: var(--dp-gold) !important;
+}
+.dp-usps__heading {
+  font-size: clamp(28px, 4vw, 48px);
+  color: #fff;
+  font-weight: 900;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+.dp-usps__heading em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--dp-gold), #f0c060);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dp-section-head--light h2 { color: #fff !important; }
+.dp-usps__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.dp-usp-card {
+  background: #2c1308;
+  border: 1px solid rgba(255,248,238,0.06);
+  padding: 36px 24px;
+  border-radius: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dp-usp-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(229,168,66,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.dp-usp-card:hover::before { opacity: 1; }
+.dp-usp-card:hover {
+  border-color: rgba(229,168,66,0.22);
+  transform: translateY(-8px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.dp-usp-card__num {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(229,168,66,0.25);
+  letter-spacing: 1px;
+}
+.dp-usp-card__icon-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(176,18,21,0.2) 0%, rgba(229,168,66,0.1) 100%);
+  border: 1px solid rgba(229,168,66,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  transition: all 0.35s ease;
+}
+.dp-usp-card:hover .dp-usp-card__icon-wrap {
+  background: linear-gradient(135deg, rgba(176,18,21,0.32) 0%, rgba(229,168,66,0.18) 100%);
+  border-color: rgba(229,168,66,0.35);
+  transform: scale(1.08) rotate(5deg);
+}
+.dp-usp-card__icon {
+  font-size: 34px;
+  line-height: 1;
+}
+.dp-usp-card__title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+  position: relative;
+  z-index: 1;
+}
+.dp-usp-card__desc {
+  font-size: 14px;
+  color: rgba(255,248,238,0.5);
+  margin: 0;
+  line-height: 1.65;
+  position: relative;
+  z-index: 1;
+}
+.dp-usp-card__bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--dp-red), var(--dp-gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0 0 24px 24px;
+}
+.dp-usp-card:hover .dp-usp-card__bar { transform: scaleX(1); }
+
+/* ===== PRODUCT GRID ===== */
+.dp-products {
+  padding: 80px 20px;
+}
+.dp-products__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+.dp-product-card {
+  background: #fff;
+  border: 1px solid var(--dp-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.dp-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(61,31,15,0.06);
+}
+.dp-product-card__media {
+  position: relative;
+  background: #fdfdfd;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.dp-product-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.dp-product-card:hover .dp-product-card__media img {
+  transform: scale(1.05);
+}
+.dp-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 2;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.dp-badge--discount {
+  background: var(--dp-red);
+  color: #fff;
+}
+.dp-product-card__info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.dp-product-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+.dp-product-card__title a {
+  color: var(--dp-brown);
+  text-decoration: none;
+}
+.dp-product-card__title a:hover {
+  color: var(--dp-red);
+}
+.dp-stars {
+  margin-bottom: 12px;
+}
+.dp-product-card__price {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.dp-price-current {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--dp-red);
+}
+.dp-price-compare {
+  font-size: 13px;
+  color: var(--dp-muted);
+  text-decoration: line-through;
+}
+.dp-product-card__action {
+  margin-top: auto;
+}
+.dp-quick-add-btn {
+  width: 100%;
+  background: var(--dp-cream);
+  color: var(--dp-brown);
+  border: 1px solid var(--dp-border);
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dp-quick-add-btn:hover:not(:disabled) {
+  background: var(--dp-red);
+  color: #fff;
+  border-color: var(--dp-red);
+}
+.dp-quick-add-btn--soldout {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== STORY SECTION ===== */
+.dp-story {
+  padding: 80px 0;
+  background-color: var(--dp-warm-bg);
+  border-top: 1px solid var(--dp-border);
+  border-bottom: 1px solid var(--dp-border);
+}
+.dp-story__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+}
+.dp-story__text h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--dp-brown);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 12px 0 24px;
+}
+.dp-story__body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--dp-muted);
+  margin-bottom: 32px;
+}
+.dp-story__img-wrap {
+  position: relative;
+}
+.dp-story__img-main {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(61,31,15,0.08);
+}
+.dp-story__img-main img {
+  width: 100%;
+  aspect-ratio: 1.25;
+  object-fit: cover;
+}
+.dp-story__badge {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: #fff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid var(--dp-border);
+}
+.dp-story__badge-icon {
+  font-size: 24px;
+}
+.dp-story__badge span:last-child {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dp-brown);
+}
+
+/* ===== MARQUEE SECTION ===== */
+.dp-marquee {
+  background: var(--dp-brown);
+  padding: 18px 0;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.dp-marquee__wrap {
+  display: flex;
+  overflow: hidden;
+  width: 100vw;
+}
+.dp-marquee__content {
+  display: flex;
+  white-space: nowrap;
+  animation: dp-marquee-scroll 25s linear infinite;
+}
+.dp-marquee__content span {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.dp-marquee__sep {
+  margin: 0 40px;
+  color: var(--dp-gold) !important;
+}
+@keyframes dp-marquee-scroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ===== TESTIMONIALS ===== */
+.dp-testimonials {
+  padding: 80px 0;
+  background-color: #fff;
+}
+.dp-testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+.dp-testimonial-card {
+  background: var(--dp-warm-bg);
+  border: 1px solid var(--dp-border);
+  padding: 36px 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.dp-testimonial-card__stars {
+  color: var(--dp-gold);
+  font-size: 20px;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+.dp-testimonial-card__text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--dp-text);
+  font-style: italic;
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+.dp-testimonial-card__meta {
+  font-size: 14px;
+}
+.dp-testimonial-card__meta strong {
+  color: var(--dp-brown);
+}
+.dp-testimonial-card__meta span {
+  color: var(--dp-muted);
+}
+
+/* ======================================
+   RESPONSIVE STYLES (100% MOBILE-FIRST)
+   ====================================== */
+
+@media (max-width: 1024px) {
+  .dp-usps__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .dp-products__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .dp-testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .dp-story__grid {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dp-hero__bg {
+    min-height: 70vh;
+  }
+  .dp-hero__content {
+    text-align: center;
+    padding: 60px 0;
+  }
+  .dp-hero__sub {
+    margin-bottom: 28px;
+  }
+  .dp-story__grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .dp-story__text {
+    order: 2;
+    text-align: center;
+  }
+  .dp-story__visual {
+    order: 1;
+  }
+  .dp-products__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .dp-usps__grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .dp-usp-card:hover { transform: none; }
+  .dp-products__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .dp-testimonials__grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .dp-story__badge {
+    bottom: 15px;
+    left: 15px;
+    padding: 10px 14px;
+  }
+}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "DP Homepage Revamp",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color Customizer"
+    },
+    {
+      "type": "color",
+      "id": "color_red",
+      "label": "Red (Accent Color)",
+      "default": "#b01215"
+    },
+    {
+      "type": "color",
+      "id": "color_brown",
+      "label": "Brown (Secondary Color)",
+      "default": "#3d1f0f"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Gold (Highlight Accent)",
+      "default": "#e5a842"
+    },
+    {
+      "type": "color",
+      "id": "color_cream",
+      "label": "Cream (Background Accent)",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "color_warm_bg",
+      "label": "Warm BG (Section BG)",
+      "default": "#fdf6ed"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Main Text Color",
+      "default": "#2d1206"
+    },
+    {
+      "type": "color",
+      "id": "color_muted",
+      "label": "Muted Text Color",
+      "default": "#6b4c3b"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Border Color",
+      "default": "#e8d5c0"
+    },
+    {
+      "type": "header",
+      "content": "Testimonials Config"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_sub",
+      "label": "Section Subtitle",
+      "default": "Loved by Families"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_heading",
+      "label": "Section Heading",
+      "default": "What Our Customers Say"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "name": "Hero Banner",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Background Image (Desktop)",
+          "info": "Should be wide and high quality, e.g., 1920x1080"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Background Image (Mobile)"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Tagline",
+          "default": "Est. 2018 · Saurashtra, Gujarat"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "A Jar Full of<br><em>Baa's Love</em>"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Every pickle we make carries a memory — of grandmothers humming in summer kitchens, of sun-dried mangoes on rooftop terraces, of recipes passed down not through books, but through loving hands."
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button Text",
+          "default": "Shop Our Pickles"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button Link"
+        }
+      ]
+    },
+    {
+      "type": "usps",
+      "name": "USP Grid (4 items)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "usp1_icon",
+          "label": "USP 1 Icon (Emoji)",
+          "default": "🥭"
+        },
+        {
+          "type": "text",
+          "id": "usp1_title",
+          "label": "USP 1 Title",
+          "default": "100% Sun-Dried"
+        },
+        {
+          "type": "text",
+          "id": "usp1_desc",
+          "label": "USP 1 Description",
+          "default": "Cured under the warm Saurashtra sun for authentic flavor."
+        },
+        {
+          "type": "text",
+          "id": "usp2_icon",
+          "label": "USP 2 Icon (Emoji)",
+          "default": "🚫"
+        },
+        {
+          "type": "text",
+          "id": "usp2_title",
+          "label": "USP 2 Title",
+          "default": "No Preservatives"
+        },
+        {
+          "type": "text",
+          "id": "usp2_desc",
+          "label": "USP 2 Description",
+          "default": "Free from any artificial colors, vinegars, or preservatives."
+        },
+        {
+          "type": "text",
+          "id": "usp3_icon",
+          "label": "USP 3 Icon (Emoji)",
+          "default": "🏺"
+        },
+        {
+          "type": "text",
+          "id": "usp3_title",
+          "label": "USP 3 Title",
+          "default": "Traditional Saurashtra Recipe"
+        },
+        {
+          "type": "text",
+          "id": "usp3_desc",
+          "label": "USP 3 Description",
+          "default": "Handed down through four generations of family pickling."
+        },
+        {
+          "type": "text",
+          "id": "usp4_icon",
+          "label": "USP 4 Icon (Emoji)",
+          "default": "❤️"
+        },
+        {
+          "type": "text",
+          "id": "usp4_title",
+          "label": "USP 4 Title",
+          "default": "Small Handcrafted Batches"
+        },
+        {
+          "type": "text",
+          "id": "usp4_desc",
+          "label": "USP 4 Description",
+          "default": "Slowly matured to ensure premium quality in every single jar."
+        }
+      ]
+    },
+    {
+      "type": "products",
+      "name": "Featured Products Grid",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Our Best Sellers"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Baa's Favorites"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Products limit",
+          "min": 4,
+          "max": 12,
+          "step": 1,
+          "default": 4
+        }
+      ]
+    },
+    {
+      "type": "story",
+      "name": "Baa's Tradition Story",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "story_label",
+          "label": "Subheading",
+          "default": "Our Tradition"
+        },
+        {
+          "type": "text",
+          "id": "story_heading",
+          "label": "Heading",
+          "default": "Made the Old Way.<br>The Only Right Way."
+        },
+        {
+          "type": "textarea",
+          "id": "story_body",
+          "label": "Description",
+          "default": "We don't believe in industrial shortcuts. Our mangoes are carefully hand-cut, tossed with local spices ground in small mills, and matured slowly inside clay jars ('Barnis'). Just like Baa has done for 40 years."
+        },
+        {
+          "type": "image_picker",
+          "id": "story_image",
+          "label": "Story Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_icon",
+          "label": "Badge Icon (Emoji)",
+          "default": "🏺"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "Sun-dried in clay Barnis"
+        },
+        {
+          "type": "text",
+          "id": "story_btn_text",
+          "label": "Button Text",
+          "default": "Learn Our Process"
+        },
+        {
+          "type": "url",
+          "id": "story_btn_link",
+          "label": "Button Link"
+        }
+      ]
+    },
+    {
+      "type": "marquee",
+      "name": "Infinite Marquee Band",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Marquee Text",
+          "default": "Free shipping on orders above ₹499"
+        },
+        {
+          "type": "text",
+          "id": "separator",
+          "label": "Separator text/emoji",
+          "default": "🥭"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonial Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author Name",
+          "default": "Aditi Sharma"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Author Location",
+          "default": "Mumbai"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating (Stars)",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "Opening Baa's Sweet Mango Pickle took me straight back to my childhood summers at my grandmother's home in Gujarat. The authenticity is unparalleled!"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DP Homepage Revamp",
+      "blocks": [
+        {
+          "type": "hero"
+        },
+        {
+          "type": "usps"
+        },
+        {
+          "type": "marquee",
+          "settings": {
+            "text": "FREE SHIPPING ON ORDERS ABOVE ₹499"
+          }
+        },
+        {
+          "type": "products"
+        },
+        {
+          "type": "story"
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Nikhil Patel",
+            "location": "Ahmedabad",
+            "text": "The Saurashtra Keri Achar has that perfect spicy kick. No store-bought pickle can compete with this handcrafted quality."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Devi Rao",
+            "location": "Bangalore",
+            "text": "Truly organic and homemade! Highly recommend their sweet mango pickle. Zero chemicals, pure deliciousness."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Meera Shah",
+            "location": "Pune",
+            "text": "I ordered a bundle of three pickles, and all of them are outstanding. The packaging is premium and delivery was quick."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

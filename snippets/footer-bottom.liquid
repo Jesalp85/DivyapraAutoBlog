@@ -1,0 +1,223 @@
+<!-- Footer -->
+{% assign sid = section.id %}
+{%- assign full_width = section.settings.full_width -%}
+<section id="laber_{{sid}}">
+  <div class="{% if full_width %}full-width{% else %}container{% endif %} py-4" style="border-top: 1px solid {{ section.settings.cl_border }};">
+    {%- if section.settings.show_fssai -%}
+      <style>
+        .fssai-footer-wrapper {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-bottom: 15px;
+          max-width: 100%;
+        }
+        .fssai-footer-content {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          transition: opacity 0.2s ease;
+          flex-wrap: wrap;
+          max-width: 100%;
+        }
+        .fssai-footer-content:hover {
+          opacity: 0.9;
+        }
+        .fssai-logo-badge {
+          background-color: #ffffff;
+          padding: 4px 8px;
+          border-radius: 4px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 767px) {
+          .fssai-footer-wrapper {
+            justify-content: center;
+            margin-bottom: 10px;
+          }
+          .fssai-footer-content {
+            justify-content: center;
+          }
+        }
+      </style>
+      <div class="fssai-footer-wrapper">
+        <div class="fssai-footer-content">
+          <div class="fssai-logo-badge" style="height: {{ section.settings.fssai_logo_height }}px;">
+            {%- if section.settings.fssai_logo != blank -%}
+              <img src="{{ section.settings.fssai_logo | image_url: width: 120 }}" alt="FSSAI Logo" style="height: 100%; width: auto; object-fit: contain;" loading="lazy">
+            {%- else -%}
+              <img src="{{ 'dp-fssai-logo-v2.png' | asset_url }}" alt="FSSAI Logo" style="height: 100%; width: auto; object-fit: contain;" loading="lazy">
+            {%- endif -%}
+          </div>
+          <span class="fssai-no-text" style="color: {{ section.settings.cl_fssai_text }}; font-size: 13px; font-weight: 500; font-family: var(--font-body-family), sans-serif; letter-spacing: 0.5px;">
+            {{ section.settings.fssai_no }}
+          </span>
+        </div>
+      </div>
+    {%- endif -%}
+    <div class="row">
+      {%- for block in section.blocks -%}
+        {% case block.settings.col %}
+          {% when '16%' %}
+            {%- assign block_width = 'col-lg-2 col-md-2 col-12' -%}
+          {% when '25%' %}
+            {%- assign block_width = 'col-lg-3 col-md-3 col-12' -%}
+          {% when '33%' %}
+            {%- assign block_width = 'col-lg-4 col-md-4 col-12' -%}
+          {% when '42%' %}
+            {%- assign block_width = 'col-lg-5 col-md-5 col-12' -%}
+          {% when '50%' %}
+            {%- assign block_width = 'col-lg-6 col-md-6 col-12' -%}
+          {% when '58%' %}
+            {%- assign block_width = 'col-lg-7 col-md-7 col-12' -%}
+          {% when '66%' %}
+            {%- assign block_width = 'col-lg-8 col-md-8 col-12' -%}
+          {% when '75%' %}
+            {%- assign block_width = 'col-lg-9 col-md-9 col-12' -%}
+          {% when '100%' %}
+            {%- assign block_width = 'col-12' -%}
+        {% endcase %}
+        {%- case block.type -%}
+          {%- when 'lang_curr' -%}
+            <div
+              class="footer-iteam {{ block_width }} mb-{{ block.settings.mb }}"
+              style="--ui-position:{{ block.settings.pos_block }};"
+              {{ block.shopify_attributes }}>
+              <div class="language-currency">
+                {% if block.settings.header_use_language or block.settings.header_use_currency %}
+                  {% assign showFlag = block.settings.show_flag %}
+                  <ul>
+                    {% if block.settings.header_use_language %}
+                      {% render 'language'
+                        , showFlag: showFlag %}
+                    {% endif %}
+                    {% if block.settings.header_use_currency %}
+                      {% render 'currency' %}
+                    {% endif %}
+                  </ul>
+                {% endif %}
+              </div>
+            </div>
+          {%- when 'policy' -%}
+            <div
+              class="footer-iteam {{ block_width }} mb-{{ block.settings.mb }}"
+              style="--ui-position:{{ block.settings.pos_block }};"
+              {{ block.shopify_attributes }}>
+              <div class="policies">
+                <ul class="list-unstyled" style="--color-link:{{ block.settings.cl_link }};--color-link-hover:{{ block.settings.cl_link_hover }};">
+                  {%- for policy in shop.policies -%}
+                    {%- if policy != blank -%}
+                      <li>
+                        <small class="policies_content">
+                          <a href="{{ policy.url }}">{{ policy.title }}</a>
+                        </small>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          {%- when 'copyright' -%}
+            <div
+              class="footer-iteam {{ block_width }} mb-{{ block.settings.mb }}"
+              style="--ui-position:{{ block.settings.pos_block }};"
+              {{ block.shopify_attributes }}>
+              {% if block.settings.copyright != blank %}
+                <div class="copyright alo-color" style="--ui-color:{{ block.settings.cl_text }};--color-link-footer:{{ block.settings.cl_link }};">
+                  {{ block.settings.copyright }}
+                </div>
+              {% endif %}
+            </div>
+          {%- when 'payment_svg' -%}
+            <div
+              class="footer-iteam {{ block_width }} mb-{{ block.settings.mb }}"
+              style="--ui-position:{{ block.settings.pos_block }};"
+              {{ block.shopify_attributes }}>
+              <div class="payment">
+                {% if block.settings.title != blank -%}
+                  <span class="alo-color" style="--ui-color:{{ block.settings.cl_text }};">
+                    {{- block.settings.title -}}
+                  </span>
+                {%- endif %}
+                {% if block.settings.svg_custom %}
+                  <div class="payment_type_svg">
+                    {%- assign svg_custom = block.settings.svg_custom | remove: ' ' | split: ',' -%}
+                    {%- for img in svg_custom -%}
+                      <img
+                        loading="lazy"
+                        width="48px"
+                        height="32px"
+                        class="img_tr_svg"
+                        src="{{ img | payment_type_img_url }}"
+                        data-src="{{ img | payment_type_img_url }}"
+                        alt="{{img | replace:'_',' '}}">
+                    {%- endfor -%}
+                  </div>
+                  <style>
+                    .payment_type_svg {
+                      display: flex;
+                      flex-wrap: wrap;
+                      gap: 5px;
+                    }
+                    .payment_type_svg img {
+                      border-radius: 3px;
+                    }
+                  </style>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- when 'payment_img' -%}
+            <div class="footer-iteam  {{ block_width }} mb-{{ block.settings.mb }}" {{ block.shopify_attributes }}>
+              <div class="payment" style="--ui-width:{{ block.settings.width_img }}px;--ui-position:{{ block.settings.pos_block }}">
+                {% if block.settings.title != blank -%}
+                  <span class="alo-color" style="--ui-color:{{ block.settings.cl_text }};">
+                    {{- block.settings.title -}}
+                  </span>
+                {%- endif %}
+                {% if block.settings.img_payment %}
+                  {% render 'responsive-image'
+                    , image: block.settings.img_payment
+                    , image_class: 'w-auto h-full' %}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- when 'socia' -%}
+            <div
+              class="footer-iteam {{ block_width }} mb-{{ block.settings.mb }}"
+              {{ block.shopify_attributes }}
+              style="--ui-position:{{ block.settings.pos_block }}">
+              {% render 'social_link' %}
+            </div>
+          {%- when 'menu' -%}
+            <div
+              class="footer-iteam {{ block_width }} mb-{{ block.settings.mb }}"
+              {{ block.shopify_attributes }}
+              style="--ui-position:{{ block.settings.pos_block }}">
+              <div class="menu_footer">
+                {%- assign menu = block.settings.menu -%}
+                {%- if menu != blank -%}
+                  <ul class="menu">
+                    {%- for link in linklists[menu].links -%}
+                      <li class="menu-item{% if link.active %}active{% endif %}">
+                        <a
+                          class="alo-color alo-color-hover"
+                          style="--ui-color:{{ block.settings.cl_link }};--ui-color-hover:{{ block.settings.cl_link_hover }};"
+                          href="{{ link.url }}">
+                          {{- link.title | split: '[' | first }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- else -%}
+                  You have not selected the footer menu
+                {%- endif -%}
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+<!-- /Footer -->

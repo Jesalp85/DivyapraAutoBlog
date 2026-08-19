@@ -1,0 +1,45 @@
+{%- liquid
+  assign bg_image = block.settings.bg_image
+  assign image = block.settings.image
+  assign bg_color = block.settings.bg_color | default: '#00A850'
+  assign url = block.settings.btn_link | default: '#'
+  assign open_link = block.settings.open_link
+-%}
+<div
+  id="bk_{{block.id}}"
+  class="img_grid_item rounded-4 {{ class }} img_grid_item_{{for_i}}"
+  style="margin-bottom:{{ block.settings.mg_bottom }}px;"
+  {{ block.shopify_attributes }}>
+  <a href="{{ url }}">
+    <div class="image_grid_item  rounded-4 adjust-height" style="background-color: {{ bg_color }};
+         {% if bg_image != blank %}
+           background-image: url('{{ bg_image | img_url: 'master' }}');
+           background-size: cover;
+           background-position: center;
+         {% endif %}">
+      <div class="content-image h-100 flex h_{{block.settings.h_position}} v_{{block.settings.v_position}} text_{{block.settings.txt_align}}">
+        <div class="content">
+          <!-- Subtitle -->
+          {% if block.settings.subtitle != blank %}
+            <p class="subtitle-bg mb-1 mb-lg-2">
+              {{ block.settings.subtitle }}
+            </p>
+          {% endif %}
+          <!-- Title -->
+          {% if block.settings.title != blank %}
+            <h4 class="title mb-15 sm:mb-10 md:mb-10" style="color:{{ block.settings.cl_title }};">
+              {{ block.settings.title }}
+            </h4>
+          {% endif %}
+          <!-- Content -->
+          {% if block.settings.content != blank %}
+            <p class="cnt mb-15 sm:mb-10 md:mb-10" style="color:{{ block.settings.cl_content }};">
+              {{ block.settings.content }}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </a>
+</div>

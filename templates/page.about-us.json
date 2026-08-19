@@ -1,0 +1,225 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "dp-about-main": {
+      "type": "dp-about-us",
+      "blocks": {
+        "step_1": {
+          "type": "process_step",
+          "settings": {
+            "step_icon": "🥭",
+            "step_title": "Handpicked Fruits",
+            "step_desc": "We select only the finest raw mangoes, limes, and vegetables from trusted local farmers in Saurashtra — each piece personally inspected for quality."
+          }
+        },
+        "step_2": {
+          "type": "process_step",
+          "settings": {
+            "step_icon": "☀️",
+            "step_title": "Sun-drying Ritual",
+            "step_desc": "Cut pieces are spread on clean muslin cloth under the open Gujarat sky — dried naturally for 3-7 days to lock in authentic flavour and ensure natural preservation."
+          }
+        },
+        "step_3": {
+          "type": "process_step",
+          "settings": {
+            "step_icon": "🌶️",
+            "step_title": "Hand-ground Masalas",
+            "step_desc": "Our signature spice blends are ground fresh by hand — using cold-pressed mustard oil, rock salt, and masalas prepared from whole spices. Never pre-mixed. Never compromised."
+          }
+        },
+        "step_4": {
+          "type": "process_step",
+          "settings": {
+            "step_icon": "🫙",
+            "step_title": "Slow Marination",
+            "step_desc": "Each batch is slow-marinated for weeks — allowing the flavours to deepen and mature. Only when Baa tastes and approves does it get sealed into a jar for your family."
+          }
+        },
+        "value_1": {
+          "type": "value_card",
+          "settings": {
+            "card_icon": "🚫",
+            "card_title": "Zero Artificial Preservatives",
+            "card_desc": "Our pickles stay fresh for 12+ months using only the natural preserving power of mustard oil, salt, and turmeric — the same way our grandmothers did.",
+            "is_highlight": false
+          }
+        },
+        "value_2": {
+          "type": "value_card",
+          "settings": {
+            "card_icon": "💛",
+            "card_title": "Cold-Pressed Mustard Oil",
+            "card_desc": "We use pure cold-pressed mustard oil — the soul of authentic Indian pickles. No refined oils, no blends, no compromise on this sacred ingredient.",
+            "is_highlight": true
+          }
+        },
+        "value_3": {
+          "type": "value_card",
+          "settings": {
+            "card_icon": "🏡",
+            "card_title": "Small-Batch, Home Kitchen",
+            "card_desc": "Every jar is made in small batches in our clean home kitchen. Never outsourced. Never factory-produced. Every jar carries the warmth of hands that care.",
+            "is_highlight": false
+          }
+        },
+        "value_4": {
+          "type": "value_card",
+          "settings": {
+            "card_icon": "🌿",
+            "card_title": "100% Natural Ingredients",
+            "card_desc": "From the first ingredient to the last spice, everything is natural, traceable, and consciously sourced from farmers we know and trust.",
+            "is_highlight": false
+          }
+        },
+        "value_5": {
+          "type": "value_card",
+          "settings": {
+            "card_icon": "👩‍🍳",
+            "card_title": "Taste-Tested by Baa",
+            "card_desc": "Every single batch is tasted and approved by our founder's mother before it leaves our kitchen. If Baa doesn't nod with a smile — it goes back for perfection.",
+            "is_highlight": true
+          }
+        },
+        "value_6": {
+          "type": "value_card",
+          "settings": {
+            "card_icon": "📦",
+            "card_title": "Sealed Fresh, Delivered Safely",
+            "card_desc": "We use food-grade glass jars, sealed airtight and packed with care — so the pickle that arrives at your door is as fresh as the day it was made.",
+            "is_highlight": false
+          }
+        },
+        "contact_1": {
+          "type": "contact_card",
+          "settings": {
+            "card_icon": "📍",
+            "card_title": "Our Kitchen Address",
+            "card_text": "304, Megdoot Signature, HDIIL Industrial Park,\nChandansar Road, Virar (E), Palghar – 401305",
+            "card_link": "",
+            "card_link_text": ""
+          }
+        },
+        "contact_2": {
+          "type": "contact_card",
+          "settings": {
+            "card_icon": "🕐",
+            "card_title": "Order Processing",
+            "card_text": "Mon – Sat: 9:00 AM to 6:00 PM\nOrders dispatched within 1–2 business days",
+            "card_link": "",
+            "card_link_text": ""
+          }
+        },
+        "contact_3": {
+          "type": "contact_card",
+          "settings": {
+            "card_icon": "💬",
+            "card_title": "Talk to Us",
+            "card_text": "Questions, bulk orders, or just want to share a memory?",
+            "card_link": "/pages/contact",
+            "card_link_text": "We'd love to hear from you →"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "value_1",
+        "value_2",
+        "value_3",
+        "value_4",
+        "value_5",
+        "value_6",
+        "contact_1",
+        "contact_2",
+        "contact_3"
+      ],
+      "settings": {
+        "color_red": "#b01215",
+        "color_brown": "#3d1f0f",
+        "color_gold": "#e5a842",
+        "color_cream": "#fff8ee",
+        "color_warm_bg": "#fdf6ed",
+        "color_text": "#2d1206",
+        "color_muted": "#6b4c3b",
+        "color_border": "#e8d5c0",
+        "hero_tag": "Est. 2018 · Saurashtra, Gujarat",
+        "hero_title": "A Jar Full of Baa's Love",
+        "hero_sub": "Every pickle we make carries a memory — of grandmothers humming in summer kitchens, of sun-dried mangoes on rooftop terraces, of recipes passed down not through books, but through loving hands.",
+        "hero_btn_text": "Taste Our Story",
+        "hero_btn_link": "",
+        "story_label": "Our Story",
+        "story_heading": "Some Flavours Are Never Forgotten",
+        "story_body_1": "There are some flavours that never leave us. The aroma of a freshly opened pickle jar at the family dining table. The taste of raw mango pickle served with hot parathas during summer vacations. The recipes lovingly prepared by mothers and grandmothers — never written down, only felt in the heart and remembered in the hands.",
+        "story_body_2": "As life became faster, many of these traditional homemade flavours slowly disappeared from our kitchens — replaced by factory jars with artificial preservatives and pale, chemical tastes. <strong>That is why Divya Prabha Foods was born.</strong>",
+        "story_body_3": "Our founder's mother — lovingly called <strong>\"Baa\"</strong> in Gujarati — had been making pickles the traditional Saurashtra way for over four decades. In 2018, what started as small jars shared with neighbours became a movement to bring authentic taste back to every Indian home.",
+        "story_image": "shopify://shop_images/Traditional_receipe.webp",
+        "badge_icon": "🫙",
+        "badge_title": "Handcrafted with Love",
+        "accent_icon": "☀️",
+        "accent_title": "Sun-dried Mangoes",
+        "accent_subtitle": "Traditional Saurashtra method",
+        "stat1_num": "7+",
+        "stat1_label": "Years of Tradition",
+        "stat2_num": "25+",
+        "stat2_label": "Pickle Varieties",
+        "stat3_num": "10,000+",
+        "stat3_label": "Happy Families",
+        "process_label": "How We Make It",
+        "process_heading": "Made the Old Way. The Only Right Way.",
+        "process_sub": "No shortcuts. No factory floors. Just time-honoured techniques passed through generations.",
+        "values_label": "Our Promise",
+        "values_heading": "What Makes Our Pickles Different",
+        "emotion_heading": "Every Jar Tells a Story of Ghar Ka Khana",
+        "emotion_body_1": "When you open a jar of Divya Prabha Foods, close your eyes for a moment. That aroma — sharp, tangy, warm with spice — that's not just pickle. That's Sunday mornings at Baa's house. That's monsoon evenings with hot rotis. That's home.",
+        "emotion_body_2": "We don't just make pickles. We preserve memories.",
+        "emotion_btn1_text": "Shop Our Pickles",
+        "emotion_btn1_link": "",
+        "emotion_btn2_text": "Talk to Us",
+        "emotion_btn2_link": "",
+        "founder_label": "From Our Heart",
+        "founder_heading": "A Letter from the Founder",
+        "founder_quote": "I remember sitting in my mother's kitchen as a child, watching her work with pickles for hours — cutting, mixing, tasting, adjusting — with no recipe card, no measurements. Just instinct, memory, and decades of love.<br><br>When I moved to the city, I realised what I had taken for granted. No pickle in any store came close. They all tasted of factories, not of family. That's when I called Baa and said — <em>\"Let's share your pickles with the world.\"</em><br><br>Today, when a customer messages us saying our Aam Achar reminded them of their childhood home, we feel our purpose confirmed. We're not just selling food. We're delivering belonging.<br><br>Thank you for being part of our family.",
+        "founder_sig_name": "— The Divya Prabha Family",
+        "founder_sig_place": "Virar, Palghar · Maharashtra"
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f": {
+      "type": "newsletter",
+      "settings": {
+        "width_c": 100,
+        "title": "",
+        "cl_title": "#0c0816",
+        "subtitle": "",
+        "cl_subtitle": "#0c0816",
+        "content": "Join Our Newsletter <br> and <a href=\"/collections/all\">Save 20% Off</a> on Your Next Purchase!.",
+        "cl_content": "#0c0816",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "layout": "container",
+        "design": "design-2",
+        "cl_bg": "",
+        "cl_bg_news": "#fafafa",
+        "cl_border": "#b01215",
+        "mg": "0px,,,",
+        "pd": "0px,0px,0px,",
+        "mg_mb": "0px,,,",
+        "pd_mb": "30px,,30px,"
+      }
+    }
+  },
+  "order": [
+    "dp-about-main",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f"
+  ]
+}

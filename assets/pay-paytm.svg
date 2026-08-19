@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <circle cx="16" cy="16" r="15.5" fill="#ffffff" stroke="#f87171" stroke-width="1"/>
+  <g transform="translate(0, 1.5)">
+    <text x="3.5" y="17.5" font-family="Helvetica, Arial, sans-serif" font-size="8.5" font-weight="900" fill="#002970" letter-spacing="-0.3">pay</text>
+    <text x="17.5" y="17.5" font-family="Helvetica, Arial, sans-serif" font-size="8.5" font-weight="900" fill="#00baf2" letter-spacing="-0.3">tm</text>
+  </g>
+</svg>

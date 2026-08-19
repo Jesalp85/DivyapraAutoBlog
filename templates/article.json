@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "dp-article-main": {
+      "type": "dp-article",
+      "settings": {
+        "color_red": "#b01215",
+        "color_brown": "#3d1f0f",
+        "color_gold": "#e5a842",
+        "color_cream": "#fff8ee",
+        "color_warm_bg": "#fdf6ed",
+        "color_text": "#2d1206",
+        "color_muted": "#6b4c3b",
+        "color_border": "#e8d5c0"
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f": {
+      "type": "newsletter",
+      "settings": {
+        "width_c": 100,
+        "title": "",
+        "cl_title": "#0C0816",
+        "subtitle": "",
+        "cl_subtitle": "#0C0816",
+        "content": "Join Our Newsletter <br> and <a href=\"/collections/all\">Save 20% Off</a> on Your Next Purchase!",
+        "cl_content": "#0C0816",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "layout": "container",
+        "design": "design-2",
+        "cl_bg": "",
+        "cl_bg_news": "#FAFAFA",
+        "cl_border": "#b01215",
+        "mg": "0px,,,",
+        "pd": "0px,0px,0px,",
+        "mg_mb": "0px,,,",
+        "pd_mb": "30px,,30px,"
+      }
+    }
+  },
+  "order": [
+    "dp-article-main",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f"
+  ]
+}

@@ -1,0 +1,242 @@
+{% if section.settings.enable_hero_section %}
+  <div class="Hero-section">
+    <section
+      class="background-section rounded-3"
+      style="background-color: {{ section.settings.background_color }};"
+    >
+      <div class="container">
+        <div class="banner-content text-center mb-4 mb-lg-5">
+          <div class="title-text mb-1 mx-auto" style="background-color: {{ section.settings.title_bg_color }}">
+            {{ section.settings.title_text }}
+          </div>
+          <h1>{{ section.settings.heading_text }}</h1>
+        </div>
+        <div class="row align-items-center">
+          <!-- Left column bullets -->
+          <div class="col-12 col-lg-3 col-md-4 mt-4 mt-lg-0">
+            <div class="d-flex gap-3 gap-lg-4 bannar-bullets mb-4 mb-lg-5 flex-wrap text-start justify-content-start justify-content-md-between justify-content-lg-start">
+              <ul class="">
+                <h5 class="mb-3 mb-lg-4" style="color: {{ section.settings.list_item_title_color }};">
+                  {{ section.settings.list_item_title }}
+                </h5>
+                <li class="">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_1 }}</p>
+                </li>
+                <li class="">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_2 }}</p>
+                </li>
+              </ul>
+              <ul class="ms-lg-auto">
+                <h5 class="mb-3 mb-lg-4" style="color: {{ section.settings.list_item_title_color_2 }};">
+                  {{ section.settings.list_item_title_2 }}
+                </h5>
+                <li class="">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_3 }}</p>
+                </li>
+                <li class="">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_4 }}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Image section -->
+          <div class="col-lg-6 col-md-4 col-12">
+            <div class="banner-img text-center">
+              <img
+                src="{% if section.settings.banner_image %}{{ section.settings.banner_image | image_url }}{% else %}//via.placeholder.com/500x500{% endif %}"
+                alt="{% if section.settings.banner_image_alt %}{{ section.settings.banner_image_alt }}{% else %}Default Banner Alt Text{% endif %}"
+              >
+            </div>
+          </div>
+
+          <!-- Right column bullets -->
+          <div class="col-12 col-lg-3 col-md-4 mt-4 mt-lg-0">
+            <div class="d-flex gap-2 gap-lg-4 bannar-bullets mb-4 mb-lg-5 flex-wrap text-start justify-content-start justify-content-md-between justify-content-lg-end">
+              <ul class=" text-lg-end">
+                <h5 class="mb-3 mb-lg-4" style="color: {{ section.settings.list_item_title_color_3 }};">
+                  {{ section.settings.list_item_title_3 }}
+                </h5>
+
+                <li class="flex-lg-row-reverse">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_5 }}</p>
+                </li>
+                <li class="flex-lg-row-reverse">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_6 }}</p>
+                </li>
+              </ul>
+
+              <ul class="me-lg-auto text-lg-end ">
+                <h5 class="mb-3 mb-lg-4" style="color: {{ section.settings.list_item_title_color_4 }};">
+                  {{ section.settings.list_item_title_4 }}
+                </h5>
+
+                <li class="flex-lg-row-reverse">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_7 }}</p>
+                </li>
+                <li class="flex-lg-row-reverse">
+                  <p class="bullet-point fw-normal text-secondary">{{ section.settings.list_item_8 }}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "Ingredients section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_hero_section",
+      "label": "Enable Ingredients Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "Farm-Fresh Organic Goods"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FAF7F2"
+    },
+    {
+      "type": "text",
+      "id": "title_text",
+      "label": "Sub title Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "color",
+      "id": "title_bg_color",
+      "label": "Sub Title Background Color",
+      "default": "#FF782C"
+    },
+
+    {
+      "type": "text",
+      "id": "list_item_title",
+      "label": "List Title Text 1",
+      "default": "artisan buns"
+    },
+    {
+      "type": "color",
+      "id": "list_item_title_color",
+      "label": "List Title Color 1",
+      "default": "#FF782C"
+    },
+    {
+      "type": "text",
+      "id": "list_item_1",
+      "label": "List Item 1 (Left Column)",
+      "default": "Available Gluten-Free"
+    },
+    {
+      "type": "text",
+      "id": "list_item_2",
+      "label": "List Item 2 (Left Column)",
+      "default": "Made Cecally"
+    },
+
+    {
+      "type": "text",
+      "id": "list_item_title_2",
+      "label": "List Title Text 2",
+      "default": "ground beef"
+    },
+    {
+      "type": "color",
+      "id": "list_item_title_color_2",
+      "label": "List Title Color 2",
+      "default": "#00A850"
+    },
+    {
+      "type": "text",
+      "id": "list_item_3",
+      "label": "List Item 3 (Left Column)",
+      "default": "Signature Blended Beef"
+    },
+    {
+      "type": "text",
+      "id": "list_item_4",
+      "label": "List Item 4 (Left Column)",
+      "default": "Never Frozen"
+    },
+
+    {
+      "type": "text",
+      "id": "list_item_title_3",
+      "label": "List Title Text 3",
+      "default": "fresh produce"
+    },
+    {
+      "type": "color",
+      "id": "list_item_title_color_3",
+      "label": "List Title Color 3",
+      "default": "#85B748"
+    },
+    {
+      "type": "text",
+      "id": "list_item_5",
+      "label": "List Item 5 (Right Column)",
+      "default": "Made Fresh Everyday"
+    },
+    {
+      "type": "text",
+      "id": "list_item_6",
+      "label": "List Item 6 (Right Column)",
+      "default": "Hand-Tossed"
+    },
+
+    {
+      "type": "text",
+      "id": "list_item_title_4",
+      "label": "List Title Text 4",
+      "default": "ground turkey"
+    },
+    {
+      "type": "color",
+      "id": "list_item_title_color_4",
+      "label": "List Title Color 4",
+      "default": "#A0205B"
+    },
+    {
+      "type": "text",
+      "id": "list_item_7",
+      "label": "List Item 7 (Right Column)",
+      "default": "Ground Fresh"
+    },
+    {
+      "type": "text",
+      "id": "list_item_8",
+      "label": "List Item 8 (Right Column)",
+      "default": "Never Frozen"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "banner_image_alt",
+      "label": "Image Alt Text",
+      "default": "Hero Banner Image 500x500"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredients Section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

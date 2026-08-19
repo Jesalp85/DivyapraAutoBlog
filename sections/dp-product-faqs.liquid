@@ -1,0 +1,514 @@
+{% liquid
+  assign sid = section.id 
+%}
+
+{%- style -%}
+  #dp-faqs-{{ sid }} {
+    background-color: {{ section.settings.bg_color | default: '#fff8ee' }};
+    padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+  }
+  @media (max-width: 767px) {
+    #dp-faqs-{{ sid }} {
+      padding-top: {{ section.settings.padding_top_mobile | default: 40 }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile | default: 40 }}px;
+    }
+  }
+
+  .dp-faqs-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .dp-faqs-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .dp-faqs-subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .dp-faqs-title {
+    font-family: "Gill Sans MT", sans-serif;
+    font-size: clamp(26px, 2.5vw, 36px);
+    font-weight: 700;
+    color: #1a1208;
+    margin: 0;
+  }
+
+  .dp-faqs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    align-items: start;
+  }
+
+  {%- if section.settings.show_contact_card -%}
+  @media (min-width: 992px) {
+    .dp-faqs-grid {
+      grid-template-columns: 7fr 3fr;
+    }
+  }
+  {%- endif -%}
+
+  /* Accordion styling */
+  .dp-faqs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dp-faq-item {
+    background-color: #ffffff;
+    border: 1px solid {{ section.settings.border_color | default: '#ebd9c2' }};
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .dp-faq-item:hover {
+    border-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    box-shadow: 0 4px 15px rgba(26, 18, 8, 0.05);
+  }
+
+  .dp-faq-item.active {
+    border-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    box-shadow: 0 4px 18px rgba(26, 18, 8, 0.06);
+  }
+
+  .dp-faq-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .dp-faq-question-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .dp-faq-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+  }
+
+  .dp-faq-question {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1208;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .dp-faq-toggle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: #8d7b68;
+  }
+
+  .dp-faq-item.active .dp-faq-toggle {
+    transform: rotate(180deg);
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+  }
+
+  .dp-faq-content-wrap {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .dp-faq-content {
+    padding: 0 24px 20px 62px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #4a3e3d;
+    margin: 0;
+  }
+
+  .dp-faq-content p {
+    margin: 0 0 10px 0;
+    color: #4a3e3d;
+  }
+  .dp-faq-content p:last-child {
+    margin: 0;
+  }
+
+  /* Contact Card Styling */
+  .dp-faq-contact-card {
+    background-color: #ffffff;
+    border: 1px solid {{ section.settings.border_color | default: '#ebd9c2' }};
+    border-radius: 12px;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  }
+
+  .dp-faq-contact-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #fff4e6;
+    color: {{ section.settings.accent_color | default: '#cc1226' }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .dp-faq-contact-title {
+    font-family: "Gill Sans MT", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1208;
+    margin: 0 0 10px 0;
+  }
+
+  .dp-faq-contact-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #5d504f;
+    margin: 0 0 20px 0;
+  }
+
+  .dp-faq-contact-btn {
+    display: inline-block;
+    background-color: {{ section.settings.accent_color | default: '#cc1226' }};
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
+  }
+
+  .dp-faq-contact-btn:hover {
+    filter: brightness(0.9);
+  }
+
+  .dp-faq-contact-btn:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 767px) {
+    .dp-faq-trigger {
+      padding: 16px 20px;
+    }
+    .dp-faq-content {
+      padding: 0 20px 16px 20px;
+    }
+    .dp-faq-question {
+      font-size: 15px;
+    }
+  }
+{%- endstyle -%}
+
+<section id="dp-faqs-{{ sid }}" class="dp-faqs-section">
+  <div class="dp-faqs-wrapper">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="dp-faqs-header">
+        {%- if section.settings.subtitle != blank -%}
+          <span class="dp-faqs-subtitle">{{ section.settings.subtitle }}</span>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="dp-faqs-title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="dp-faqs-grid">
+      <div class="dp-faqs-list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq' -%}
+            {%- assign has_content = false -%}
+            {%- if block.settings.question != blank and block.settings.answer != blank -%}
+              {%- assign has_content = true -%}
+            {%- endif -%}
+
+            {%- if has_content or request.design_mode -%}
+              <div class="dp-faq-item" {{ block.shopify_attributes }}>
+                <button type="button" class="dp-faq-trigger" aria-expanded="false">
+                  <div class="dp-faq-question-wrap">
+                    <span class="dp-faq-icon">
+                      {%- assign lower_question = block.settings.question | downcase -%}
+                      {%- if lower_question contains 'description' or lower_question contains 'about' -%}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line>
+                          <line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                      {%- elsif lower_question contains 'ingredient' -%}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                      {%- elsif lower_question contains 'shelf' or lower_question contains 'life' or lower_question contains 'date' or lower_question contains 'time' -%}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                      {%- elsif lower_question contains 'storage' or lower_question contains 'store' or lower_question contains 'precaution' or lower_question contains 'instruction' -%}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                      {%- else -%}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                      {%- endif -%}
+                    </span>
+                    <h3 class="dp-faq-question">{{ block.settings.question }}</h3>
+                  </div>
+                  <span class="dp-faq-toggle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </span>
+                </button>
+                <div class="dp-faq-content-wrap">
+                  <div class="dp-faq-content">
+                    {{ block.settings.answer }}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.show_contact_card -%}
+        <div class="dp-faq-contact-card">
+          <span class="dp-faq-contact-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </span>
+          <h3 class="dp-faq-contact-title">{{ section.settings.contact_title | default: 'Have More Questions?' }}</h3>
+          <p class="dp-faq-contact-text">{{ section.settings.contact_text | default: 'Reach out to our customer care team and we will be happy to assist you.' }}</p>
+          {%- if section.settings.contact_btn_label != blank and section.settings.contact_btn_link != blank -%}
+            <a href="{{ section.settings.contact_btn_link }}" class="dp-faq-contact-btn">{{ section.settings.contact_btn_label }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    document.addEventListener("DOMContentLoaded", function() {
+      const wrapperId = 'dp-faqs-{{ sid }}';
+      const wrapper = document.getElementById(wrapperId);
+      if (!wrapper) return;
+
+      const triggers = wrapper.querySelectorAll('.dp-faq-trigger');
+      triggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+          const item = this.closest('.dp-faq-item');
+          const contentWrap = item.querySelector('.dp-faq-content-wrap');
+          const isOpen = item.classList.contains('active');
+
+          // Close other active items
+          wrapper.querySelectorAll('.dp-faq-item.active').forEach(activeItem => {
+            if (activeItem !== item) {
+              activeItem.classList.remove('active');
+              activeItem.querySelector('.dp-faq-trigger').setAttribute('aria-expanded', 'false');
+              activeItem.querySelector('.dp-faq-content-wrap').style.maxHeight = '0';
+            }
+          });
+
+          // Toggle current item
+          if (isOpen) {
+            item.classList.remove('active');
+            this.setAttribute('aria-expanded', 'false');
+            contentWrap.style.maxHeight = '0';
+          } else {
+            item.classList.add('active');
+            this.setAttribute('aria-expanded', 'true');
+            contentWrap.style.maxHeight = contentWrap.scrollHeight + 'px';
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "Product Details Accordion",
+    "class": "dp-section-faqs",
+    "settings": [
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Frequently Asked Questions"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Got Questions? We Have Answers."
+      },
+      {
+        "type": "header",
+        "content": "🎨 Colors & Themes"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#fff8ee"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "label": "Card Border Color",
+        "default": "#ebd9c2"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Brand Accent Color (Active/Buttons)",
+        "default": "#cc1226"
+      },
+      {
+        "type": "header",
+        "content": "✉️ Contact Helper Card"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_contact_card",
+        "label": "Show Contact Card?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "contact_title",
+        "label": "Contact Title",
+        "default": "Have More Questions?"
+      },
+      {
+        "type": "textarea",
+        "id": "contact_text",
+        "label": "Contact Text",
+        "default": "For any more queries reach out to us at support@arhamfoods.co.in and we will be happy to assist you."
+      },
+      {
+        "type": "text",
+        "id": "contact_btn_label",
+        "label": "Button Label",
+        "default": "Contact Us"
+      },
+      {
+        "type": "url",
+        "id": "contact_btn_link",
+        "label": "Button Link"
+      },
+      {
+        "type": "header",
+        "content": "📐 Spacing (Padding)"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding Top (Desktop)",
+        "default": 60,
+        "min": 20,
+        "max": 120,
+        "step": 5,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding Bottom (Desktop)",
+        "default": 60,
+        "min": 20,
+        "max": 120,
+        "step": 5,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_top_mobile",
+        "label": "Padding Top (Mobile)",
+        "default": 40,
+        "min": 10,
+        "max": 80,
+        "step": 5,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom_mobile",
+        "label": "Padding Bottom (Mobile)",
+        "default": 40,
+        "min": 10,
+        "max": 80,
+        "step": 5,
+        "unit": "px"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "faq",
+        "name": "FAQ Accordion Item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "question",
+            "label": "Question",
+            "default": "Which oil is used in this Homemade Pickle?"
+          },
+          {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Answer",
+            "default": "<p>We use premium cold-pressed oils (such as cold-pressed mustard oil or peanut oil depending on the specific recipe) to retain natural health benefits and authentic Saurashtra flavor.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "FAQ Custom Section",
+        "category": "Custom",
+        "blocks": [
+          { "type": "faq" },
+          { "type": "faq" },
+          { "type": "faq" }
+        ]
+      }
+    ]
+  }
+{% endschema %}

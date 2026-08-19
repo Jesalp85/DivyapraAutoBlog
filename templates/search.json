@@ -1,0 +1,126 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "show_title_page": true,
+        "h_position": "center",
+        "v_position": "middle",
+        "txt_align": "center",
+        "title_font_size": 32,
+        "mobile_title_font_size": 22,
+        "title_font_weight_value": "bold",
+        "title_text_transform": "none",
+        "title_letter_spacing": 0,
+        "title_color": "#111111",
+        "breadcrumb_link_color": "#666666",
+        "breadcrumb_link_hover_color": "#000000",
+        "separator_color": "#999999",
+        "current_page_color": "#111111",
+        "bg": "#fdfbf7",
+        "b_height": 100,
+        "mg_bottom": 30,
+        "mobile_bg": "#fdfbf7",
+        "mobile_ht": 80,
+        "mobile_mg_bottom": 20
+      }
+    },
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "products_per_page": 18,
+        "default_columns": "3",
+        "show_grid_toggle": true,
+        "show_4col_toggle": false,
+        "sidebar_width": 260,
+        "card_gap": 16,
+        "padding_top": 20,
+        "padding_bottom": 60,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 32,
+        "show_breadcrumb": false,
+        "breadcrumb_home": "Home",
+        "breadcrumb_sep": "/",
+        "breadcrumb_color": "#888888",
+        "sidebar_title": "Product Categories",
+        "collection_menu": "",
+        "filter_btn_label": "Filters",
+        "reset_label": "Reset",
+        "clear_all_label": "Clear All",
+        "show_filter_counts": true,
+        "show_color_swatches": true,
+        "color_label": "Color",
+        "price_info_label": "Highest price:",
+        "price_from_label": "From",
+        "price_to_label": "To",
+        "show_product_count": true,
+        "products_label": "products",
+        "sort_label": "Sort by",
+        "atc_label": "Add to Cart",
+        "adding_label": "Adding...",
+        "added_label": "Added ✓",
+        "unavailable_label": "Unavailable",
+        "no_products_text": "No products found matching your filters.",
+        "page_bg": "#ffffff",
+        "sidebar_bg": "#ffffff",
+        "sidebar_header_bg": "#8b0000",
+        "sidebar_header_color": "#ffffff",
+        "filter_border_color": "#ebebeb",
+        "filter_text_color": "#1a1a1a",
+        "filter_checkbox_color": "#8b0000",
+        "filter_reset_color": "#888888",
+        "card_bg": "#ffffff",
+        "card_border_color": "#e8e8e8",
+        "product_title_color": "#1a1a1a",
+        "price_color": "#1a1a1a",
+        "compare_price_color": "#999999",
+        "rating_color": "#f9a825",
+        "variant_bg": "#ffffff",
+        "variant_text_color": "#1a1a1a",
+        "btn_bg": "#d32f2f",
+        "btn_text_color": "#ffffff",
+        "btn_hover_bg": "#b71c1c",
+        "btn_hover_text_color": "#ffffff",
+        "badge_bg": "#D32F2F",
+        "badge_text_color": "#FFFFFF",
+        "sale_badge_bg": "#e53935",
+        "sale_badge_text_color": "#ffffff",
+        "soldout_badge_bg": "#333333",
+        "soldout_badge_text_color": "#ffffff",
+        "filter_title_font_size": 14,
+        "filter_option_font_size": 13,
+        "title_font_size": 15,
+        "title_font_size_mobile": 13,
+        "price_font_size": 15,
+        "variant_font_size": 13,
+        "btn_font_size": 13,
+        "image_ratio": "square",
+        "image_border_radius": 8,
+        "card_border_radius": 10,
+        "card_padding": 16,
+        "btn_height": 46,
+        "btn_radius": 6,
+        "sale_badge_text": "Sale",
+        "soldout_badge_text": "Sold Out",
+        "badge_metafield_key_1": "custom.pure_peanut_oil",
+        "badge_metafield_key_2": "custom.sweet_tangy_spicy_tangy",
+        "badge_metafield_key_3": "custom.spicy_tangy",
+        "badge_metafield_key_4": "custom.pure_mustard_oil",
+        "badge_metafield_key_5": "custom.pure_peanut_oil"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main"
+  ]
+}

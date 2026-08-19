@@ -1,0 +1,512 @@
+{% assign sid = section.id %}
+
+{% if section.settings.enable_section %}
+<section id="laber_{{ sid }}" class="dp-wcu-section">
+
+  <!-- DECORATIVE DIAGONAL ACCENT -->
+  <div class="dp-wcu__bg-shape" aria-hidden="true"></div>
+
+  <div class="dp-wcu__container">
+
+    <!-- SECTION HEADER -->
+    <div class="dp-wcu__header">
+      {%- if section.settings.label != blank -%}
+        <span class="dp-wcu__label">
+          <span class="dp-wcu__label-line"></span>
+          {{ section.settings.label | escape }}
+          <span class="dp-wcu__label-line"></span>
+        </span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="dp-wcu__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtext != blank -%}
+        <p class="dp-wcu__subtext">{{ section.settings.subtext | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- FEATURES GRID -->
+    <div class="dp-wcu__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'feature' -%}
+          <div class="dp-wcu__card" {{ block.shopify_attributes }}>
+            <div class="dp-wcu__card-inner">
+              <!-- Number -->
+              <div class="dp-wcu__card-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+              <!-- Icon Circle -->
+              <div class="dp-wcu__card-icon-wrap">
+                <span class="dp-wcu__card-icon">{{ block.settings.icon | default: '🥭' | escape }}</span>
+              </div>
+              <!-- Text -->
+              <h3 class="dp-wcu__card-title">{{ block.settings.title | default: 'Feature' | escape }}</h3>
+              {%- if block.settings.description != blank -%}
+                <p class="dp-wcu__card-desc">{{ block.settings.description | escape }}</p>
+              {%- endif -%}
+              <!-- Hover Bar -->
+              <div class="dp-wcu__card-bar"></div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- BOTTOM BANNER STRIP -->
+    {%- if section.settings.strip_text != blank -%}
+      <div class="dp-wcu__strip">
+        {%- for i in (1..5) -%}
+          <span class="dp-wcu__strip-item">{{ section.settings.strip_text | escape }}</span>
+          <span class="dp-wcu__strip-sep">{{ section.settings.strip_sep | default: '🥭' | escape }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+
+</section>
+{% endif %}
+
+{%- style -%}
+/* ============================================
+   DIVYA PRABHA — WHY CHOOSE US
+   Premium Redesign — Dark Heritage Version
+   ============================================ */
+
+#laber_{{ sid }} {
+  --dp-red: {{ section.settings.color_red | default: '#b01215' }};
+  --dp-red-dark: color-mix(in srgb, var(--dp-red) 80%, black);
+  --dp-brown: {{ section.settings.color_brown | default: '#3d1f0f' }};
+  --dp-gold: {{ section.settings.color_gold | default: '#e5a842' }};
+  --dp-cream: {{ section.settings.color_cream | default: '#fff8ee' }};
+  --dp-text: {{ section.settings.color_text | default: '#2d1206' }};
+  --dp-muted: {{ section.settings.color_muted | default: '#6b4c3b' }};
+  --dp-border: {{ section.settings.color_border | default: '#e8d5c0' }};
+  --dp-bg: {{ section.settings.bg_color | default: '#1c0a03' }};
+  --dp-bg-card: {{ section.settings.card_bg | default: '#2c1308' }};
+}
+
+.dp-wcu-section {
+  position: relative;
+  background: var(--dp-bg);
+  padding: 100px 0 80px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* === BACKGROUND SHAPE === */
+.dp-wcu__bg-shape {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(176,18,21,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(229,168,66,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 90%, rgba(61,31,15,0.05) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.dp-wcu__container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* === HEADER === */
+.dp-wcu__header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.dp-wcu__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dp-gold);
+  margin-bottom: 20px;
+}
+.dp-wcu__label-line {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background: var(--dp-gold);
+  opacity: 0.5;
+}
+
+.dp-wcu__heading {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  color: var(--dp-text);
+  line-height: 1.1;
+  margin: 0 0 18px;
+  letter-spacing: -1px;
+}
+.dp-wcu__heading em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--dp-gold), #f0c060);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dp-wcu__subtext {
+  font-size: 16px;
+  color: var(--dp-muted);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* === FEATURES GRID === */
+.dp-wcu__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 56px;
+}
+
+/* === FEATURE CARD === */
+.dp-wcu__card {
+  position: relative;
+}
+
+.dp-wcu__card-inner {
+  background: var(--dp-bg-card);
+  border: 1px solid rgba(61,31,15,0.08);
+  border-radius: 24px;
+  padding: 36px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dp-wcu__card-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(229,168,66,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.dp-wcu__card-inner:hover::before { opacity: 1; }
+.dp-wcu__card-inner:hover {
+  border-color: rgba(176,18,21,0.22);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(176,18,21,0.06);
+}
+
+/* Card Number */
+.dp-wcu__card-num {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(176,18,21,0.25);
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Icon Circle */
+.dp-wcu__card-icon-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(176,18,21,0.05) 0%, rgba(229,168,66,0.06) 100%);
+  border: 1px solid rgba(176,18,21,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.35s ease;
+}
+.dp-wcu__card-inner:hover .dp-wcu__card-icon-wrap {
+  background: linear-gradient(135deg, rgba(176,18,21,0.12) 0%, rgba(229,168,66,0.14) 100%);
+  border-color: rgba(176,18,21,0.22);
+  transform: scale(1.08) rotate(5deg);
+}
+.dp-wcu__card-icon {
+  font-size: 36px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Title */
+.dp-wcu__card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--dp-text);
+  margin: 0 0 12px;
+  line-height: 1.3;
+  position: relative;
+  z-index: 1;
+}
+
+/* Description */
+.dp-wcu__card-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--dp-muted);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  flex-grow: 1;
+}
+
+/* Bottom accent bar */
+.dp-wcu__card-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--dp-red), var(--dp-gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0 0 24px 24px;
+}
+.dp-wcu__card-inner:hover .dp-wcu__card-bar {
+  transform: scaleX(1);
+}
+
+/* === STRIP MARQUEE === */
+.dp-wcu__strip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 20px 0;
+  border-top: 1px solid rgba(61,31,15,0.08);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dp-wcu__strip-item {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(61,31,15,0.4);
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  padding: 0 24px;
+}
+.dp-wcu__strip-sep {
+  font-size: 16px;
+  opacity: 0.4;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1200px) {
+  .dp-wcu__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dp-wcu-section { padding: 72px 0 60px; }
+  .dp-wcu__header { margin-bottom: 44px; }
+  .dp-wcu__grid { gap: 16px; }
+}
+
+@media (max-width: 600px) {
+  .dp-wcu-section { padding: 60px 0 48px; }
+  .dp-wcu__container { padding: 0 16px; }
+  .dp-wcu__grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .dp-wcu__card-inner { padding: 28px 22px; }
+  .dp-wcu__card-inner:hover { transform: none; }
+  .dp-wcu__heading { letter-spacing: -0.5px; }
+  .dp-wcu__strip-item { padding: 0 14px; font-size: 10px; }
+}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Enable Section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_red",
+      "label": "Red Accent",
+      "default": "#b01215"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Gold",
+      "default": "#e5a842"
+    },
+    {
+      "type": "color",
+      "id": "color_brown",
+      "label": "Brown",
+      "default": "#3d1f0f"
+    },
+    {
+      "type": "color",
+      "id": "color_cream",
+      "label": "Cream",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text",
+      "default": "#2d1206"
+    },
+    {
+      "type": "color",
+      "id": "color_muted",
+      "label": "Muted Text",
+      "default": "#6b4c3b"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Border",
+      "default": "#e8d5c0"
+    },
+    {
+      "type": "header",
+      "content": "Section Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section Label",
+      "default": "Why Choose Us"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (use <em> for gold italic)",
+      "default": "Made with <em>love</em>, sealed with tradition"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Every jar of Divya Prabha pickles is a promise — pure ingredients, honest methods, and a taste that takes you home."
+    },
+    {
+      "type": "header",
+      "content": "Marquee Strip"
+    },
+    {
+      "type": "text",
+      "id": "strip_text",
+      "label": "Strip Text",
+      "default": "Authentic Saurashtra Pickles"
+    },
+    {
+      "type": "text",
+      "id": "strip_sep",
+      "label": "Strip Separator",
+      "default": "🥭"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (Emoji)",
+          "default": "🥭"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "100% Sun-Dried"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Mangoes and spices cured under the warm Saurashtra sun for authentic, deep flavour."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Us",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🥭",
+            "title": "100% Sun-Dried",
+            "description": "Mangoes and spices cured under the warm Saurashtra sun for authentic, deep flavour."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🚫",
+            "title": "Zero Preservatives",
+            "description": "Free from artificial colours, vinegars, and chemicals. Pure as Baa intended."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🏺",
+            "title": "Clay Barni Matured",
+            "description": "Slowly ripened inside traditional clay jars for that earthy, complex Saurashtra taste."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "❤️",
+            "title": "Made with Baa's Love",
+            "description": "A recipe born from four generations of family tradition — every jar holds a story."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 24" width="50" height="24">
+  <rect width="50" height="24" rx="4" fill="#fff"/>
+  <!-- Visa wordmark -->
+  <text x="5" y="17" font-family="Arial,sans-serif" font-size="14" font-weight="900" fill="#1a1f71" letter-spacing="-0.5">VISA</text>
+</svg>

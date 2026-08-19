@@ -1,0 +1,109 @@
+{
+  "sections": {
+    "dp-tc-main": {
+      "type": "dp-terms-and-conditions",
+      "settings": {
+        "hero_title": "Terms & Conditions",
+        "hero_sub": "Last updated on June 20, 2026",
+        "section_label": "Policies",
+        "section_heading": "Store Guidelines & Terms of Service",
+        "contact_heading": "Need Clarification on Our Policies?",
+        "contact_sub": "If you have any questions regarding shipping, cancellations, or ingredients, our support team is happy to help.",
+        "contact_btn1_text": "Chat on WhatsApp",
+        "contact_btn1_link": "https://wa.me/919000000000",
+        "contact_btn2_text": "Contact Support",
+        "contact_btn2_link": "/pages/contact"
+      },
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "📦",
+            "card_title": "Freshly Dispatched",
+            "card_desc": "All pickles are prepared in small batches and dispatched in 1–2 business days to ensure freshness."
+          }
+        },
+        "highlight_2": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "🔒",
+            "card_title": "Secure Payments",
+            "card_desc": "Enjoy encrypted transactions via UPI, Credit/Debit Cards, and Net Banking supported by trusted gateways."
+          }
+        },
+        "highlight_3": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "🌶️",
+            "card_title": "100% Homemade",
+            "card_desc": "Strict hygiene, sun-dried raw mangoes, and cold-pressed oils. Zero artificial preservatives."
+          }
+        },
+        "acc_1": {
+          "type": "terms_accordion",
+          "settings": {
+            "title": "1. Agreement & Acceptance of Terms",
+            "content": "Welcome to Divya Prabha Foods (divyaprabhafoods.com). By visiting our website, browsing our catalog, or buying our products, you agree to comply with and be bound by these Terms & Conditions. These terms apply to all site visitors, buyers, merchants, and contributors of content. If you do not agree, please do not access or use our services."
+          }
+        },
+        "acc_2": {
+          "type": "terms_accordion",
+          "settings": {
+            "title": "2. Handmade Food Products & Natural Variations",
+            "content": "Our pickles, masalas, and traditional foods are handcrafted in small home-kitchen batches following generational Saurashtra family recipes. Because we use natural ingredients (such as sun-dried raw mangoes, lemons, chillies, and cold-pressed mustard oil) without artificial colors or flavor enhancers, slight natural variations in color, texture, spiciness, and taste may occur between different batches. These variations are a testament to our authenticity and do not constitute a product defect."
+          }
+        },
+        "acc_3": {
+          "type": "terms_accordion",
+          "settings": {
+            "title": "3. Order Placement, Pricing & Cancellations",
+            "content": "All orders placed on our website are subject to product availability and acceptance. We reserve the right to refuse or limit orders for any reason (including bulk trade limits, incorrect shipping details, or suspected fraud). Product prices are displayed in Indian Rupees (INR) and are subject to change without prior notice. If you wish to cancel an order, you must do so before it is dispatched (within 12 hours of order placement) by contacting us. Once dispatched, cancellations cannot be processed."
+          }
+        },
+        "acc_4": {
+          "type": "terms_accordion",
+          "settings": {
+            "title": "4. Payment Gateway Security",
+            "content": "We offer safe payment methods including UPI, Net Banking, Credit/Debit Cards, and popular mobile wallets. Payments are processed securely via verified third-party gateways. We do not store your credit card credentials or sensitive bank login data on our servers. In the event of a transaction failure where funds are deducted from your account but the order is not confirmed, please wait 24-48 hours for an automatic gateway refund or reach out to us with transaction details."
+          }
+        },
+        "acc_5": {
+          "type": "terms_accordion",
+          "settings": {
+            "title": "5. Shipping, Dispatch & Deliverability",
+            "content": "We ship across India. Standard orders are dispatched within 1–2 business days from our Virar kitchen. Estimated delivery times range from 3 to 7 business days depending on your location. While we partner with reputable courier services, we are not responsible for delays caused by weather, festive rushes, or carrier sorting issues. It is the buyer's responsibility to provide accurate address details and contact numbers. If a package is returned to us due to non-availability of the recipient or incorrect address, re-shipping charges will apply."
+          }
+        },
+        "acc_6": {
+          "type": "terms_accordion",
+          "settings": {
+            "title": "6. Return Policy, Refunds & Damaged Goods",
+            "content": "Due to the consumable and hygienic nature of food items, we do not accept returns or exchanges once a pickle jar is delivered. However, customer satisfaction is our top priority. If you receive an incorrect product, or if your glass jar is cracked or leaking upon delivery, please email us or contact us on WhatsApp with photos of the damaged package within 24 hours of receipt. Upon verification, we will happily ship a free replacement or issue a refund."
+          }
+        },
+        "acc_7": {
+          "type": "terms_accordion",
+          "settings": {
+            "title": "7. Legal Jurisdiction & Governing Law",
+            "content": "Any disputes, claims, or legal proceedings arising out of or in connection with the use of our website or the purchase of our products shall be governed by and construed in accordance with the laws of India. All claims are subject to the exclusive jurisdiction of the courts in Palghar / Mumbai, Maharashtra."
+          }
+        }
+      },
+      "block_order": [
+        "highlight_1",
+        "highlight_2",
+        "highlight_3",
+        "acc_1",
+        "acc_2",
+        "acc_3",
+        "acc_4",
+        "acc_5",
+        "acc_6",
+        "acc_7"
+      ]
+    }
+  },
+  "order": [
+    "dp-tc-main"
+  ]
+}

@@ -1,0 +1,133 @@
+{% if section.settings.enable_hero_section %}
+  <div class="Hero-section about-section">
+    <section class="background-section" style="background-color: {{ section.settings.background_color }};">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 pb-80">
+            <div class="banner-content text-center">
+              {% if section.settings.top_subtitle != blank %}
+                <p class="subtitles" style="color:{{ section.settings.top_subtitle_color }};">
+                  {{ section.settings.top_subtitle }}
+                </p>
+              {% endif %}
+              <h2>{{ section.settings.top_heading_text }}</h2>
+              <div class="my-2 my-lg-3">
+                <p class="">{{ section.settings.top_paragraph_text }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-12">
+            <div class="banner-content ">
+              {% if section.settings.subtitle != blank %}
+                <p class="subtitles" style="color:{{ section.settings.subtitle_color }};">
+                  {{ section.settings.subtitle }}
+                </p>
+              {% endif %}
+              <h2>{{ section.settings.heading_text }}</h2>
+              <div class="my-2 my-lg-3">
+                <p class="">{{ section.settings.paragraph_text }}</p>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-6 col-12 mt-4 mt-lg-0">
+            <div class="banner-img">
+              {% if section.settings.banner_image %}
+                <img
+                  src="{{ section.settings.banner_image | image_url }}"
+                  alt="{{ section.settings.banner_image_alt }}">
+              {% else %}
+                {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+                {{ 'hero-apparel-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero About Banner",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_hero_section",
+        "label": "Enable Hero Section",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#FAF7F2"
+      },
+      {
+        "type": "header",
+        "content": "full width section"
+      },
+      {
+        "type": "color",
+        "id": "top_subtitle_color",
+        "label": "Subtitle Color"
+      }, {
+        "type": "text",
+        "id": "top_subtitle",
+        "label": "Subtitle"
+      }, {
+        "type": "text",
+        "id": "top_heading_text",
+        "label": "Heading Text",
+        "default": "Our Store"
+      }, {
+        "type": "text",
+        "id": "top_paragraph_text",
+        "label": "Paragraph Text",
+        "default": "Free shipping on all your order. We deliver, you enjoy."
+      }, {
+        "type": "header",
+        "content": "half width section"
+      }, {
+        "type": "color",
+        "id": "subtitle_color",
+        "label": "Subtitle Color"
+      }, {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle"
+      }, {
+        "type": "text",
+        "id": "heading_text",
+        "label": "Heading Text",
+        "default": "Our Store"
+      }, {
+        "type": "text",
+        "id": "paragraph_text",
+        "label": "Paragraph Text",
+        "default": "Free shipping on all your order. We deliver, you enjoy."
+      }, {
+        "type": "header",
+        "content": "About Us Section Image"
+      }, {
+        "type": "image_picker",
+        "id": "banner_image",
+        "label": "About Banner Image"
+      }, {
+        "type": "text",
+        "id": "banner_image_alt",
+        "label": "About Image Alt Text",
+        "default": "About Banner Image 500x500"
+      }
+    ],
+
+    "presets": [
+      {
+        "name": "Hero About Banner",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}

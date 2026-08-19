@@ -1,0 +1,1875 @@
+{% comment %}
+  FarmDidi Custom Product Detail Section
+  All settings customizable from Shopify Theme Editor
+  Fully responsive: Mobile, Tablet, Desktop
+{% endcomment %}
+
+<section
+  id="product-single"
+  data-js-product
+  class="fd-product-section"
+  data-section-id="{{ section.id }}"
+  style="
+    --fd-primary: {{ section.settings.primary_color }};
+    --fd-accent: {{ section.settings.accent_color }};
+    --fd-text: {{ section.settings.text_color }};
+    --fd-bg: {{ section.settings.background_color }};
+    --fd-sale-badge-bg: {{ section.settings.sale_badge_bg }};
+    --fd-sale-badge-text: {{ section.settings.sale_badge_text_color }};
+    --fd-btn-bg: {{ section.settings.add_to_cart_bg }};
+    --fd-btn-text: {{ section.settings.add_to_cart_text_color }};
+    --fd-btn-hover: {{ section.settings.add_to_cart_hover_bg }};
+    --fd-buynow-bg: {{ section.settings.buy_now_bg }};
+    --fd-buynow-text: {{ section.settings.buy_now_text_color }};
+    --fd-variant-active-border: {{ section.settings.variant_active_border }};
+    --fd-variant-active-header: {{ section.settings.variant_active_header_bg }};
+    --fd-star-color: {{ section.settings.star_color }};
+    --fd-tag-bg: {{ section.settings.tag_bg_color }};
+    --fd-tag-text: {{ section.settings.tag_text_color }};
+    --fd-font-size-base: {{ section.settings.base_font_size }}px;
+    --fd-border-radius: {{ section.settings.border_radius }}px;
+  "
+>
+
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+
+  <div class="fd-product-wrapper">
+
+    {%- comment -%} ── Breadcrumb ── {%- endcomment -%}
+    {%- if section.settings.show_breadcrumb -%}
+    <nav class="fd-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      {%- if collection -%}
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+        <span aria-hidden="true">/</span>
+      {%- endif -%}
+      <span>{{ product.title }}</span>
+    </nav>
+    {%- endif -%}
+
+    <div class="fd-product-layout">
+
+      {%- comment -%} LEFT COLUMN – Media Gallery {%- endcomment -%}
+      <div class="fd-media-col">
+        <div class="fd-media-row">
+
+          {%- if product.images.size > 1 -%}
+          <div class="fd-thumbs" role="list" aria-label="Product images" id="fd-thumbs-{{ section.id }}">
+            {%- for image in product.images limit: 8 -%}
+            <button
+              class="fd-thumb{% if forloop.first %} fd-thumb--active{% endif %}"
+              data-src="{{ image | img_url: '800x800', crop: 'center' }}"
+              data-alt="{{ image.alt | default: product.title | escape }}"
+              aria-label="View image {{ forloop.index }}"
+              onclick="fdSetImage(this, '{{ section.id }}')"
+              role="listitem"
+            >
+              <img
+                src="{{ image | img_url: '160x160', crop: 'center' }}"
+                srcset="{{ image | img_url: '160x160', crop: 'center' }} 1x, {{ image | img_url: '320x320', crop: 'center' }} 2x"
+                alt="{{ image.alt | default: product.title | escape }}"
+                loading="lazy"
+                width="80"
+                height="80"
+              >
+            </button>
+            {%- endfor -%}
+          </div>
+          {%- endif -%}
+
+          <div class="fd-main-image-wrap">
+            {%- assign is_bestseller = false -%}
+            {%- assign p_title = product.title | downcase | strip -%}
+            {%- assign p_handle = product.handle | downcase | strip -%}
+            {%- if p_title contains 'gor keri' or p_handle contains 'gor-keri' or p_title contains 'gunda keri' or p_handle contains 'gunda-keri' -%}
+              {%- assign is_bestseller = true -%}
+            {%- endif -%}
+            {%- if is_bestseller -%}
+              <div class="fd-sale-badge fd-bestseller-badge">Best Seller</div>
+            {%- endif -%}
+
+            <div class="fd-main-image" id="fd-main-image-{{ section.id }}">
+              {%- if featured_image -%}
+                <img
+                  src="{{ featured_image | img_url: '800x800', crop: 'center' }}"
+                  alt="{{ featured_image.alt | default: product.title | escape }}"
+                  id="fd-hero-img-{{ section.id }}"
+                  loading="eager"
+                  class="fd-hero-img"
+                >
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'fd-placeholder-svg' }}
+              {%- endif -%}
+            </div>
+
+            {%- if section.settings.enable_zoom -%}
+            <button class="fd-zoom-btn" aria-label="Zoom image" onclick="fdOpenLightbox('{{ section.id }}')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg>
+            </button>
+            {%- endif -%}
+          </div>
+
+        </div><!-- /fd-media-row -->
+      </div><!-- /fd-media-col -->
+
+      {%- comment -%} RIGHT COLUMN – Product Info {%- endcomment -%}
+      <div class="fd-info-col">
+
+        <h1 class="fd-product-title">{{ product.title }}</h1>
+
+        {%- if section.settings.show_reviews_row -%}
+        <div class="fd-reviews-row">
+          <!-- Start of Judge.me code -->
+          <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+            {{ product.metafields.judgeme.badge }}
+          </div>
+          <!-- End of Judge.me code -->
+          {%- if section.settings.show_amazon_rating and section.settings.amazon_star_image != blank -%}
+          <span class="fd-amazon-rating">
+            <img
+              src="{{ section.settings.amazon_star_image | img_url: '160x' }}"
+              srcset="{{ section.settings.amazon_star_image | img_url: '160x' }} 1x, {{ section.settings.amazon_star_image | img_url: '320x' }} 2x"
+              alt="Amazon stars"
+              height="20"
+              width="100"
+              loading="lazy"
+            >
+            {{ section.settings.amazon_rating_text }}
+          </span>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_tags -%}
+        <div class="fd-tags-row">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'product_tag' -%}
+              {%- assign meta_key = block.settings.metafield_key | strip -%}
+              {%- assign meta_value = blank -%}
+              {%- if meta_key != blank -%}
+                {%- assign clean_key = meta_key | replace: "custom.", "" -%}
+                {%- assign lookup_value = product.metafields.custom[clean_key].value | default: product.metafields.custom[clean_key] -%}
+                {%- if lookup_value.first != blank -%}
+                  {%- assign meta_value = lookup_value | join: ", " -%}
+                {%- else -%}
+                  {%- assign meta_value = lookup_value -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- assign display_label = meta_value | default: block.settings.tag_label -%}
+              {%- if display_label != blank -%}
+              <div class="fd-tag" {{ block.shopify_attributes }}
+                style="background:{{ block.settings.tag_bg_override | default: section.settings.tag_bg_color }};color:{{ block.settings.tag_text_override | default: section.settings.tag_text_color }}">
+                {%- if block.settings.tag_icon != blank -%}
+                  <img
+                    src="{{ block.settings.tag_icon | img_url: '120x120' }}"
+                    srcset="{{ block.settings.tag_icon | img_url: '120x120' }} 1x, {{ block.settings.tag_icon | img_url: '240x240' }} 2x"
+                    alt=""
+                    width="32"
+                    height="32"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                <span>{{ display_label }}</span>
+              </div>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_trust_banners -%}
+        <div class="fd-trust-row">
+          {%- if section.settings.trust_banner_1 != blank -%}
+          <span class="fd-trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            {{ section.settings.trust_banner_1 }}
+          </span>
+          {%- endif -%}
+          {%- if section.settings.trust_banner_2 != blank -%}
+          <span class="fd-trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+            {{ section.settings.trust_banner_2 }}
+          </span>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_urgency -%}
+        <div class="fd-urgency">
+          <span class="fd-fire">🔥</span>
+          <span id="fd-sold-count-{{ section.id }}"></span>
+          {{ section.settings.urgency_suffix_text }}
+        </div>
+        {%- endif -%}
+
+        <div class="fd-price-row" id="fd-price-row-{{ section.id }}">
+          <span class="fd-price" id="fd-price-{{ section.id }}">
+            {{ current_variant.price | money }}
+          </span>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="fd-price-meta">
+            <span class="fd-mrp-label">{{ section.settings.mrp_label }}</span>
+            <s class="fd-compare-price" id="fd-compare-{{ section.id }}">
+              {{ current_variant.compare_at_price | money }}
+            </s>
+          </span>
+          {%- endif -%}
+          <span class="fd-tax-note">{{ section.settings.tax_note }}</span>
+        </div>
+
+        {%- if section.settings.shelf_life_text != blank -%}
+        <div class="fd-shelf-life">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <strong>{{ section.settings.shelf_life_label }}:</strong> {{ section.settings.shelf_life_text }}
+        </div>
+        {%- endif -%}
+
+        {%- if product.variants.size > 1 -%}
+        <div class="fd-variants" id="fd-variants-{{ section.id }}">
+          {%- for variant in product.variants -%}
+            {%- assign is_active = false -%}
+            {%- if variant.id == current_variant.id -%}{%- assign is_active = true -%}{%- endif -%}
+            {%- assign discount_pct = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price -%}
+            {%- assign variant_img = variant.featured_image | default: product.featured_image -%}
+            <div
+              class="fd-variant-card{% if is_active %} fd-variant-card--active{% endif %}"
+              data-variant-id="{{ variant.id }}"
+              data-price="{{ variant.price | money }}"
+              data-compare="{{ variant.compare_at_price | money }}"
+              data-available="{{ variant.available }}"
+              {%- if variant_img -%}
+                data-image="{{ variant_img | img_url: '800x800', crop: 'center' }}"
+                data-image-alt="{{ variant_img.alt | default: variant.title | escape }}"
+              {%- endif -%}
+              onclick="fdSelectVariant(this, '{{ section.id }}')"
+              role="button"
+              tabindex="0"
+              aria-pressed="{{ is_active }}"
+              aria-label="{{ variant.title }}: {{ variant.price | money }}"
+            >
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'variant_badge' and block.settings.variant_id == variant.id -%}
+                  <span class="fd-variant-best-badge" {{ block.shopify_attributes }}
+                    style="background:{{ block.settings.badge_bg }};color:{{ block.settings.badge_text }}">
+                    {{ block.settings.badge_label }}
+                  </span>
+                {%- endif -%}
+              {%- endfor -%}
+
+              <div class="fd-variant-header">{{ variant.title | split: '|' | first }}</div>
+              <div class="fd-variant-body">
+                <span class="fd-v-price">{{ variant.price | money }}</span>
+                {%- if variant.compare_at_price > variant.price -%}
+                <s class="fd-v-compare">{{ variant.compare_at_price | money }}</s>
+                <span class="fd-v-discount">{{ discount_pct }}% off</span>
+                {%- endif -%}
+              </div>
+              {%- if section.settings.show_per_unit -%}
+              <div class="fd-variant-unit">
+                {%- assign unit_label = variant.title | split: '₹' | last | strip -%}
+                {%- if unit_label != blank -%}
+                  <span>₹{{ unit_label }}</span>
+                {%- endif -%}
+              </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <select name="id" id="fd-variant-select-{{ section.id }}" style="display:none" aria-label="Variant">
+          {%- for variant in product.variants -%}
+          <option value="{{ variant.id }}"{% if variant == current_variant %} selected{% endif %}>
+            {{ variant.title }}
+          </option>
+          {%- endfor -%}
+        </select>
+        {%- endif -%}
+
+        {%- form 'product', product, id: "fd-product-form-{{ section.id }}", class: "fd-product-form" -%}
+          <input type="hidden" name="id" id="fd-variant-input-{{ section.id }}" value="{{ current_variant.id }}">
+
+          <div class="fd-action-row">
+            {%- if section.settings.show_quantity -%}
+            <div class="fd-qty-picker">
+              <button type="button" class="fd-qty-btn fd-qty-minus" aria-label="Decrease quantity"
+                onclick="fdQtyChange(this, -1, '{{ section.id }}')">−</button>
+              <input type="number" name="quantity" id="fd-qty-{{ section.id }}"
+                value="1" min="1" class="fd-qty-input" aria-label="Quantity">
+              <button type="button" class="fd-qty-btn fd-qty-plus" aria-label="Increase quantity"
+                onclick="fdQtyChange(this, 1, '{{ section.id }}')">+</button>
+            </div>
+            {%- endif -%}
+
+            <button
+              type="button"
+              id="fd-atc-btn-{{ section.id }}"
+              class="fd-btn fd-btn--atc add-to-cart"
+              onclick="fdAddToCart('{{ section.id }}')"
+              {%- unless current_variant.available -%} disabled aria-disabled="true"{%- endunless -%}
+            >
+              {%- if current_variant.available -%}
+                {{ section.settings.add_to_cart_text }}
+              {%- else -%}
+                {{ section.settings.sold_out_text }}
+              {%- endif -%}
+            </button>
+
+            {%- if section.settings.show_buy_now -%}
+            <button
+              type="submit"
+              name="add"
+              id="fd-buynow-btn-{{ section.id }}"
+              class="fd-btn fd-btn--buynow"
+              {%- unless current_variant.available -%} disabled aria-disabled="true"{%- endunless -%}
+            >
+              {{ section.settings.buy_now_text }}
+            </button>
+            {%- endif -%}
+          </div>
+        {%- endform -%}
+
+        {%- if section.settings.show_pincode_checker -%}
+        <div class="fd-pincode-box">
+          <div class="fd-pincode-header" style="background:var(--fd-primary)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            <span>{{ section.settings.pincode_header_text }}</span>
+          </div>
+          <div class="fd-pincode-body">
+            <p class="fd-pincode-label">{{ section.settings.pincode_label }}</p>
+            <div class="fd-pincode-input-row">
+              <input type="text" id="fd-pin-{{ section.id }}" maxlength="6" inputmode="numeric"
+                placeholder="{{ section.settings.pincode_placeholder }}" class="fd-pin-input"
+                aria-label="Enter pincode">
+              <button type="button" class="fd-pin-check-btn"
+                style="background:var(--fd-primary)"
+                onclick="fdCheckPin('{{ section.id }}', '{{ section.settings.pin_available_msg }}', '{{ section.settings.pin_unavailable_msg }}')">
+                {{ section.settings.pincode_btn_text }}
+              </button>
+            </div>
+            <p class="fd-pin-result" id="fd-pin-result-{{ section.id }}" aria-live="polite"></p>
+          </div>
+        </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_offers -%}
+        <div class="fd-offers">
+          <div class="fd-offers-header">
+            <strong>{{ section.settings.offers_heading }}</strong>
+            {%- if section.settings.offers_prepaid_text != blank -%}
+            <span class="fd-offers-sub">{{ section.settings.offers_prepaid_text }}</span>
+            {%- endif -%}
+          </div>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'offer_card' -%}
+            <div class="fd-offer-card" {{ block.shopify_attributes }}>
+              <div class="fd-offer-card-head" style="background:{{ block.settings.card_header_bg }}">
+                <span>{{ block.settings.offer_title }}</span>
+                <span class="fd-offer-badge">{{ block.settings.offer_badge }}</span>
+              </div>
+              <p class="fd-offer-desc">{{ block.settings.offer_description }}</p>
+            </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_usp_icons -%}
+        <div class="fd-usp-strip">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'usp_icon' -%}
+            <div class="fd-usp-item" {{ block.shopify_attributes }}>
+              {%- if block.settings.usp_image != blank -%}
+                <img
+                  src="{{ block.settings.usp_image | img_url: '160x160' }}"
+                  srcset="{{ block.settings.usp_image | img_url: '160x160' }} 1x, {{ block.settings.usp_image | img_url: '320x320' }} 2x"
+                  alt="{{ block.settings.usp_label }}"
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                >
+              {%- else -%}
+                <div class="fd-usp-icon-placeholder">
+                  {%- assign label_dn = block.settings.usp_label | downcase -%}
+                  {%- if label_dn contains 'handmade' or label_dn contains 'hygienic' -%}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                  {%- elsif label_dn contains 'ingredient' or label_dn contains 'premium' -%}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 20h10"/>
+                      <path d="M10 20V12"/>
+                      <path d="M10 17c-2.3-1.5-4-4.5-4-8a1 1 0 0 1 1-1h3"/>
+                      <path d="M14 20V10"/>
+                      <path d="M14 15c2.3-1.5 4-4.5 4-8a1 1 0 0 0-1-1h-3"/>
+                    </svg>
+                  {%- elsif label_dn contains 'sun' or label_dn contains 'barni' or label_dn contains 'dried' -%}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="4"/>
+                      <path d="M12 2v2"/>
+                      <path d="M12 20v2"/>
+                      <path d="M4.93 4.93l1.41 1.41"/>
+                      <path d="M17.66 17.66l1.41 1.41"/>
+                      <path d="M2 12h2"/>
+                      <path d="M20 12h2"/>
+                      <path d="M6.34 17.66l-1.41 1.41"/>
+                      <path d="M19.07 4.93l-1.41 1.41"/>
+                    </svg>
+                  {%- elsif label_dn contains 'preservative' or label_dn contains 'no chemical' -%}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                  {%- else -%}
+                    ✓
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <span>{{ block.settings.usp_label }}</span>
+            </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_ingredient_icons -%}
+        <div class="fd-ingredient-icons">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'ingredient_icon' -%}
+            <div class="fd-ingr-item" {{ block.shopify_attributes }}>
+              {%- if block.settings.ingr_image != blank -%}
+                <img
+                  src="{{ block.settings.ingr_image | img_url: '160x160' }}"
+                  srcset="{{ block.settings.ingr_image | img_url: '160x160' }} 1x, {{ block.settings.ingr_image | img_url: '320x320' }} 2x"
+                  alt="{{ block.settings.ingr_label }}"
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                >
+              {%- endif -%}
+              <span>{{ block.settings.ingr_label }}</span>
+            </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+      </div><!-- /fd-info-col -->
+    </div><!-- /fd-product-layout -->
+  </div><!-- /fd-product-wrapper -->
+
+  <!-- Lightbox Slideshow Modal -->
+  <div id="fd-lightbox-{{ section.id }}" class="fd-lightbox" role="dialog" aria-modal="true" aria-hidden="true" onclick="fdCloseLightbox('{{ section.id }}')">
+    <button class="fd-lightbox-close" aria-label="Close slideshow" onclick="fdCloseLightbox('{{ section.id }}')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    
+    <div class="fd-lightbox-content" onclick="event.stopPropagation()">
+      <button class="fd-lightbox-arrow fd-lightbox-prev" aria-label="Previous image" onclick="fdChangeLightboxImg(-1, '{{ section.id }}')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      
+      <div class="fd-lightbox-main">
+        <img id="fd-lightbox-img-{{ section.id }}" src="" alt="" class="fd-lightbox-img">
+      </div>
+      
+      <button class="fd-lightbox-arrow fd-lightbox-next" aria-label="Next image" onclick="fdChangeLightboxImg(1, '{{ section.id }}')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    
+    <div class="fd-lightbox-thumbs" id="fd-lightbox-thumbs-{{ section.id }}" onclick="event.stopPropagation()">
+      {%- for image in product.images -%}
+        <button 
+          class="fd-lightbox-thumb" 
+          data-index="{{ forloop.index0 }}" 
+          data-src="{{ image | img_url: '1200x1200' }}" 
+          onclick="fdSetLightboxImg({{ forloop.index0 }}, '{{ section.id }}')"
+          aria-label="View slide {{ forloop.index }}"
+        >
+          <img src="{{ image | img_url: '160x160', crop: 'center' }}" alt="" loading="lazy">
+        </button>
+      {%- endfor -%}
+    </div>
+  </div>
+
+</section>
+
+
+{%- comment -%} STYLES {%- endcomment -%}
+<style>
+/* Fix sticky gallery on desktop by allowing overflow on main wrapper */
+.template-product div.main {
+  overflow: visible !important;
+}
+
+.fd-product-section *,
+.fd-product-section *::before,
+.fd-product-section *::after { box-sizing: border-box; }
+
+.fd-product-section {
+  --fd-radius: var(--fd-border-radius, 10px);
+  font-size: var(--fd-font-size-base, 16px);
+  color: var(--fd-text, #111);
+  background: var(--fd-bg, #fff);
+  padding: 0 0 40px;
+}
+
+.fd-product-wrapper { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+
+.fd-breadcrumb {
+  font-size: .82em;
+  padding: 10px 0;
+  color: #666;
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+}
+.fd-breadcrumb a { color: var(--fd-primary); text-decoration: none; }
+.fd-breadcrumb a:hover { text-decoration: underline; }
+
+.fd-product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 767px) {
+  .fd-product-layout { grid-template-columns: 1fr; gap: 20px; }
+}
+
+@media (min-width: 768px) {
+  .fd-media-col {
+    position: sticky;
+    top: 120px;
+    z-index: 1; /* Reduced from 10 to prevent overlapping info column buttons */
+  }
+}
+/* Ensure the info column and all interactive children remain clickable */
+.fd-info-col {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto !important;
+}
+.fd-info-col *,
+.fd-variant-card,
+.fd-qty-btn,
+.fd-qty-input,
+.fd-btn,
+.fd-btn--atc,
+.fd-btn--buynow {
+  pointer-events: auto !important;
+}
+
+.fd-media-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.fd-main-image-wrap {
+  position: relative;
+  border-radius: var(--fd-radius);
+  overflow: hidden;
+  background: #f7f7f7;
+  aspect-ratio: 1;
+  flex: 1;
+  min-width: 0;
+}
+.fd-hero-img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.15s ease-out;
+}
+
+.fd-sale-badge {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  background: var(--fd-sale-badge-bg, #d62628);
+  color: var(--fd-sale-badge-text, #fff);
+  font-size: .75em; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px;
+}
+.fd-zoom-btn {
+  position: absolute; bottom: 10px; right: 10px; z-index: 2;
+  background: rgba(255,255,255,.9); border: none; border-radius: 6px;
+  padding: 6px; cursor: pointer; display: flex; align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+/* ── Thumbnails: vertical column on the left for desktop ── */
+.fd-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  width: 72px;
+  max-height: 560px;
+  overflow-y: auto;
+  order: -1;
+}
+.fd-thumb {
+  width: 64px; height: 64px; padding: 2px;
+  border: 2px solid transparent; border-radius: 8px;
+  background: #f5f5f5; cursor: pointer;
+  transition: border-color .2s, transform .2s;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.fd-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+.fd-thumb:hover { transform: scale(1.05); }
+.fd-thumb--active { border-color: var(--fd-primary); }
+
+@media (max-width: 767px) {
+  .fd-product-wrapper {
+    padding: 0 8px;
+  }
+  .fd-media-col {
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .fd-media-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+  }
+  .fd-main-image-wrap {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .fd-thumbs {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 100%;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    order: 1;
+    justify-content: flex-start !important;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 6px 8px 10px 8px;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  .fd-thumb {
+    width: 60px;
+    height: 60px;
+    flex: 0 0 60px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    box-sizing: border-box;
+  }
+}
+
+.fd-product-title {
+  font-size: 1.7em; line-height: 1.2; margin: 0 0 10px;
+  color: var(--fd-text);
+}
+
+.fd-reviews-row {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px;
+}
+.jdgm-widget.jdgm-preview-badge,
+.jdgm-widget.jdgm-preview-badge .jdgm-prev-badge {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 4px;
+}
+.fd-star { color: #ccc; font-size: 1.1em; }
+.fd-star--on { color: var(--fd-star-color, #f3a222); }
+.fd-review-count { font-size: .88em; color: #555; }
+.fd-amazon-rating {
+  display: flex; align-items: center; gap: 6px; font-size: .85em;
+}
+.fd-amazon-rating img {
+  height: 20px; width: auto; object-fit: contain; image-rendering: -webkit-optimize-contrast;
+}
+
+/* ── Tags: Premium horizontal pill style ── */
+.fd-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.fd-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid #e8a23a44;
+  border-radius: 30px;
+  font-size: .85em;
+  font-weight: 600;
+  background: var(--fd-tag-bg, #fff8ee);
+  color: var(--fd-tag-text, #572423);
+  line-height: 1.2;
+  box-shadow: 0 1px 3px rgba(232, 162, 58, 0.05);
+  transition: all 0.2s ease;
+}
+.fd-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(232, 162, 58, 0.1);
+}
+.fd-tag img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+@media (max-width: 480px) {
+  .fd-tags-row {
+    gap: 6px;
+  }
+  .fd-tag {
+    padding: 5px 10px;
+    font-size: .78em;
+    gap: 6px;
+  }
+  .fd-tag img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.fd-trust-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.fd-trust-item {
+  display: flex; align-items: center; gap: 6px;
+  background: #fff8ec; border-radius: 6px;
+  padding: 5px 10px; font-size: .82em; font-weight: 500;
+}
+
+.fd-urgency {
+  background: #fff3f3; border-radius: 6px;
+  padding: 7px 12px; font-size: .88em; font-weight: 500;
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 12px; width: fit-content;
+}
+
+.fd-price-row {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 8px; margin-bottom: 8px;
+}
+.fd-price { font-size: 1.6em; font-weight: 700; color: var(--fd-text); }
+.fd-price-meta { display: flex; align-items: baseline; gap: 4px; }
+.fd-mrp-label { font-size: .82em; color: #888; }
+.fd-compare-price { font-size: 1em; color: #999; text-decoration: line-through; }
+.fd-tax-note { font-size: .78em; color: #888; width: 100%; }
+
+.fd-shelf-life {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .88em; margin-bottom: 16px; color: #555;
+}
+
+.fd-variants {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  background: #f8f8f8; padding: 10px; border-radius: var(--fd-radius);
+  margin-bottom: 18px;
+}
+.fd-variant-card {
+  flex: 1; min-width: 120px;
+  border: 2px solid #d3d3d3; border-radius: var(--fd-radius);
+  cursor: pointer; text-align: center;
+  padding-bottom: 4px;
+  position: relative;
+  transition: border-color .2s, box-shadow .2s;
+  background: #fff;
+  overflow: hidden;
+}
+.fd-variant-card:hover { border-color: var(--fd-variant-active-border, #f3a222); }
+.fd-variant-card--active {
+  border-color: var(--fd-variant-active-border, #f3a222);
+  box-shadow: 0 0 0 1px var(--fd-variant-active-border, #f3a222);
+}
+.fd-variant-card--active .fd-variant-header {
+  background: var(--fd-variant-active-header, #f3a222);
+  color: #000;
+}
+.fd-variant-best-badge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  font-size: .72em; font-weight: 700;
+  padding: 2px 10px; border-radius: 20px;
+  white-space: nowrap;
+}
+.fd-variant-header {
+  background: #f5f5f5; font-weight: 700; font-size: .9em;
+  padding: 7px 6px 5px;
+  transition: background .2s;
+}
+.fd-variant-body {
+  padding: 4px 8px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.fd-v-price { font-size: 1em; font-weight: 700; }
+.fd-v-compare { font-size: .8em; color: #999; text-decoration: line-through; }
+.fd-v-discount { font-size: .78em; color: #c00; font-weight: 600; }
+.fd-variant-unit { padding: 0 6px 5px; font-size: .78em; color: #006400; font-weight: 500; }
+
+.fd-action-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;
+}
+.fd-qty-picker {
+  display: flex; align-items: center;
+  border: 2px solid var(--fd-primary, #f3a222); border-radius: 8px; overflow: hidden;
+  height: 44px;
+}
+.fd-qty-btn {
+  background: #f5f5f5; border: none; width: 36px; height: 100%;
+  font-size: 1.2em; font-weight: 700; cursor: pointer;
+  transition: background .15s;
+}
+.fd-qty-btn:hover { background: var(--fd-primary, #f3a222); }
+.fd-qty-input {
+  width: 48px; text-align: center; font-size: 1em; font-weight: 700;
+  border: none; height: 100%; outline: none;
+  -moz-appearance: textfield;
+}
+.fd-qty-input::-webkit-outer-spin-button,
+.fd-qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.fd-btn {
+  flex: 1; min-width: 140px; height: 44px;
+  border: none; border-radius: 8px; font-size: .95em; font-weight: 700;
+  cursor: pointer; transition: background .2s, transform .1s;
+  display: flex; align-items: center; justify-content: center;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.fd-btn:active { transform: scale(.98); }
+.fd-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.fd-btn--atc {
+  background: var(--fd-btn-bg, #cc1226);
+  color: var(--fd-btn-text, #fff);
+}
+.fd-btn--atc:hover:not(:disabled) { background: var(--fd-btn-hover, #a80e1e); }
+.fd-btn--buynow {
+  background: var(--fd-buynow-bg, #f3a222);
+  color: var(--fd-buynow-text, #000);
+}
+.fd-btn--buynow:hover:not(:disabled) { filter: brightness(1.08); }
+
+@media (max-width: 480px) {
+  .fd-action-row { flex-direction: column; }
+  .fd-btn, .fd-qty-picker { width: 100%; flex: unset; }
+}
+
+.fd-pincode-box {
+  border: 1px solid #ebebeb; border-radius: var(--fd-radius);
+  overflow: hidden; margin-bottom: 18px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.06);
+}
+.fd-pincode-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 14px; color: #fff; font-weight: 700; font-size: .9em;
+}
+.fd-pincode-body { padding: 14px 16px; background: #fff; }
+.fd-pincode-label { font-weight: 700; font-size: .95em; margin: 0 0 12px; }
+.fd-pincode-input-row {
+  display: flex; gap: 8px; align-items: center;
+}
+.fd-pin-input {
+  flex: 1; height: 38px; border: 1px solid #ccc; border-radius: 6px;
+  padding: 0 10px; font-size: .95em; outline: none;
+}
+.fd-pin-input:focus { border-color: var(--fd-primary); }
+.fd-pin-check-btn {
+  height: 38px; padding: 0 18px; border: none; border-radius: 6px;
+  color: #fff; font-weight: 700; font-size: .9em; cursor: pointer;
+  white-space: nowrap;
+}
+.fd-pin-result { margin: 8px 0 0; font-size: .88em; min-height: 20px; }
+.fd-pin-ok { color: #0a6e0a; }
+.fd-pin-err { color: #c00; }
+
+.fd-offers {
+  background: rgba(248, 167, 27, 0.06);
+  border: 2px solid var(--fd-primary, #f3a222);
+  border-radius: 20px; padding: 16px; margin-bottom: 18px;
+}
+.fd-offers-header { font-size: 1em; margin-bottom: 12px; line-height: 1.4; }
+.fd-offers-sub { display: block; font-size: .9em; margin-top: 4px; }
+.fd-offer-card {
+  background: #fff; border-radius: 10px; overflow: hidden;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--fd-primary, #f3a222);
+}
+.fd-offer-card:last-child { margin-bottom: 0; }
+.fd-offer-card-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 12px; font-weight: 600; font-size: .88em;
+}
+.fd-offer-badge {
+  font-size: .78em; font-weight: 500;
+  background: rgba(0,0,0,.08); padding: 2px 8px; border-radius: 20px;
+}
+.fd-offer-desc { padding: 8px 12px; margin: 0; font-size: .88em; font-weight: 500; }
+
+.fd-usp-strip {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px; margin-bottom: 16px; text-align: center;
+}
+.fd-usp-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: .78em; font-weight: 600; }
+.fd-usp-item img { width: 56px; height: 56px; object-fit: contain; image-rendering: -webkit-optimize-contrast; }
+.fd-usp-icon-placeholder { width: 56px; height: 56px; border-radius: 50%; background: var(--fd-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.4em; }
+
+.fd-ingredient-icons {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
+}
+.fd-ingr-item { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: .72em; font-weight: 600; width: 68px; text-align: center; }
+.fd-ingr-item img { width: 62px; height: 62px; object-fit: contain; image-rendering: -webkit-optimize-contrast; }
+
+.fd-variant-card:focus-visible,
+.fd-thumb:focus-visible,
+.fd-btn:focus-visible {
+  outline: 3px solid var(--fd-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .fd-product-layout { gap: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-hero-img, .fd-btn, .fd-thumb, .fd-variant-card { transition: none; }
+}
+
+/* Lightbox Slideshow Styles */
+.fd-lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(26, 18, 8, 0.95);
+  z-index: 100000;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.fd-lightbox.fd-lightbox--open {
+  display: flex;
+  opacity: 1;
+}
+body.fd-lightbox-active {
+  overflow: hidden;
+}
+.fd-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 100002;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.fd-lightbox-close:hover {
+  transform: scale(1.1);
+  color: var(--fd-primary);
+}
+.fd-lightbox-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 40px;
+  flex: 1;
+}
+.fd-lightbox-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 70vh;
+  margin: 0 20px;
+}
+.fd-lightbox-img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.fd-lightbox-arrow {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 100001;
+}
+.fd-lightbox-arrow:hover {
+  background: var(--fd-primary);
+  transform: scale(1.05);
+}
+.fd-lightbox-thumbs {
+  display: flex;
+  gap: 12px;
+  padding: 20px;
+  width: 100%;
+  justify-content: flex-start !important;
+  overflow-x: auto;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+.fd-lightbox-thumb:first-child {
+  margin-left: auto;
+}
+.fd-lightbox-thumb:last-child {
+  margin-right: auto;
+}
+.fd-lightbox-thumb {
+  width: 80px;
+  height: 80px;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.fd-lightbox-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.fd-lightbox-thumb:hover {
+  border-color: rgba(255,255,255,0.5);
+}
+.fd-lightbox-thumb--active {
+  border-color: var(--fd-primary);
+  transform: scale(1.05);
+}
+
+@media (max-width: 767px) {
+  .fd-lightbox-content {
+    padding: 0 10px;
+  }
+  .fd-lightbox-arrow {
+    width: 40px;
+    height: 40px;
+  }
+  .fd-lightbox-main {
+    max-height: 50vh;
+  }
+  .fd-lightbox-img {
+    max-height: 50vh;
+  }
+  .fd-lightbox-thumb {
+    width: 60px;
+    height: 60px;
+  }
+}
+</style>
+
+
+{%- comment -%} JAVASCRIPT {%- endcomment -%}
+<script>
+(function() {
+  const sid = '{{ section.id }}';
+
+  /* ── Set main image (thumbnail click) ──
+     Key fix: the hero <img> previously had a `srcset`, which made the browser
+     ignore JS-set `.src` changes and keep re-resolving from srcset. We removed
+     srcset from the hero markup, and here we also explicitly clear any srcset
+     in case a theme/app injects one later, so .src always wins. ── */
+  window.fdSetImage = function(thumb, sectionId) {
+    const hero = document.getElementById('fd-hero-img-' + sectionId);
+    if (!hero) return;
+    hero.removeAttribute('srcset');
+    hero.src = thumb.dataset.src;
+    hero.alt = thumb.dataset.alt || '';
+
+    const thumbsWrap = document.getElementById('fd-thumbs-' + sectionId);
+    if (thumbsWrap) {
+      thumbsWrap.querySelectorAll('.fd-thumb').forEach(t => t.classList.remove('fd-thumb--active'));
+    }
+    thumb.classList.add('fd-thumb--active');
+    if (typeof thumb.scrollIntoView === 'function') {
+      thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  };
+
+  /* ── Qty ── */
+  window.fdQtyChange = function(btn, delta, sectionId) {
+    const inp = document.getElementById('fd-qty-' + sectionId);
+    if (!inp) return;
+    const cur = parseInt(inp.value, 10) || 1;
+    inp.value = Math.max(1, cur + delta);
+  };
+
+  // Logger helper
+  function logDebug(msg) {
+    console.log("[FD DEBUG]", msg);
+    if (window.location.href.indexOf('debug') > -1) {
+      let box = document.getElementById('fd-debug-box');
+      if (!box) {
+        box = document.createElement('div');
+        box.id = 'fd-debug-box';
+        box.style.cssText = 'position:fixed;bottom:100px;left:10px;z-index:9999999;background:rgba(0,0,0,0.9);color:#0f0;padding:12px;font-family:monospace;font-size:11px;max-height:250px;overflow-y:auto;border:2px solid #0f0;border-radius:6px;width:320px;line-height:1.4;box-shadow:0 4px 20px rgba(0,0,0,0.5);';
+        document.body.appendChild(box);
+        
+        const title = document.createElement('div');
+        title.style.cssText = 'font-weight:bold;border-bottom:1px solid #0f0;margin-bottom:6px;padding-bottom:2px;';
+        title.textContent = 'FD Sync Debug Logger';
+        box.appendChild(title);
+      }
+      const item = document.createElement('div');
+      item.textContent = new Date().toLocaleTimeString() + ': ' + msg;
+      box.appendChild(item);
+      box.scrollTop = box.scrollHeight;
+    }
+  }
+
+  /* ── Re-entrancy guard to prevent variant sync infinite loops ──
+     When fdSelectVariant or syncVariantToPDP runs, it sets _fdSyncing = true
+     so that any change events it fires don't re-trigger the same sync path. ── */
+  var _fdSyncing = false;
+
+  /* ── Select variant ──
+     Same srcset fix applied here: clear srcset before setting .src so the
+     variant's image actually displays instead of being silently ignored. ── */
+  window.fdSelectVariant = function(card, sectionId) {
+    logDebug("fdSelectVariant called, cardId = " + (card ? card.dataset.variantId : 'null') + ", _fdSyncing = " + _fdSyncing);
+    if (_fdSyncing) return; // prevent re-entrant calls
+    _fdSyncing = true;
+    try {
+      const varId = card.dataset.variantId;
+      console.log("Antigravity: fdSelectVariant called, varId =", varId);
+      
+      const variantsWrap = card.closest('.fd-variants') || document.getElementById('fd-variants-' + sectionId);
+      logDebug("variantsWrap container found: " + !!variantsWrap);
+      if (variantsWrap) {
+        variantsWrap.querySelectorAll('.fd-variant-card').forEach(c => {
+          c.classList.remove('fd-variant-card--active');
+          c.setAttribute('aria-pressed', 'false');
+        });
+      }
+      card.classList.add('fd-variant-card--active');
+      card.setAttribute('aria-pressed', 'true');
+
+      const sel = document.getElementById('fd-variant-select-' + sectionId);
+      const inp = document.getElementById('fd-variant-input-' + sectionId);
+      logDebug("sel element found: " + !!sel + ", inp element found: " + !!inp);
+      if (sel) {
+        sel.value = varId;
+        // Dispatch change so theme scripts (price, availability) update — guard prevents loop
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      if (inp) {
+        inp.value = varId;
+        inp.dispatchEvent(new Event('input', { bubbles: true }));
+        inp.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      // Update browser URL query parameter dynamically without page reload
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('variant', varId);
+        window.history.replaceState({ path: url.toString() }, '', url.toString());
+        logDebug("URL variant param set to: " + varId);
+      } catch(e) {
+        console.warn('URL variant update failed', e);
+      }
+
+      const priceEl   = document.getElementById('fd-price-'   + sectionId) || document.querySelector('.fd-price-current');
+      const compareEl = document.getElementById('fd-compare-' + sectionId) || document.querySelector('.fd-price-compare');
+      if (priceEl   && card.dataset.price)   priceEl.textContent   = card.dataset.price;
+      if (compareEl && card.dataset.compare) compareEl.textContent = card.dataset.compare;
+
+      if (card.dataset.image) {
+        const hero = document.getElementById('fd-hero-img-' + sectionId) || document.querySelector('.fd-hero-img, .fd-main-image img');
+        logDebug("hero element found for image update: " + !!hero);
+        if (hero) {
+          hero.removeAttribute('srcset');
+          hero.src = card.dataset.image;
+          if (card.dataset.imageAlt) hero.alt = card.dataset.imageAlt;
+
+          // Also sync the thumbnail strip's active state to the variant's image,
+          // so the gallery stays visually consistent with the selected variant.
+          const thumbsWrap = document.getElementById('fd-thumbs-' + sectionId) || document.querySelector('.fd-thumbs');
+          if (thumbsWrap) {
+            const matchingThumb = Array.from(thumbsWrap.querySelectorAll('.fd-thumb'))
+              .find(t => t.dataset.src === card.dataset.image || (t.querySelector('img') && t.querySelector('img').src === card.dataset.image));
+            if (matchingThumb) {
+              thumbsWrap.querySelectorAll('.fd-thumb').forEach(t => t.classList.remove('fd-thumb--active'));
+              matchingThumb.classList.add('fd-thumb--active');
+              if (typeof matchingThumb.scrollIntoView === 'function') {
+                matchingThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              }
+            }
+          }
+        }
+      }
+
+      const atcBtn = document.getElementById('fd-atc-btn-' + sectionId);
+      if (atcBtn) {
+        const available = card.dataset.available !== 'false';
+        atcBtn.disabled = !available;
+        atcBtn.textContent = available
+          ? '{{ section.settings.add_to_cart_text }}'
+          : '{{ section.settings.sold_out_text }}';
+      }
+
+      // Sync data-pid and input[name="id"] across all buttons/forms on the page
+      document.querySelectorAll('[data-js-product-button-add-to-cart], .js_add_to_cart_button, .single_add_to_cart_button').forEach(b => {
+        b.setAttribute('data-pid', varId);
+      });
+      document.querySelectorAll('form[action*="/cart/add"] input[name="id"], [data-js-product-variant-input]').forEach(input => {
+        input.value = varId;
+      });
+
+      // Sync sticky ATC dropdown value SILENTLY (no event dispatch) to avoid
+      // triggering the jQuery sticky-select change handler and creating a loop.
+      const stickySelect = document.querySelector('.js_sticky_sl');
+      logDebug("stickySelect element found: " + !!stickySelect);
+      if (stickySelect && stickySelect.value !== varId) {
+        stickySelect.value = varId;
+        logDebug("stickySelect value updated to: " + varId);
+        // Do NOT dispatch change here — the jQuery handler would re-call fdSyncVariantToPDP
+      }
+
+      // Manually sync sticky bar thumb image if present
+      const stickyImg = document.querySelector('.sticky_atc_thumb img');
+      if (stickyImg && card.dataset.image) {
+        stickyImg.src = card.dataset.image;
+        stickyImg.setAttribute('data-src', card.dataset.image);
+        stickyImg.classList.remove('lazyload');
+        stickyImg.classList.add('lazyloaded');
+      }
+
+      // Manually sync sticky bar price if present
+      const stickyPriceEl = document.querySelector('.sticky_atc_price');
+      if (stickyPriceEl) {
+        const price = card.dataset.price;
+        const compare = card.dataset.compare;
+        if (price) {
+          if (compare && compare !== price) {
+            stickyPriceEl.innerHTML = `<span class="current">${price}</span> <span class="compare">${compare}</span>`;
+          } else {
+            stickyPriceEl.innerHTML = price;
+          }
+        }
+      }
+    } catch(err) {
+      logDebug("Error in fdSelectVariant: " + err.message);
+    } finally {
+      _fdSyncing = false;
+      logDebug("fdSelectVariant finished, _fdSyncing reset to false");
+    }
+  };
+
+  // Sync variant updates from any sticky bar select or product form input back to main PDP cards.
+  // Uses _fdSyncing guard to prevent infinite event loops:
+  //   sticky-select change → syncVariantToPDP → fdSelectVariant → (silently sets sticky value) → done
+  function syncVariantToPDP(varId) {
+    if (!varId) return;
+    const targetId = String(varId).trim();
+    logDebug("syncVariantToPDP called with targetId = " + targetId);
+    console.log("Antigravity: syncVariantToPDP called with targetId =", targetId);
+    
+    // Find container and matching variant card
+    const container = document.getElementById('fd-variants-' + sid) || document.querySelector('[id^="fd-variants-"]');
+    let card = container ? container.querySelector(`.fd-variant-card[data-variant-id="${targetId}"]`) : null;
+    if (!card) {
+      card = document.querySelector(`.fd-variant-card[data-variant-id="${targetId}"]`);
+    }
+    
+    logDebug("card matching " + targetId + " found: " + !!card);
+    if (card) {
+      const parentContainer = card.closest('[id^="fd-variants-"]');
+      const sectionId = parentContainer ? parentContainer.id.replace('fd-variants-', '') : sid;
+      _fdSyncing = false; // Reset lock to execute variant selection
+      window.fdSelectVariant(card, sectionId);
+    }
+  }
+  window.fdSyncVariantToPDP = syncVariantToPDP;
+
+  // Listen for sticky-bar select changes on the CAPTURING phase (fires before jQuery bubble handlers).
+  // We only respond when NOT already syncing to avoid circular calls.
+  ['change', 'input'].forEach(evtType => {
+    document.addEventListener(evtType, function(e) {
+      if (!e.target) return;
+      
+      // Log event targets of interest for debugging
+      const isSticky = e.target.classList.contains('js_sticky_sl');
+      const isHiddenInput = e.target.name === 'id' || e.target.id === 'fd-variant-input-' + sid;
+      if (isSticky || isHiddenInput) {
+        logDebug("Event caught: " + evtType + " on " + e.target.tagName + " (sticky: " + isSticky + ", hiddenInput: " + isHiddenInput + "), val = " + e.target.value + ", _fdSyncing = " + _fdSyncing);
+      }
+      
+      if (_fdSyncing) return;
+      
+      // 1. Sticky ATC select or XBoost app select changed
+      if (
+        e.target.classList.contains('js_sticky_sl') ||
+        e.target.classList.contains('xb-variant') ||
+        e.target.id === 'xb-satc-variant-select' ||
+        (e.target.closest && e.target.closest('#xb-satc-root') && e.target.tagName === 'SELECT')
+      ) {
+        syncVariantToPDP(e.target.value);
+      }
+      // 2. Hidden product variant ID input updated by theme scripts (but NOT by our own fdSelectVariant)
+      // Only respond when the value differs from the currently active card to avoid echoes.
+      else if (e.target.name === 'id' || e.target.id === 'fd-variant-input-' + sid) {
+        const container = document.getElementById('fd-variants-' + sid);
+        if (container) {
+          const activeCard = container.querySelector('.fd-variant-card--active');
+          if (!activeCard || activeCard.dataset.variantId !== e.target.value) {
+            syncVariantToPDP(e.target.value);
+          }
+        }
+      }
+    }, true);
+  });
+
+  // Sync quantity from sticky footer to main quantity input (listening on capturing phase)
+  document.addEventListener('change', function(e) {
+    if (e.target && (e.target.classList.contains('js_sticky_qty') || e.target.classList.contains('xb-qty') || (e.target.closest && e.target.closest('#xb-satc-root') && e.target.tagName === 'INPUT' && e.target.type === 'number'))) {
+      const mainQty = document.getElementById('fd-qty-' + sid);
+      if (mainQty) {
+        mainQty.value = e.target.value;
+      }
+    }
+  }, true);
+
+  // Sync quantity from main quantity input to sticky footer
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.id === 'fd-qty-' + sid) {
+      const stickyQty = document.querySelector('.js_sticky_qty, .xb-qty, #xb-satc-root input[type="number"]');
+      if (stickyQty) {
+        stickyQty.value = e.target.value;
+      }
+    }
+  }, true);
+
+  // Fallback click handler to sync sticky add-to-cart button click to main ATC button
+  document.addEventListener('click', function(e) {
+    const stickyAtcBtn = e.target.closest('.sticky_atc_js, [data-js-product-button-add-to-cart], .xb-atc, #xb-satc-root button');
+    if (stickyAtcBtn) {
+      // Find quantity just in case before clicking
+      const stickyQtyInp = document.querySelector('.js_sticky_qty, .xb-qty, #xb-satc-root input[type="number"]');
+      const mainQtyInp = document.getElementById('fd-qty-' + sid);
+      if (stickyQtyInp && mainQtyInp) {
+        mainQtyInp.value = stickyQtyInp.value;
+      }
+      // Click the main PDP add-to-cart button
+      const mainAtcBtn = document.getElementById('fd-atc-btn-' + sid);
+      if (mainAtcBtn) {
+        // Only trigger click if the clicked button is not the main button itself to avoid infinite loop
+        if (stickyAtcBtn !== mainAtcBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (typeof e.stopImmediatePropagation === 'function') {
+            e.stopImmediatePropagation();
+          }
+          mainAtcBtn.click();
+        }
+      }
+    }
+  }, true);
+
+  /* ── Keyboard nav for variant cards ── */
+  document.addEventListener('keydown', function(e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('fd-variant-card')) {
+      e.preventDefault();
+      e.target.click();
+    }
+  });
+
+  /* ── Add to cart AJAX ──
+     Passes `sections: 'minicart'` so Shopify returns fresh cart HTML
+     atomically in the same response — no race condition, no stale cart on open.
+  ── */
+  window.fdAddToCart = async function(sectionId) {
+    const btn      = document.getElementById('fd-atc-btn-' + sectionId);
+    const varInput = document.getElementById('fd-variant-input-' + sectionId);
+    const qtyInput = document.getElementById('fd-qty-' + sectionId);
+    if (!btn || !varInput) return;
+
+    if (btn.disabled || btn.dataset.adding === 'true') return;
+    btn.dataset.adding = 'true';
+
+    const originalText = btn.textContent.trim();
+    btn.disabled    = true;
+    btn.textContent = '{{ section.settings.adding_text }}';
+
+    try {
+      const addResp = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          items: [{
+            id:       parseInt(varInput.value, 10),
+            quantity: qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1
+          }],
+          sections:     'minicart',
+          sections_url: window.location.pathname
+        })
+      });
+
+      if (!addResp.ok) {
+        const errData = await addResp.json().catch(() => ({}));
+        throw new Error(errData.description || 'Cart error');
+      }
+
+      const data = await addResp.json();
+      const cosmeticsCart = document.getElementById('js_cart_popup');
+
+      if (data.sections && data.sections['minicart'] && cosmeticsCart) {
+        const parser     = new DOMParser();
+        const doc        = parser.parseFromString(data.sections['minicart'], 'text/html');
+        const newSection = doc.querySelector('[id^="shopify-section"], .shopify-section');
+        const oldSection = cosmeticsCart.querySelector('[id^="shopify-section"]');
+        if (newSection && oldSection) {
+          oldSection.innerHTML = newSection.innerHTML;
+        } else if (newSection) {
+          cosmeticsCart.innerHTML = newSection.outerHTML;
+        }
+      } else if (cosmeticsCart) {
+        try {
+          const secResp = await fetch('/?sections=minicart');
+          if (secResp.ok) {
+            const secData    = await secResp.json();
+            const secHtml    = secData['minicart'];
+            if (secHtml) {
+              const parser     = new DOMParser();
+              const doc        = parser.parseFromString(secHtml, 'text/html');
+              const newSection = doc.querySelector('[id^="shopify-section"], .shopify-section');
+              const oldSection = cosmeticsCart.querySelector('[id^="shopify-section"]');
+              if (newSection && oldSection) oldSection.innerHTML = newSection.innerHTML;
+              else if (newSection) cosmeticsCart.innerHTML = newSection.outerHTML;
+            }
+          }
+        } catch (secErr) {
+          console.warn('Minicart section fetch failed', secErr);
+        }
+      }
+
+      try {
+        const cart = await fetch('/cart.js').then(r => r.json());
+        document.querySelectorAll(
+          '[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,' +
+          '.header__cart-count,.js-cart-count,.cart-count-bubble,' +
+          '.cart-item-count-header--quantity,#smart-cart-count'
+        ).forEach(el => {
+          el.textContent = cart.item_count;
+          if (cart.item_count > 0) el.removeAttribute('hidden');
+        });
+        ['cart:updated', 'cartUpdated'].forEach(evt => {
+          document.dispatchEvent(new CustomEvent(evt, { detail: { cart }, bubbles: true }));
+          window.dispatchEvent(new CustomEvent(evt,  { detail: { cart }, bubbles: true }));
+        });
+      } catch (countErr) {
+        console.warn('Cart count update failed', countErr);
+      }
+
+      if (cosmeticsCart) {
+        cosmeticsCart.classList.add('act_opened');
+        document.body.classList.add('pside_opened', 'js_cart_popup_open');
+      }
+
+      btn.textContent      = '{{ section.settings.added_text }}';
+      btn.style.background = '#28a745';
+
+      setTimeout(() => {
+        btn.textContent      = originalText;
+        btn.style.background = '';
+        btn.disabled         = false;
+      }, 2000);
+
+    } catch (err) {
+      console.error('ATC Error:', err);
+      alert('Could not add to cart. Please try again.');
+      btn.textContent      = originalText;
+      btn.style.background = '';
+      btn.disabled         = false;
+    } finally {
+      btn.dataset.adding   = 'false';
+    }
+  };
+
+  /* ── Lightbox Slideshow ── */
+  const lightboxImages = [
+    {%- for image in product.images -%}
+      "{{ image | img_url: '1200x1200' }}"{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ];
+  let curLightboxIndex = 0;
+
+  window.fdOpenLightbox = function(sectionId) {
+    const modal = document.getElementById('fd-lightbox-' + sectionId);
+    if (!modal) return;
+    
+    let startIndex = 0;
+    const thumbsWrap = document.getElementById('fd-thumbs-' + sectionId);
+    if (thumbsWrap) {
+      const activeThumb = thumbsWrap.querySelector('.fd-thumb--active');
+      if (activeThumb) {
+        const index = Array.from(thumbsWrap.querySelectorAll('.fd-thumb')).indexOf(activeThumb);
+        if (index > -1) startIndex = index;
+      }
+    }
+    
+    modal.classList.add('fd-lightbox--open');
+    document.body.classList.add('fd-lightbox-active');
+    
+    window.fdSetLightboxImg(startIndex, sectionId);
+  };
+
+  window.fdCloseLightbox = function(sectionId) {
+    const modal = document.getElementById('fd-lightbox-' + sectionId);
+    if (!modal) return;
+    modal.classList.remove('fd-lightbox--open');
+    document.body.classList.remove('fd-lightbox-active');
+  };
+
+  window.fdSetLightboxImg = function(index, sectionId) {
+    if (index < 0 || index >= lightboxImages.length) return;
+    curLightboxIndex = index;
+    
+    const img = document.getElementById('fd-lightbox-img-' + sectionId);
+    if (img) {
+      img.src = lightboxImages[index];
+    }
+    
+    const thumbsWrap = document.getElementById('fd-lightbox-thumbs-' + sectionId);
+    if (thumbsWrap) {
+      thumbsWrap.querySelectorAll('.fd-lightbox-thumb').forEach((t, i) => {
+        if (i === index) {
+          t.classList.add('fd-lightbox-thumb--active');
+          t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+          t.classList.remove('fd-lightbox-thumb--active');
+        }
+      });
+    }
+  };
+
+  window.fdChangeLightboxImg = function(delta, sectionId) {
+    let nextIndex = curLightboxIndex + delta;
+    if (nextIndex < 0) nextIndex = lightboxImages.length - 1;
+    if (nextIndex >= lightboxImages.length) nextIndex = 0;
+    window.fdSetLightboxImg(nextIndex, sectionId);
+  };
+
+  // Keyboard navigation for Lightbox
+  document.addEventListener('keydown', function(e) {
+    const modal = document.getElementById('fd-lightbox-' + sid);
+    if (modal && modal.classList.contains('fd-lightbox--open')) {
+      if (e.key === 'Escape') {
+        window.fdCloseLightbox(sid);
+      } else if (e.key === 'ArrowLeft') {
+        window.fdChangeLightboxImg(-1, sid);
+      } else if (e.key === 'ArrowRight') {
+        window.fdChangeLightboxImg(1, sid);
+      }
+    }
+  });
+
+  // Hover Zoom Logic
+  document.addEventListener("DOMContentLoaded", function() {
+    const mainImgContainers = document.querySelectorAll('.fd-main-image');
+    mainImgContainers.forEach(container => {
+      const img = container.querySelector('.fd-hero-img');
+      if (!img) return;
+      
+      container.addEventListener('mousemove', function(e) {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const pctX = (x / rect.width) * 100;
+        const pctY = (y / rect.height) * 100;
+        
+        img.style.transformOrigin = `${pctX}% ${pctY}%`;
+        img.style.transform = 'scale(2.2)';
+        img.style.cursor = 'zoom-in';
+      });
+      
+      container.addEventListener('mouseleave', function() {
+        img.style.transformOrigin = 'center center';
+        img.style.transform = 'scale(1)';
+        img.style.cursor = '';
+      });
+      
+      container.addEventListener('click', function() {
+        window.fdOpenLightbox(sid);
+      });
+    });
+  });
+
+  /* ── Pincode check ── */
+  window.fdCheckPin = function(sectionId, availMsg, unavailMsg) {
+    const inp    = document.getElementById('fd-pin-' + sectionId);
+    const result = document.getElementById('fd-pin-result-' + sectionId);
+    if (!inp || !result) return;
+    const pin = inp.value.trim();
+    if (!/^\d{6}$/.test(pin)) {
+      result.textContent = '{{ section.settings.pin_invalid_msg }}';
+      result.className   = 'fd-pin-result fd-pin-err';
+      return;
+    }
+    result.textContent = '{{ section.settings.pin_checking_msg }}';
+    result.className   = 'fd-pin-result';
+    setTimeout(() => {
+      result.textContent = availMsg.replace('{pin}', pin);
+      result.className   = 'fd-pin-result fd-pin-ok';
+    }, 600);
+  };
+
+  /* ── Urgency counter ── */
+  {%- if section.settings.show_urgency -%}
+  (function() {
+    const el = document.getElementById('fd-sold-count-' + sid);
+    if (el) {
+      const min = {{ section.settings.urgency_min }};
+      const max = {{ section.settings.urgency_max }};
+      el.textContent = Math.floor(Math.random() * (max - min + 1)) + min + ' {{ section.settings.urgency_unit }}';
+    }
+  })();
+  {%- endif -%}
+})();
+</script>
+
+{%- assign seo_media = product.featured_media | default: product.featured_image -%}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {% if seo_media -%}
+      "image": [
+        {{ seo_media | image_url: width: 1920 | prepend: "https:" | json }}
+      ],
+    {%- endif %}
+    "description": {{ product.description | strip_html | json }},
+    {% if product.selected_or_first_available_variant.sku != blank -%}
+      "sku": {{ product.selected_or_first_available_variant.sku | json }},
+    {%- endif %}
+    "brand": {
+      "@type": "Brand",
+      "name": "Divyaprabha Foods"
+    },
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type" : "Offer",
+          {%- if variant.sku != blank -%}
+            "sku": {{ variant.sku | json }},
+          {%- endif -%}
+          {%- if variant.barcode.size == 12 -%}
+            "gtin12": {{ variant.barcode }},
+          {%- endif -%}
+          {%- if variant.barcode.size == 13 -%}
+            "gtin13": {{ variant.barcode }},
+          {%- endif -%}
+          {%- if variant.barcode.size == 14 -%}
+            "gtin14": {{ variant.barcode }},
+          {%- endif -%}
+          "availability" : "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+          "price" : {{ variant.price | divided_by: 100.00 | json }},
+          "priceCurrency" : {{ cart.currency.iso_code | json }},
+          "url" : {{ request.origin | append: variant.url | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+    {%- assign r_value = product.metafields.reviews.rating.value | default: product.metafields.reviews.rating -%}
+    {%- assign r_count = product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count | plus: 0 -%}
+    {%- if r_count == 0 -%}
+      {%- assign jg_badge = product.metafields.judgeme.badge -%}
+      {%- if jg_badge contains 'data-average-rating' -%}
+        {%- assign r_value = jg_badge | split: "data-average-rating='" | last | split: "'" | first -%}
+        {%- assign r_count = jg_badge | split: "data-number-of-reviews='" | last | split: "'" | first | plus: 0 -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if r_count > 0 -%}
+      ,"aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ r_value }}",
+        "reviewCount": {{ r_count }}
+      }
+    {%- endif -%}
+  }
+</script>
+
+
+{% schema %}
+{
+  "name": "FD Product Detail",
+  "tag": "section",
+  "class": "fd-product-page-section",
+  "settings": [
+    { "type": "header", "content": "🎨 Colors" },
+    { "type": "color", "id": "primary_color",             "label": "Primary / Brand Color",       "default": "#f3a222" },
+    { "type": "color", "id": "accent_color",              "label": "Accent Color",                 "default": "#cc1226" },
+    { "type": "color", "id": "text_color",                "label": "Text Color",                   "default": "#111111" },
+    { "type": "color", "id": "background_color",          "label": "Section Background",           "default": "#ffffff" },
+    { "type": "color", "id": "sale_badge_bg",             "label": "Sale Badge Background",        "default": "#d62628" },
+    { "type": "color", "id": "sale_badge_text_color",     "label": "Sale Badge Text",              "default": "#ffffff" },
+    { "type": "color", "id": "star_color",                "label": "Star Rating Color",            "default": "#f3a222" },
+    { "type": "color", "id": "tag_bg_color",              "label": "Tag Background",               "default": "#f8f8f8" },
+    { "type": "color", "id": "tag_text_color",            "label": "Tag Text Color",               "default": "#333333" },
+    { "type": "header", "content": "🔘 Buttons" },
+    { "type": "color", "id": "add_to_cart_bg",            "label": "Add to Cart Background",      "default": "#cc1226" },
+    { "type": "color", "id": "add_to_cart_text_color",    "label": "Add to Cart Text",             "default": "#ffffff" },
+    { "type": "color", "id": "add_to_cart_hover_bg",      "label": "Add to Cart Hover",            "default": "#a80e1e" },
+    { "type": "color", "id": "buy_now_bg",                "label": "Buy Now Background",           "default": "#f3a222" },
+    { "type": "color", "id": "buy_now_text_color",        "label": "Buy Now Text",                 "default": "#000000" },
+    { "type": "header", "content": "🧱 Variant Cards" },
+    { "type": "color", "id": "variant_active_border",     "label": "Active Variant Border",        "default": "#f3a222" },
+    { "type": "color", "id": "variant_active_header_bg",  "label": "Active Variant Header BG",     "default": "#f3a222" },
+    { "type": "header", "content": "✏️ Typography & Layout" },
+    { "type": "range", "id": "base_font_size",   "label": "Base Font Size (px)", "min": 13, "max": 20, "step": 1, "default": 16 },
+    { "type": "range", "id": "border_radius",    "label": "Border Radius (px)",  "min": 0,  "max": 20, "step": 1, "default": 10 },
+    { "type": "header", "content": "🏷️ Product Labels" },
+    { "type": "text", "id": "mrp_label",         "label": "MRP Label",           "default": "MRP" },
+    { "type": "text", "id": "tax_note",           "label": "Tax Note",            "default": "(Inclusive of all taxes)" },
+    { "type": "text", "id": "shelf_life_label",   "label": "Shelf Life Label",    "default": "Shelf Life" },
+    { "type": "text", "id": "shelf_life_text",    "label": "Shelf Life Value",    "default": "12 months from the date of packaging" },
+    { "type": "header", "content": "🛒 Button Text" },
+    { "type": "text",     "id": "add_to_cart_text", "label": "Add to Cart Text", "default": "Add to Cart" },
+    { "type": "text",     "id": "adding_text",      "label": "Adding… Text",     "default": "Adding…" },
+    { "type": "text",     "id": "added_text",        "label": "Added! Text",      "default": "Added ✓" },
+    { "type": "text",     "id": "sold_out_text",     "label": "Sold Out Text",    "default": "Sold Out" },
+    { "type": "checkbox", "id": "show_buy_now",      "label": "Show Buy Now Button", "default": true },
+    { "type": "text",     "id": "buy_now_text",      "label": "Buy Now Text",     "default": "Buy It Now" },
+    { "type": "checkbox", "id": "show_quantity",     "label": "Show Quantity Picker", "default": true },
+    { "type": "header", "content": "⭐ Reviews" },
+    { "type": "checkbox", "id": "show_reviews_row",  "label": "Show Reviews Row",         "default": true },
+    { "type": "range",    "id": "review_score",      "label": "Star Score (for display)", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "text",     "id": "review_text",       "label": "Review Count Text",        "default": "4.7 | 1823 Reviews" },
+    { "type": "checkbox", "id": "show_amazon_rating","label": "Show Amazon Rating",       "default": true },
+    { "type": "image_picker", "id": "amazon_star_image", "label": "Amazon Star Image", "info": "Upload a crisp source image at least 320px wide for sharp display." },
+    { "type": "text",     "id": "amazon_rating_text","label": "Amazon Rating Text",       "default": "4.1 | 6425 Reviews on Amazon" },
+    { "type": "header", "content": "🔥 Urgency / Social Proof" },
+    { "type": "checkbox", "id": "show_urgency",      "label": "Show Urgency Counter", "default": true },
+    { "type": "range",    "id": "urgency_min",       "label": "Min count", "min": 1,  "max": 50,  "default": 20 },
+    { "type": "range",    "id": "urgency_max",       "label": "Max count", "min": 10, "max": 200, "step": 2, "default": 80 },
+    { "type": "text",     "id": "urgency_unit",      "label": "Unit (e.g. 'people')",   "default": "sold" },
+    { "type": "text",     "id": "urgency_suffix_text","label": "Urgency suffix",          "default": "in last 12 hours" },
+    { "type": "header", "content": "🏠 Trust Banners" },
+    { "type": "checkbox", "id": "show_trust_banners","label": "Show Trust Banners", "default": true },
+    { "type": "text",     "id": "trust_banner_1",   "label": "Trust Banner 1",     "default": "FREE Shipping on orders above ₹499" },
+    { "type": "text",     "id": "trust_banner_2",   "label": "Trust Banner 2",     "default": "FLAT 3% OFF on Prepaid Orders" },
+    { "type": "header", "content": "📍 Pincode Checker" },
+    { "type": "checkbox", "id": "show_pincode_checker","label": "Show Pincode Checker",   "default": true },
+    { "type": "text",     "id": "pincode_header_text","label": "Header Text",              "default": "Check Delivery Date" },
+    { "type": "text",     "id": "pincode_label",      "label": "Body Label",               "default": "Estimated Delivery" },
+    { "type": "text",     "id": "pincode_placeholder","label": "Input Placeholder",        "default": "Enter pincode" },
+    { "type": "text",     "id": "pincode_btn_text",   "label": "Check Button Text",        "default": "Check" },
+    { "type": "text",     "id": "pin_available_msg",  "label": "Delivery Available Message","default": "Usually delivered within 3 to 5 days to {pin}" },
+    { "type": "text",     "id": "pin_unavailable_msg","label": "Delivery Unavailable Message","default": "Delivery not available to {pin}" },
+    { "type": "text",     "id": "pin_invalid_msg",    "label": "Invalid Pincode Message",  "default": "Please enter a valid 6-digit pincode" },
+    { "type": "text",     "id": "pin_checking_msg",   "label": "Checking… Message",        "default": "Checking availability…" },
+    { "type": "header", "content": "🎁 Offers Section" },
+    { "type": "checkbox", "id": "show_offers",        "label": "Show Offers",       "default": true },
+    { "type": "text",     "id": "offers_heading",     "label": "Offers Heading",    "default": "Summer's Offers 🏷️" },
+    { "type": "text",     "id": "offers_prepaid_text","label": "Prepaid extra offer text","default": "+ Extra 3% Off on all Prepaid Orders" },
+    { "type": "header", "content": "🖼️ Other Toggles" },
+    { "type": "checkbox", "id": "show_breadcrumb",      "label": "Show Breadcrumb",                  "default": true },
+    { "type": "checkbox", "id": "show_tags",             "label": "Show Product Tags Row",            "default": true },
+    { "type": "checkbox", "id": "show_sale_badge",       "label": "Show Sale % Badge on Image",       "default": true },
+    { "type": "checkbox", "id": "show_per_unit",         "label": "Show per-unit price on variants",  "default": true },
+    { "type": "checkbox", "id": "show_usp_icons",        "label": "Show USP Icon Strip",              "default": true },
+    { "type": "checkbox", "id": "show_ingredient_icons", "label": "Show Ingredient Icons",            "default": true },
+    { "type": "checkbox", "id": "enable_zoom",           "label": "Enable Image Zoom Button",         "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "product_tag",
+      "name": "Product Tag / Badge",
+      "settings": [
+        { "type": "text",         "id": "metafield_key",     "label": "Metafield Key (e.g. sunflower_oil)", "info": "Leave blank to always show using Fallback Tag Label below" },
+        { "type": "text",         "id": "tag_label",         "label": "Fallback Tag Label",  "default": "Jain Friendly" },
+        { "type": "image_picker", "id": "tag_icon",          "label": "Icon Image (optional)", "info": "Upload a crisp square source image at least 240px wide for sharp display." },
+        { "type": "color",        "id": "tag_bg_override",   "label": "Override BG Color" },
+        { "type": "color",        "id": "tag_text_override", "label": "Override Text Color" }
+      ]
+    },
+    {
+      "type": "variant_badge",
+      "name": "Variant Best-Value Badge",
+      "settings": [
+        { "type": "text",  "id": "variant_id",  "label": "Variant ID (numeric)", "default": "0" },
+        { "type": "text",  "id": "badge_label", "label": "Badge Label",          "default": "Best Value" },
+        { "type": "color", "id": "badge_bg",    "label": "Badge Background",     "default": "#108474" },
+        { "type": "color", "id": "badge_text",  "label": "Badge Text Color",     "default": "#ffffff" }
+      ]
+    },
+    {
+      "type": "offer_card",
+      "name": "Offer Card",
+      "settings": [
+        { "type": "text",  "id": "offer_title",       "label": "Offer Title",    "default": "FREE DELIVERY" },
+        { "type": "text",  "id": "offer_badge",       "label": "Badge Text",     "default": "Auto discount" },
+        { "type": "color", "id": "card_header_bg",    "label": "Card Header BG", "default": "#ffb21c8f" },
+        { "type": "text",  "id": "offer_description", "label": "Description",    "default": "Buy 2 pickles or order above ₹499" }
+      ]
+    },
+    {
+      "type": "usp_icon",
+      "name": "USP Icon",
+      "settings": [
+        { "type": "image_picker", "id": "usp_image", "label": "Icon Image" },
+        { "type": "text",         "id": "usp_label", "label": "Label", "default": "Hygienic" }
+      ]
+    },
+    {
+      "type": "ingredient_icon",
+      "name": "Ingredient Icon",
+      "settings": [
+        { "type": "image_picker", "id": "ingr_image", "label": "Ingredient Image" },
+        { "type": "text",         "id": "ingr_label", "label": "Label", "default": "Sunflower Oil" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FD Product Detail",
+      "blocks": [
+        { "type": "product_tag",   "settings": { "tag_label": "Sunflower Oil" } },
+        { "type": "product_tag",   "settings": { "tag_label": "Medium Spicy" } },
+        { "type": "product_tag",   "settings": { "tag_label": "Jain Friendly" } },
+        { "type": "product_tag",   "settings": { "tag_label": "Neem" } },
+        { "type": "offer_card",    "settings": { "offer_title": "FREE DELIVERY",      "offer_description": "Buy 2 pickles or shop above ₹499" } },
+        { "type": "offer_card",    "settings": { "offer_title": "BUY 3 GET 3 GIFTS",  "offer_description": "Three 325g jars + free shipping + gift" } },
+        { "type": "offer_card",    "settings": { "offer_title": "BUY 6 @ ₹1499",      "offer_description": "Any six 325g jars at ₹1499" } },
+        { "type": "usp_icon",      "settings": { "usp_label": "Hygienic Handmade" } },
+        { "type": "usp_icon",      "settings": { "usp_label": "Premium Ingredients" } },
+        { "type": "usp_icon",      "settings": { "usp_label": "Sun Dried in Barnis" } },
+        { "type": "usp_icon",      "settings": { "usp_label": "No Preservatives" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

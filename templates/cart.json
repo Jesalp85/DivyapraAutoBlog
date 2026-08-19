@@ -1,0 +1,128 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "show_title_page": false,
+        "h_position": "left",
+        "v_position": "middle",
+        "txt_align": "left",
+        "title_font_size": 18,
+        "mobile_title_font_size": 18,
+        "title_font_weight_value": "bold",
+        "title_text_transform": "none",
+        "title_letter_spacing": 0,
+        "title_color": "#000000",
+        "breadcrumb_link_color": "#666666",
+        "breadcrumb_link_hover_color": "#000000",
+        "separator_color": "#999999",
+        "current_page_color": "#000000",
+        "bg": "#e7e1f4",
+        "b_height": 30,
+        "mg_bottom": 30,
+        "mobile_bg": "#e7e1f4",
+        "mobile_ht": 30,
+        "mobile_mg_bottom": 10
+      }
+    },
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "show_text_countdown": false,
+        "minutes": 5,
+        "show_order_note": false,
+        "show_coupon": true,
+        "show_terms_conditions": false,
+        "url_page_terms_conditions": "terms-and-conditions",
+        "cl_bg": "",
+        "mg": ",,,",
+        "pd": ",0,80px,0",
+        "mg_mb": ",,,",
+        "pd_mb": "15px,0,40px,0"
+      }
+    },
+    "2b2e3aa9-c81e-496e-bb9d-88ca73e288dc": {
+      "type": "collection-carousel-product",
+      "disabled": true,
+      "settings": {
+        "title": "New arrivals",
+        "head_description": "",
+        "text_size": "medium",
+        "text_transform": "uppercase",
+        "display_type": "coll",
+        "collection": "kid-leather-bag",
+        "use-all-product": false,
+        "max_count": 8,
+        "use-slider": true,
+        "slides-To-Scroll": 1,
+        "visible": 4,
+        "widescreen": 4,
+        "desktop": 4,
+        "laptop": 4,
+        "notebook": 3,
+        "tablet": 3,
+        "landscape": 2,
+        "portrait": 2,
+        "mobile": 1,
+        "rows": 1,
+        "autoplay": false,
+        "speed": "300",
+        "autoplay-Speed": "3000",
+        "arrows": true,
+        "fade": false,
+        "center-Mode": false,
+        "adaptive-Height": false,
+        "dots": false,
+        "infinite": false,
+        "padding": 10,
+        "vertical": false,
+        "layout_des": false,
+        "custom_width": false,
+        "container_width": 1200,
+        "cl_bg": "",
+        "mg": ",,,",
+        "pd": "80px,,0px,",
+        "mg_mb": ",,,",
+        "pd_mb": "40px,,0px,"
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f": {
+      "type": "newsletter",
+      "settings": {
+        "width_c": 100,
+        "title": "",
+        "cl_title": "#0c0816",
+        "subtitle": "",
+        "cl_subtitle": "#0c0816",
+        "content": "Join Our Newsletter <br> and <a href=\"/collections/all\">Save 20% Off</a> on Your Next Purchase!.",
+        "cl_content": "#0c0816",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "layout": "container",
+        "design": "design-2",
+        "cl_bg": "",
+        "cl_bg_news": "#fafafa",
+        "cl_border": "#e7e1f4",
+        "mg": "80px,,,",
+        "pd": "0px,0px,65px,",
+        "mg_mb": "40px,,,",
+        "pd_mb": "40px,,40px,"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "2b2e3aa9-c81e-496e-bb9d-88ca73e288dc",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f"
+  ]
+}

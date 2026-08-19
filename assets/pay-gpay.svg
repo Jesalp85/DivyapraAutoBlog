@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <circle cx="16" cy="16" r="15.5" fill="#ffffff" stroke="#f87171" stroke-width="1"/>
+  <g transform="translate(8, 8) scale(0.5)">
+    <!-- Blue capsule -->
+    <path d="M6 13.5v5c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5v-5A4.5 4.5 0 0 0 10.5 9 4.5 4.5 0 0 0 6 13.5z" fill="#4285F4"/>
+    <!-- Yellow capsule -->
+    <path d="M21 13.5v5c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5v-5A4.5 4.5 0 0 0 25.5 9 4.5 4.5 0 0 0 21 13.5z" fill="#FBBC04"/>
+    <!-- Green capsule (rotated/horizontal) -->
+    <path d="M13.5 6h5C21 6 23 8 23 10.5S21 15 18.5 15h-5A4.5 4.5 0 0 1 9 10.5 4.5 4.5 0 0 1 13.5 6z" fill="#34A853"/>
+    <!-- Red capsule (rotated/horizontal) -->
+    <path d="M13.5 21h5c2.5 0 4.5 2 4.5 4.5S21 30 18.5 30h-5A4.5 4.5 0 0 1 9 25.5 4.5 4.5 0 0 1 13.5 21z" fill="#EA4335"/>
+  </g>
+</svg>

@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "show_title_page": false,
+        "h_position": "center",
+        "v_position": "middle",
+        "txt_align": "center",
+        "bg_breadcrumb_blog": "shopify://shop_images/title-bg.jpg",
+        "bg": "#fffaf5",
+        "b_height": 80,
+        "mg_bottom": 0,
+        "mobile_bg": "#fffaf5",
+        "mobile_ht": 60,
+        "mobile_mg_bottom": 0
+      }
+    },
+    "main": {
+      "type": "content-404",
+      "settings": {
+        "bg_img_404": "",
+        "title": "Sorry, We Can’t Find That Page!",
+        "content": "It seems this page has moved or doesn’t exist. Head back to our <br> homepage, or reach out if you need help!",
+        "cl_bg": "",
+        "pd_c": "",
+        "mg": "",
+        "pd": "30px,0,60px,0",
+        "mg_mb": "",
+        "pd_mb": "20px,0,40px,0"
+      }
+    },
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f": {
+      "type": "newsletter",
+      "settings": {
+        "width_c": 100,
+        "title": "",
+        "cl_title": "#0C0816",
+        "subtitle": "",
+        "cl_subtitle": "#0C0816",
+        "content": "Join Our Newsletter <br> and <a href=\"/collections/all\">Save 20% Off</a> on Your Next Purchase!.",
+        "cl_content": "#0C0816",
+        "text_size": "medium",
+        "text_transform": "capitalize",
+        "layout": "container",
+        "design": "design-2",
+        "cl_bg": "",
+        "cl_bg_news": "#FAFAFA",
+        "cl_border": "#E7E1F4",
+        "mg": "80px,,,",
+        "pd": "0px,0px,65px,",
+        "mg_mb": "40px,,,",
+        "pd_mb": "40px,,40px,"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "9ff9908e-40bc-4a68-93f9-10b0f925f67f"
+  ]
+}

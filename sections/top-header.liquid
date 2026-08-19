@@ -1,0 +1,759 @@
+{% if section.settings.home_page_only == false or template.name == 'index' %}
+  {% if section.settings.header_use_top_header %}
+    <div class="topbar {% if section.settings.hide_top_header_mobile %}hide-mobile{% endif %}" style="
+        --color-border:{{section.settings.cl_border_top}};
+        --color-bg:{{section.settings.bg_top_header}};
+        --color-text:{{section.settings.cl_text}};
+        --color-text-hover:{{section.settings.cl_text_h}};
+        ">
+      <div
+        class="container {% if section.settings.layout == 'full-width' %}{{section.settings.layout}} {% endif %} "
+        {% if section.settings.custom_width %}
+        style="--ui-container-width:{{ section.settings.container_width }}px;"
+        {% endif %}>
+        <div class="row">
+          <div class="announcement-bar">
+            {%- for block in section.blocks -%}
+              {% assign hide_mobile = block.settings.hide_mobile %}
+              {% assign text_align = block.settings.text_align %}
+              {% case block.settings.col %}
+                {% when '16%' %}
+                  {%- assign block_width = 'col-lg-2 col-md-2 col-12' -%}
+                {% when '25%' %}
+                  {%- assign block_width = 'col-lg-3 col-md-3 col-12' -%}
+                {% when '33%' %}
+                  {%- assign block_width = 'col-lg-4 col-md-4 col-12' -%}
+                {% when '42%' %}
+                  {%- assign block_width = 'col-lg-5 col-md-5 col-12' -%}
+                {% when '50%' %}
+                  {%- assign block_width = 'col-lg-6 col-md-6 col-12' -%}
+                {% when '58%' %}
+                  {%- assign block_width = 'col-lg-7 col-md-7 col-12' -%}
+                {% when '66%' %}
+                  {%- assign block_width = 'col-lg-8 col-md-8 col-12' -%}
+                {% when '75%' %}
+                  {%- assign block_width = 'col-lg-9 col-md-9 col-12' -%}
+                {% when '100%' %}
+                  {%- assign block_width = 'col-12' -%}
+              {% endcase %}
+              {%- case block.type -%}
+                {%- when 'contac_header' -%}
+                  <div class="{{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                    <div class="top_contac">
+                      <ul>
+                        {%- if block.settings.show_phone -%}
+                          <li>
+                            <a href="tel:{{shop.phone}}">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none">
+                                <path d="M16.2489 15.5304L15.8318 14.8339C15.0817 13.5971 14.0464 12.1776 12.6885 12.1776C12.4369 12.1776 12.1878 12.2282 11.9412 12.3307L11.2123 12.6432C11.1457 12.6708 11.0811 12.7022 11.0126 12.7355C10.826 12.8262 10.6145 12.929 10.3969 12.929C9.86023 12.929 9.23836 12.2305 8.64617 10.9623C8.06498 9.71762 8.10206 9.06508 8.23547 8.73673C8.38268 8.37447 8.72501 8.21959 9.09277 8.08041C9.14392 8.06101 9.1901 8.04342 9.23502 8.02493L9.97307 7.71418C11.8959 6.9101 11.1805 4.10014 10.946 3.17889L10.7471 2.3868C10.5771 1.734 10.1262 0 8.63083 0C8.354 0 8.05867 0.064496 7.75333 0.191774C7.55298 0.271334 4.79598 1.39672 3.79715 3.37382C2.60339 5.72716 2.82412 8.88296 4.45257 12.7515C6.06885 16.625 8.16475 18.9942 10.6821 19.7933C11.1139 19.9305 11.6019 19.9999 12.1327 19.9999H12.1329C13.8702 19.9999 15.585 19.2608 15.7242 19.1994C16.3232 18.9457 16.7103 18.5601 16.8749 18.0532C17.1538 17.1937 16.6859 16.2519 16.2489 15.5304ZM15.5877 17.6356C15.5495 17.7534 15.4165 17.8609 15.1928 17.9551C15.1891 17.9567 15.1846 17.9586 15.1808 17.9603C15.1653 17.9672 13.6131 18.647 12.1326 18.6469C11.7409 18.6469 11.3906 18.5988 11.0915 18.5037C8.97072 17.8305 7.15726 15.72 5.70037 12.2286C4.23265 8.7416 3.99812 5.96837 5.00426 3.98495C5.78552 2.43858 8.23141 1.45761 8.2554 1.44823C8.26027 1.44625 8.26506 1.44435 8.26984 1.44237C8.40911 1.38391 8.53396 1.35306 8.63083 1.35306C8.92896 1.35306 9.20029 1.81545 9.43609 2.72173L9.63409 3.51048C10.0613 5.18828 9.99626 6.23772 9.44935 6.46647L8.71481 6.77587C8.68559 6.78796 8.6514 6.80068 8.6137 6.81502C8.20796 6.96864 7.36365 7.28814 6.98181 8.22735C6.63534 9.0796 6.77876 10.1615 7.41984 11.535C8.28328 13.3835 9.25703 14.2821 10.3968 14.2821C10.9257 14.2821 11.3503 14.0757 11.604 13.9525C11.6507 13.9298 11.6925 13.909 11.7374 13.8904L12.4673 13.5774C12.5426 13.546 12.615 13.5307 12.6884 13.5307C13.0397 13.5307 13.6697 13.8786 14.673 15.5325L15.0898 16.2285C15.6035 17.0767 15.6441 17.4618 15.5877 17.6356Z" fill="#E7E1F4" />
+                              </svg>
+                              {{ block.settings.phone_text }}
+                            </a>
+                          </li>
+                        {% endif %}
+                        {%- if block.settings.show_email -%}
+                          <li>
+                            <a href="mailto:{{shop.email}}">
+                              <i class="icon-mail"></i>
+                              {{ shop.email }}</a>
+                          </li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                {%- when 'message' -%}
+                  <div class="wrapper-bar-message {{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                    <div class="announcement-bar__message">
+                      {{ block.settings.message_text }}
+                      {%- if block.settings.text_link != blank -%}
+                        <a
+                          id="b_{{block.id}}"
+                          class="buttons alo-color alo-color-hover"
+                          href="{{block.settings.btn_link}}"
+                          style="--ui-color:{{block.settings.color_link}};--ui-color-hover:{{block.settings.color_link_hover}};"
+                          target="{{block.settings.open_link}}"
+                          {{ block.shopify_attributes }}>{{ block.settings.text_link }}</a>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- when 'top_header_3' -%}
+                  <div class="{{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                    {% if block.settings.menu_topbar != blank %}
+                      <ul class="topbar-menu">
+                        {% assign handle = block.settings.menu_topbar %}
+                        {% for link in linklists[handle].links %}
+                          <li>
+                            <a href="{{link.url}}">
+                              {{ link.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                    {% assign type_social = block.settings.type_social | plus: 0 %}
+                    {% if block.settings.header_use_social %}
+                      {%- if type_social == 1 -%}
+                        {% include 'social_link' %}
+                      {%- else -%}
+                        {% include 'social-sharing' %}
+                      {%- endif -%}
+                    {% endif %}
+
+                  </div>
+                {%- when 'lang_curr' -%}
+                  <div class="{{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+
+                    {% if block.settings.header_use_language or block.settings.header_use_currency %}
+                      {% assign showFlag = block.settings.show_flag %}
+                      <ul class="menu-language parent-list">
+                        {% if block.settings.header_use_language %}
+                          {% render 'language'
+                            , showFlag: showFlag %}
+                        {% endif %}
+                        {% if block.settings.header_use_currency %}
+                          {% render 'currency' %}
+                        {% endif %}
+                        {% if block.settings.show_phone %}
+                          <li class="hide-mobile" style="--color-text:{{ block.settings.cl_phone }}">
+                            <span>{{ block.settings.text_phone }}</span>
+                          </li>
+                        {% endif %}
+                      </ul>
+                    {% endif %}
+                    {% if block.settings.menu_topbar != blank %}
+                      <ul class="topbar-menu hide-mobile">
+                        {% assign handle = block.settings.menu_topbar %}
+                        {% for link in linklists[handle].links %}
+                          <li>
+                            <a href="{{link.url}}">
+                              {{ link.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                {%- when 'top_header_4' -%}
+                  <div class="{{text_align}} flex {{ block_width }} {% if hide_mobile %}hide-mobile{%endif%}">
+                    <div class="text-horizontal-running">
+                      <p class="flex">
+                        {% if block.settings.text1 != blank %}
+                          <span>
+                            <i class="icon-check"></i>
+                            {{ block.settings.text1 }}</span>
+                        {% endif %}
+                        {% if block.settings.text2 != blank %}
+                          <span>
+                            <i class="icon-check"></i>
+                            {{ block.settings.text2 }}</span>
+                        {% endif %}
+                      </p>
+                      <p class="flex">
+                        {% if block.settings.text3 != blank %}
+                          <span>
+                            <i class="icon-check"></i>
+                            {{ block.settings.text3 }}</span>
+                        {% endif %}
+                        {% if block.settings.text4 != blank %}
+                          <span>
+                            <i class="icon-check"></i>
+                            {{ block.settings.text4 }}</span>
+                        {% endif %}
+                      </p>
+                    </div>
+                  </div>
+              {%- endcase -%}
+            {%- endfor -%}
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {% style %}
+      .alo_slidershow {
+        --height-bar: 40px;
+      }
+    {% endstyle %}
+  {% else %}
+    {% style %}
+      .alo_slidershow {
+        --height-bar: 0;
+      }
+    {% endstyle %}
+  {% endif %}
+
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Top header",
+    "class": "cms-top-header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "header_use_top_header",
+        "label": "Show top header",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_top_header_mobile",
+        "label": "Hide header (mobile)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "home_page_only",
+        "label": "Home page only",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "custom_width",
+        "label": "Custom width",
+        "default": false
+      }, {
+        "type": "range",
+        "id": "container_width",
+        "label": "Container width",
+        "min": 1200,
+        "max": 1900,
+        "step": 10,
+        "unit": "px",
+        "default": 1200
+      }, {
+        "type": "select",
+        "id": "layout",
+        "default": "full-width",
+        "options": [
+          {
+            "value": "container",
+            "label": "Container"
+          }, {
+            "value": "full-width",
+            "label": "Full Width"
+          }
+        ],
+        "label": "Layout"
+      }, {
+        "type": "header",
+        "content": "Design"
+      }, {
+        "type": "color",
+        "id": "bg_top_header",
+        "label": "Background color",
+        "default": "#f5f5f5"
+      }, {
+        "type": "color",
+        "id": "cl_border_top",
+        "label": "Border color",
+        "default": "#f5f5f5"
+      }, {
+        "type": "color",
+        "id": "cl_text",
+        "label": "Color text",
+        "default": "#777"
+      }, {
+        "type": "color",
+        "id": "cl_text_h",
+        "label": "Color hover",
+        "default": "#343e45"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "contac_header",
+        "name": "Top contac header",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "show_phone",
+            "label": "Show Phone",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "phone_text",
+            "label": "Phone no",
+            "default": "(323) 576-1942"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_email",
+            "label": "Show Email",
+            "default": true
+          }, {
+            "type": "select",
+            "id": "text_align",
+            "default": "topbar-left",
+            "options": [
+              {
+                "value": "topbar-left",
+                "label": "Left"
+              }, {
+                "value": "topbar-center",
+                "label": "center"
+              }, {
+                "value": "topbar-right",
+                "label": "Right"
+              }
+            ],
+            "label": "text align:"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      },
+      {
+        "type": "message",
+        "name": "Custom text",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+          {
+            "type": "richtext",
+            "id": "message_text",
+            "label": "Announcement text",
+            "default": "<p><strong>Free Delivery</strong> over <strong>£40</strong> to most of <em>UK*</em></p>"
+          },
+          {
+            "type": "text",
+            "id": "text_link",
+            "label": "Link",
+            "default": "Shop Now"
+          },
+          {
+            "type": "url",
+            "id": "btn_link",
+            "label": "Button link",
+            "info": "Note: if you want to display this button then you need to fill button link"
+          }, {
+            "type": "select",
+            "id": "open_link",
+            "options": [
+              {
+                "value": "_self",
+                "label": "Current window (_self)"
+              }, {
+                "value": "_blank",
+                "label": "New window (_blank)"
+              }
+            ],
+            "label": "Open link in",
+            "default": "_blank"
+          }, {
+            "type": "select",
+            "id": "text_align",
+            "default": "topbar-left",
+            "options": [
+              {
+                "value": "topbar-left",
+                "label": "Left"
+              }, {
+                "value": "topbar-center",
+                "label": "center"
+              }, {
+                "value": "topbar-right",
+                "label": "Right"
+              }
+            ],
+            "label": "text align:"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }, {
+            "type": "color",
+            "id": "color_link",
+            "label": "color",
+            "default": "#1a1a1a"
+          }, {
+            "type": "color",
+            "id": "color_link_hover",
+            "label": "color (Hover)",
+            "default": "#1a1a1a"
+          }
+        ]
+      },
+      {
+        "type": "top_header_3",
+        "name": "Menu Top",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+          {
+            "type": "header",
+            "content": "Top Menu"
+          },
+          {
+            "type": "link_list",
+            "id": "menu_topbar",
+            "label": "Add topbar menu"
+          },
+
+          {
+            "type": "header",
+            "content": "Social settings"
+          }, {
+            "type": "checkbox",
+            "id": "header_use_social",
+            "label": "Display social on top bar",
+            "default": true,
+            "info": "Note: you can edit social at 'Theme settings' -> 'Social media'"
+          }, {
+            "type": "select",
+            "id": "type_social",
+            "label": "Show sharing Or link:",
+            "options": [
+              {
+                "value": "1",
+                "label": "Social link"
+              }, {
+                "value": "2",
+                "label": "Social sharing"
+              }
+            ],
+            "default": "2"
+          }, {
+            "type": "select",
+            "id": "text_align",
+            "default": "topbar-left",
+            "options": [
+              {
+                "value": "topbar-left",
+                "label": "Left"
+              }, {
+                "value": "topbar-center",
+                "label": "center"
+              }, {
+                "value": "topbar-right",
+                "label": "Right"
+              }
+            ],
+            "label": "text align:"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      },
+      {
+        "type": "lang_curr",
+        "name": "Language and currency",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+          {
+            "type": "link_list",
+            "id": "menu_topbar",
+            "label": "Add topbar menu"
+          },
+          {
+            "type": "header",
+            "content": "Currency and Language"
+          },
+          {
+            "type": "checkbox",
+            "id": "header_use_currency",
+            "label": "Display currency on top bar",
+            "default": true
+          }, {
+            "type": "checkbox",
+            "id": "header_use_language",
+            "label": "Display language on top bar",
+            "default": true
+          }, {
+            "type": "checkbox",
+            "id": "show_flag",
+            "label": "Show Flag Image",
+            "default": true
+          }, {
+            "type": "checkbox",
+            "id": "show_phone",
+            "label": "Show Phone Number",
+            "default": true
+          }, {
+            "type": "text",
+            "id": "text_phone",
+            "label": "Phone Number",
+            "default": "Need Help? +001 123 456 789"
+          }, {
+            "type": "color",
+            "id": "cl_phone",
+            "label": "Color Phone Number",
+            "default": "#fff"
+          }, {
+            "type": "select",
+            "id": "text_align",
+            "default": "topbar-left",
+            "options": [
+              {
+                "value": "topbar-left",
+                "label": "Left"
+              }, {
+                "value": "topbar-center",
+                "label": "center"
+              }, {
+                "value": "topbar-right",
+                "label": "Right"
+              }
+            ],
+            "label": "text align:"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      }, {
+        "type": "top_header_4",
+        "name": "Text horizontal running",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "text1",
+            "label": "Text 1",
+            "default": "No import fees to the UK – all duties pre-paid!"
+          },
+          {
+            "type": "text",
+            "id": "text2",
+            "label": "Text 2",
+            "default": "No import fees to the UK – all duties pre-paid!"
+          },
+          {
+            "type": "text",
+            "id": "text3",
+            "label": "Text 3",
+            "default": "No import fees to the UK – all duties pre-paid!"
+          }, {
+            "type": "text",
+            "id": "text4",
+            "label": "Text 4",
+            "default": "No import fees to the UK – all duties pre-paid!"
+          }, {
+            "type": "select",
+            "id": "col",
+            "default": "33%",
+            "options": [
+              {
+                "value": "16%",
+                "label": "16%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33%",
+                "label": "33%"
+              },
+              {
+                "value": "42%",
+                "label": "42%"
+              }, {
+                "value": "50%",
+                "label": "50%"
+              }, {
+                "value": "58%",
+                "label": "58%"
+              }, {
+                "value": "66%",
+                "label": "66%"
+              }, {
+                "value": "75%",
+                "label": "75%"
+              }, {
+                "value": "100%",
+                "label": "100%"
+              }
+            ],
+            "label": "Container width:"
+          }
+        ]
+      }
+
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}

@@ -1,0 +1,711 @@
+<div class="smart-cart-wrapper">
+  <!-- Header -->
+  <div class="mini_cart_header smart-header">
+    <div class="title">
+      Your cart - {{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }}
+    </div>
+    <script id="json-data-cart" type="application/json">{{ cart | json }}</script>
+    <i class="close_popup_ajax icon-x"></i>
+  </div>
+
+  {% if cart.item_count > 0 %}
+    <div class="smart-cart-body">
+      <!-- Progress Bar (Milestones) -->
+      {%- liquid
+        assign m1_val = 599
+        assign m1_lbl = "Free Delivery"
+        assign m2_val = 749
+        assign m2_lbl = "10% Discount"
+
+        assign total_price_in_currency = cart.total_price | divided_by: 100
+
+        assign max_val = m2_val
+        assign current_percentage = total_price_in_currency | times: 100.0 | divided_by: max_val | at_most: 100
+
+        if total_price_in_currency < m1_val
+          assign next_val = m1_val | minus: total_price_in_currency
+          assign next_reward = m1_lbl
+        elsif total_price_in_currency < m2_val
+          assign next_val = m2_val | minus: total_price_in_currency
+          assign next_reward = m2_lbl
+        else
+          assign next_val = 0
+        endif
+      -%}
+
+      <div class="smart-progress-section"
+           data-cart-total="{{ total_price_in_currency }}"
+           data-m1-val="{{ m1_val }}" data-m1-lbl="{{ m1_lbl }}"
+           data-m2-val="{{ m2_val }}" data-m2-lbl="{{ m2_lbl }}">
+        <div class="smart-progress-banner">
+          {%- if next_val > 0 -%}
+            Add items worth <span class="smart-money-highlight">₹{{ next_val }}</span> to get <span class="smart-reward-highlight">{{ next_reward }}</span>!
+          {%- else -%}
+            🎉 You have unlocked all rewards!
+          {%- endif -%}
+        </div>
+
+        <div class="smart-progress-bar-container">
+          <div class="smart-progress-bar-track">
+            <div class="smart-progress-bar-fill" style="width: {{ current_percentage }}%;"></div>
+          </div>
+          <div class="smart-milestones">
+            <div class="smart-milestone {% if total_price_in_currency >= m1_val %}active{% endif %}" style="left: {{ m1_val | times: 100.0 | divided_by: max_val }}%;">
+              <div class="smart-milestone-circle">
+                {% if total_price_in_currency >= m1_val %}<i class="fa fa-check"></i>{% endif %}
+              </div>
+              <div class="smart-milestone-label">₹{{ m1_val }}<br><span class="lbl-name">{{ m1_lbl }}</span></div>
+            </div>
+            <div class="smart-milestone {% if total_price_in_currency >= m2_val %}active{% endif %}" style="left: 100%;">
+              <div class="smart-milestone-circle">
+                {% if total_price_in_currency >= m2_val %}<i class="fa fa-check"></i>{% endif %}
+              </div>
+              <div class="smart-milestone-label">₹{{ m2_val }}<br><span class="lbl-name">{{ m2_lbl }}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items List -->
+      <div class="smart-items-list-wrap">
+        <ul class="list-item smart-cart-list">
+          {% for item in cart.items %}
+            <li class="product-item smart-cart-item" data-product-id="{{ item.id }}">
+              <a href="{{ item.product.url }}" class="thumb">
+                <img class="lazyload" loading="lazy" data-src="{{ item | img_url: 'medium' }}" width="80" alt="{{ item.title }}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+              </a>
+              <div class="info smart-item-info">
+                <a href="{{ item.product.url }}" class="product-name">{{ item.product.title }}</a>
+                {%- if item.product.has_only_default_variant == false -%}
+                  <div class="product-option-title">{{ item.variant.title }}</div>
+                {%- endif -%}
+                <div class="price-box">
+                  {%- if item.variant.compare_at_price > item.original_price -%}
+                    <span class="price-compare" style="text-decoration: line-through; color: #999; margin-right: 5px;">{{ item.variant.compare_at_price | money }}</span>
+                    {%- if item.original_price > item.final_price -%}
+                      <span class="price-compare" style="text-decoration: line-through; color: #999; margin-right: 5px;">{{ item.original_price | money }}</span>
+                      <span class="price-sale" style="color: #8f0c0f; font-weight: bold;">{{ item.final_price | money }}</span>
+                    {%- else -%}
+                      <span class="price-sale" style="color: #8f0c0f; font-weight: bold;">{{ item.original_price | money }}</span>
+                    {%- endif -%}
+                  {%- elsif item.original_price > item.final_price -%}
+                    <span class="price-compare" style="text-decoration: line-through; color: #999; margin-right: 5px;">{{ item.original_price | money }}</span>
+                    <span class="price-sale" style="color: #8f0c0f; font-weight: bold;">{{ item.final_price | money }}</span>
+                  {%- else -%}
+                    <span class="price">{{ item.original_price | money }}</span>
+                  {%- endif -%}
+                </div>
+                
+                <div class="quantity-item" data-title="{{'cart.label.quantity'|t}}">
+                  <div class="quantity-cart">
+                    <div class="group-quantity-button js-quantity">
+                      <a class="minus js_minus" href="#"><i class="fa fa-minus"></i></a>
+                      <input class="input-text qty js_qty" data-product-id="{{ item.id }}" data-min="1" data-max="{{item.product.variants.first.inventory_quantity}}" type="text" size="4" name="updates[]" value="{{ item.quantity }}">
+                      <a class="plus js_plus" href="#"><i class="fa fa-plus"></i></a>
+                    </div>
+                  </div>
+                </div>
+                
+                <a class="js-remove-item remove" href="/cart/change?line={{ forloop.index }}&quantity=0" data-line="{{ forloop.index }}" data-id="{{ item.id }}" rel="{{ item.id }}" title="Remove this item">
+                  <i class="fa fa-trash-o"></i>
+                </a>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- May We Suggest / Upsell -->
+      {%- liquid
+        assign upsell_col = settings.smart_upsell_collection
+        assign upsell_products = collections[upsell_col].products
+        if upsell_products == blank or upsell_products.size == 0
+          assign upsell_products = collections.all.products
+        endif
+      -%}
+      {%- if upsell_products != blank and upsell_products.size > 0 -%}
+        <div class="smart-upsell-section">
+          <div class="smart-section-title">MAY WE SUGGEST</div>
+          <div class="smart-upsell-list">
+            {%- assign count = 0 -%}
+            {%- for prod in upsell_products -%}
+              {%- if count >= 3 -%}{%- break -%}{%- endif -%}
+              
+              {%- assign in_cart = false -%}
+              {%- for item in cart.items -%}
+                {%- if item.product_id == prod.id -%}
+                  {%- assign in_cart = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+              
+              {%- unless in_cart -%}
+                {%- assign count = count | plus: 1 -%}
+                <div class="smart-upsell-item" data-product-handle="{{ prod.handle }}">
+                  <img src="{{ prod.featured_image | img_url: 'compact' }}" alt="{{ prod.title }}" class="smart-upsell-img">
+                  <div class="smart-upsell-details">
+                    <div class="smart-upsell-name">{{ prod.title }}</div>
+                    <div class="smart-upsell-price">{{ prod.variants.first.price | money }}</div>
+                    
+                    {%- if prod.variants.size > 1 -%}
+                      <select class="smart-upsell-variant-select">
+                        {%- for variant in prod.variants -%}
+                          <option value="{{ variant.id }}" data-price="{{ variant.price | money }}" {% unless variant.available %}disabled{% endunless %}>
+                            {{ variant.title }} - {{ variant.price | money }}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                    {%- else -%}
+                      <input type="hidden" class="smart-upsell-variant-id" value="{{ prod.variants.first.id }}">
+                    {%- endif -%}
+                  </div>
+                  <button class="smart-upsell-add-btn" data-variant-id="{{ prod.variants.first.id }}">Add</button>
+                </div>
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <!-- Order Notes -->
+      <div class="smart-notes-section">
+        <button class="smart-notes-toggle" type="button">
+          <i class="fa fa-pencil-square-o"></i> Add a note <i class="fa fa-chevron-down toggle-arrow"></i>
+        </button>
+        <div class="smart-notes-content" style="display: none;">
+          <textarea class="smart-note-input" placeholder="Special instructions for your order...">{{ cart.note }}</textarea>
+          <button class="smart-note-save-btn" type="button">Save Note</button>
+        </div>
+      </div>
+
+      <!-- Coupons -->
+      <div class="smart-coupons-section">
+        <div class="smart-section-title">Coupons</div>
+        <div class="smart-coupon-input-group">
+          <input type="text" id="smart-coupon-input" placeholder="Enter coupon code" value="">
+          <button id="smart-coupon-apply-btn" type="button">Apply</button>
+        </div>
+        
+        <div class="smart-coupons-list">
+          {%- liquid
+            assign cp1_code = settings.smart_coupon_1_code
+            assign cp1_desc = settings.smart_coupon_1_desc
+            assign cp1_min = settings.smart_coupon_1_min | default: 0
+            
+            assign cp2_code = settings.smart_coupon_2_code
+            assign cp2_desc = settings.smart_coupon_2_desc
+            assign cp2_min = settings.smart_coupon_2_min | default: 0
+            
+            assign cp3_code = settings.smart_coupon_3_code
+            assign cp3_desc = settings.smart_coupon_3_desc
+            assign cp3_min = settings.smart_coupon_3_min | default: 0
+          -%}
+
+          {%- if cp1_code != blank -%}
+            {%- liquid
+              assign is_locked = false
+              if total_price_in_currency < cp1_min
+                assign is_locked = true
+                assign diff = cp1_min | minus: total_price_in_currency
+              endif
+              assign cp1_type = 'flat'
+              assign cp1_value = 0
+              if cp1_desc contains '%'
+                assign cp1_type = 'percentage'
+                assign cp1_value = cp1_desc | split: '%' | first | split: 'Save ' | last | split: 'save ' | last | strip | plus: 0
+              else
+                assign cp1_value = cp1_desc | split: '₹' | last | split: ' ' | first | plus: 0
+              endif
+            -%}
+            <div class="smart-coupon-card {% if is_locked %}locked{% else %}unlocked{% endif %}" data-code="{{ cp1_code }}" data-min="{{ cp1_min }}" data-type="{{ cp1_type }}" data-value="{{ cp1_value }}">
+              <div class="smart-coupon-badge">
+                <i class="fa {% if is_locked %}fa-lock{% else %}fa-tag{% endif %}"></i> {{ cp1_code }}
+              </div>
+              <div class="smart-coupon-desc">{{ cp1_desc }}</div>
+              {%- if is_locked -%}
+                <div class="smart-coupon-status">Add ₹{{ diff }} more to unlock</div>
+              {%- else -%}
+                <div class="smart-coupon-status tap-to-apply">TAP TO APPLY</div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          
+          {%- if cp2_code != blank -%}
+            {%- liquid
+              assign is_locked = false
+              if total_price_in_currency < cp2_min
+                assign is_locked = true
+                assign diff = cp2_min | minus: total_price_in_currency
+              endif
+              assign cp2_type = 'flat'
+              assign cp2_value = 0
+              if cp2_desc contains '%'
+                assign cp2_type = 'percentage'
+                assign cp2_value = cp2_desc | split: '%' | first | split: 'Save ' | last | split: 'save ' | last | strip | plus: 0
+              else
+                assign cp2_value = cp2_desc | split: '₹' | last | split: ' ' | first | plus: 0
+              endif
+            -%}
+            <div class="smart-coupon-card {% if is_locked %}locked{% else %}unlocked{% endif %}" data-code="{{ cp2_code }}" data-min="{{ cp2_min }}" data-type="{{ cp2_type }}" data-value="{{ cp2_value }}">
+              <div class="smart-coupon-badge">
+                <i class="fa {% if is_locked %}fa-lock{% else %}fa-tag{% endif %}"></i> {{ cp2_code }}
+              </div>
+              <div class="smart-coupon-desc">{{ cp2_desc }}</div>
+              {%- if is_locked -%}
+                <div class="smart-coupon-status">Add ₹{{ diff }} more to unlock</div>
+              {%- else -%}
+                <div class="smart-coupon-status tap-to-apply">TAP TO APPLY</div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if cp3_code != blank -%}
+            {%- liquid
+              assign is_locked = false
+              if total_price_in_currency < cp3_min
+                assign is_locked = true
+                assign diff = cp3_min | minus: total_price_in_currency
+              endif
+              assign cp3_type = 'flat'
+              assign cp3_value = 0
+              if cp3_desc contains '%'
+                assign cp3_type = 'percentage'
+                assign cp3_value = cp3_desc | split: '%' | first | split: 'Save ' | last | split: 'save ' | last | strip | plus: 0
+              else
+                assign cp3_value = cp3_desc | split: '₹' | last | split: ' ' | first | plus: 0
+              endif
+            -%}
+            <div class="smart-coupon-card {% if is_locked %}locked{% else %}unlocked{% endif %}" data-code="{{ cp3_code }}" data-min="{{ cp3_min }}" data-type="{{ cp3_type }}" data-value="{{ cp3_value }}">
+              <div class="smart-coupon-badge">
+                <i class="fa {% if is_locked %}fa-lock{% else %}fa-tag{% endif %}"></i> {{ cp3_code }}
+              </div>
+              <div class="smart-coupon-desc">{{ cp3_desc }}</div>
+              {%- if is_locked -%}
+                <div class="smart-coupon-status">Add ₹{{ diff }} more to unlock</div>
+              {%- else -%}
+                <div class="smart-coupon-status tap-to-apply">TAP TO APPLY</div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Actions / Checkout -->
+    <div class="smart-bottom-actions">
+      {%- if cart.cart_level_discount_applications.size > 0 -%}
+        <div class="smart-discount-info">
+          {%- for discount in cart.cart_level_discount_applications -%}
+            <div class="smart-discount-line">
+              <span><i class="fa fa-gift"></i> {{ discount.title }}</span>
+              <span>-{{ discount.total_allocated_amount | money }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <!-- Pricing Breakdown -->
+      <div class="smart-pricing-breakdown" style="border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="smart-delivery-line" style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; color: #4a5568;">
+          <span>Delivery</span>
+          <span class="js-delivery-status" style="color: #2e7d32; font-weight: bold;">FREE</span>
+        </div>
+        <div class="smart-coupon-discount-info" style="display: none; justify-content: space-between; font-size: 14px; color: #8f0c0f; font-weight: 500; margin-bottom: 6px;">
+          <span><i class="fa fa-tag"></i> Discount (<span class="js-applied-coupon-code"></span>)</span>
+          <span class="js-applied-coupon-amount">-₹0.00</span>
+        </div>
+      </div>
+
+      <div class="smart-subtotal" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-bottom: 15px;">
+        <span class="text">Subtotal</span>
+        <div class="subtotal-price-box">
+          <span class="js-original-subtotal" style="text-decoration: line-through; color: #999; margin-right: 5px; display: none;"></span>
+          <span class="js-total-price">{{ cart.total_price | money }}</span>
+        </div>
+      </div>
+      <form action="/cart" method="post" novalidate class="cart">
+        <div class="smart-checkout-wrap">
+          <button class="smart-buy-now-btn" id="smart-cart-buy-now" type="submit" name="checkout">
+            <span class="smart-buy-now-text">Buy Now</span>
+            <span class="smart-buy-now-payment-icons">
+              <img src="{{ 'pay-paytm.svg' | asset_url }}" alt="Paytm" class="smart-pay-icon">
+              <img src="{{ 'pay-phonepe.svg' | asset_url }}" alt="PhonePe" class="smart-pay-icon">
+              <img src="{{ 'pay-gpay.svg' | asset_url }}" alt="Google Pay" class="smart-pay-icon">
+              <img src="{{ 'pay-upi.svg' | asset_url }}" alt="UPI" class="smart-pay-icon">
+            </span>
+          </button>
+        </div>
+      </form>
+      <div class="smart-powered-by">
+        Powered by Arham
+      </div>
+    </div>
+
+    {% if settings.smart_identity_enabled %}
+    <!-- Extract logged-in customer info if available -->
+    {%- liquid
+      assign has_customer = false
+      assign cust_name = ""
+      assign cust_phone = ""
+      assign cust_address = ""
+      assign cust_city = ""
+      assign cust_state = ""
+      assign cust_zip = ""
+      assign cust_email = ""
+
+      if customer
+        assign has_customer = true
+        assign cust_name = customer.name
+        assign cust_phone = customer.phone | default: customer.default_address.phone
+        assign cust_email = customer.email
+        if customer.default_address
+          assign cust_address = customer.default_address.address1
+          assign cust_city = customer.default_address.city
+          assign cust_state = customer.default_address.province
+          assign cust_zip = customer.default_address.zip
+        endif
+      endif
+    -%}
+
+    <!-- Smart Identity Modal Overlay -->
+    <div class="smart-id-modal-overlay" id="smart-id-modal" style="display: none;"
+      data-has-customer="{{ has_customer }}"
+      data-cust-name="{{ cust_name | escape }}"
+      data-cust-phone="{{ cust_phone | escape }}"
+      data-cust-email="{{ cust_email | escape }}"
+      data-cust-address="{{ cust_address | escape }}"
+      data-cust-city="{{ cust_city | escape }}"
+      data-cust-state="{{ cust_state | escape }}"
+      data-cust-zip="{{ cust_zip | escape }}"
+    >
+      <div class="smart-id-modal-container">
+        <button class="smart-id-modal-close" id="smart-id-modal-close-btn" type="button">&times;</button>
+        
+        <!-- Step 1: Enter Phone Number -->
+        <div class="smart-id-modal-step active" id="smart-id-modal-step-phone">
+          <h3 class="smart-id-modal-title">Almost there...</h3>
+          <p class="smart-id-modal-subtitle">Verify your phone number to place an order</p>
+          
+          <div class="smart-id-modal-input-wrapper">
+            <div class="smart-id-modal-country-select">
+              <span class="smart-id-modal-flag">🇮🇳</span>
+              <span class="smart-id-modal-code">+91</span>
+            </div>
+            <input type="tel" id="smart-id-modal-phone-input" placeholder="Enter phone number" maxlength="10">
+          </div>
+          
+          <button class="smart-id-modal-submit-btn" id="smart-id-modal-submit-phone" type="button">
+            Continue
+          </button>
+        </div>
+
+        <!-- Step 3: Custom Checkout Screen -->
+        <div class="smart-id-modal-step" id="smart-id-modal-step-checkout" style="display: none;">
+          <!-- Header block -->
+          <div class="smart-checkout-header">
+            <span class="smart-checkout-back" id="smart-checkout-back-btn"><i class="fa fa-arrow-left"></i></span>
+            <span class="smart-checkout-logo">Checkout</span>
+            <span class="smart-checkout-total" id="smart-checkout-header-total">₹0.00</span>
+          </div>
+
+          <div class="smart-checkout-scroll-content">
+            <!-- Order summary toggle -->
+            <div class="smart-checkout-summary-toggle" id="smart-checkout-summary-toggle">
+              <span>Order summary (<span id="smart-checkout-summary-count">0 items</span>)</span>
+              <i class="fa fa-chevron-down"></i>
+            </div>
+            
+            <!-- Collapsible cart items list -->
+            <div class="smart-checkout-summary-items" id="smart-checkout-summary-items" style="display: none;">
+              <!-- Dynamic items inserted by JS -->
+            </div>
+
+            <!-- Deliver To preview block -->
+            <div class="smart-checkout-section-card">
+              <div class="smart-checkout-card-header">
+                <span>Deliver to</span>
+                <span class="smart-checkout-card-edit" id="smart-checkout-edit-address">Edit</span>
+              </div>
+              <div class="smart-checkout-address-preview">
+                <strong id="smart-checkout-preview-name">Rahul Sharma</strong>
+                <p id="smart-checkout-preview-phone">+91 98765 43210</p>
+                <p id="smart-checkout-preview-address">123, Park Street, Sector 5, Kolkata, West Bengal - 700091</p>
+              </div>
+            </div>
+
+            <!-- Offers & Rewards coupon section -->
+            <div class="smart-checkout-section-card">
+              <div class="smart-checkout-card-header">
+                <span>Offers & Rewards</span>
+              </div>
+              <div class="smart-checkout-coupon-wrapper">
+                <input type="text" id="smart-checkout-coupon-input" placeholder="Enter coupon code">
+                <button type="button" id="smart-checkout-coupon-apply">Apply</button>
+              </div>
+            </div>
+
+            <!-- Payment Methods selector -->
+            <div class="smart-checkout-section-card">
+              <div class="smart-checkout-card-header">
+                <span>Payment methods</span>
+              </div>
+              <div class="smart-checkout-payment-methods">
+                
+                {%- if settings.custom_checkout_enable_upi -%}
+                <!-- UPI Option -->
+                <div class="smart-checkout-payment-option active" data-method="upi">
+                  <label class="smart-checkout-option-label">
+                    <input type="radio" name="smart_payment_method" value="upi" checked>
+                    <span class="option-title">Pay via UPI</span>
+                    <span class="option-icons">
+                      <span class="badge upi">UPI</span>
+                      <span class="badge gpay">GPay</span>
+                    </span>
+                  </label>
+                  <div class="smart-checkout-method-details" id="details-upi">
+                    <p class="payment-helper-text" style="font-size: 13px; color: #6b7280; padding: 8px 12px; margin: 0;">
+                      Pay securely via Google Pay, PhonePe, Paytm, BHIM, or any other UPI app.
+                    </p>
+                  </div>
+                </div>
+                {%- endif -%}
+
+                {%- if settings.custom_checkout_enable_card -%}
+                <!-- Cards Option -->
+                <div class="smart-checkout-payment-option" data-method="card">
+                  <label class="smart-checkout-option-label">
+                    <input type="radio" name="smart_payment_method" value="card">
+                    <span class="option-title">Debit / Credit cards</span>
+                    <span class="option-icons"><i class="fa fa-credit-card"></i></span>
+                  </label>
+                  <div class="smart-checkout-method-details" id="details-card" style="display: none;">
+                    <p class="payment-helper-text" style="font-size: 13px; color: #6b7280; padding: 8px 12px; margin: 0;">
+                      Pay securely using Visa, MasterCard, RuPay, Maestro, or Diner's Club cards.
+                    </p>
+                  </div>
+                </div>
+                {%- endif -%}
+
+                {%- if settings.custom_checkout_enable_netbanking -%}
+                <!-- Netbanking Option -->
+                <div class="smart-checkout-payment-option" data-method="netbanking">
+                  <label class="smart-checkout-option-label">
+                    <input type="radio" name="smart_payment_method" value="netbanking">
+                    <span class="option-title">Netbanking</span>
+                    <span class="option-icons"><i class="fa fa-university"></i></span>
+                  </label>
+                  <div class="smart-checkout-method-details" id="details-netbanking" style="display: none;">
+                    <p class="payment-helper-text" style="font-size: 13px; color: #6b7280; padding: 8px 12px; margin: 0;">
+                      Pay securely via SBI, HDFC, ICICI, Axis, Kotak, or other major Indian banks.
+                    </p>
+                  </div>
+                </div>
+                {%- endif -%}
+
+                {%- if settings.custom_checkout_enable_cod -%}
+                <!-- Cash on Delivery Option -->
+                <div class="smart-checkout-payment-option" data-method="cod">
+                  <label class="smart-checkout-option-label">
+                    <input type="radio" name="smart_payment_method" value="cod">
+                    <span class="option-title">Cash on delivery</span>
+                    <span class="option-text-right">Pay with cash (+ ₹{{ settings.custom_checkout_cod_fee | default: '40' }})</span>
+                  </label>
+                  <div class="smart-checkout-method-details" id="details-cod" style="display: none;">
+                    <p class="cod-helper-text">Pay online to save ₹{{ settings.custom_checkout_cod_fee | default: '40' }} COD fee + get {{ settings.custom_checkout_online_discount | default: '3' }}% additional discount!</p>
+                  </div>
+                </div>
+                {%- endif -%}
+
+              </div>
+            </div>
+            
+            <div class="smart-checkout-logged-row">
+              Logged in with <span id="smart-checkout-logged-phone">+91 98765 43210</span> • <span class="smart-checkout-logout-link" id="smart-checkout-logout">Log out</span>
+            </div>
+          </div>
+
+          <div class="smart-checkout-sticky-footer">
+            <button class="smart-id-modal-submit-btn" id="smart-checkout-place-order" type="button">
+              Place Order
+            </button>
+          </div>
+        </div>
+
+        <!-- Step: Address Selection Screen -->
+        <div class="smart-id-modal-step" id="smart-id-modal-step-addresses" style="display: none;">
+          <div class="smart-checkout-header">
+            <span class="smart-checkout-back" id="smart-addresses-back-btn"><i class="fa fa-arrow-left"></i></span>
+            <span class="smart-checkout-logo">Checkout</span>
+            <span class="smart-checkout-total" id="smart-addresses-header-total">₹0.00</span>
+          </div>
+
+          <div class="smart-checkout-scroll-content">
+            <!-- Deliver To Section with Add button -->
+            <div class="smart-addresses-section-header">
+              <span class="title-left">
+                <i class="fa fa-truck"></i> Deliver To
+                <span class="smart-addresses-badge" id="smart-addresses-badge-nudge" style="display: none;"></span>
+              </span>
+              <button type="button" class="smart-add-address-pill" id="smart-addresses-add-btn">+ Add New Address</button>
+            </div>
+
+            <!-- Address list cards wrapper -->
+            <div class="smart-addresses-list" id="smart-addresses-list-container">
+              <!-- Dynamic address cards loaded by JS -->
+            </div>
+
+            <!-- Order summary toggle -->
+            <div class="smart-checkout-summary-toggle" id="smart-addresses-summary-toggle">
+              <span>Order Summary (<span id="smart-addresses-summary-count">0 items</span>)</span>
+              <i class="fa fa-chevron-down"></i>
+            </div>
+            
+            <!-- Collapsible cart items list -->
+            <div class="smart-checkout-summary-items" id="smart-addresses-summary-items" style="display: none;">
+              <!-- Dynamic items inserted by JS -->
+            </div>
+
+            <!-- Offers & Rewards coupon section -->
+            <div class="smart-checkout-section-card">
+              <div class="smart-checkout-card-header">
+                <span>Offers & Rewards</span>
+              </div>
+              <div class="smart-checkout-coupon-wrapper">
+                <input type="text" id="smart-addresses-coupon-input" placeholder="Enter coupon code">
+                <button type="button" id="smart-addresses-coupon-apply">Apply</button>
+              </div>
+            </div>
+            
+            <div class="smart-checkout-logged-row" style="margin-top: 15px;">
+              Logged in with <span id="smart-addresses-logged-phone">+91 98765 43210</span> • <span class="smart-checkout-logout-link" id="smart-addresses-logout">Log out</span>
+            </div>
+          </div>
+
+          <div class="smart-checkout-sticky-footer">
+            <button class="smart-id-modal-submit-btn" id="smart-addresses-proceed-btn" type="button">
+              Proceed
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 4: Address Capture Form -->
+        <div class="smart-id-modal-step" id="smart-id-modal-step-address" style="display: none;">
+          <h3 class="smart-id-modal-title">Delivery Details</h3>
+          <p class="smart-id-modal-subtitle">Please enter your shipping address to proceed</p>
+          
+          <form class="smart-id-modal-address-form" autocomplete="on" onsubmit="return false;">
+            <div class="smart-id-form-group">
+              <label class="smart-id-form-label">Full Name</label>
+              <input type="text" id="smart-id-form-name" class="smart-id-form-input" placeholder="Enter your full name" autocomplete="name">
+            </div>
+            <div class="smart-id-form-group">
+              <label class="smart-id-form-label">Email Address <span style="font-size:0.75rem;font-weight:400;color:#94a3b8;">(Optional)</span></label>
+              <input type="email" id="smart-id-form-email" class="smart-id-form-input" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="smart-id-form-group">
+              <label class="smart-id-form-label">Address Tag / Label <span style="font-size:0.75rem;font-weight:400;color:#94a3b8;">(Optional)</span></label>
+              <input type="text" id="smart-id-form-label" class="smart-id-form-input" placeholder="e.g. Home, Office (Default: Address X)" autocomplete="off">
+            </div>
+            <div class="smart-id-form-group">
+              <label class="smart-id-form-label">Address (House No, Building, Street)</label>
+              <input type="text" id="smart-id-form-address" class="smart-id-form-input" placeholder="Flat / House No. / Area" autocomplete="street-address">
+            </div>
+            <div class="smart-id-form-row">
+              <div class="smart-id-form-group half-width">
+                <label class="smart-id-form-label">Pincode</label>
+                <input type="tel" id="smart-id-form-pincode" class="smart-id-form-input" placeholder="6-digit PIN" maxlength="6" autocomplete="postal-code">
+              </div>
+              <div class="smart-id-form-group half-width">
+                <label class="smart-id-form-label">City</label>
+                <input type="text" id="smart-id-form-city" class="smart-id-form-input" placeholder="City" readonly autocomplete="address-level2">
+              </div>
+            </div>
+            
+            <div id="smart-pincode-status" class="smart-pincode-status-text" style="display: none; font-size: 0.72rem; font-weight: 700; margin-top: -6px; padding: 0 4px;"></div>
+ 
+            <div class="smart-id-form-group">
+              <label class="smart-id-form-label">State</label>
+              <select id="smart-id-form-state" class="smart-id-form-input select" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path fill=%22%2371717a%22 d=%22M6 8.825L1.175 4 2.587 2.587 6 6l3.413-3.413L10.825 4z%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 10px; -webkit-appearance: none; -moz-appearance: none; appearance: none; padding-right: 32px;" autocomplete="address-level1">
+                <option value="">Select State</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                <option value="Ladakh">Ladakh</option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Puducherry">Puducherry</option>
+              </select>
+            </div>
+          </form>
+ 
+          <button class="smart-id-modal-submit-btn" id="smart-id-modal-save-address" type="button" style="margin-top: 16px;">
+            Save & Continue
+          </button>
+        </div>
+
+        <!-- Step 5: Order Success / Confirmed -->
+        <div class="smart-id-modal-step" id="smart-id-modal-step-success" style="display: none;">
+          <div class="smart-success-container" style="text-align: center; padding: 24px 16px;">
+            <div class="smart-success-icon-wrapper" style="margin-bottom: 20px;">
+              <span class="smart-success-checkmark-circle" style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background-color: #22c55e; color: #ffffff; font-size: 32px; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);">✓</span>
+            </div>
+            <h3 class="smart-id-modal-title" style="margin-bottom: 8px;">Order Confirmed!</h3>
+            <p class="smart-id-modal-subtitle" style="margin-bottom: 24px;">Thank you, your order <strong id="smart-success-order-name">#1002</strong> has been placed.</p>
+            
+            <div class="smart-success-details-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: left;">
+              <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: #475569; text-transform: uppercase; letter-spacing: 0.05em;">Delivery Details</h4>
+              <p style="margin: 0 0 6px 0; font-size: 0.9rem; font-weight: 600;" id="smart-success-name">Rahul Sharma</p>
+              <p style="margin: 0 0 6px 0; font-size: 0.85rem; color: #64748b;" id="smart-success-phone">+91 97691 04020</p>
+              <p style="margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.4;" id="smart-success-address">123, Park Street, Kolkata, West Bengal - 700091</p>
+            </div>
+
+            <button class="smart-id-modal-submit-btn" id="smart-success-continue-btn" type="button">
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+
+        <div class="smart-id-modal-footer">
+          Powered by Arham
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% else %}    
+    <div class="js-cart-inner cart-empty smart-cart-empty">
+      <div class="smart-empty-icon">
+        <i class="fa fa-shopping-bag"></i>
+      </div>
+      <p>Your cart is empty</p>   
+      <a href="/collections/all" class="smart-continue-shopping">Continue Shopping</a>
+    </div> 
+  {% endif %} 
+</div>

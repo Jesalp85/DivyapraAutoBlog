@@ -1,0 +1,187 @@
+{% if section.settings.enable_bannar_section %}
+  <div class="image-banner-section">
+    <section
+      class="background-section"
+      style="
+        background-color: {{ section.settings.background_color }};
+        background-image: url('{% if section.settings.background_image %}{{ section.settings.background_image | image_url }}{% else %}//via.placeholder.com/1920x620{% endif %}');
+        background-size: cover;
+        background-position: center;
+      "
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-12">
+            <div class="banner-content">
+              <h1 style="color: {{ section.settings.heading_text_color }}">
+                {{ section.settings.heading_text }}
+              </h1>
+
+              <h4 class="text-white my-2 my-lg-0">
+                {{ section.settings.sub_head }}
+                <span style="color: {{ section.settings.span_text_color }}">
+                  {{ section.settings.span_text }}
+                </span>
+              </h4>
+
+              <p class="mt-2 mt-lg-3 mb-lg-4 mb-3 text-white">{{ section.settings.paragraph_text }}</p>
+              <h6 class="text-white">{{ section.settings.box_head_text }}</h6>
+              <div class="row mt-3 mt-lg-4">
+                <!-- First image item -->
+                <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center gap-2 gap-lg-3">
+                  <div class="bg-white rounded-2 p-2 product-img-box">
+                    <img
+                      src="{% if section.settings.image1 %}{{ section.settings.image1 | image_url }}{% else %}//via.placeholder.com/100x100{% endif %}"
+                      alt="Precisely selected meat from the best breeders"
+                      class="img-fluid"
+                    >
+                  </div>
+                  <p class="m-0">{{ section.settings.image1_description }}</p>
+                </div>
+                <!-- Second image item -->
+                <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center gap-2 gap-lg-3 my-3 my-lg-0">
+                  <div class="bg-white rounded-2 p-2 product-img-box">
+                    <img
+                      src="{% if section.settings.image2 %}{{ section.settings.image2 | image_url }}{% else %}//via.placeholder.com/100x100{% endif %}"
+                      alt="Only natural products from local farmers"
+                      class="img-fluid"
+                    >
+                  </div>
+                  <p class="m-0">{{ section.settings.image2_description }}</p>
+                </div>
+                <!-- Third image item -->
+                <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center gap-2 gap-lg-3">
+                  <div class="bg-white rounded-2 p-2 product-img-box">
+                    <img
+                      src="{% if section.settings.image3 %}{{ section.settings.image3 | image_url }}{% else %}//via.placeholder.com/100x100{% endif %}"
+                      alt="We use only biodegradable packing"
+                      class="img-fluid"
+                    >
+                  </div>
+                  <p class="m-0">{{ section.settings.image3_description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Our Value Banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_bannar_section",
+      "label": "Enable Banner Section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF" // Default background color
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "family"
+    },
+    {
+      "type": "color",
+      "id": "heading_text_color",
+      "label": "Heading Text Color",
+      "default": "#FF782C"
+    },
+    {
+      "type": "text",
+      "id": "sub_head",
+      "label": "Sub Heading Text",
+      "default": "Welcome to Grocery ecoStore"
+    },
+    {
+      "type": "text",
+      "id": "span_text",
+      "label": "Highlighted Span Text",
+      "default": "that satisfy the soul."
+    },
+    {
+      "type": "color",
+      "id": "span_text_color",
+      "label": "Highlighted Span Text Color",
+      "default": "#00A850" // Default color
+    },
+    {
+      "type": "text",
+      "id": "paragraph_text",
+      "label": "Paragraph Text",
+      "default": "Free shipping on all your order. We deliver, you enjoy."
+    },
+    {
+      "type": "text",
+      "id": "box_head_text",
+      "label": "Box Head Text",
+      "default": "what is important for us?"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "banner_image_alt",
+      "label": "Image Alt Text",
+      "default": "Hero Banner Image 500x500"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "First Image"
+    },
+    {
+      "type": "text",
+      "id": "image1_description",
+      "label": "First Image Description",
+      "default": "Precisely selected meat from the best breeders."
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Second Image"
+    },
+    {
+      "type": "text",
+      "id": "image2_description",
+      "label": "Second Image Description",
+      "default": "Only natural products from local farmers."
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Third Image"
+    },
+    {
+      "type": "text",
+      "id": "image3_description",
+      "label": "Third Image Description",
+      "default": "We use only biodegradable packing."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Value Banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

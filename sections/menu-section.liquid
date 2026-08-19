@@ -1,0 +1,256 @@
+  <section class="our-menu py-space-80">
+  <div class="container">
+    <div class="text-center mb-3 mb-lg-4">
+      <div class="title-text mb-1 mx-auto" style="background-color: {{ section.settings.title_bg_color }}">
+        {{ section.settings.eyebrow_text }}
+      </div>
+      <h2 class="">{{ section.settings.heading_text }}</h2>
+      <p>{{ section.settings.description_text }}</p>
+    </div>
+    <div class="row">
+      {% for block in section.blocks %}
+        <div class="col-md-6 col-12 mb-4">
+          <div class="border rounded-4 p-4 p-lg-5 bg-white">
+            <!-- First Menu Item -->
+            <div class="menu-items d-flex gap-3 gap-lg-4 align-items-center mb-1 mb-lg-2">
+              <a href="{{ block.settings.item_1_link }}" class="flex-shrink-0">
+                <h5>
+                  {{- block.settings.item_1_name -}}
+                </h5>
+              </a>
+              <hr class="w-100">
+              <h5 style="color:var(--color-breadcrum)" class="color-quat flex-shrink-0">
+                {{ block.settings.item_1_price }}
+              </h5>
+            </div>
+            <p class="mb-3 mb-lg-4">{{ block.settings.item_1_description }}</p>
+
+            <!-- Second Menu Item -->
+            <div class="menu-items d-flex gap-3 gap-lg-4 align-items-center mb-1 mb-lg-2">
+              <a href="{{ block.settings.item_2_link }}" class="flex-shrink-0">
+                <h5>
+                  {{- block.settings.item_2_name -}}
+                </h5>
+              </a>
+              <hr class="w-100">
+              <h5 style="color:var(--color-breadcrum)" class="color-quat flex-shrink-0">
+                {{ block.settings.item_2_price }}
+              </h5>
+            </div>
+            <p class="mb-3 mb-lg-4">{{ block.settings.item_2_description }}</p>
+
+            <!-- Third Menu Item -->
+            <div class="menu-items d-flex gap-3 gap-lg-4 align-items-center mb-1 mb-lg-2">
+              <a href="{{ block.settings.item_3_link }}" class="flex-shrink-0">
+                <h5>
+                  {{- block.settings.item_3_name -}}
+                </h5>
+              </a>
+              <hr class="w-100">
+              <h5 style="color:var(--color-breadcrum)" class="color-quat flex-shrink-0">
+                {{ block.settings.item_3_price }}
+              </h5>
+            </div>
+            <p class="mb-3 mb-lg-4">{{ block.settings.item_3_description }}</p>
+
+            <!-- Fourth Menu Item (Crunch Grillhouse) -->
+            <div class="menu-items d-flex gap-3 gap-lg-4 align-items-center mb-1 mb-lg-2">
+              <a href="{{ block.settings.item_4_link }}" class="flex-shrink-0">
+                <h5>
+                  {{- block.settings.item_4_name -}}
+                </h5>
+              </a>
+              <hr class="w-100">
+              <h5 style="color:var(--color-breadcrum)" class="color-quat flex-shrink-0">
+                {{ block.settings.item_4_price }}
+              </h5>
+            </div>
+            <p class="mb-3 mb-lg-4">{{ block.settings.item_4_description }}</p>
+
+            <!-- Fifth Menu Item (Hamburger Cheese) -->
+            <div class="menu-items d-flex gap-3 gap-lg-4 align-items-center mb-1 mb-lg-2">
+              <a href="{{ block.settings.item_5_link }}" class="flex-shrink-0">
+                <h5>
+                  {{- block.settings.item_5_name -}}
+                </h5>
+              </a>
+              <hr class="w-100">
+              <h5 style="color:var(--color-breadcrum)" class="color-quat flex-shrink-0">
+                {{ block.settings.item_5_price }}
+              </h5>
+            </div>
+            <p class="mb-3 mb-lg-4">{{ block.settings.item_5_description }}</p>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Our Menu Section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "title_bg_color",
+      "label": "Sub Title Background Color",
+      "default": "#255DCC"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Text",
+      "default": "MENU"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "From Our Menu"
+    },
+    {
+      "type": "textarea",
+      "id": "description_text",
+      "label": "Description Text",
+      "default": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada. Purus in pellentesque a convallis morbi convallis."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "Menu Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "item_1_name",
+          "label": "First Item Name",
+          "default": "Grill house"
+        },
+        {
+          "type": "text",
+          "id": "item_1_price",
+          "label": "First Item Price",
+          "default": "$36"
+        },
+        {
+          "type": "textarea",
+          "id": "item_1_description",
+          "label": "First Item Description",
+          "default": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada."
+        },
+        {
+          "type": "url",
+          "id": "item_1_link",
+          "label": "First Item Link",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "item_2_name",
+          "label": "Second Item Name",
+          "default": "Hot dogs"
+        },
+        {
+          "type": "text",
+          "id": "item_2_price",
+          "label": "Second Item Price",
+          "default": "$38"
+        },
+        {
+          "type": "textarea",
+          "id": "item_2_description",
+          "label": "Second Item Description",
+          "default": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada."
+        },
+        {
+          "type": "url",
+          "id": "item_2_link",
+          "label": "Second Item Link",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "item_3_name",
+          "label": "Third Item Name",
+          "default": "Petti Burger"
+        },
+        {
+          "type": "text",
+          "id": "item_3_price",
+          "label": "Third Item Price",
+          "default": "$24"
+        },
+        {
+          "type": "textarea",
+          "id": "item_3_description",
+          "label": "Third Item Description",
+          "default": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada."
+        },
+        {
+          "type": "url",
+          "id": "item_3_link",
+          "label": "Third Item Link",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "item_4_name",
+          "label": "Fourth Item Name",
+          "default": "Crunch Grillhouse"
+        },
+        {
+          "type": "text",
+          "id": "item_4_price",
+          "label": "Fourth Item Price",
+          "default": "$42"
+        },
+        {
+          "type": "textarea",
+          "id": "item_4_description",
+          "label": "Fourth Item Description",
+          "default": "Crispy Crunch Grillhouse special with secret sauce."
+        },
+        {
+          "type": "url",
+          "id": "item_4_link",
+          "label": "Fourth Item Link",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "item_5_name",
+          "label": "Fifth Item Name",
+          "default": "Hamburger Cheese"
+        },
+        {
+          "type": "text",
+          "id": "item_5_price",
+          "label": "Fifth Item Price",
+          "default": "$30"
+        },
+        {
+          "type": "textarea",
+          "id": "item_5_description",
+          "label": "Fifth Item Description",
+          "default": "Juicy hamburger with melted cheese."
+        },
+        {
+          "type": "url",
+          "id": "item_5_link",
+          "label": "Fifth Item Link",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Menu Section",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

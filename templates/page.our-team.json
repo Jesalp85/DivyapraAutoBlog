@@ -1,0 +1,234 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "show_title_page": false,
+        "h_position": "left",
+        "v_position": "middle",
+        "txt_align": "left",
+        "bg_breadcrumb_blog": "shopify://shop_images/title-bg.jpg",
+        "bg": "#ffffff",
+        "b_height": 400,
+        "mg_bottom": 0,
+        "mobile_bg": "#ffffff",
+        "mobile_ht": 200,
+        "mobile_mg_bottom": 0
+      }
+    },
+    "2f399b88-d4b1-42e5-afa6-99135e10ab08": {
+      "type": "custom-section",
+      "blocks": {
+        "3a7e5f26-9d34-4c6b-a840-6f7447dfc702": {
+          "type": "text",
+          "settings": {
+            "title": "",
+            "team_label": "",
+            "text": "",
+            "width": "3",
+            "h_position": "center",
+            "v_position": "middle",
+            "txt_align": "center",
+            "mg": ",,80px,",
+            "pd": "",
+            "mg_mb": ",,0px,",
+            "pd_mb": ""
+          }
+        },
+        "f052fa9b-9552-4482-968d-480960e60141": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "center",
+            "v_position": "middle",
+            "txt_align": "center",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-1.png",
+            "link": "#",
+            "title": "Sarah Johnson",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        },
+        "2cb42811-f196-4c15-9289-3338c555f772": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "left",
+            "v_position": "middle",
+            "txt_align": "left",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-2.png",
+            "link": "#",
+            "title": "Ethan Rodriguez",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        },
+        "4195d392-6d33-46a6-9fe2-d221f9f0c9f8": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "left",
+            "v_position": "middle",
+            "txt_align": "left",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-3.png",
+            "link": "#",
+            "title": "Emily Brooks",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        },
+        "09bcd19c-7278-4453-80a3-1ea45d0bb7d9": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "left",
+            "v_position": "middle",
+            "txt_align": "left",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-4.png",
+            "link": "#",
+            "title": "South Fulon",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        },
+        "f052fa9b-9552-4482-968d-480960e60144": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "center",
+            "v_position": "middle",
+            "txt_align": "center",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-1.png",
+            "link": "#",
+            "title": "Sarah Johnson",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        },
+        "2cb42811-f196-4c15-9289-3338c555f775": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "left",
+            "v_position": "middle",
+            "txt_align": "left",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-2.png",
+            "link": "#",
+            "title": "Ethan Rodriguez",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        },
+        "4195d392-6d33-46a6-9fe2-d221f9f0c9f6": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "left",
+            "v_position": "middle",
+            "txt_align": "left",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-3.png",
+            "link": "#",
+            "title": "Emily Brooks",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        },
+        "09bcd19c-7278-4453-80a3-1ea45d0bb7d7": {
+          "type": "image_card",
+          "settings": {
+            "width": "3",
+            "h_position": "left",
+            "v_position": "middle",
+            "txt_align": "left",
+            "use_eq_height": true,
+            "image_ratio": "ratio2_3",
+            "image": "shopify://shop_images/team-4.png",
+            "link": "#",
+            "title": "South Fulon",
+            "subtitle": "Lorem ipsum dolor sit amet consectetur. Sed euismod justo volutpat malesuada.",
+            "team_label": "Maker",
+            "mg": "",
+            "pd": ",,30px,",
+            "mg_mb": "",
+            "pd_mb": ",,30px,"
+          }
+        }
+      },
+      "block_order": [
+        "3a7e5f26-9d34-4c6b-a840-6f7447dfc702",
+        "f052fa9b-9552-4482-968d-480960e60141",
+        "2cb42811-f196-4c15-9289-3338c555f772",
+        "4195d392-6d33-46a6-9fe2-d221f9f0c9f8",
+        "09bcd19c-7278-4453-80a3-1ea45d0bb7d9",
+        "f052fa9b-9552-4482-968d-480960e60144",
+        "2cb42811-f196-4c15-9289-3338c555f775",
+        "4195d392-6d33-46a6-9fe2-d221f9f0c9f6",
+        "09bcd19c-7278-4453-80a3-1ea45d0bb7d7"
+      ],
+      "settings": {
+        "border": 15,
+        "layout": "container",
+        "cl_bg": "#FAF7F2",
+        "mg": "",
+        "pd": "20px,,80px,",
+        "mg_mb": "",
+        "pd_mb": "20px,,40px,"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "2f399b88-d4b1-42e5-afa6-99135e10ab08"
+  ]
+}

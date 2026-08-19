@@ -1,0 +1,1067 @@
+{% comment %} {% if section.settings.home_page_only == false or template.name == 'index' %}
+  {% if section.settings.header_use_top_header %}
+    <div class="topbar {% if section.settings.hide_top_header_mobile %}hide-mobile{% endif %} {% if section.settings.show_close_btn %} show-close-button parent-close{% endif %}">
+      {% if section.settings.show_close_btn %}
+        <span class="announcement-close btn-close">
+          {% if section.settings.title_close_btn != blank %}
+            <span class="title">{{ section.settings.title_close_btn }}</span>
+          {% endif %}
+          <i class="icon-btn-close icon-x"></i>
+        </span>
+      {% endif %}
+      <div class="{{section.settings.layout}}">
+        <div class="announcement-bar">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'message' -%}
+                {% assign text_align = block.settings.text_align %}
+                <div class="announcement-marquee">
+  <div class="announcement-marquee__track">
+
+<span class="announcement-item">
+  {{ block.settings.message_1 }}
+</span>
+
+<span class="announcement-separator">|</span>
+
+<span class="announcement-item">
+  {{ block.settings.message_2 }}
+</span>
+
+<span class="announcement-separator">|</span>
+
+<span class="announcement-item">
+  {{ block.settings.message_3 }}
+</span>
+
+<span class="announcement-separator">|</span>
+
+<!-- Duplicate for infinite scrolling -->
+
+<span class="announcement-item">
+  {{ block.settings.message_1 }}
+</span>
+
+<span class="announcement-separator">|</span>
+
+<span class="announcement-item">
+  {{ block.settings.message_2 }}
+</span>
+
+<span class="announcement-separator">|</span>
+
+<span class="announcement-item">
+  {{ block.settings.message_3 }}
+</span>
+
+  </div>
+</div>
+              {%- when 'banner' -%}
+                {%- assign assign h_des = block.settings.h_des -%}
+                {%- assign assign h_tb = block.settings.h_tb -%}
+                {%- assign assign h_mb = block.settings.h_mb -%}
+                {% assign image = block.settings.image_sl %}
+                {% assign image_mobile = block.settings.image_mobile | default: block.settings.image_sl %}
+                {% assign url = block.settings.link_img %}
+                {% assign open_link = block.settings.open_link %}
+                <div class="banner-top" style="--ui-height-pc:{{ h_des }}; --ui-height-tb:{{ h_tb }};--ui-height-mb:{{ h_mb }}">
+                  {% if image != blank %}
+                    {% render 'banner-image'
+                      , image: image
+                      , image_class: 'w-full h-full sm:d-none'
+                      , url: url
+                      , open_link: open_link %}
+                    {% render 'banner-image'
+                      , image: image_mobile
+                      , image_class: 'w-full h-full d-none sm:d-block'
+                      , url: url
+                      , open_link: open_link %}
+                  {% else %}
+                    <div class="image-card__img absolute inset-0 w-full h-full" style="--aspect-ratio: 3;">
+                      {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+                      {{ 'hero-apparel-' | append: current | placeholder_svg_tag: 'placeholder-svg w-full h-full object-cover' }}
+                    </div>
+                  {% endif %}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+    {% style %}:root
+    {
+      --bg-top-bar: {{ section.settings.bg_top_header }};
+      --color-bd-top-bar: {{ section.settings.cl_bd_top_bar }};
+      --color-text-top-bar: {{ section.settings.cl_text }};
+    }
+    .alo_slidershow {
+      --height-bar: 40px;
+    }
+  {% endstyle %}
+{% else %}
+  {% style %}
+    .alo_slidershow {
+      --height-bar: 0;
+    }
+  {% endstyle %}
+{% endif %}{% endif %}{% schema %}
+{
+  "name": "Top Bar",
+  "class": "cms-top-header cms-top-bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_top_header",
+      "label": "Show top header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_top_header_mobile",
+      "label": "Hide header (mobile)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": true
+    }, {
+      "type": "checkbox",
+      "id": "show_close_btn",
+      "label": "Show close button",
+      "default": false
+    }, {
+      "type": "text",
+      "id": "title_close_btn",
+      "label": "Title close button",
+      "info": "Leave it blank if you don't want to show it"
+    }, {
+      "type": "select",
+      "id": "layout",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        }, {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "label": "Layout"
+    }, {
+      "type": "header",
+      "content": "Design"
+    }, {
+      "type": "color",
+      "id": "bg_top_header",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    }, {
+      "type": "color",
+      "id": "cl_bd_top_bar",
+      "label": "Color border",
+      "default": "#f5f5f5"
+    }, {
+      "type": "color",
+      "id": "cl_text",
+      "label": "Color text",
+      "default": "#777"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Announcement text",
+      "limit": 1,
+      "settings": [
+        {
+  "type": "text",
+  "id": "message_1",
+  "label": "Announcement 1",
+  "default": "5% OFF ON YOUR FIRST ORDER"
+},
+{
+  "type": "text",
+  "id": "message_2",
+  "label": "Announcement 2",
+  "default": "UPTO 25% OFF ON COMBOS"
+},
+{
+  "type": "text",
+  "id": "message_3",
+  "label": "Announcement 3",
+  "default": "FREE SHIPPING ABOVE ₹349"
+},
+        {
+          "type": "text",
+          "id": "text_link",
+          "label": "Link",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button link",
+          "info": "Note: if you want to display this button then you need to fill button link"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            }, {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in",
+          "default": "_blank"
+        }, {
+          "type": "select",
+          "id": "text_align",
+          "default": "topbar-left",
+          "options": [
+            {
+              "value": "topbar-left",
+              "label": "Left"
+            }, {
+              "value": "topbar-center",
+              "label": "center"
+            }, {
+              "value": "topbar-right",
+              "label": "Right"
+            }
+          ],
+          "label": "text align:"
+        }, {
+          "type": "color",
+          "id": "color_link",
+          "label": "color",
+          "default": "#1a1a1a"
+        }, {
+          "type": "color",
+          "id": "bg_color_link",
+          "label": "Background color",
+          "default": "#fff"
+        }, {
+          "type": "color",
+          "id": "color_link_hover",
+          "label": "color (Hover)",
+          "default": "#1a1a1a"
+        }, {
+          "type": "color",
+          "id": "bg_color_link_hover",
+          "label": "Background color (Hover)",
+          "default": "#fff"
+        }
+      ]
+    }, {
+      "type": "banner",
+      "name": "Banner top",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "h_des",
+          "label": "Desktop Large",
+          "placeholder": "150px",
+          "default": "150px"
+        },
+        {
+          "type": "text",
+          "id": "h_tb",
+          "label": "Tablet (<= 1024px)",
+          "placeholder": "100px",
+          "default": "100px"
+        },
+        {
+          "type": "text",
+          "id": "h_mb",
+          "label": "Mobile (<= 767px)",
+          "placeholder": "150px",
+          "default": "150px"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_sl",
+          "label": "Image"
+        }, {
+          "type": "url",
+          "id": "link_img",
+          "label": "Link image",
+          "info": "The image becomes clickable."
+        }, {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            }, {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in",
+          "default": "_blank"
+        }
+      ]
+    }
+
+  ]
+}{% endschema %}
+
+{% javascript %}
+  jQuery(document).ready(function($) {
+    $('.btn-close').on('click', function() {
+      $(this).parents('.parent-close').slideUp();
+    })
+  });
+{% endjavascript %} {% endcomment %}
+
+
+{% comment %} {% if section.settings.home_page_only == false or template.name == 'index' %}
+  {% if section.settings.header_use_top_header %}
+    <div class="topbar {% if section.settings.hide_top_header_mobile %}hide-mobile{% endif %} {% if section.settings.show_close_btn %} show-close-button parent-close{% endif %}" style="background-color: {{ section.settings.bg_top_header }}; border-color: {{ section.settings.cl_bd_top_bar }}; color: {{ section.settings.cl_text }};">
+      {% if section.settings.show_close_btn %}
+        <span class="announcement-close btn-close">
+          {% if section.settings.title_close_btn != blank %}
+            <span class="title">{{ section.settings.title_close_btn }}</span>
+          {% endif %}
+          <i class="icon-btn-close icon-x"></i>
+        </span>
+      {% endif %}
+      <div class="{{section.settings.layout}}">
+        <div class="announcement-bar">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'message' -%}
+                {% assign text_align = block.settings.text_align %}
+                <div class="announcement-marquee">
+                  <div class="announcement-marquee__track">
+                    <span class="announcement-item" style="color: {{ section.settings.cl_text }};">
+                      {{ block.settings.message_1 }}
+                    </span>
+                    <span class="announcement-separator" style="color: {{ section.settings.cl_text }};">|</span>
+                    <span class="announcement-item" style="color: {{ section.settings.cl_text }};">
+                      {{ block.settings.message_2 }}
+                    </span>
+                    <span class="announcement-separator" style="color: {{ section.settings.cl_text }};">|</span>
+                    <span class="announcement-item" style="color: {{ section.settings.cl_text }};">
+                      {{ block.settings.message_3 }}
+                    </span>
+                    <span class="announcement-separator" style="color: {{ section.settings.cl_text }};">|</span>
+                    <!-- Duplicate for infinite scrolling -->
+                    <span class="announcement-item" style="color: {{ section.settings.cl_text }};">
+                      {{ block.settings.message_1 }}
+                    </span>
+                    <span class="announcement-separator" style="color: {{ section.settings.cl_text }};">|</span>
+                    <span class="announcement-item" style="color: {{ section.settings.cl_text }};">
+                      {{ block.settings.message_2 }}
+                    </span>
+                    <span class="announcement-separator" style="color: {{ section.settings.cl_text }};">|</span>
+                    <span class="announcement-item" style="color: {{ section.settings.cl_text }};">
+                      {{ block.settings.message_3 }}
+                    </span>
+                  </div>
+                </div>
+              {%- when 'banner' -%}
+                {%- assign assign h_des = block.settings.h_des -%}
+                {%- assign assign h_tb = block.settings.h_tb -%}
+                {%- assign assign h_mb = block.settings.h_mb -%}
+                {% assign image = block.settings.image_sl %}
+                {% assign image_mobile = block.settings.image_mobile | default: block.settings.image_sl %}
+                {% assign url = block.settings.link_img %}
+                {% assign open_link = block.settings.open_link %}
+                <div class="banner-top" style="--ui-height-pc:{{ h_des }}; --ui-height-tb:{{ h_tb }};--ui-height-mb:{{ h_mb }}">
+                  {% if image != blank %}
+                    {% render 'banner-image', image: image, image_class: 'w-full h-full sm:d-none', url: url, open_link: open_link %}
+                    {% render 'banner-image', image: image_mobile, image_class: 'w-full h-full d-none sm:d-block', url: url, open_link: open_link %}
+                  {% else %}
+                    <div class="image-card__img absolute inset-0 w-full h-full" style="--aspect-ratio: 3;">
+                      {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+                      {{ 'hero-apparel-' | append: current | placeholder_svg_tag: 'placeholder-svg w-full h-full object-cover' }}
+                    </div>
+                  {% endif %}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Top Bar",
+  "class": "cms-top-header cms-top-bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_top_header",
+      "label": "Show top header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_top_header_mobile",
+      "label": "Hide header (mobile)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_btn",
+      "label": "Show close button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "title_close_btn",
+      "label": "Title close button",
+      "info": "Leave it blank if you don't want to show it"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "default": "full-width",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "label": "Layout"
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "color",
+      "id": "bg_top_header",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "cl_bd_top_bar",
+      "label": "Color border",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "cl_text",
+      "label": "Color text",
+      "default": "#777"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Announcement text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "message_1",
+          "label": "Announcement 1",
+          "default": "5% OFF ON YOUR FIRST ORDER"
+        },
+        {
+          "type": "text",
+          "id": "message_2",
+          "label": "Announcement 2",
+          "default": "UPTO 25% OFF ON COMBOS"
+        },
+        {
+          "type": "text",
+          "id": "message_3",
+          "label": "Announcement 3",
+          "default": "FREE SHIPPING ABOVE ₹349"
+        },
+        {
+          "type": "text",
+          "id": "text_link",
+          "label": "Link",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button link",
+          "info": "Note: if you want to display this button then you need to fill button link"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            },
+            {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in",
+          "default": "_blank"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "default": "topbar-left",
+          "options": [
+            {
+              "value": "topbar-left",
+              "label": "Left"
+            },
+            {
+              "value": "topbar-center",
+              "label": "center"
+            },
+            {
+              "value": "topbar-right",
+              "label": "Right"
+            }
+          ],
+          "label": "text align:"
+        },
+        {
+          "type": "color",
+          "id": "color_link",
+          "label": "color",
+          "default": "#1a1a1a"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_link",
+          "label": "Background color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "color_link_hover",
+          "label": "color (Hover)",
+          "default": "#1a1a1a"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_link_hover",
+          "label": "Background color (Hover)",
+          "default": "#fff"
+        }
+      ]
+    },
+    {
+      "type": "banner",
+      "name": "Banner top",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "h_des",
+          "label": "Desktop Large",
+          "placeholder": "150px",
+          "default": "150px"
+        },
+        {
+          "type": "text",
+          "id": "h_tb",
+          "label": "Tablet (<= 1024px)",
+          "placeholder": "100px",
+          "default": "100px"
+        },
+        {
+          "type": "text",
+          "id": "h_mb",
+          "label": "Mobile (<= 767px)",
+          "placeholder": "150px",
+          "default": "150px"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_sl",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link_img",
+          "label": "Link image",
+          "info": "The image becomes clickable."
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window (_self)"
+            },
+            {
+              "value": "_blank",
+              "label": "New window (_blank)"
+            }
+          ],
+          "label": "Open link in",
+          "default": "_blank"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% javascript %}
+  jQuery(document).ready(function($) {
+    $('.btn-close').on('click', function() {
+      $(this).parents('.parent-close').slideUp();
+    })
+  });
+{% endjavascript %} {% endcomment %}
+
+{% if section.settings.home_page_only == false or template.name == 'index' %}
+  {% if section.settings.header_use_top_header %}
+    <div class="topbar {% if section.settings.hide_top_header_mobile %}hide-mobile{% endif %} {% if section.settings.show_close_btn %} show-close-button parent-close{% endif %}" style="background-color: {{ section.settings.bg_top_header }}; border-color: {{ section.settings.cl_bd_top_bar }}; color: {{ section.settings.cl_text }};">
+      {% if section.settings.show_close_btn %}
+        <span class="announcement-close btn-close">
+          {% if section.settings.title_close_btn != blank %}
+            <span class="title">{{ section.settings.title_close_btn }}</span>
+          {% endif %}
+          <i class="icon-btn-close icon-x">✕</i>
+        </span>
+      {% endif %}
+      <div class="{{section.settings.layout}}">
+        <div class="announcement-bar">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'message' -%}
+                <div class="announcement-marquee">
+                  <div class="announcement-marquee__track">
+                    {%- for i in (1..3) -%}
+                      {%- assign message_key = 'message_' | append: i -%}
+                      {%- assign link_key = 'link_' | append: i -%}
+                      {%- assign btn_link_key = 'btn_link_' | append: i -%}
+                      
+                      {%- if block.settings[message_key] != blank -%}
+                        <span class="announcement-item">
+                          {%- if block.settings[btn_link_key] != blank -%}
+                            <a href="{{ block.settings[btn_link_key] }}" 
+                               target="{{ block.settings.open_link }}"
+                               class="announcement-link">
+                              {{ block.settings[message_key] }}
+                              {%- if block.settings[link_key] != blank -%}
+                                <span class="link-text">{{ block.settings[link_key] }}</span>
+                              {%- endif -%}
+                            </a>
+                          {%- else -%}
+                            {{ block.settings[message_key] }}
+                          {%- endif -%}
+                        </span>
+                        <span class="announcement-separator">|</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- when 'banner' -%}
+                {%- assign assign h_des = block.settings.h_des -%}
+                {%- assign assign h_tb = block.settings.h_tb -%}
+                {%- assign assign h_mb = block.settings.h_mb -%}
+                {% assign image = block.settings.image_sl %}
+                {% assign image_mobile = block.settings.image_mobile | default: block.settings.image_sl %}
+                {% assign url = block.settings.link_img %}
+                {% assign open_link = block.settings.open_link %}
+                <div class="banner-top" style="--ui-height-pc:{{ h_des }}; --ui-height-tb:{{ h_tb }};--ui-height-mb:{{ h_mb }}">
+                  {% if image != blank %}
+                    <img src="{{ image | img_url: 'master' }}" alt="banner" style="width:100%; height:100%; object-fit:cover;">
+                  {% else %}
+                    <div class="image-card__img">
+                      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                  {% endif %}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Top Bar",
+  "class": "cms-top-header cms-top-bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_use_top_header",
+      "label": "Show top header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_top_header_mobile",
+      "label": "Hide header (mobile)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_btn",
+      "label": "Show close button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title_close_btn",
+      "label": "Title close button",
+      "default": "Close"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "label": "Layout"
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "color",
+      "id": "bg_top_header",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "cl_bd_top_bar",
+      "label": "Color border",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "cl_text",
+      "label": "Color text",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Announcement text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "scroll_speed",
+          "label": "Scroll Speed (seconds)",
+          "min": 5,
+          "max": 30,
+          "default": 15,
+          "info": "Lower number = faster scroll"
+        },
+        {
+          "type": "text",
+          "id": "message_1",
+          "label": "Announcement 1",
+          "default": "5% OFF ON YOUR FIRST ORDER"
+        },
+        {
+          "type": "text",
+          "id": "link_1",
+          "label": "Link Text 1"
+        },
+        {
+          "type": "url",
+          "id": "btn_link_1",
+          "label": "Button link 1"
+        },
+        {
+          "type": "text",
+          "id": "message_2",
+          "label": "Announcement 2",
+          "default": "UPTO 25% OFF ON COMBOS"
+        },
+        {
+          "type": "text",
+          "id": "link_2",
+          "label": "Link Text 2"
+        },
+        {
+          "type": "url",
+          "id": "btn_link_2",
+          "label": "Button link 2"
+        },
+        {
+          "type": "text",
+          "id": "message_3",
+          "label": "Announcement 3",
+          "default": "FREE SHIPPING ABOVE ₹349"
+        },
+        {
+          "type": "text",
+          "id": "link_3",
+          "label": "Link Text 3"
+        },
+        {
+          "type": "url",
+          "id": "btn_link_3",
+          "label": "Button link 3"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current window"
+            },
+            {
+              "value": "_blank",
+              "label": "New window"
+            }
+          ],
+          "label": "Open link in",
+          "default": "_blank"
+        }
+      ]
+    },
+    {
+      "type": "banner",
+      "name": "Banner top",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "h_des",
+          "label": "Desktop Height",
+          "default": "100px"
+        },
+        {
+          "type": "text",
+          "id": "h_tb",
+          "label": "Tablet Height",
+          "default": "80px"
+        },
+        {
+          "type": "text",
+          "id": "h_mb",
+          "label": "Mobile Height",
+          "default": "60px"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_sl",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link_img",
+          "label": "Link image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.topbar {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid;
+}
+
+.announcement-bar {
+  position: relative;
+  width: 100%;
+}
+
+.announcement-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.announcement-marquee__track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollTop var(--scroll-speed, 15s) linear infinite;
+}
+
+.announcement-item {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.announcement-link {
+  color: inherit;
+  text-decoration: none;
+  margin-left: 5px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+}
+
+.announcement-link:hover {
+  text-decoration: underline;
+}
+
+.announcement-separator {
+  display: inline-block;
+  padding: 0 5px;
+}
+
+.btn-close {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0,0,0,0.5);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.parent-close {
+  position: relative;
+}
+
+@keyframes scrollTop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Double the content for seamless scroll */
+.announcement-marquee__track {
+  animation: scrollTop var(--scroll-speed, 15s) linear infinite;
+}
+
+/* Hover pause */
+.announcement-marquee:hover .announcement-marquee__track {
+  animation-play-state: paused;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .topbar.hide-mobile {
+    display: none;
+  }
+  
+  .announcement-item {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+  
+  .btn-close {
+    right: 5px;
+    padding: 2px 5px;
+    font-size: 10px;
+  }
+}
+
+.banner-top {
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner-top img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-svg {
+  width: 100%;
+  height: auto;
+  background: #f5f5f5;
+}
+</style>
+
+{% javascript %}
+(function() {
+  // Set scroll speed
+  var marquee = document.querySelector('.announcement-marquee');
+  if (marquee) {
+    var speed = marquee.getAttribute('data-scroll-speed');
+    if (speed) {
+      marquee.style.setProperty('--scroll-speed', speed + 's');
+    } else {
+      marquee.style.setProperty('--scroll-speed', '15s');
+    }
+  }
+  
+  // Double the content for seamless scroll
+  var track = document.querySelector('.announcement-marquee__track');
+  if (track) {
+    var content = track.innerHTML;
+    track.innerHTML = content + content;
+  }
+  
+  // Close button
+  var closeBtn = document.querySelector('.btn-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      var topbar = this.closest('.topbar');
+      if (topbar) {
+        topbar.style.display = 'none';
+      }
+    });
+  }
+})();
+{% endjavascript %}

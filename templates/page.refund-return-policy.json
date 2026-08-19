@@ -1,0 +1,109 @@
+{
+  "sections": {
+    "dp-rp-main": {
+      "type": "dp-refund-return-policy",
+      "settings": {
+        "hero_title": "Refund & Return Policy",
+        "hero_sub": "Last updated on June 20, 2026",
+        "section_label": "Refunds & Replacements",
+        "section_heading": "Our Commitment to Freshness & Safety",
+        "contact_heading": "Questions About Your Order?",
+        "contact_sub": "If you received a damaged product or have concerns about delivery, our customer support team is here to assist.",
+        "contact_btn1_text": "Chat on WhatsApp",
+        "contact_btn1_link": "https://wa.me/919000000000",
+        "contact_btn2_text": "Contact Support",
+        "contact_btn2_link": "/pages/contact"
+      },
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "🚫",
+            "card_title": "No Standard Returns",
+            "card_desc": "Due to health, safety, and food hygiene standards, we do not accept physical returns on consumable food items."
+          }
+        },
+        "highlight_2": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "📦",
+            "card_title": "Transit Replacements",
+            "card_desc": "If your glass jar is cracked or leaking upon delivery, we will issue a free replacement at no additional cost."
+          }
+        },
+        "highlight_3": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "📸",
+            "card_title": "24-Hour Reporting",
+            "card_desc": "Please send photos or video of the damaged packaging within 24 hours of receipt to initiate your replacement."
+          }
+        },
+        "acc_1": {
+          "type": "policy_accordion",
+          "settings": {
+            "title": "1. Consumable and Perishable Nature of Food Items",
+            "content": "All our products, including pickles, masalas, and traditional homemade items, are perishable foodstuffs handcrafted in small kitchen batches with natural ingredients and sun-dried produce. For food safety, contamination risk prevention, and customer hygiene, we cannot accept return shipments, exchanges, or returns of opened or unopened packages. All sales are final."
+          }
+        },
+        "acc_2": {
+          "type": "policy_accordion",
+          "settings": {
+            "title": "2. Transit Damage & Oil Leakage Policy",
+            "content": "We package our pickles in premium glass jars protected by multiple layers of heavy-duty bubble wrap and robust corrugated boxes to survive domestic shipping. However, in rare instances of transit handling, glass cracks or oil leakage may occur. We define transit damage as structural damage to the jar (cracks, breakage) or total seal breach leading to extensive oil leakage. We happily replace these orders at no charge to the customer."
+          }
+        },
+        "acc_3": {
+          "type": "policy_accordion",
+          "settings": {
+            "title": "3. Mandatory Photo & Video Evidence",
+            "content": "To claim a free replacement or store credit for transit damage or an incorrect shipment, you must provide photographic or video proof. Please take high-resolution photos or a short video showing: (a) The outer shipping box with the shipping label visible, (b) The inner packaging, and (c) The cracked jar, broken seal, or leaked oil. Send this to us via email or WhatsApp within 24 hours of delivery."
+          }
+        },
+        "acc_4": {
+          "type": "policy_accordion",
+          "settings": {
+            "title": "4. Reporting Window & Delivery Validation",
+            "content": "Claims for transit damage, missing items, or wrong products must be reported within 24 hours of the delivery timestamp recorded by our courier partner's tracking system. Due to the perishable nature of homemade pickles, any claims made after the 24-hour window will not be entertained."
+          }
+        },
+        "acc_5": {
+          "type": "policy_accordion",
+          "settings": {
+            "title": "5. Processing Timeline & Batch Shipments",
+            "content": "Once your damage claim is received and verified by our kitchen team, a replacement will be processed. Since our pickles are prepared traditionally without artificial preservatives in small batches, a fresh jar will be packed and dispatched within 2–3 business days. You will receive tracking details for the replacement parcel. If the product is out of stock, we will issue a full refund to your original payment method."
+          }
+        },
+        "acc_6": {
+          "type": "policy_accordion",
+          "settings": {
+            "title": "6. Wrong Product Delivered",
+            "content": "If you receive a product different from what you ordered (e.g., you ordered Sweet Keri and received Spicy Mango), please keep the product in its original, sealed condition and contact us within 24 hours with a picture of the label. We will ship the correct item immediately. You do not need to ship the incorrect item back to us."
+          }
+        },
+        "acc_7": {
+          "type": "policy_accordion",
+          "settings": {
+            "title": "7. Secure Refund Issuance",
+            "content": "In scenarios where refunds are approved (e.g., package lost by courier or product out of stock), the refund is processed directly back to your original source of payment (credit/debit card, UPI, or net banking gateway). Most financial institutions take 5 to 7 business days to credit the refund amount to your account. Store credits are issued instantly."
+          }
+        }
+      },
+      "block_order": [
+        "highlight_1",
+        "highlight_2",
+        "highlight_3",
+        "acc_1",
+        "acc_2",
+        "acc_3",
+        "acc_4",
+        "acc_5",
+        "acc_6",
+        "acc_7"
+      ]
+    }
+  },
+  "order": [
+    "dp-rp-main"
+  ]
+}

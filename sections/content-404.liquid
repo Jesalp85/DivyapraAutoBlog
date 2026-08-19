@@ -1,0 +1,118 @@
+<!-- /templates/404.liquid -->
+{{ '404.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign sid = section.id
+%}
+
+<section id="laber_{{sid}}" class="dp-404-section">
+  <div class="container">
+    <div class="dp-404-grid">
+      <!-- Left side: Image -->
+      <div class="dp-404-image-wrap">
+        {% assign image = section.settings.bg_img_404 %}
+        {% if image != blank %}
+          <img src="{{ image | img_url: '600x600', crop: 'center' }}" alt="Page Not Found" class="dp-404-img" loading="lazy">
+        {% else %}
+          <img src="{{ 'indian_pickle_404.png' | asset_url }}" alt="Page Not Found" class="dp-404-img" loading="lazy">
+        {% endif %}
+        <span class="dp-404-badge">404</span>
+      </div>
+
+      <!-- Right side: Content -->
+      <div class="dp-404-content">
+        <h1 class="dp-404-title">{{ section.settings.title | default: "Lost in the Spice Rack?" }}</h1>
+        <p class="dp-404-text">{{ section.settings.content | default: "It seems this page has moved or doesn't exist. Let's get you back to the flavors you love!" }}</p>
+        
+        <div class="dp-404-actions">
+          <a class="dp-404-btn" href="{{ routes.root_url }}">
+            {{ 'general.404.link' | t | default: "Back to Homepage" }}
+          </a>
+        </div>
+
+        <div class="dp-404-quicklinks">
+          <span class="dp-404-quicklinks-title">Quick Links:</span>
+          <div class="dp-404-links-grid">
+            <a href="/collections/all-products" class="dp-404-link">🌶️ Shop All Pickles</a>
+            <a href="/collections/pickles" class="dp-404-link">🥭 Traditional Pickles</a>
+            <a href="/pages/contact" class="dp-404-link">📞 Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- render 'section_style' -%}
+{% schema %}
+  {
+    "name": "404",
+    "settings": [
+      {
+        "type": "header",
+        "content": "404 Setting"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_img_404",
+        "info": "Image size 478x442",
+        "label": "Backdground image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Opps! Page not found."
+      },
+      {
+        "type": "textarea",
+        "id": "content",
+        "label": "Content",
+        "default": "Sorry for the inconvenience. Go to our homepage or check out our latest collections."
+      }, {
+        "type": "header",
+        "content": "== setting content"
+      }, {
+        "type": "color",
+        "id": "cl_bg",
+        "label": "Background color",
+        "default": "#fff"
+      }, {
+        "type": "text",
+        "id": "pd_c",
+        "label": "Padding",
+        "info": "Padding top, Padding right, Padding bottom, Padding left. If you not use to blank"
+      }, {
+        "type": "header",
+        "content": "== Setting PC",
+        "info": "Margin"
+      }, {
+        "type": "text",
+        "id": "mg",
+        "label": "Margin",
+        "info": "Margin top, margin right, margin bottom, margin left. If you not use to blank"
+      }, {
+        "type": "text",
+        "id": "pd",
+        "label": "Padding",
+        "info": "Padding top, padding right, padding bottom, padding left. If you not use to blank"
+      }, {
+        "type": "header",
+        "content": "== Design Mobile Options"
+      }, {
+        "type": "text",
+        "id": "mg_mb",
+        "label": "Margin"
+      }, {
+        "type": "text",
+        "id": "pd_mb",
+        "label": "Padding"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

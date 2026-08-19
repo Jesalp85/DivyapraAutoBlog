@@ -1,0 +1,1169 @@
+{% assign sid = section.id %}
+
+<section id="laber_{{ sid }}" class="dp-blog-page">
+  <!-- ===== HERO HEADER ===== -->
+  <div class="dp-blog-hero">
+    <div class="dp-blog-hero__overlay"></div>
+    <div class="dp-blog-hero__content container">
+      {%- if section.settings.hero_tag != blank -%}
+        <span class="dp-blog-hero__tag">{{ section.settings.hero_tag | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.hero_title != blank -%}
+        <h1 class="dp-blog-hero__title">{{ section.settings.hero_title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.hero_sub != blank -%}
+        <p class="dp-blog-hero__sub">{{ section.settings.hero_sub | escape }}</p>
+      {%- endif -%}
+
+      <!-- Search & Filter Bar -->
+      <div class="dp-blog-search-wrap">
+        <div class="dp-blog-search-bar">
+          <svg class="dp-blog-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="dp-blog-search-input" placeholder="Search recipes, ingredients, spice secrets..." onkeyup="dpFilterArticles()">
+          <button type="button" class="dp-blog-search-btn">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CATEGORY PILLS BAR ===== -->
+  <div class="dp-blog-cats-bar">
+    <div class="container">
+      <div class="dp-blog-cats-list">
+        <button class="dp-cat-pill active" onclick="dpSelectCategory('all', this)">All Stories</button>
+        {% assign core_cats = "Heritage Recipes,Health & Spices,Buying Guides,Pickle Pairings,Artisanal Craft" | split: "," %}
+        {% for cat_item in core_cats %}
+          {% assign cat_clean = cat_item | strip %}
+          {% assign cat_lower = cat_clean | downcase %}
+          <button class="dp-cat-pill" onclick="dpSelectCategory('{{ cat_clean | handle }}', this)">
+            {% if cat_lower contains 'heritage' %}🥭{% elsif cat_lower contains 'health' %}🌶️{% elsif cat_lower contains 'buy' %}🛒{% elsif cat_lower contains 'pair' %}🍱{% else %}🫙{% endif %} {{ cat_clean }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="container dp-blog-body">
+    <div class="dp-blog-layout">
+      <!-- MAIN CONTENT COLUMN -->
+      <div class="dp-blog-main">
+        
+        {%- assign total_articles = blog.articles.size -%}
+
+        {%- if blog.articles.size > 0 -%}
+          <!-- FEATURED HERO ARTICLE (First Article) -->
+          {%- assign featured_article = blog.articles.first -%}
+          <div class="dp-featured-post" data-tags="{% for tag in featured_article.tags %}{{ tag | handle }} {% endfor %}" data-category="heritage-recipes">
+            <div class="dp-featured-post__img">
+              {%- assign feat_seo_alt = featured_article.title | escape | append: " - Focus Keyword: " | append: featured_article.tags.first -%}
+              {%- if featured_article.image -%}
+                <img src="{{ featured_article.image | image_url: width: 1000 }}" alt="{{ feat_seo_alt }}" loading="lazy">
+              {%- else -%}
+                <img src="https://cdn.shopify.com/s/files/1/0752/0904/8278/files/SpecialMangoBig.webp?v=1782721972" alt="{{ feat_seo_alt }}" loading="lazy">
+              {%- endif -%}
+              <span class="dp-badge dp-badge--featured">Featured Story</span>
+            </div>
+            <div class="dp-featured-post__content">
+              <div class="dp-post-meta">
+                <span class="dp-post-tag">{{ featured_article.tags.first | default: "Heritage Recipes" }}</span>
+                <span class="dp-post-dot">•</span>
+                <span class="dp-post-date">{{ featured_article.published_at | date: "%b %d, %Y" }}</span>
+                <span class="dp-post-dot">•</span>
+                <span class="dp-post-read">6 min read</span>
+              </div>
+              <h2 class="dp-featured-post__title">
+                <a href="{{ featured_article.url }}">{{ featured_article.title }}</a>
+              </h2>
+              <p class="dp-featured-post__excerpt">
+                {{ featured_article.excerpt_or_content | strip_html | truncate: 180 }}
+              </p>
+              <div class="dp-featured-post__footer">
+                <div class="dp-author">
+                  <div class="dp-author__avatar">👵</div>
+                  <div class="dp-author__info">
+                    <strong>Baa & The Kitchen Team</strong>
+                    <span>Master Pickle Maker</span>
+                  </div>
+                </div>
+                <a href="{{ featured_article.url }}" class="dp-btn dp-btn--sm">Read Full Story →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ARTICLES GRID -->
+          <div class="dp-blog-grid" id="dp-articles-container">
+            {%- for article in blog.articles offset:1 -%}
+              {%- assign tag_lower = article.tags | join: ' ' | downcase -%}
+              <div class="dp-article-card" data-title="{{ article.title | downcase }}" data-tags="{% for tag in article.tags %}{{ tag | handle }} {% endfor %}" data-category="{% if tag_lower contains 'recipe' %}heritage-recipes{% elsif tag_lower contains 'spice' %}health-spices{% elsif tag_lower contains 'ghee' %}ghee-chutneys{% else %}baas-secrets{% endif %}">
+                <div class="dp-article-card__media">
+                  <a href="{{ article.url }}">
+                    {%- assign card_seo_alt = article.title | escape | append: " - Focus Keyword: " | append: article.tags.first -%}
+                    {%- if article.image -%}
+                      <img src="{{ article.image | image_url: width: 600 }}" alt="{{ card_seo_alt }}" loading="lazy">
+                    {%- else -%}
+                      <img src="https://cdn.shopify.com/s/files/1/0752/0904/8278/files/Gor_Keri_500g.webp?v=1784831601" alt="{{ card_seo_alt }}" loading="lazy">
+                    {%- endif -%}
+                  </a>
+                  <span class="dp-post-tag-badge">{{ article.tags.first | default: "Heritage Tale" }}</span>
+                </div>
+                <div class="dp-article-card__body">
+                  <div class="dp-post-meta">
+                    <span class="dp-post-date">{{ article.published_at | date: "%b %d, %Y" }}</span>
+                    <span class="dp-post-dot">•</span>
+                    <span class="dp-post-read">4 min read</span>
+                  </div>
+                  <h3 class="dp-article-card__title">
+                    <a href="{{ article.url }}">{{ article.title }}</a>
+                  </h3>
+                  <p class="dp-article-card__excerpt">
+                    {{ article.excerpt_or_content | strip_html | truncate: 120 }}
+                  </p>
+                  <div class="dp-article-card__footer">
+                    <div class="dp-author-box">
+                      <span class="dp-author-name" title="By {{ article.author | default: 'DivyaPrabha Kitchen' }}">By {{ article.author | default: "DivyaPrabha Kitchen" | replace: "Baa & The DivyaPrabha Culinary Team", "Baa & Culinary Team" }}</span>
+                    </div>
+                    <a href="{{ article.url }}" class="dp-read-link">
+                      <span>Read Story</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+        {%- else -%}
+
+          <!-- FALLBACK DEMO ARTICLES (Rendered when store has no published articles yet) -->
+          <div class="dp-featured-post" data-category="heritage-recipes">
+            <div class="dp-featured-post__img">
+              <img src="{{ 'Traditional_receipe.webp' | asset_url }}" alt="Top 10 Homemade Pickles in India" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=1000&q=80';">
+              <span class="dp-badge dp-badge--featured">Featured Story</span>
+            </div>
+            <div class="dp-featured-post__content">
+              <div class="dp-post-meta">
+                <span class="dp-post-tag">Heritage Recipes</span>
+                <span class="dp-post-dot">•</span>
+                <span class="dp-post-date">July 31, 2026</span>
+                <span class="dp-post-dot">•</span>
+                <span class="dp-post-read">7 min read</span>
+              </div>
+              <h2 class="dp-featured-post__title">
+                <a href="#top-10-homemade-pickles-in-india">Top 10 Homemade Pickles in India: Authentic Taste, Traditional Methods & Cultural Flavours</a>
+              </h2>
+              <p class="dp-featured-post__excerpt">
+                From Saurashtra’s Rajapuri Raw Mango Achar and Spicy Stuffed Red Chilli to Sweet Gorkeri and Gut-Soothing Nimbu Achar — discover India's top 10 most beloved traditional homemade pickles and why they hold a sacred place in every Indian home.
+              </p>
+              <div class="dp-featured-post__footer">
+                <div class="dp-author">
+                  <div class="dp-author__avatar">👵</div>
+                  <div class="dp-author__info">
+                    <strong>Baa & The Culinary Team</strong>
+                    <span>Master Pickle Artisan</span>
+                  </div>
+                </div>
+                <a href="#top-10-homemade-pickles-in-india" class="dp-btn dp-btn--sm">Read Full Story →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="dp-blog-grid" id="dp-articles-container">
+            <!-- Demo Article 1 -->
+            <div class="dp-article-card" data-title="why cold-pressed mustard oil is the soul of authentic indian pickles" data-category="preservation-tips">
+              <div class="dp-article-card__media">
+                <a href="#article-2">
+                  <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80" alt="Cold-Pressed Mustard Oil" loading="lazy">
+                </a>
+                <span class="dp-post-tag-badge">Preservation Secrets</span>
+              </div>
+              <div class="dp-article-card__body">
+                <div class="dp-post-meta">
+                  <span class="dp-post-date">July 22, 2026</span>
+                  <span class="dp-post-dot">•</span>
+                  <span class="dp-post-read">4 min read</span>
+                </div>
+                <h3 class="dp-article-card__title">
+                  <a href="#article-2">Why Cold-Pressed Mustard Oil is the Soul of Authentic Indian Pickles</a>
+                </h3>
+                <p class="dp-article-card__excerpt">
+                  Refined oil ruins traditional achar. Learn how cold-pressed mustard oil naturally seals out oxygen, enhances spice infusion, and protects health.
+                </p>
+                <div class="dp-article-card__footer">
+                  <span class="dp-author-name">By DivyaPrabha Team</span>
+                  <a href="#article-2" class="dp-read-link">Read Story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Demo Article 2 -->
+            <div class="dp-article-card" data-title="5 traditional indian chutneys that transform everyday ghar ka khana" data-category="ghee-chutneys">
+              <div class="dp-article-card__media">
+                <a href="#article-3">
+                  <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=600&q=80" alt="Traditional Indian Chutneys" loading="lazy">
+                </a>
+                <span class="dp-post-tag-badge">Ghee & Chutneys</span>
+              </div>
+              <div class="dp-article-card__body">
+                <div class="dp-post-meta">
+                  <span class="dp-post-date">July 15, 2026</span>
+                  <span class="dp-post-dot">•</span>
+                  <span class="dp-post-read">5 min read</span>
+                </div>
+                <h3 class="dp-article-card__title">
+                  <a href="#article-3">5 Traditional Indian Chutneys That Transform Everyday Ghar Ka Khana</a>
+                </h3>
+                <p class="dp-article-card__excerpt">
+                  From sun-dried Garlic Chutney to tangy Methi Lemon condiment, elevate your simple dal-rice into a royal feast.
+                </p>
+                <div class="dp-article-card__footer">
+                  <span class="dp-author-name">By Baa's Kitchen</span>
+                  <a href="#article-3" class="dp-read-link">Read Story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Demo Article 3 -->
+            <div class="dp-article-card" data-title="the health secrets of traditional stone-ground spices" data-category="health-spices">
+              <div class="dp-article-card__media">
+                <a href="#article-4">
+                  <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80" alt="Stone Ground Spices" loading="lazy">
+                </a>
+                <span class="dp-post-tag-badge">Health & Spices</span>
+              </div>
+              <div class="dp-article-card__body">
+                <div class="dp-post-meta">
+                  <span class="dp-post-date">July 08, 2026</span>
+                  <span class="dp-post-dot">•</span>
+                  <span class="dp-post-read">5 min read</span>
+                </div>
+                <h3 class="dp-article-card__title">
+                  <a href="#article-4">The Health Secrets of Traditional Stone-Ground Spices</a>
+                </h3>
+                <p class="dp-article-card__excerpt">
+                  High-speed commercial grinders burn essential oils. Discover why stone-pounding turmeric, fenugreek & mustard seeds retains therapeutic benefits.
+                </p>
+                <div class="dp-article-card__footer">
+                  <span class="dp-author-name">By Dr. Ayurvedic Culinary</span>
+                  <a href="#article-4" class="dp-read-link">Read Story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Demo Article 4 -->
+            <div class="dp-article-card" data-title="a2 desi cow ghee bilona method vs factory processed ghee" data-category="ghee-chutneys">
+              <div class="dp-article-card__media">
+                <a href="#article-5">
+                  <img src="https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?auto=format&fit=crop&w=600&q=80" alt="A2 Desi Cow Ghee" loading="lazy">
+                </a>
+                <span class="dp-post-tag-badge">Ghee & Chutneys</span>
+              </div>
+              <div class="dp-article-card__body">
+                <div class="dp-post-meta">
+                  <span class="dp-post-date">June 29, 2026</span>
+                  <span class="dp-post-dot">•</span>
+                  <span class="dp-post-read">4 min read</span>
+                </div>
+                <h3 class="dp-article-card__title">
+                  <a href="#article-5">A2 Desi Cow Ghee: Traditional Bilona Method vs Factory Ghee Explained</a>
+                </h3>
+                <p class="dp-article-card__excerpt">
+                  Why hand-churned curd ghee holds golden digestive qualities, rich aroma, and natural immunity boost compared to direct cream boiling.
+                </p>
+                <div class="dp-article-card__footer">
+                  <span class="dp-author-name">By DivyaPrabha Team</span>
+                  <a href="#article-5" class="dp-read-link">Read Story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Demo Article 5 -->
+            <div class="dp-article-card" data-title="baa's 5 rules for storing pickles to keep them fresh for years" data-category="baas-secrets">
+              <div class="dp-article-card__media">
+                <a href="#article-6">
+                  <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80" alt="Pickle Storage Jar" loading="lazy">
+                </a>
+                <span class="dp-post-tag-badge">Baa's Kitchen Secrets</span>
+              </div>
+              <div class="dp-article-card__body">
+                <div class="dp-post-meta">
+                  <span class="dp-post-date">June 18, 2026</span>
+                  <span class="dp-post-dot">•</span>
+                  <span class="dp-post-read">3 min read</span>
+                </div>
+                <h3 class="dp-article-card__title">
+                  <a href="#article-6">Baa's 5 Golden Rules for Storing Pickles to Keep Them Fresh for Years</a>
+                </h3>
+                <p class="dp-article-card__excerpt">
+                  Never use wet spoons, maintain the oil level, choose ceramic or glass barni — small habits that preserve authentic flavour without chemicals.
+                </p>
+                <div class="dp-article-card__footer">
+                  <span class="dp-author-name">By Baa</span>
+                  <a href="#article-6" class="dp-read-link">Read Story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- SIDEBAR COLUMN -->
+      <aside class="dp-blog-sidebar">
+        <!-- Widget 1: About Kitchen -->
+        <div class="dp-widget dp-widget--brand">
+          <div class="dp-widget__header">
+            <span class="dp-widget__icon">👵</span>
+            <h4>From Baa's Kitchen</h4>
+          </div>
+          <p>
+            At <strong>DivyaPrabha Foods</strong>, every jar is handcrafted in small batches using traditional Saurashtra sun-drying, cold-pressed oils, and hand-ground spices. Zero preservatives. 100% home love.
+          </p>
+          <a href="/pages/about-us" class="dp-widget-link">Our Heritage Story →</a>
+        </div>
+
+        <!-- Widget 2: Pickle Pairing Guide -->
+        <div class="dp-widget dp-widget--pairing">
+          <div class="dp-widget__header">
+            <span class="dp-widget__icon">🫙</span>
+            <h4>Perfect Pickle Pairings</h4>
+          </div>
+          <ul class="dp-pairing-list">
+            {% assign pairing_collection = collections['all'] %}
+            {% if pairing_collection.products.size > 0 %}
+              {% for p_item in pairing_collection.products limit: 5 %}
+                <li>
+                  <a href="{{ p_item.url }}" style="text-decoration: none; color: inherit; display: block;">
+                    <strong>{{ p_item.title }}</strong>
+                    <span>Pairs best with: 
+                      {% assign p_title_lower = p_item.title | downcase %}
+                      {% if p_title_lower contains 'mango' or p_title_lower contains 'keri' %}
+                        Hot Methi Thepla & Chai
+                      {% elsif p_title_lower contains 'gor' or p_title_lower contains 'sweet' %}
+                        Crispy Puri & Mathri
+                      {% elsif p_title_lower contains 'garlic' or p_title_lower contains 'lasan' %}
+                        Bajra Rotla & Fresh Butter
+                      {% elsif p_title_lower contains 'chilli' or p_title_lower contains 'mirch' %}
+                        Stuffed Paratha & Curd Rice
+                      {% elsif p_title_lower contains 'gunda' %}
+                        Kathiyawadi Thali & Khichdi
+                      {% else %}
+                        Dal Chawal & Fresh Ghee
+                      {% endif %}
+                    </span>
+                  </a>
+                </li>
+              {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+
+        <!-- Widget 3: Focus Keywords & Popular Topics -->
+        <div class="dp-widget dp-widget--keywords">
+          <div class="dp-widget__header">
+            <span class="dp-widget__icon">🏷️</span>
+            <h4>Focus Keywords & Topics</h4>
+          </div>
+          <div class="dp-blog-keywords-cloud">
+            {% if blog.all_tags.size > 0 %}
+              {% assign categories_filter = "Heritage Recipes,Health & Spices,Buying Guides,Pickle Pairings,Artisanal Craft" %}
+              {% for tag in blog.all_tags %}
+                {% assign tag_clean = tag | strip %}
+                {% unless categories_filter contains tag_clean %}
+                  <a href="{{ blog.url }}/tagged/{{ tag_clean | handle }}" class="dp-blog-keyword-pill">#{{ tag_clean }}</a>
+                {% endunless %}
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Widget 4: Recipe Newsletter -->
+        <div class="dp-widget dp-widget--newsletter">
+          <div class="dp-widget__header">
+            <span class="dp-widget__icon">💌</span>
+            <h4>Get Baa's Secret Recipes</h4>
+          </div>
+          <p>Subscribe for weekly heritage recipes, spice health tips, and exclusive pickle discount offers!</p>
+          <form class="dp-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to DivyaPrabha Kitchen Tales!');">
+            <input type="email" placeholder="Enter your email address" required>
+            <button type="submit" class="dp-btn dp-btn--full">Subscribe Free</button>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function dpSelectCategory(cat, btn) {
+    document.querySelectorAll('.dp-cat-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const cards = document.querySelectorAll('.dp-article-card');
+    const featured = document.querySelector('.dp-featured-post');
+    
+    cards.forEach(card => {
+      const cardTags = card.getAttribute('data-tags') || card.getAttribute('data-category') || '';
+      if (cat === 'all' || cardTags.includes(cat)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (featured) {
+      const featuredTags = featured.getAttribute('data-tags') || featured.getAttribute('data-category') || '';
+      if (cat === 'all' || featuredTags.includes(cat)) {
+        featured.style.display = 'grid';
+      } else {
+        featured.style.display = 'none';
+      }
+    }
+  }
+
+  function dpFilterArticles() {
+    const q = document.getElementById('dp-blog-search-input').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.dp-article-card');
+    const featured = document.querySelector('.dp-featured-post');
+
+    cards.forEach(card => {
+      const title = card.getAttribute('data-title') || card.innerText.toLowerCase();
+      if (!q || title.includes(q)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (featured) {
+      const fText = featured.innerText.toLowerCase();
+      if (!q || fText.includes(q)) {
+        featured.style.display = 'grid';
+      } else {
+        featured.style.display = 'none';
+      }
+    }
+  }
+</script>
+
+{%- style -%}
+#laber_{{ sid }} {
+  --dp-red: {{ section.settings.color_red | default: '#b01215' }};
+  --dp-red-dark: #8c0e10;
+  --dp-brown: {{ section.settings.color_brown | default: '#3d1f0f' }};
+  --dp-gold: {{ section.settings.color_gold | default: '#e5a842' }};
+  --dp-cream: {{ section.settings.color_cream | default: '#fff8ee' }};
+  --dp-warm-bg: {{ section.settings.color_warm_bg | default: '#fdf6ed' }};
+  --dp-text: {{ section.settings.color_text | default: '#2d1206' }};
+  --dp-muted: {{ section.settings.color_muted | default: '#6b4c3b' }};
+  --dp-border: {{ section.settings.color_border | default: '#e8d5c0' }};
+
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#laber_{{ sid }} .container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+#laber_{{ sid }} .dp-blog-hero {
+  background: linear-gradient(135deg, #2d1206 0%, #3d1f0f 50%, #b01215 100%);
+  color: #fff;
+  padding: 60px 20px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#laber_{{ sid }} .dp-blog-hero__tag {
+  display: inline-block;
+  background: rgba(229, 168, 66, 0.15);
+  color: var(--dp-gold);
+  border: 1px solid rgba(229, 168, 66, 0.4);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+#laber_{{ sid }} .dp-blog-hero__title {
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 900;
+  line-height: 1.25;
+  color: #fff;
+  margin: 0 0 14px;
+}
+
+#laber_{{ sid }} .dp-blog-hero__sub {
+  font-size: clamp(14px, 1.8vw, 17px);
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 720px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+
+#laber_{{ sid }} .dp-blog-search-wrap {
+  max-width: 580px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+#laber_{{ sid }} .dp-blog-search-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 60px;
+  padding: 6px 8px 6px 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  border: 2px solid var(--dp-gold);
+}
+
+#laber_{{ sid }} .dp-blog-search-icon {
+  color: var(--dp-muted);
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+#laber_{{ sid }} .dp-blog-search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex-grow: 1;
+  font-size: 15px;
+  color: var(--dp-brown);
+  width: 100%;
+}
+
+#laber_{{ sid }} .dp-blog-search-btn {
+  background: var(--dp-red);
+  color: #fff;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#laber_{{ sid }} .dp-blog-cats-bar {
+  background: var(--dp-warm-bg);
+  border-bottom: 1px solid var(--dp-border);
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+#laber_{{ sid }} .dp-blog-cats-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+#laber_{{ sid }} .dp-blog-cats-list::-webkit-scrollbar { display: none; }
+
+#laber_{{ sid }} .dp-cat-pill {
+  background: #fff;
+  border: 1px solid var(--dp-border);
+  color: var(--dp-brown);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#laber_{{ sid }} .dp-cat-pill.active,
+#laber_{{ sid }} .dp-cat-pill:hover {
+  background: var(--dp-red);
+  color: #fff;
+  border-color: var(--dp-red);
+}
+
+#laber_{{ sid }} .dp-blog-body {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+#laber_{{ sid }} .dp-blog-layout {
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  gap: 36px;
+}
+
+/* FEATURED POST */
+#laber_{{ sid }} .dp-featured-post {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  background: var(--dp-warm-bg);
+  border: 1px solid var(--dp-border);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 36px;
+}
+
+#laber_{{ sid }} .dp-featured-post__img {
+  position: relative;
+  min-height: 320px;
+  background: #2c1308;
+}
+#laber_{{ sid }} .dp-featured-post__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#laber_{{ sid }} .dp-featured-post__content {
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#laber_{{ sid }} .dp-post-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--dp-muted);
+  margin-bottom: 12px;
+}
+#laber_{{ sid }} .dp-post-tag {
+  color: var(--dp-red);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+#laber_{{ sid }} .dp-post-dot { color: var(--dp-border); }
+
+#laber_{{ sid }} .dp-featured-post__title {
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+#laber_{{ sid }} .dp-featured-post__title a {
+  color: var(--dp-brown);
+  text-decoration: none;
+}
+
+#laber_{{ sid }} .dp-featured-post__excerpt {
+  font-size: 15px;
+  color: var(--dp-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+#laber_{{ sid }} .dp-featured-post__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--dp-border);
+  padding-top: 20px;
+}
+
+#laber_{{ sid }} .dp-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#laber_{{ sid }} .dp-author__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--dp-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+#laber_{{ sid }} .dp-author__info strong {
+  display: block;
+  font-size: 13px;
+  color: var(--dp-brown);
+}
+#laber_{{ sid }} .dp-author__info span {
+  font-size: 11px;
+  color: var(--dp-muted);
+}
+
+#laber_{{ sid }} .dp-btn--sm {
+  background: var(--dp-red);
+  color: #fff !important;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ARTICLES GRID */
+#laber_{{ sid }} .dp-blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+#laber_{{ sid }} .dp-article-card {
+  background: #fff;
+  border: 1px solid rgba(232, 213, 192, 0.85);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(61,31,15,0.04);
+}
+
+#laber_{{ sid }} .dp-article-card__media {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: #2c1308;
+}
+#laber_{{ sid }} .dp-article-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#laber_{{ sid }} .dp-post-tag-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(61,31,15,0.88);
+  backdrop-filter: blur(8px);
+  color: var(--dp-gold);
+  border: 1px solid rgba(229,168,66,0.5);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+#laber_{{ sid }} .dp-article-card__body {
+  padding: 22px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#laber_{{ sid }} .dp-article-card__title {
+  font-size: 17.5px;
+  font-weight: 800;
+  line-height: 1.45;
+  margin: 0 0 10px;
+}
+#laber_{{ sid }} .dp-article-card__title a {
+  color: var(--dp-brown);
+  text-decoration: none;
+}
+
+#laber_{{ sid }} .dp-article-card__excerpt {
+  font-size: 13.5px;
+  color: var(--dp-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#laber_{{ sid }} .dp-article-card__footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed var(--dp-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+}
+
+#laber_{{ sid }} .dp-author-box {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+#laber_{{ sid }} .dp-author-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+#laber_{{ sid }} .dp-read-link {
+  background: var(--dp-red);
+  color: #ffffff !important;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(176, 18, 21, 0.22);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+#laber_{{ sid }} .dp-read-link:hover {
+  background: var(--dp-red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(176, 18, 21, 0.38);
+  color: #ffffff !important;
+}
+
+#laber_{{ sid }} .dp-read-link svg {
+  stroke: #ffffff;
+  transition: transform 0.25s ease;
+}
+
+#laber_{{ sid }} .dp-read-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* SIDEBAR STYLES & WIDGET DESIGN SYSTEM */
+#laber_{{ sid }} .dp-blog-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+#laber_{{ sid }} .dp-widget {
+  background: var(--dp-warm-bg);
+  border: 1px solid var(--dp-border);
+  border-radius: 20px;
+  padding: 24px 22px;
+  box-shadow: 0 6px 20px rgba(61, 31, 15, 0.04);
+}
+
+#laber_{{ sid }} .dp-widget__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--dp-border);
+}
+
+#laber_{{ sid }} .dp-widget__icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+#laber_{{ sid }} .dp-widget__header h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dp-brown);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+#laber_{{ sid }} .dp-widget p {
+  font-size: 13.5px;
+  color: var(--dp-muted);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+#laber_{{ sid }} .dp-widget-link {
+  color: var(--dp-red);
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s ease;
+}
+#laber_{{ sid }} .dp-widget-link:hover {
+  gap: 8px;
+  color: var(--dp-red-dark);
+}
+
+/* PAIRING LIST */
+#laber_{{ sid }} .dp-pairing-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#laber_{{ sid }} .dp-pairing-list li {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--dp-border);
+}
+#laber_{{ sid }} .dp-pairing-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+#laber_{{ sid }} .dp-pairing-list strong {
+  font-size: 13px;
+  color: var(--dp-brown);
+  display: block;
+  margin-bottom: 3px;
+}
+
+#laber_{{ sid }} .dp-pairing-list span {
+  font-size: 12px;
+  color: var(--dp-muted);
+}
+
+/* KEYWORDS CLOUD */
+#laber_{{ sid }} .dp-blog-keywords-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#laber_{{ sid }} .dp-blog-keyword-pill {
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  color: var(--dp-brown);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+#laber_{{ sid }} .dp-blog-keyword-pill:hover {
+  background: var(--dp-red);
+  color: #ffffff;
+  border-color: var(--dp-red);
+}
+
+/* NEWSLETTER WIDGET */
+#laber_{{ sid }} .dp-widget--newsletter {
+  background: linear-gradient(135deg, #fff8ee 0%, #fdf1e1 100%);
+  border: 1.5px solid #e2cbb2;
+}
+
+#laber_{{ sid }} .dp-newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#laber_{{ sid }} .dp-newsletter-form input[type="email"] {
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid var(--dp-border);
+  border-radius: 50px;
+  padding: 12px 18px;
+  font-size: 13.5px;
+  color: var(--dp-brown);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#laber_{{ sid }} .dp-newsletter-form input[type="email"]:focus {
+  border-color: var(--dp-red);
+  box-shadow: 0 0 0 3px rgba(176, 18, 21, 0.12);
+}
+
+#laber_{{ sid }} .dp-newsletter-form .dp-btn--full {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--dp-red);
+  color: #ffffff;
+  border: none;
+  padding: 13px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(176, 18, 21, 0.25);
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+#laber_{{ sid }} .dp-newsletter-form .dp-btn--full:hover {
+  background: var(--dp-red-dark);
+  box-shadow: 0 6px 18px rgba(176, 18, 21, 0.4);
+  transform: translateY(-2px);
+}
+
+/* MULTI-DEVICE RESPONSIVE BREAKPOINTS WITH FULL SPECIFICITY OVERRIDES */
+@media screen and (max-width: 1200px) {
+  #laber_{{ sid }} .dp-blog-layout {
+    grid-template-columns: 1fr 300px !important;
+    gap: 24px !important;
+  }
+  #laber_{{ sid }} .dp-blog-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #laber_{{ sid }} .dp-blog-layout {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  #laber_{{ sid }} .dp-featured-post {
+    grid-template-columns: 1fr !important;
+  }
+  #laber_{{ sid }} .dp-featured-post__img {
+    min-height: 220px !important;
+    max-height: 320px !important;
+  }
+  #laber_{{ sid }} .dp-blog-sidebar {
+    order: 2 !important;
+    width: 100% !important;
+  }
+  #laber_{{ sid }} .dp-blog-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #laber_{{ sid }} .dp-blog-hero {
+    padding: 36px 16px 30px !important;
+  }
+  #laber_{{ sid }} .dp-blog-body {
+    padding-top: 24px !important;
+  }
+  #laber_{{ sid }} .dp-featured-post__content {
+    padding: 20px 16px !important;
+  }
+  #laber_{{ sid }} .dp-featured-post__footer {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+  #laber_{{ sid }} .dp-featured-post__footer .dp-btn--sm {
+    width: 100% !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  #laber_{{ sid }} .dp-blog-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  #laber_{{ sid }} .dp-article-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #laber_{{ sid }} .dp-blog-search-bar {
+    padding: 4px 6px 4px 14px !important;
+  }
+  #laber_{{ sid }} .dp-blog-search-btn {
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+  }
+  #laber_{{ sid }} .dp-blog-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "DivyaPrabha Blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_tag",
+      "label": "Hero Tagline",
+      "default": "Est. 2018 · Saurashtra Heritage"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "DivyaPrabha Kitchen Tales & Heritage Recipes"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_sub",
+      "label": "Hero Subtitle",
+      "default": "Stories of authentic flavours, age-old preservation rituals, health secrets of whole spices, and recipes handed down through generations."
+    },
+    {
+      "type": "color",
+      "id": "color_red",
+      "label": "Brand Red",
+      "default": "#b01215"
+    },
+    {
+      "type": "color",
+      "id": "color_brown",
+      "label": "Brand Deep Brown",
+      "default": "#3d1f0f"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Brand Gold",
+      "default": "#e5a842"
+    },
+    {
+      "type": "color",
+      "id": "color_cream",
+      "label": "Brand Cream",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "color_warm_bg",
+      "label": "Brand Warm BG",
+      "default": "#fdf6ed"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text Color",
+      "default": "#2d1206"
+    },
+    {
+      "type": "color",
+      "id": "color_muted",
+      "label": "Muted Text",
+      "default": "#6b4c3b"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Border Color",
+      "default": "#e8d5c0"
+    }
+  ]
+}
+{% endschema %}

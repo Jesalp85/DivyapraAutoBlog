@@ -1,0 +1,109 @@
+{
+  "sections": {
+    "dp-pp-main": {
+      "type": "dp-privacy-policy",
+      "settings": {
+        "hero_title": "Privacy Policy",
+        "hero_sub": "Last updated on June 20, 2026",
+        "section_label": "Security",
+        "section_heading": "Our Commitment to Your Privacy",
+        "contact_heading": "Questions about your data?",
+        "contact_sub": "We are committed to securing your personal information. Reach out if you need details on how we store or protect your data.",
+        "contact_btn1_text": "WhatsApp Support",
+        "contact_btn1_link": "https://wa.me/919000000000",
+        "contact_btn2_text": "Contact Support",
+        "contact_btn2_link": "/pages/contact"
+      },
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "🔒",
+            "card_title": "Data Confidentiality",
+            "card_desc": "Your details are strictly used to fulfill orders and optimize browsing. We never sell your personal information."
+          }
+        },
+        "highlight_2": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "🤝",
+            "card_title": "No Third-Party Sales",
+            "card_desc": "We only share address details with verified courier partners (like Shiprocket) to deliver your jars."
+          }
+        },
+        "highlight_3": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "💳",
+            "card_title": "SSL Encrypted Checkout",
+            "card_desc": "All order checkouts are 100% encrypted, secure, and compliance-certified by standard gateways."
+          }
+        },
+        "acc_1": {
+          "type": "privacy_accordion",
+          "settings": {
+            "title": "1. Introduction & Consent",
+            "content": "At Divya Prabha Foods, we value the trust you place in us. This Privacy Policy describes how we collect, use, store, and protect your personal information when you visit divyaprabhafoods.com, purchase our products, or interact with us. By using our website and purchasing our items, you consent to the collection and use of your data as outlined in this policy."
+          }
+        },
+        "acc_2": {
+          "type": "privacy_accordion",
+          "settings": {
+            "title": "2. Information We Collect",
+            "content": "When you place an order, create an account, or contact us, we collect necessary personal details, including your name, shipping address, billing address, phone number, and email address. We also capture automatic browser technical logs (IP address, device metadata, cookies, and page interaction activity) to optimize your shopping experience."
+          }
+        },
+        "acc_3": {
+          "type": "privacy_accordion",
+          "settings": {
+            "title": "3. How We Use Your Information",
+            "content": "We use your collected personal information for processing payments, preparing and dispatching shipments, sending order confirmation emails/messages, answering your custom inquiries, and conducting analytics to improve our product collection and site layout. We will only contact you directly about orders or if you have opted into our newsletter."
+          }
+        },
+        "acc_4": {
+          "type": "privacy_accordion",
+          "settings": {
+            "title": "4. Cookies & Tracking Technologies",
+            "content": "Our store uses standard cookies to manage cart persistence, recall store language/currency choices, track site visitor volumes, and understand how shoppers browse our collections. You can choose to block or disable cookies via your browser settings; however, please note that doing so may prevent certain interactive checkout functions from working properly."
+          }
+        },
+        "acc_5": {
+          "type": "privacy_accordion",
+          "settings": {
+            "title": "5. Third-Party Service Providers",
+            "content": "We partner with trusted third-party service providers to help run our business. This includes: Shopify (hosting our online storefront), Shiprocket or other postal couriers (delivering your packages), and Razorpay/Paytm (safe payment gateway processing). These third-parties only receive the specific information necessary to perform their services (e.g. sharing your address with the delivery driver) and are contractually bound to protect your data."
+          }
+        },
+        "acc_6": {
+          "type": "privacy_accordion",
+          "settings": {
+            "title": "6. Data Security & Storage",
+            "content": "We store your data securely using certified systems (SSL encryption) and follow best practices in security to protect against unauthorized access, loss, or alteration. We retain your transaction history only as long as necessary to comply with tax/legal obligations or resolve customer support issues, after which it is deleted or anonymized."
+          }
+        },
+        "acc_7": {
+          "type": "privacy_accordion",
+          "settings": {
+            "title": "7. Your Data Rights & Choices",
+            "content": "You have full control over your personal data. You may request to review, update, edit, or delete your account data at any time by contacting our support team. If you have subscribed to our newsletter and wish to opt out, you can click the unsubscribe button at the bottom of any promo email."
+          }
+        }
+      },
+      "block_order": [
+        "highlight_1",
+        "highlight_2",
+        "highlight_3",
+        "acc_1",
+        "acc_2",
+        "acc_3",
+        "acc_4",
+        "acc_5",
+        "acc_6",
+        "acc_7"
+      ]
+    }
+  },
+  "order": [
+    "dp-pp-main"
+  ]
+}

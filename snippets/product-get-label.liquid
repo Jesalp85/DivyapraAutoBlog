@@ -1,0 +1,50 @@
+{%- assign show_label_sale = settings.product_collection_show_label_sale -%}
+{%- assign show_label_new = settings.product_collection_show_label_new -%}
+{%- assign show_label_hot = settings.product_collection_show_label_hot -%}
+
+{%- assign is_bestseller = false -%}
+{%- assign p_title = product.title | default: title | downcase | strip -%}
+{%- assign p_handle = product.handle | default: '' | downcase | strip -%}
+{%- if p_title contains 'gor keri' or p_handle contains 'gor-keri' or p_title contains 'gunda keri' or p_handle contains 'gunda-keri' -%}
+  {%- assign is_bestseller = true -%}
+{%- endif -%}
+
+{% if show_label_sale %}
+  {%- if is_bestseller -%}
+    <div class="label label--sale label--bestseller">
+      Best Seller
+    </div>
+  {%- endif -%}
+{% endif %}
+{% comment %}
+  <!--------------------------------------------------->
+{% endcomment %}
+{% if show_label_hot %}
+  {% if product.tags contains 'host' %}
+    <div class="label label--hot" data-js-product-label-hot>
+      {{ 'products.product.label.hot' | t }}
+    </div>
+  {% endif %}
+{% endif %}
+{% comment %}
+  <!--------------------------------------------------->
+{% endcomment %}
+{% if lhot != 'true' %}
+  {% assign date_published = product.published_at | date: '%Y%m%d' %}
+  {% assign date_now = 'now' | date: '%Y%m%d' %}
+  {% assign date_difference = date_now | minus: date_published %}
+  {% assign limit_day = settings.product_page_new_product | plus: 0 %}
+
+  {% if show_label_new and date_difference < limit_day %}
+    <div
+      class="{%- if is_bestseller -%}d-none-important {%endif%}  label label--new"
+      data-js-product-label-new
+    >
+      {{ 'products.product.label.new' | t }}
+    </div>
+  {% endif %}
+{% endif %}
+{% comment %}
+  <!--------------------------------------------------->
+{% endcomment %}
+

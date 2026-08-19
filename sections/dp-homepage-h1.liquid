@@ -1,0 +1,101 @@
+{%- if section.settings.show_h1 -%}
+  <div class="container" style="margin-top: {{ section.settings.margin_top }}px; margin-bottom: {{ section.settings.margin_bottom }}px;">
+    <div class="wrap_title {{ section.settings.text_size }}">
+      <h1 class="h3 section-title alo-text-transform" style="--ui-text-transform:{{ section.settings.text_transform }}; font-weight: {{ section.settings.font_weight }}; color: {{ section.settings.color }};">
+        {{ section.settings.title }}
+      </h1>
+      {%- if section.settings.subtitle != blank -%}
+        <span class="section-subtitle" style="display: block; margin-top: 5px;">{{ section.settings.subtitle }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Homepage H1 Header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_h1",
+      "label": "Show H1 Tag?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "H1 Text (Heading)",
+      "default": "Authentic Saurashtra Homemade Pickles Online"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Premium Sun-Dried Traditional Gujarati Pickles (Baa nu Athanu)"
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text Transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "capitalize"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Custom Text Color (Optional)",
+      "default": "#8f0c0f"
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 25
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage H1 Header"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,27 @@
+name: Divyaprabha Daily Blog Cloud Publisher
+
+on:
+  schedule:
+    # Runs at 03:30, 08:30, 13:30 UTC = 09:00 AM, 02:00 PM, 07:00 PM IST
+    - cron: '30 3,8,13 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  publish-daily-blogs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Execute Daily Publisher Script
+        env:
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_URL: "https://divyaprabhafoods.myshopify.com"
+          SHOPIFY_BLOG_ID: "97942077654"
+        run: |
+          python3 scratch/daily_publish_daemon.py

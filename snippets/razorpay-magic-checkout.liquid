@@ -1,0 +1,13 @@
+{%- assign razorpay_config = shop.metafields.magic_checkout.config | default: '{}' -%}
+<div id="magic-checkout-data-container">
+  <script src="https://magic-plugins.razorpay.com/shopify/magic-shopify.js" crossorigin="anonymous" defer></script>
+  <script id="RazorpayMagicCheckoutConfig" type="application/json">
+    {
+      "oneClickCheckoutEnabled": "{{ shop.metafields.magic_checkout.oneClickCheckoutEnabled | default: 'true' }}",
+      "buyNowEnabled": "{{ shop.metafields.magic_checkout.buyNowEnabled | default: 'true' }}",
+      "config": {{ razorpay_config }},
+      "email": "{{ customer.email | escape }}",
+      "phone": "{{ customer.phone | escape }}"
+    }
+  </script>
+</div>

@@ -1,0 +1,101 @@
+{
+  "sections": {
+    "dp-cp-main": {
+      "type": "dp-cancellation-policy",
+      "settings": {
+        "hero_title": "Cancellation Policy",
+        "hero_sub": "Last updated on June 20, 2026",
+        "section_label": "Orders",
+        "section_heading": "Order Cancellation & Modification Guidelines",
+        "contact_heading": "Need Help Modifying Your Order?",
+        "contact_sub": "If your order has not been dispatched yet and you need to correct details, reach out to us immediately on WhatsApp or email.",
+        "contact_btn1_text": "WhatsApp Us",
+        "contact_btn1_link": "https://wa.me/919000000000",
+        "contact_btn2_text": "Contact Support",
+        "contact_btn2_link": "/pages/contact"
+      },
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "🚫",
+            "card_title": "Cancel Before Dispatch",
+            "card_desc": "Cancellations are accepted within 12 hours of order placement, provided the package has not shipped yet."
+          }
+        },
+        "highlight_2": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "💸",
+            "card_title": "Full Refund Credit",
+            "card_desc": "Eligible cancellations receive a 100% refund credited back to your original payment method in 5–7 business days."
+          }
+        },
+        "highlight_3": {
+          "type": "highlight_card",
+          "settings": {
+            "card_icon": "🛠️",
+            "card_title": "Order Modifications",
+            "card_desc": "Need to change a shipping address or phone number? Message us on WhatsApp before dispatch to correct it."
+          }
+        },
+        "acc_1": {
+          "type": "cancellation_accordion",
+          "settings": {
+            "title": "1. Cancellation Policy Window",
+            "content": "We understand that plans can change. You can request to cancel your order within 12 hours of placing it. To request a cancellation, please email us or message us on WhatsApp with your Order ID. If your order is successfully cancelled within this timeframe, we will issue a 100% refund back to your original payment method."
+          }
+        },
+        "acc_2": {
+          "type": "cancellation_accordion",
+          "settings": {
+            "title": "2. Dispatched Orders & Non-Cancellable Items",
+            "content": "Once an order has been prepared, packed, and handed over to our courier partner (typically within 12–24 hours of placement), we cannot cancel the order or recall the package. Because our pickles and foods are fresh, perishable items, we do not accept cancellations or returns upon delivery. We appreciate your understanding of our food safety policies."
+          }
+        },
+        "acc_3": {
+          "type": "cancellation_accordion",
+          "settings": {
+            "title": "3. Order Modifications & Address Corrections",
+            "content": "If you need to change your delivery address, phone number, or modify your pickle jar sizes/quantities, please notify us immediately. We can adjust your order details as long as the package has not been dispatched. If there is a price difference for modified items, we will send a secure payment link for the balance or refund the difference accordingly."
+          }
+        },
+        "acc_4": {
+          "type": "cancellation_accordion",
+          "settings": {
+            "title": "4. Refund Credit Processing Timelines",
+            "content": "Once a cancellation is approved, we initiate the refund immediately. Depending on your financial institution and payment gateway (UPI, net banking, or debit/credit cards), the refunded amount will be credited back to your account within 5 to 7 business days. We will send you an email confirmation as soon as the refund is initiated from our end."
+          }
+        },
+        "acc_5": {
+          "type": "cancellation_accordion",
+          "settings": {
+            "title": "5. Merchant-Initiated Cancellations",
+            "content": "While we always strive to keep our stock updated, occasionally a particular pickle variety or jar size may be temporarily unavailable due to sourcing constraints for fresh, seasonal ingredients (e.g. out-of-season raw mangoes). In such rare cases, we reserve the right to cancel the order or request a product swap. If we cancel your order, we will contact you immediately and issue a 100% refund."
+          }
+        },
+        "acc_6": {
+          "type": "cancellation_accordion",
+          "settings": {
+            "title": "6. Cash on Delivery (COD) Cancellations",
+            "content": "If you have placed a Cash on Delivery order and wish to cancel, please notify us within the 12-hour window before shipment. Repeated cancellations of COD orders upon delivery (refusal to accept the package) will result in the suspension of COD privileges for your customer account on future purchases."
+          }
+        }
+      },
+      "block_order": [
+        "highlight_1",
+        "highlight_2",
+        "highlight_3",
+        "acc_1",
+        "acc_2",
+        "acc_3",
+        "acc_4",
+        "acc_5",
+        "acc_6"
+      ]
+    }
+  },
+  "order": [
+    "dp-cp-main"
+  ]
+}

@@ -1,0 +1,534 @@
+<!-- /snippets/blog-sidebar.liquid -->
+<div id="js-stickySidebar" class="col-xs-12 col-sm-12 col-md-3 col-lg-3 sidebar js-sidebar-mobile-content sidebar-right ps-container dp-sticky-sidebar-wrapper">
+  <div class="dp-sticky-sidebar-inner">
+    
+    <!-- WIDGET 1: OUR DYNAMIC PRODUCTS -->
+    <div class="dp-sidebar-widget dp-sidebar-widget--products">
+      <div class="dp-widget-title-wrap">
+        <span class="dp-widget-icon">🫙</span>
+        <h3 class="dp-widget-title">Our Pickles & Products</h3>
+      </div>
+      <div class="dp-sidebar-products-list">
+        {% assign sidebar_collection = collections['all'] %}
+        {% if sidebar_collection.products.size > 0 %}
+          {% for product in sidebar_collection.products limit: 5 %}
+            <div class="dp-product-mini-card">
+              <div class="dp-product-mini-card__img">
+                <a href="{{ product.url }}">
+                  {% if product.featured_image %}
+                    <img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title | escape }}" loading="lazy">
+                  {% else %}
+                    <div class="dp-product-mini-card__placeholder">🫙</div>
+                  {% endif %}
+                </a>
+                {% if product.compare_at_price > product.price %}
+                  <span class="dp-mini-badge">Sale</span>
+                {% elsif forloop.first %}
+                  <span class="dp-mini-badge">Bestseller</span>
+                {% endif %}
+              </div>
+              <div class="dp-product-mini-card__info">
+                <h4><a href="{{ product.url }}">{{ product.title }}</a></h4>
+                <div class="dp-product-price">
+                  <span class="dp-price-current">{{ product.price | money }}</span>
+                  {% if product.compare_at_price > product.price %}
+                    <span class="dp-price-old">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+                <a href="{{ product.url }}" class="dp-mini-buy-btn">Buy Now →</a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- FALLBACK PRODUCTS -->
+          <div class="dp-product-mini-card">
+            <div class="dp-product-mini-card__img">
+              <a href="/collections/all">
+                <img src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=200&q=80" alt="Rajapuri Raw Mango Pickle">
+              </a>
+              <span class="dp-mini-badge">Bestseller</span>
+            </div>
+            <div class="dp-product-mini-card__info">
+              <h4><a href="/collections/all">Rajapuri Mango Achar</a></h4>
+              <div class="dp-product-price">
+                <span class="dp-price-current">₹299</span>
+                <span class="dp-price-old">₹350</span>
+              </div>
+              <a href="/collections/all" class="dp-mini-buy-btn">Buy Now →</a>
+            </div>
+          </div>
+
+          <div class="dp-product-mini-card">
+            <div class="dp-product-mini-card__img">
+              <a href="/collections/all">
+                <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=200&q=80" alt="Stuffed Red Chilli Pickle">
+              </a>
+            </div>
+            <div class="dp-product-mini-card__info">
+              <h4><a href="/collections/all">Stuffed Red Chilli Achar</a></h4>
+              <div class="dp-product-price">
+                <span class="dp-price-current">₹349</span>
+                <span class="dp-price-old">₹399</span>
+              </div>
+              <a href="/collections/all" class="dp-mini-buy-btn">Buy Now →</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- WIDGET 2: DYNAMIC STORE CATEGORIES -->
+    <div class="dp-sidebar-widget dp-sidebar-widget--categories">
+      <div class="dp-widget-title-wrap">
+        <span class="dp-widget-icon">📂</span>
+        <h3 class="dp-widget-title">Categories</h3>
+      </div>
+      <ul class="dp-category-list">
+        {% assign sidebar_core_cats = "Heritage Recipes,Health & Spices,Buying Guides,Pickle Pairings,Artisanal Craft" | split: "," %}
+        {% for cat_item in sidebar_core_cats %}
+          {% assign cat_clean = cat_item | strip %}
+          {% assign cat_lower = cat_clean | downcase %}
+          {% assign cat_count = 0 %}
+          {% for art in blog.articles %}
+            {% if art.tags contains cat_clean %}
+              {% assign cat_count = cat_count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+          <li>
+            <a href="{{ blog.url }}/tagged/{{ cat_clean | handle }}">
+              <span>{% if cat_lower contains 'heritage' %}🥭{% elsif cat_lower contains 'health' %}🌶️{% elsif cat_lower contains 'buy' %}🛒{% elsif cat_lower contains 'pair' %}🍱{% else %}🫙{% endif %} {{ cat_clean }}</span>
+              <span class="dp-cat-count">({{ cat_count }})</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- WIDGET 3: BLOG POST TOPICS -->
+    <div class="dp-sidebar-widget dp-sidebar-widget--topics">
+      <div class="dp-widget-title-wrap">
+        <span class="dp-widget-icon">📝</span>
+        <h3 class="dp-widget-title">Blog Topics</h3>
+      </div>
+      <ul class="dp-recent-topics-list">
+        {% if blog.articles.size > 0 %}
+          {% for article in blog.articles limit: 6 %}
+            <li>
+              <span class="dp-topic-tag">{{ article.tags.first | default: "Recipe" }}</span>
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+
+    <!-- WIDGET 4: POPULAR KEYWORDS / TAG CLOUD -->
+    <div class="dp-sidebar-widget dp-sidebar-widget--tags">
+      <div class="dp-widget-title-wrap">
+        <span class="dp-widget-icon">🏷️</span>
+        <h3 class="dp-widget-title">Focus Keywords</h3>
+      </div>
+      <div class="dp-keywords-cloud dp-keywords-cloud--collapsed">
+        {% if blog.all_tags.size > 0 %}
+          {% assign categories_filter = "Heritage Recipes,Health & Spices,Buying Guides,Pickle Pairings,Artisanal Craft" %}
+          {% for tag in blog.all_tags %}
+            {% assign tag_clean = tag | strip %}
+            {% unless categories_filter contains tag_clean %}
+              {% assign is_current_tag = false %}
+              {% if article.tags contains tag_clean %}
+                {% assign is_current_tag = true %}
+              {% endif %}
+              <a href="{{ blog.url }}/tagged/{{ tag_clean | handle }}" class="dp-tag-pill {% if is_current_tag %}active{% endif %}">#{{ tag_clean }}</a>
+            {% endunless %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <button type="button" class="dp-show-more-tags-btn" onclick="toggleDpKeywords()">
+        <span class="dp-btn-text">+ Show More Keywords</span>
+        <span class="dp-btn-arrow">↓</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.dp-sticky-sidebar-wrapper {
+  position: sticky !important;
+  top: 130px !important;
+  z-index: 10 !important;
+  height: fit-content !important;
+}
+.dp-sticky-sidebar-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+}
+
+/* WIDGET CONTAINER STYLING */
+.sidebar .dp-sidebar-widget,
+.dp-sticky-sidebar-wrapper .dp-sidebar-widget {
+  background: #fdf6ed !important;
+  border: 1px solid #e8d5c0 !important;
+  border-radius: 20px !important;
+  padding: 20px !important;
+  box-shadow: 0 4px 18px rgba(61, 31, 15, 0.04) !important;
+  box-sizing: border-box !important;
+  margin-bottom: 24px !important;
+}
+
+.sidebar .dp-widget-title-wrap,
+.dp-sticky-sidebar-wrapper .dp-widget-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid #e8d5c0 !important;
+}
+
+.sidebar .dp-widget-icon,
+.dp-sticky-sidebar-wrapper .dp-widget-icon {
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+.sidebar .dp-widget-title,
+.dp-sticky-sidebar-wrapper .dp-widget-title {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #3d1f0f !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+/* WIDGET 1: PRODUCT MINI CARDS */
+.sidebar .dp-sidebar-products-list,
+.dp-sticky-sidebar-wrapper .dp-sidebar-products-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.sidebar .dp-product-mini-card,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  background: #ffffff !important;
+  border: 1px solid #e8d5c0 !important;
+  border-radius: 14px !important;
+  padding: 10px !important;
+  box-shadow: 0 4px 12px rgba(61, 31, 15, 0.03) !important;
+  transition: transform 0.2s ease !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.sidebar .dp-product-mini-card:hover,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: #b01215 !important;
+  box-shadow: 0 6px 18px rgba(61, 31, 15, 0.08) !important;
+}
+
+.sidebar .dp-product-mini-card__img,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card__img {
+  position: relative !important;
+  width: 76px !important;
+  min-width: 76px !important;
+  max-width: 76px !important;
+  height: 76px !important;
+  min-height: 76px !important;
+  max-height: 76px !important;
+  flex: 0 0 76px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  background: #fdf6ed !important;
+  border: 1px solid #e8d5c0 !important;
+  margin: 0 !important;
+  float: none !important;
+}
+
+.sidebar .dp-product-mini-card__img a,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card__img a {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sidebar .dp-product-mini-card__img img,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card__img img {
+  width: 76px !important;
+  min-width: 76px !important;
+  max-width: 76px !important;
+  height: 76px !important;
+  min-height: 76px !important;
+  max-height: 76px !important;
+  object-fit: cover !important;
+  display: block !important;
+  margin: 0 !important;
+  float: none !important;
+}
+
+.sidebar .dp-mini-badge,
+.dp-sticky-sidebar-wrapper .dp-mini-badge {
+  position: absolute !important;
+  top: 4px !important;
+  left: 4px !important;
+  z-index: 2 !important;
+  background: #b01215 !important;
+  color: #ffffff !important;
+  font-size: 8.5px !important;
+  font-weight: 800 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+}
+
+.sidebar .dp-product-mini-card__info,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card__info {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: calc(100% - 88px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.sidebar .dp-product-mini-card__info h4,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card__info h4 {
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+  line-height: 1.35 !important;
+}
+
+.sidebar .dp-product-mini-card__info h4 a,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card__info h4 a {
+  color: #3d1f0f !important;
+  text-decoration: none !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.sidebar .dp-product-mini-card__info h4 a:hover,
+.dp-sticky-sidebar-wrapper .dp-product-mini-card__info h4 a:hover {
+  color: #b01215 !important;
+}
+
+.sidebar .dp-product-price,
+.dp-sticky-sidebar-wrapper .dp-product-price {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 0 !important;
+}
+
+.sidebar .dp-price-current,
+.dp-sticky-sidebar-wrapper .dp-price-current {
+  font-size: 13.5px !important;
+  font-weight: 900 !important;
+  color: #b01215 !important;
+}
+
+.sidebar .dp-price-old,
+.dp-sticky-sidebar-wrapper .dp-price-old {
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: #8c6d58 !important;
+  text-decoration: line-through !important;
+}
+
+.sidebar .dp-mini-buy-btn,
+.dp-sticky-sidebar-wrapper .dp-mini-buy-btn {
+  background: #b01215 !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 5px 12px !important;
+  border-radius: 50px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  width: fit-content !important;
+  margin-top: 2px !important;
+  box-shadow: 0 3px 8px rgba(176, 18, 21, 0.22) !important;
+  transition: all 0.2s ease !important;
+}
+
+.sidebar .dp-mini-buy-btn:hover,
+.dp-sticky-sidebar-wrapper .dp-mini-buy-btn:hover {
+  background: #8c0e10 !important;
+  transform: translateX(2px) !important;
+}
+
+/* WIDGET 2: CATEGORIES */
+.sidebar .dp-category-list,
+.dp-sticky-sidebar-wrapper .dp-category-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.sidebar .dp-category-list li,
+.dp-sticky-sidebar-wrapper .dp-category-list li {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  list-style: none !important;
+}
+
+.sidebar .dp-category-list a,
+.dp-sticky-sidebar-wrapper .dp-category-list a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #ffffff !important;
+  border: 1px solid #e8d5c0 !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  color: #3d1f0f !important;
+  text-decoration: none !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(61, 31, 15, 0.02) !important;
+}
+
+.sidebar .dp-category-list a:hover,
+.dp-sticky-sidebar-wrapper .dp-category-list a:hover {
+  background: #b01215 !important;
+  color: #ffffff !important;
+  border-color: #b01215 !important;
+  transform: translateX(3px) !important;
+}
+
+.sidebar .dp-category-list a:hover .dp-cat-count,
+.dp-sticky-sidebar-wrapper .dp-category-list a:hover .dp-cat-count {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.sidebar .dp-cat-count,
+.dp-sticky-sidebar-wrapper .dp-cat-count {
+  color: #8c6d58 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+/* WIDGET 3: BLOG TOPICS */
+.sidebar .dp-recent-topics-list,
+.dp-sticky-sidebar-wrapper .dp-recent-topics-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.sidebar .dp-recent-topics-list li,
+.dp-sticky-sidebar-wrapper .dp-recent-topics-list li {
+  padding: 10px 12px !important;
+  margin: 0 !important;
+  background: #ffffff !important;
+  border: 1px solid #e8d5c0 !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+.sidebar .dp-recent-topics-list li:hover,
+.dp-sticky-sidebar-wrapper .dp-recent-topics-list li:hover {
+  border-color: #b01215 !important;
+  box-shadow: 0 4px 12px rgba(61, 31, 15, 0.05) !important;
+}
+
+.sidebar .dp-topic-tag,
+.dp-sticky-sidebar-wrapper .dp-topic-tag {
+  display: inline-block !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  color: #b01215 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  background: #fdf6ed !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  width: fit-content !important;
+}
+
+.sidebar .dp-recent-topics-list a,
+.dp-sticky-sidebar-wrapper .dp-recent-topics-list a {
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: #3d1f0f !important;
+  line-height: 1.35 !important;
+  text-decoration: none !important;
+}
+
+.sidebar .dp-recent-topics-list a:hover,
+.dp-sticky-sidebar-wrapper .dp-recent-topics-list a:hover {
+  color: #b01215 !important;
+}
+
+/* WIDGET 4: POPULAR KEYWORDS / FOCUS KEYWORDS TAG CLOUD */
+.sidebar .dp-keywords-cloud,
+.dp-sticky-sidebar-wrapper .dp-keywords-cloud {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  padding: 4px 0 !important;
+}
+
+.sidebar .dp-tag-pill,
+.dp-sticky-sidebar-wrapper .dp-tag-pill {
+  background: #ffffff !important;
+  border: 1.5px solid #e8d5c0 !important;
+  color: #3d1f0f !important;
+  padding: 6px 12px !important;
+  border-radius: 50px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(61, 31, 15, 0.03) !important;
+}
+
+.sidebar .dp-tag-pill:hover,
+.sidebar .dp-tag-pill.active,
+.dp-sticky-sidebar-wrapper .dp-tag-pill:hover,
+.dp-sticky-sidebar-wrapper .dp-tag-pill.active {
+  background: #b01215 !important;
+  color: #ffffff !important;
+  border-color: #b01215 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(176, 18, 21, 0.25) !important;
+}
+
+@media (max-width: 991px) {
+  .dp-sticky-sidebar-wrapper {
+    position: static !important;
+    margin-top: 30px !important;
+  }
+}
+</style>

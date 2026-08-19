@@ -1,0 +1,882 @@
+{% assign sid = section.id %}
+
+{% if section.settings.enable_hero_section %}
+<div id="laber_{{ sid }}" class="dp-story-section">
+
+  <!-- === DECORATIVE SPICE PATTERN BACKDROP === -->
+  <div class="dp-story__backdrop" aria-hidden="true">
+    <span class="dp-story__spice dp-story__spice--1">🌶️</span>
+    <span class="dp-story__spice dp-story__spice--2">🥭</span>
+    <span class="dp-story__spice dp-story__spice--3">🫙</span>
+    <span class="dp-story__spice dp-story__spice--4">🌿</span>
+  </div>
+
+  <div class="dp-story__container">
+
+    <!-- === TOP LABEL & HEADING === -->
+    <div class="dp-story__intro">
+      {%- if section.settings.title_text != blank -%}
+        <span class="dp-story__badge-label">
+          <span class="dp-story__badge-dot"></span>
+          {{ section.settings.title_text | escape }}
+        </span>
+      {%- endif -%}
+      {%- if section.settings.heading_text != blank -%}
+        <h2 class="dp-story__heading">{{ section.settings.heading_text }}</h2>
+      {%- endif -%}
+      <div class="dp-story__heading-line"></div>
+    </div>
+
+    <!-- === MAIN GRID (Image Left + Content Right) === -->
+    <div class="dp-story__grid">
+
+      <!-- IMAGE COLUMN -->
+      <div class="dp-story__visual">
+        <div class="dp-story__img-frame">
+          {%- if section.settings.banner_image != blank -%}
+            <img
+              src="{{ section.settings.banner_image | image_url: width: 900 }}"
+              alt="{{ section.settings.banner_image_alt | default: 'Our Pickle Story' | escape }}"
+              loading="lazy"
+              class="dp-story__img"
+            >
+          {%- else -%}
+            <div class="dp-story__img-placeholder">
+              <span>🏺</span>
+              <p>Add your story image</p>
+            </div>
+          {%- endif -%}
+
+          <!-- Accent Card (Top Right) -->
+          {%- if section.settings.accent_title != blank -%}
+            <div class="dp-story__accent-card">
+              <div class="dp-story__accent-card-icon">{{ section.settings.accent_icon | default: '☀️' | escape }}</div>
+              <p class="dp-story__accent-card-title">{{ section.settings.accent_title | escape }}</p>
+              {%- if section.settings.accent_subtitle != blank -%}
+                <small class="dp-story__accent-card-sub">{{ section.settings.accent_subtitle | escape }}</small>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          <!-- Badge (Bottom Left) -->
+          {%- if section.settings.badge_text != blank -%}
+            <div class="dp-story__badge">
+              <span class="dp-story__badge-emoji">{{ section.settings.badge_icon | default: '🫙' | escape }}</span>
+              <span>{{ section.settings.badge_text | escape }}</span>
+            </div>
+          {%- endif -%}
+
+          <!-- Frame decorative corner -->
+          <div class="dp-story__frame-corner dp-story__frame-corner--tl"></div>
+          <div class="dp-story__frame-corner dp-story__frame-corner--br"></div>
+        </div>
+
+        <!-- Stat Pills under image -->
+        <div class="dp-story__stat-row">
+          {%- if section.settings.stat1_number != blank -%}
+            <div class="dp-story__stat">
+              <span class="dp-story__stat-num">{{ section.settings.stat1_number | escape }}</span>
+              <span class="dp-story__stat-label">{{ section.settings.stat1_label | default: 'Years Legacy' | escape }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.stat2_number != blank -%}
+            <div class="dp-story__stat">
+              <span class="dp-story__stat-num">{{ section.settings.stat2_number | escape }}</span>
+              <span class="dp-story__stat-label">{{ section.settings.stat2_label | default: 'Recipes' | escape }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.stat3_number != blank -%}
+            <div class="dp-story__stat">
+              <span class="dp-story__stat-num">{{ section.settings.stat3_number | escape }}</span>
+              <span class="dp-story__stat-label">{{ section.settings.stat3_label | default: 'Happy Families' | escape }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- CONTENT COLUMN -->
+      <div class="dp-story__content">
+
+        {%- if section.settings.paragraph_text != blank -%}
+          <p class="dp-story__body-text">{{ section.settings.paragraph_text }}</p>
+        {%- endif -%}
+
+        <!-- Feature USPs Checklist -->
+        <div class="dp-story__usps">
+          {%- if section.settings.usp1_text != blank -%}
+            <div class="dp-story__usp-item">
+              <span class="dp-story__usp-icon-wrap">{{ section.settings.usp1_icon | default: '🥭' | escape }}</span>
+              <div class="dp-story__usp-body">
+                <span class="dp-story__usp-text">{{ section.settings.usp1_text | escape }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.usp2_text != blank -%}
+            <div class="dp-story__usp-item">
+              <span class="dp-story__usp-icon-wrap">{{ section.settings.usp2_icon | default: '☀️' | escape }}</span>
+              <div class="dp-story__usp-body">
+                <span class="dp-story__usp-text">{{ section.settings.usp2_text | escape }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.usp3_text != blank -%}
+            <div class="dp-story__usp-item">
+              <span class="dp-story__usp-icon-wrap">{{ section.settings.usp3_icon | default: '🏺' | escape }}</span>
+              <div class="dp-story__usp-body">
+                <span class="dp-story__usp-text">{{ section.settings.usp3_text | escape }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.usp4_text != blank -%}
+            <div class="dp-story__usp-item">
+              <span class="dp-story__usp-icon-wrap">{{ section.settings.usp4_icon | default: '❤️' | escape }}</span>
+              <div class="dp-story__usp-body">
+                <span class="dp-story__usp-text">{{ section.settings.usp4_text | escape }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <!-- Pull Quote -->
+        {%- if section.settings.quote_text != blank -%}
+          <blockquote class="dp-story__quote">
+            <span class="dp-story__quote-mark">"</span>
+            <p>{{ section.settings.quote_text | escape }}</p>
+            {%- if section.settings.quote_author != blank -%}
+              <cite>— {{ section.settings.quote_author | escape }}</cite>
+            {%- endif -%}
+          </blockquote>
+        {%- endif -%}
+
+        <!-- CTA Button -->
+        {%- if section.settings.button_text != blank -%}
+          <div class="dp-story__cta">
+            <a href="{{ section.settings.button_link | default: '/pages/about-us' }}" class="dp-story__btn" aria-label="Read more about our pickle story">
+              <span>{{ section.settings.button_text | escape }}</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        {%- endif -%}
+
+      </div><!-- /.dp-story__content -->
+
+    </div><!-- /.dp-story__grid -->
+
+  </div><!-- /.dp-story__container -->
+</div>
+{% endif %}
+
+{%- style -%}
+/* ============================================
+   DIVYA PRABHA — ABOUT US / PICKLE STORY SECTION
+   Premium Editorial Redesign
+   ============================================ */
+
+#laber_{{ sid }} {
+  --dp-red: {{ section.settings.color_red | default: '#b01215' }};
+  --dp-red-dark: color-mix(in srgb, var(--dp-red) 80%, black);
+  --dp-brown: {{ section.settings.color_brown | default: '#3d1f0f' }};
+  --dp-gold: {{ section.settings.color_gold | default: '#e5a842' }};
+  --dp-cream: {{ section.settings.color_cream | default: '#fff8ee' }};
+  --dp-warm-bg: {{ section.settings.background_color | default: '#fdf5e8' }};
+  --dp-text: {{ section.settings.color_text | default: '#2d1206' }};
+  --dp-muted: {{ section.settings.color_muted | default: '#6b4c3b' }};
+  --dp-border: {{ section.settings.color_border | default: '#e8d5c0' }};
+}
+
+.dp-story-section {
+  position: relative;
+  background: var(--dp-warm-bg);
+  padding: 100px 0;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* === BACKDROP SPICE EMOJIS === */
+.dp-story__backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.dp-story__spice {
+  position: absolute;
+  font-size: 60px;
+  opacity: 0.04;
+  user-select: none;
+  filter: grayscale(1);
+}
+.dp-story__spice--1 { top: 8%; left: 3%; font-size: 80px; transform: rotate(-15deg); }
+.dp-story__spice--2 { bottom: 15%; left: 8%; font-size: 60px; transform: rotate(10deg); }
+.dp-story__spice--3 { top: 20%; right: 2%; font-size: 70px; transform: rotate(20deg); }
+.dp-story__spice--4 { bottom: 10%; right: 5%; font-size: 50px; transform: rotate(-8deg); }
+
+/* === CONTAINER === */
+.dp-story__container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* === INTRO (TOP LABEL + HEADING + LINE) === */
+.dp-story__intro {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.dp-story__badge-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(176,18,21,0.08);
+  border: 1px solid rgba(176,18,21,0.15);
+  color: var(--dp-red);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+.dp-story__badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--dp-red);
+  border-radius: 50%;
+  display: inline-block;
+  animation: dp-pulse 2s infinite;
+}
+@keyframes dp-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.dp-story__heading {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  color: var(--dp-brown);
+  line-height: 1.1;
+  margin: 0 0 20px;
+  letter-spacing: -1px;
+}
+.dp-story__heading em {
+  font-style: italic;
+  color: var(--dp-gold);
+}
+
+.dp-story__heading-line {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--dp-red), var(--dp-gold));
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+/* === MAIN GRID === */
+.dp-story__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* === IMAGE VISUAL COLUMN === */
+.dp-story__visual {}
+
+.dp-story__img-frame {
+  position: relative;
+  border-radius: 24px;
+  overflow: visible;
+}
+
+.dp-story__img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 24px;
+  display: block;
+  box-shadow: 0 30px 80px rgba(61, 31, 15, 0.18);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dp-story__img-frame:hover .dp-story__img {
+  transform: scale(1.015);
+}
+
+.dp-story__img-placeholder {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: linear-gradient(135deg, var(--dp-cream) 0%, #f5e6cf 100%);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--dp-border);
+  gap: 12px;
+}
+.dp-story__img-placeholder span { font-size: 60px; }
+.dp-story__img-placeholder p { font-size: 14px; color: var(--dp-muted); }
+
+/* Frame Corners */
+.dp-story__frame-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 2;
+  pointer-events: none;
+}
+.dp-story__frame-corner--tl {
+  top: -8px;
+  left: -8px;
+  border-top: 3px solid var(--dp-gold);
+  border-left: 3px solid var(--dp-gold);
+  border-radius: 4px 0 0 0;
+}
+.dp-story__frame-corner--br {
+  bottom: -8px;
+  right: -8px;
+  border-bottom: 3px solid var(--dp-red);
+  border-right: 3px solid var(--dp-red);
+  border-radius: 0 0 4px 0;
+}
+
+/* Accent Card */
+.dp-story__accent-card {
+  position: absolute;
+  top: 24px;
+  right: -28px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px 20px;
+  box-shadow: 0 12px 40px rgba(61,31,15,0.14);
+  text-align: center;
+  min-width: 130px;
+  border: 1px solid var(--dp-border);
+  z-index: 3;
+}
+.dp-story__accent-card-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.dp-story__accent-card-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--dp-brown);
+  margin: 0 0 2px;
+  line-height: 1.3;
+}
+.dp-story__accent-card-sub {
+  font-size: 10px;
+  color: var(--dp-muted);
+}
+
+/* Badge (Bottom Left) */
+.dp-story__badge {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 3;
+  background: rgba(61,31,15,0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--dp-cream);
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.dp-story__badge-emoji { font-size: 20px; }
+
+/* Stat Row */
+.dp-story__stat-row {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-top: 24px;
+  background: #fff;
+  border: 1px solid var(--dp-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(61,31,15,0.05);
+}
+.dp-story__stat {
+  flex: 1;
+  text-align: center;
+  padding: 20px 16px;
+  border-right: 1px solid var(--dp-border);
+  position: relative;
+}
+.dp-story__stat:last-child { border-right: none; }
+.dp-story__stat-num {
+  display: block;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--dp-red);
+  line-height: 1;
+  margin-bottom: 4px;
+  font-family: 'Inter', sans-serif;
+}
+.dp-story__stat-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dp-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* === CONTENT COLUMN === */
+.dp-story__content {
+  padding-top: 10px;
+}
+
+.dp-story__body-text {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--dp-muted);
+  margin: 0 0 36px;
+}
+
+/* USPs Checklist */
+.dp-story__usps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.dp-story__usp-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background: #fff;
+  border: 1px solid var(--dp-border);
+  border-radius: 14px;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(61,31,15,0.03);
+}
+.dp-story__usp-item:hover {
+  border-color: var(--dp-gold);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(229,168,66,0.12);
+}
+.dp-story__usp-icon-wrap {
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  background: var(--dp-cream);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--dp-border);
+}
+.dp-story__usp-body {}
+.dp-story__usp-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dp-brown);
+  line-height: 1.4;
+}
+
+/* Pull Quote */
+.dp-story__quote {
+  position: relative;
+  background: linear-gradient(135deg, var(--dp-brown) 0%, #5c3016 100%);
+  border-radius: 20px;
+  padding: 32px 36px 28px;
+  margin: 0 0 36px;
+  overflow: hidden;
+}
+.dp-story__quote::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='30'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  border-radius: 20px;
+}
+.dp-story__quote-mark {
+  position: absolute;
+  top: 12px;
+  left: 24px;
+  font-size: 80px;
+  line-height: 1;
+  color: var(--dp-gold);
+  font-family: Georgia, serif;
+  opacity: 0.4;
+}
+.dp-story__quote p {
+  position: relative;
+  z-index: 1;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #fff8ee;
+  font-style: italic;
+  margin: 0 0 16px;
+  padding-top: 12px;
+}
+.dp-story__quote cite {
+  position: relative;
+  z-index: 1;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dp-gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* CTA Button */
+.dp-story__cta {}
+.dp-story__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--dp-red);
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px 36px;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(176,18,21,0.25);
+  border: 2px solid var(--dp-red);
+  letter-spacing: 0.3px;
+}
+.dp-story__btn:hover {
+  background: var(--dp-red-dark);
+  border-color: var(--dp-red-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(176,18,21,0.35);
+  color: #fff;
+}
+.dp-story__btn svg {
+  transition: transform 0.25s ease;
+}
+.dp-story__btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .dp-story-section { padding: 80px 0; }
+  .dp-story__grid { gap: 50px; }
+  .dp-story__accent-card { right: 0; }
+  .dp-story__img {
+    height: 500px;
+  }
+}
+
+@media (max-width: 900px) {
+  .dp-story__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .dp-story__img-frame {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .dp-story__img {
+    height: auto;
+    aspect-ratio: 4/3;
+  }
+  .dp-story__content {
+    padding-top: 0;
+  }
+  .dp-story__intro {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dp-story-section { padding: 60px 0; }
+  .dp-story__container { padding: 0 16px; }
+  .dp-story__heading { font-size: clamp(26px, 7vw, 38px); }
+  .dp-story__accent-card { display: none; }
+  .dp-story__stat-row { gap: 0; }
+  .dp-story__stat { padding: 14px 10px; }
+  .dp-story__stat-num { font-size: 20px; }
+  .dp-story__quote { padding: 24px 24px 20px; }
+  .dp-story__quote p { font-size: 15px; }
+  .dp-story__btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 400px) {
+  .dp-story__usp-item { flex-wrap: wrap; }
+}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Redesigned About Us Sec",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_hero_section",
+      "label": "Enable Section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Color Theme"
+    },
+    {
+      "type": "color",
+      "id": "color_red",
+      "label": "Red Accent",
+      "default": "#b01215"
+    },
+    {
+      "type": "color",
+      "id": "color_brown",
+      "label": "Brown brand secondary",
+      "default": "#3d1f0f"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Gold highlight",
+      "default": "#e5a842"
+    },
+    {
+      "type": "color",
+      "id": "color_cream",
+      "label": "Cream Accent",
+      "default": "#fff8ee"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "default": "#fdf5e8"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Primary Text",
+      "default": "#2d1206"
+    },
+    {
+      "type": "color",
+      "id": "color_muted",
+      "label": "Muted Text",
+      "default": "#6b4c3b"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Borders",
+      "default": "#e8d5c0"
+    },
+    {
+      "type": "header",
+      "content": "Section Heading"
+    },
+    {
+      "type": "text",
+      "id": "title_text",
+      "label": "Section subtitle (badge text)",
+      "default": "About Us"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading (supports <em> for italic gold)",
+      "default": "Our <em>Pickle</em> Story"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_text",
+      "label": "Description paragraph",
+      "default": "Born in the golden kitchens of Saurashtra, our pickles carry four generations of love, patience, and the warmth of Baa's hands. Every jar is a memory—of summer sun, clay barnis, and the aroma of spices ground by hand."
+    },
+    {
+      "type": "header",
+      "content": "Brand Features (Checklist)"
+    },
+    {
+      "type": "text",
+      "id": "usp1_icon",
+      "label": "Feature 1 Icon (Emoji)",
+      "default": "🥭"
+    },
+    {
+      "type": "text",
+      "id": "usp1_text",
+      "label": "Feature 1 Title",
+      "default": "Generational recipes, unchanged since 1980"
+    },
+    {
+      "type": "text",
+      "id": "usp2_icon",
+      "label": "Feature 2 Icon (Emoji)",
+      "default": "☀️"
+    },
+    {
+      "type": "text",
+      "id": "usp2_text",
+      "label": "Feature 2 Title",
+      "default": "100% Sun-dried in traditional clay Barnis"
+    },
+    {
+      "type": "text",
+      "id": "usp3_icon",
+      "label": "Feature 3 Icon (Emoji)",
+      "default": "🚫"
+    },
+    {
+      "type": "text",
+      "id": "usp3_text",
+      "label": "Feature 3 Title",
+      "default": "Zero preservatives, zero artificial colours"
+    },
+    {
+      "type": "text",
+      "id": "usp4_icon",
+      "label": "Feature 4 Icon (Emoji)",
+      "default": "❤️"
+    },
+    {
+      "type": "text",
+      "id": "usp4_text",
+      "label": "Feature 4 Title",
+      "default": "Small handcrafted batches, packed with care"
+    },
+    {
+      "type": "header",
+      "content": "Pull Quote"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Text",
+      "default": "Every pickle we make is Baa's love sealed in a jar — a tradition we refuse to shortcut."
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author",
+      "default": "Divya Prabha, Founder"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button label",
+      "default": "Read Our Full Story"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Image & Overlays"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Main Section Image"
+    },
+    {
+      "type": "text",
+      "id": "banner_image_alt",
+      "label": "Image Alt text"
+    },
+    {
+      "type": "text",
+      "id": "accent_icon",
+      "label": "Accent Card Icon (Emoji)",
+      "default": "☀️"
+    },
+    {
+      "type": "text",
+      "id": "accent_title",
+      "label": "Accent Card Title",
+      "default": "Sun-dried Mangoes"
+    },
+    {
+      "type": "text",
+      "id": "accent_subtitle",
+      "label": "Accent Card Subtitle",
+      "default": "Traditional method"
+    },
+    {
+      "type": "text",
+      "id": "badge_icon",
+      "label": "Badge Icon (Emoji)",
+      "default": "🫙"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Baa's Love 💛"
+    },
+    {
+      "type": "header",
+      "content": "Statistics"
+    },
+    {
+      "type": "text",
+      "id": "stat1_number",
+      "label": "Stat 1 Number",
+      "default": "40+"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 Label",
+      "default": "Yrs Legacy"
+    },
+    {
+      "type": "text",
+      "id": "stat2_number",
+      "label": "Stat 2 Number",
+      "default": "20+"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 Label",
+      "default": "Recipes"
+    },
+    {
+      "type": "text",
+      "id": "stat3_number",
+      "label": "Stat 3 Number",
+      "default": "10K+"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 Label",
+      "default": "Families"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Redesigned About Us Sec",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
