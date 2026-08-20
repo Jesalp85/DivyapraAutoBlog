@@ -5,7 +5,7 @@ import datetime
 import argparse
 import os
 
-token = os.environ.get("SHOPIFY_ACCESS_TOKEN", "os.environ.get("SHOPIFY_ACCESS_TOKEN", "")")
+token = os.environ.get("SHOPIFY_ACCESS_TOKEN", "")
 shop_url = os.environ.get("SHOPIFY_SHOP_URL", "https://divyaprabhafoods.myshopify.com")
 blog_id = int(os.environ.get("SHOPIFY_BLOG_ID", "97942077654"))
 ctx = ssl.create_default_context()
