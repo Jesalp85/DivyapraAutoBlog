@@ -2,8 +2,9 @@ name: Divyaprabha Daily Blog Cloud Publisher
 
 on:
   schedule:
-    # Runs at 03:30, 08:30, 13:30 UTC = 09:00 AM, 02:00 PM, 07:00 PM IST
-    - cron: '30 3,8,13 * * *'
+    # Runs at 03:35, 08:35, 13:35 UTC = 09:05 AM, 02:05 PM, 07:05 PM IST
+    # Using :35 avoids peak GitHub Actions queue delays (which occur at :00 and :30)
+    - cron: '35 3,8,13 * * *'
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:

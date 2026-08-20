@@ -11,6 +11,9 @@ blog_id = int(os.environ.get("SHOPIFY_BLOG_ID", "97942077654"))
 ctx = ssl.create_default_context()
 
 def get_all_articles():
+    if not token:
+        print("❌ Error: SHOPIFY_ACCESS_TOKEN environment variable is not set!")
+        return []
     url = f"{shop_url}/admin/api/2024-04/blogs/{blog_id}/articles.json?limit=250"
     req = urllib.request.Request(url, headers={
         "X-Shopify-Access-Token": token,
@@ -29,16 +32,17 @@ def check_status():
     published = [a for a in articles if a.get("published_at")]
     drafts = [a for a in articles if not a.get("published_at")]
     
-    # Get current IST date
+    # Get current IST date & time
     now_ist = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30)))
     today_str = now_ist.strftime("%Y-%m-%d")
+    time_str = now_ist.strftime("%H:%M:%S")
     
     today_published = [a for a in published if a.get("published_at", "").startswith(today_str)]
     
     print("\n========================================================")
     print("📊 DIVYAPRABHA FOODS — DAILY BLOG SYSTEM STATUS")
     print("========================================================")
-    print(f"Store: divyaprabhafoods.com | Date (IST): {today_str}")
+    print(f"Store: divyaprabhafoods.com | Date (IST): {today_str} {time_str}")
     print(f"Total Articles in System: {len(articles)}")
     print(f"Currently Published & Live: {len(published)}")
     print(f"Drafts in Queue (Ready for Future): {len(drafts)}")
@@ -46,11 +50,34 @@ def check_status():
     print("========================================================\n")
     return len(today_published), len(drafts)
 
-def publish_today(target_count=3):
+def get_target_for_current_time(now_ist):
+    """
+    Determine how many articles should be published by this time today:
+    - Before 14:00 (2 PM) IST: Target = 1 (Slot 1: 09:00 AM)
+    - Between 14:00 and 19:00 (7 PM) IST: Target = 2 (Slot 2: 02:00 PM)
+    - 19:00 IST or later: Target = 3 (Slot 3: 07:00 PM)
+    """
+    hour = now_ist.hour
+    if hour < 14:
+        return 1
+    elif hour < 19:
+        return 2
+    else:
+        return 3
+
+def publish_today(override_target=None):
     now_ist = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30)))
     today_str = now_ist.strftime("%Y-%m-%d")
     
+    if override_target is not None:
+        target_count = override_target
+    else:
+        target_count = get_target_for_current_time(now_ist)
+
     articles = get_all_articles()
+    if not articles and not token:
+        return
+
     published = [a for a in articles if a.get("published_at")]
     drafts = [a for a in articles if not a.get("published_at")]
     
@@ -58,11 +85,12 @@ def publish_today(target_count=3):
     already_done = len(today_published)
     
     needed = target_count - already_done
-    print(f"🚀 Running Daily Publisher for {today_str} (IST)...")
-    print(f"Articles already published today: {already_done}. Needed: {needed}")
+    print(f"🚀 Running Daily Publisher for {today_str} at {now_ist.strftime('%H:%M:%S')} IST...")
+    print(f"Time Window Target: {target_count} post(s) expected by this time.")
+    print(f"Articles already published today: {already_done}. Needed for this window: {max(0, needed)}")
     
     if needed <= 0:
-        print(f"✅ Target of {target_count} articles for today ({today_str}) is ALREADY COMPLETE!")
+        print(f"✅ Target of {target_count} article(s) for current time slot ({today_str}) is ALREADY COMPLETE!")
         return
         
     if not drafts:
@@ -77,7 +105,9 @@ def publish_today(target_count=3):
 
     published_now = 0
     for idx, art in enumerate(to_publish):
-        slot_idx = (already_done + idx) % 3
+        slot_idx = already_done + idx
+        if slot_idx >= 3:
+            slot_idx = 2
         pub_timestamp = f"{today_str}T{times[slot_idx]}"
         art_id = art["id"]
         title = art["title"]
@@ -104,16 +134,20 @@ def publish_today(target_count=3):
         except Exception as e:
             print(f"❌ Error publishing article {art_id}:", e)
 
-    print(f"\n🎉 Successfully published {published_now} new articles for today ({today_str})!")
+    print(f"\n🎉 Successfully published {published_now} new article(s) for current slot!")
     check_status()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Divyaprabha Daily Blog Publisher")
     parser.add_argument("--status", action="store_true", help="Check current status")
-    parser.add_argument("--now", action="store_true", help="Publish today's missing daily articles")
+    parser.add_argument("--now", action="store_true", help="Publish today's missing daily articles for current slot")
+    parser.add_argument("--all", action="store_true", help="Force publish all 3 articles for today regardless of time")
     args = parser.parse_args()
 
     if args.status:
         check_status()
+    elif args.all:
+        publish_today(override_target=3)
     else:
         publish_today()
+
