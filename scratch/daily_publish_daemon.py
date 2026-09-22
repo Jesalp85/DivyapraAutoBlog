@@ -101,7 +101,23 @@ def publish_today(override_target=None):
     drafts.sort(key=lambda x: x["id"])
     to_publish = drafts[:needed]
 
-    times = ["09:00:00+05:30", "14:00:00+05:30", "19:00:00+05:30"]
+    # Random IST publish times (unique within the day) — not fixed 09/14/19 clocks
+    import random as _random
+    _rng = _random.Random(f"{today_str}-{already_done}")
+    windows = [(8, 11), (12, 16), (17, 21)]
+    used_hm = set()
+    times = []
+    for wi in range(3):
+        w = windows[wi]
+        for _attempt in range(20):
+            hh = _rng.randint(w[0], w[1] - 1)
+            mm = _rng.choice([0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55])
+            if (hh, mm) not in used_hm:
+                used_hm.add((hh, mm))
+                times.append(f"{hh:02d}:{mm:02d}:00+05:30")
+                break
+        else:
+            times.append(f"{w[0]:02d}:17:00+05:30")
 
     published_now = 0
     for idx, art in enumerate(to_publish):

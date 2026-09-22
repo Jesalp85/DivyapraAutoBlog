@@ -1,0 +1,56 @@
+name: Arham Keyword Blog & Collection Engine
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "collections | blogs | both"
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - blogs
+          - collections
+      limit:
+        description: "Blog batch size (ignored if all=true)"
+        required: false
+        default: "30"
+      all:
+        description: "Process full remaining blog backlog"
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    # Keep filling queue every day at 02:20 IST (20:50 UTC previous day) if backlog remains
+    - cron: "50 20 * * *"
+
+jobs:
+  fill-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Run keyword content engine
+        env:
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_URL: "https://divyaprabhafoods.myshopify.com"
+          SHOPIFY_BLOG_ID: "97942077654"
+        run: |
+          set -e
+          MODE="${{ github.event.inputs.mode || 'both' }}"
+          LIMIT="${{ github.event.inputs.limit || '30' }}"
+          ALL="${{ github.event.inputs.all || 'false' }}"
+          python3 scratch/arham_keyword_content_engine.py --status
+          if [ "$MODE" = "collections" ] || [ "$MODE" = "both" ]; then
+            python3 scratch/arham_keyword_content_engine.py --collections
+          fi
+          if [ "$MODE" = "blogs" ] || [ "$MODE" = "both" ]; then
+            if [ "$ALL" = "true" ]; then
+              python3 scratch/arham_keyword_content_engine.py --blogs --all --start-offset-days 1
+            else
+              python3 scratch/arham_keyword_content_engine.py --blogs --limit "$LIMIT" --start-offset-days 1
+            fi
+          fi
