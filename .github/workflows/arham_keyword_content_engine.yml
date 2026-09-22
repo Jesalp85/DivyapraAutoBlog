@@ -1,5 +1,9 @@
 name: Arham Keyword Blog & Collection Engine
 
+# Continuous cadence — no end date:
+#   - 3 blogs every day (random IST publish times)
+#   - 2 collection pages every week (Monday IST)
+
 on:
   workflow_dispatch:
     inputs:
@@ -13,21 +17,18 @@ on:
           - blogs
           - collections
       limit:
-        description: "Blog batch size (ignored if all=true)"
+        description: "Blogs to create this run (daily cadence = 3)"
         required: false
-        default: "30"
-      all:
-        description: "Process full remaining blog backlog"
-        required: false
-        default: false
-        type: boolean
+        default: "3"
       collection_limit:
-        description: "Max NEW collections this run (weekly cadence = 2)"
+        description: "New collections this run (weekly cadence = 2)"
         required: false
         default: "2"
   schedule:
-    # Every Monday 02:20 IST (Sunday 20:50 UTC) — create 2 collections/week
-    - cron: "50 20 * * 0"
+    # Daily 02:20 IST (20:50 UTC) — create next day's 3 blogs
+    - cron: "50 20 * * *"
+    # Monday 02:20 IST (Sunday 20:50 UTC) — also create 2 collections
+    # (daily cron already fires; job detects weekday for collections)
 
 jobs:
   fill-content:
@@ -37,25 +38,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Publish weekly collections (+ optional blogs)
+      - name: Evergreen publish (no end date)
         env:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: "https://divyaprabhafoods.myshopify.com"
           SHOPIFY_BLOG_ID: "97942077654"
         run: |
           set -e
-          MODE="${{ github.event.inputs.mode || 'collections' }}"
-          LIMIT="${{ github.event.inputs.limit || '30' }}"
-          ALL="${{ github.event.inputs.all || false }}"
+          MODE="${{ github.event.inputs.mode || '' }}"
+          LIMIT="${{ github.event.inputs.limit || '3' }}"
           COL_LIMIT="${{ github.event.inputs.collection_limit || '2' }}"
-          echo "Mode=$MODE BlogLimit=$LIMIT All=$ALL CollectionLimit=$COL_LIMIT"
-          if [ "$MODE" = "collections" ] || [ "$MODE" = "both" ]; then
-            python3 scratch/publish_arham_ready_queues.py --collections --collection-limit "$COL_LIMIT"
-          fi
-          if [ "$MODE" = "blogs" ] || [ "$MODE" = "both" ]; then
-            if [ "$ALL" = "true" ]; then
-              python3 scratch/publish_arham_ready_queues.py --blogs --all
+          # UTC weekday: 7 = Sunday => Monday morning IST for 20:50 UTC cron
+          DOW="$(date -u +%u)"
+          if [ -z "$MODE" ]; then
+            if [ "$DOW" = "7" ]; then
+              MODE="both"
             else
-              python3 scratch/publish_arham_ready_queues.py --blogs --limit "$LIMIT"
+              MODE="blogs"
             fi
+          fi
+          echo "Mode=$MODE BlogLimit=$LIMIT CollectionLimit=$COL_LIMIT DOW=$DOW (evergreen, no end date)"
+          if [ "$MODE" = "blogs" ] || [ "$MODE" = "both" ]; then
+            python3 scratch/arham_keyword_content_engine.py --blogs --ongoing --limit "$LIMIT" --start-offset-days 1
+          fi
+          if [ "$MODE" = "collections" ] || [ "$MODE" = "both" ]; then
+            python3 scratch/arham_keyword_content_engine.py --collections --ongoing --collection-limit "$COL_LIMIT"
           fi

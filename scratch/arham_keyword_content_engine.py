@@ -2,18 +2,20 @@
 """
 Divyaprabha Foods — Arham keyword blog + collection engine
 
+Continuous (no end date):
+  - Blogs: 3/day at random IST times, forever (cycles Excel keywords + angles)
+  - Collections: 2/week, forever (new keyword-led collection pages)
+
 - Reads scratch/arham_focus_keywords.json (from Excel)
 - Creates unique SEO blog articles (1200+ words HTML) mapped to live products
-- Schedules 3 posts/day at RANDOM IST times
-- Creates/updates SEO collection pages for product pillars + combos
-- Continues until keyword backlog is exhausted (re-run safely; skips existing handles)
+- Creates SEO collection pages for product pillars, combos, and keyword themes
+- Re-run safely; skips existing Shopify handles
 
 Usage:
   export SHOPIFY_ACCESS_TOKEN=shpat_xxx
   python3 scratch/arham_keyword_content_engine.py --status
-  python3 scratch/arham_keyword_content_engine.py --collections
-  python3 scratch/arham_keyword_content_engine.py --blogs --limit 30
-  python3 scratch/arham_keyword_content_engine.py --blogs --all
+  python3 scratch/arham_keyword_content_engine.py --blogs --ongoing --limit 3
+  python3 scratch/arham_keyword_content_engine.py --collections --ongoing --collection-limit 2
 """
 
 from __future__ import annotations
@@ -201,8 +203,8 @@ def clean_title(title: str) -> str:
     return title[:58].rsplit(" ", 1)[0]
 
 
-def pick_angle(keyword: str) -> str:
-    h = int(hashlib.md5(keyword.lower().encode()).hexdigest(), 16)
+def pick_angle(keyword: str, salt: str = "") -> str:
+    h = int(hashlib.md5(f"{keyword.lower()}|{salt}".encode()).hexdigest(), 16)
     return list(ANGLE_H2.keys())[h % len(ANGLE_H2)]
 
 
@@ -225,15 +227,26 @@ def map_product(pillar: str | None, keyword: str):
     return PRODUCTS["special_mango"]
 
 
-def build_article_html(keyword: str, pillar: str | None, pub_date: str) -> tuple[str, str, str, dict]:
+def build_article_html(
+    keyword: str,
+    pillar: str | None,
+    pub_date: str,
+    angle: str | None = None,
+    handle_suffix: str = "",
+) -> tuple[str, str, str, dict]:
     prod = map_product(pillar, keyword)
-    angle = pick_angle(keyword)
+    angle = angle or pick_angle(keyword, handle_suffix or pub_date)
     h2s = [h.format(kw=keyword) for h in ANGLE_H2[angle]]
-    title = clean_title(f"{keyword}: Gujarati Homemade Achar Guide")
-    if len(title) > 59:
-        title = clean_title(f"{keyword} Homemade Achar")
+    title_variants = [
+        f"{keyword}: Gujarati Homemade Achar Guide",
+        f"{keyword} Homemade Achar",
+        f"Buy {keyword} | Saurashtra Achar Guide",
+        f"{keyword} — Traditional Kathiyawadi Pickle",
+        f"Authentic {keyword} from Divyaprabha Foods",
+    ]
+    title = clean_title(title_variants[int(hashlib.md5(f"{keyword}|{angle}|{handle_suffix}".encode()).hexdigest(), 16) % len(title_variants)])
     category = CATEGORIES[int(hashlib.md5(keyword.encode()).hexdigest(), 16) % len(CATEGORIES)]
-    handle = slugify(f"{keyword}-{angle}")
+    handle = slugify(f"{keyword}-{angle}-{handle_suffix}" if handle_suffix else f"{keyword}-{angle}")
 
     faq = [
         (
@@ -514,6 +527,7 @@ def keyword_jobs(registry) -> list[tuple[str, str | None]]:
 
 
 def create_scheduled_blogs(limit: int | None = None, start_offset_days: int = 1):
+    """Legacy one-shot backlog fill (still no fixed calendar end when used with --ongoing)."""
     require_token()
     registry = load_registry()
     state = load_state()
@@ -521,10 +535,8 @@ def create_scheduled_blogs(limit: int | None = None, start_offset_days: int = 1)
     existing |= set(state.get("blog_handles", {}).keys())
 
     jobs = keyword_jobs(registry)
-    pending = [(kw, p) for kw, p in jobs if slugify(f"{kw}-{pick_angle(kw)}") not in existing]
-    # also skip if any handle collision with simpler slug
     filtered = []
-    for kw, p in pending:
+    for kw, p in jobs:
         h = slugify(f"{kw}-{pick_angle(kw)}")
         if h in existing:
             continue
@@ -534,26 +546,154 @@ def create_scheduled_blogs(limit: int | None = None, start_offset_days: int = 1)
         filtered = filtered[:limit]
 
     if not filtered:
-        print("✅ No pending keyword blogs — backlog complete or already created.")
+        print("No unused first-pass keyword handles left — use --ongoing for continuous posting.")
         return
 
     days_needed = (len(filtered) + 2) // 3
     start_day = dt.datetime.now(IST).date() + dt.timedelta(days=start_offset_days)
     slots = random_daily_slots(start_day, days_needed, 3)
+    _publish_blog_batch(filtered, slots, existing, state)
 
-    print(f"Creating {len(filtered)} blogs across ~{days_needed} days from {start_day} (3/day, random IST times)...")
+
+def latest_future_blog_date(existing_meta_handles: dict | None = None) -> dt.date | None:
+    """Return the latest future published_at date already on Shopify/state, if any."""
+    latest: dt.date | None = None
+    now = dt.datetime.now(IST)
+    # from API
+    since_id = 0
+    try:
+        for _ in range(30):
+            path = f"blogs/{BLOG_ID}/articles.json?limit=250&fields=id,published_at"
+            if since_id:
+                path += f"&since_id={since_id}"
+            arts = api("GET", path).get("articles") or []
+            if not arts:
+                break
+            for a in arts:
+                raw = a.get("published_at") or ""
+                if not raw:
+                    continue
+                try:
+                    # Shopify returns UTC ISO
+                    ts = dt.datetime.fromisoformat(raw.replace("Z", "+00:00")).astimezone(IST)
+                except Exception:
+                    continue
+                if ts.date() >= now.date():
+                    if latest is None or ts.date() > latest:
+                        latest = ts.date()
+                since_id = max(since_id, a.get("id") or 0)
+            if len(arts) < 250:
+                break
+            time.sleep(0.25)
+    except Exception as e:
+        print(f"⚠️ Could not scan future blog dates: {e}")
+    return latest
+
+
+def create_ongoing_blogs(limit: int = 3, start_offset_days: int = 1):
+    """Create `limit` blogs forever — appends after existing schedule (no end date)."""
+    require_token()
+    registry = load_registry()
+    state = load_state()
+    existing = existing_article_handles()
+    existing |= set(state.get("blog_handles", {}).keys())
+    jobs = keyword_jobs(registry)
+    if not jobs:
+        raise SystemExit("No keywords in arham_focus_keywords.json")
+
+    angles = list(ANGLE_H2.keys())
+    tomorrow = dt.datetime.now(IST).date() + dt.timedelta(days=start_offset_days)
+    # Extend past any already-scheduled future posts so we never "end" the calendar
+    latest = latest_future_blog_date()
+    if latest and latest >= tomorrow:
+        start_day = latest + dt.timedelta(days=1)
+        print(f"Extending calendar after existing schedule ending {latest} → start {start_day}")
+    else:
+        start_day = tomorrow
+
+    days_needed = max(1, (limit + 2) // 3)
+    slots = random_daily_slots(start_day, days_needed, 3)[:limit]
+
+    cursor = int(state.get("blog_cursor", 0))
+    batch = []
+    guard = 0
+    while len(batch) < limit and guard < limit * 2000:
+        guard += 1
+        kw, pillar = jobs[cursor % len(jobs)]
+        angle = angles[(cursor // len(jobs)) % len(angles)]
+        slot = slots[len(batch)]
+        suffix = slot.strftime("%Y%m%d") + f"-{cursor % 10000}"
+        handle = slugify(f"{kw}-{angle}-{suffix}")
+        cursor += 1
+        if handle in existing:
+            continue
+        batch.append((kw, pillar, handle, angle, suffix, slot))
+
+    state["blog_cursor"] = cursor
+    save_state(state)
+
+    print(
+        f"Evergreen blogs: creating {len(batch)} (target {limit}/day) "
+        f"from {start_day} — continuous, no end date."
+    )
     created = 0
-    for idx, (kw, pillar, handle) in enumerate(filtered):
-        slot = slots[idx]
+    for kw, pillar, handle, angle, suffix, slot in batch:
         pub_date = slot.date().isoformat()
-        title, handle, html, meta = build_article_html(kw, pillar, pub_date)
-        # ensure unique handle
+        title, handle2, html, meta = build_article_html(
+            kw, pillar, pub_date, angle=angle, handle_suffix=suffix
+        )
+        handle = handle2 or handle
         base = handle
         n = 2
         while handle in existing:
             handle = f"{base}-{n}"
             n += 1
+        payload = {
+            "article": {
+                "title": title,
+                "author": "Baa & The DivyaPrabha Culinary Team",
+                "tags": meta["tags"],
+                "body_html": html,
+                "summary_html": meta["excerpt"],
+                "handle": handle,
+                "published": True,
+                "published_at": slot.isoformat(),
+                "image": {"src": meta["product"]["image"], "alt": f"{kw} — {meta['product']['name']}"},
+            }
+        }
+        try:
+            res = api("POST", f"blogs/{BLOG_ID}/articles.json", payload)
+            art = res.get("article") or {}
+            existing.add(handle)
+            state.setdefault("blog_handles", {})[handle] = {
+                "id": art.get("id"),
+                "keyword": kw,
+                "pillar": pillar,
+                "published_at": slot.isoformat(),
+                "title": title,
+            }
+            created += 1
+            print(f"✅ [{created}/{len(batch)}] {slot.strftime('%Y-%m-%d %H:%M IST')} | {title}")
+            save_state(state)
+            time.sleep(0.45)
+        except Exception as e:
+            print(f"❌ Failed {kw}: {e}")
+            time.sleep(1.0)
+    print(f"\n🎉 Created/scheduled {created} evergreen articles (continues daily, no end date).")
 
+
+def _publish_blog_batch(filtered, slots, existing, state):
+    print(f"Creating {len(filtered)} blogs across slots from {slots[0].date() if slots else '?'}...")
+    created = 0
+    for idx, (kw, pillar, handle) in enumerate(filtered):
+        slot = slots[idx]
+        pub_date = slot.date().isoformat()
+        title, handle, html, meta = build_article_html(kw, pillar, pub_date)
+        base = handle
+        n = 2
+        while handle in existing:
+            handle = f"{base}-{n}"
+            n += 1
         payload = {
             "article": {
                 "title": title,
@@ -585,7 +725,6 @@ def create_scheduled_blogs(limit: int | None = None, start_offset_days: int = 1)
         except Exception as e:
             print(f"❌ Failed {kw}: {e}")
             time.sleep(1.0)
-
     print(f"\n🎉 Created/scheduled {created} articles.")
 
 
@@ -624,18 +763,31 @@ def collection_body(title: str, pillar: str, prod_key: str, keywords: list[str])
 """
 
 
+def existing_collection_handles() -> dict:
+    existing = {}
+    try:
+        data = api("GET", "custom_collections.json?limit=250")
+    except Exception as e:
+        print(f"⚠️ Skipping collections — token lacks products/collections scope: {e}")
+        return {}
+    for c in data.get("custom_collections") or []:
+        if c.get("handle"):
+            existing[c["handle"]] = c
+    return existing
+
+
 def upsert_collections():
     require_token()
     registry = load_registry()
     state = load_state()
     pillars = registry.get("pillars") or {}
     combos = registry.get("combos") or {}
-
-    # existing custom collections
-    existing = {}
-    data = api("GET", "custom_collections.json?limit=250")
-    for c in data.get("custom_collections") or []:
-        existing[c.get("handle")] = c
+    existing = existing_collection_handles()
+    if existing is None:
+        return
+    if not existing and TOKEN:
+        # empty dict can mean API fail (already printed) or shop has zero — try create anyway if API worked
+        pass
 
     for handle, title, pillar, prod_key in COLLECTION_SPECS:
         kws = pillars.get(pillar) or combos.get(pillar) or []
@@ -658,39 +810,127 @@ def upsert_collections():
             )
             print(f"🔄 Updated collection: {handle}")
         else:
-            res = api(
-                "POST",
-                "custom_collections.json",
-                {
-                    "custom_collection": {
-                        "title": title,
-                        "handle": handle,
-                        "body_html": body,
-                        "published": True,
-                        "metafields_global_title_tag": seo_title,
-                        "metafields_global_description_tag": seo_desc,
-                    }
-                },
-            )
-            cid = (res.get("custom_collection") or {}).get("id")
-            print(f"✅ Created collection: {handle} (id={cid})")
-            # collect products into collection
-            prod = PRODUCTS[prod_key]
-            # find product id
-            try:
-                pdata = api("GET", f"products.json?handle={prod['handle']}")
-                products = pdata.get("products") or []
-                if products and cid:
-                    api(
-                        "POST",
-                        "collects.json",
-                        {"collect": {"collection_id": cid, "product_id": products[0]["id"]}},
-                    )
-            except Exception as e:
-                print(f"  (collect skip) {e}")
+            _create_collection(handle, title, body, seo_title, seo_desc, prod_key)
         state.setdefault("collection_handles", {})[handle] = {"pillar": pillar, "title": title}
         save_state(state)
         time.sleep(0.4)
+
+
+def _create_collection(handle, title, body, seo_title, seo_desc, prod_key):
+    res = api(
+        "POST",
+        "custom_collections.json",
+        {
+            "custom_collection": {
+                "title": title,
+                "handle": handle,
+                "body_html": body,
+                "published": True,
+                "metafields_global_title_tag": seo_title,
+                "metafields_global_description_tag": seo_desc,
+            }
+        },
+    )
+    cid = (res.get("custom_collection") or {}).get("id")
+    print(f"✅ Created collection: {handle} (id={cid})")
+    prod = PRODUCTS[prod_key]
+    try:
+        pdata = api("GET", f"products.json?handle={prod['handle']}")
+        products = pdata.get("products") or []
+        if products and cid:
+            api(
+                "POST",
+                "collects.json",
+                {"collect": {"collection_id": cid, "product_id": products[0]["id"]}},
+            )
+    except Exception as e:
+        print(f"  (collect skip) {e}")
+    return cid
+
+
+def create_ongoing_collections(limit: int = 2):
+    """Create up to `limit` NEW collection pages forever (weekly cadence = 2). No end date."""
+    require_token()
+    registry = load_registry()
+    state = load_state()
+    existing = existing_collection_handles()
+    # If API 403, existing_collection_handles returns {} after print — detect via test call already done
+    try:
+        api("GET", "custom_collections.json?limit=1")
+    except Exception as e:
+        print(f"⚠️ Skipping collections — token lacks products/collections scope: {e}")
+        return
+
+    pillars = registry.get("pillars") or {}
+    combos = registry.get("combos") or {}
+    jobs = keyword_jobs(registry)
+    if not jobs:
+        raise SystemExit("No keywords for collections")
+
+    # First finish static pillar specs, then evergreen keyword collections
+    pending_specs = [
+        (h, t, p, pk) for h, t, p, pk in COLLECTION_SPECS if h not in existing
+    ]
+    batch = []
+    for h, t, p, pk in pending_specs:
+        if len(batch) >= limit:
+            break
+        batch.append(("spec", h, t, p, pk))
+
+    cursor = int(state.get("collection_cursor", 0))
+    guard = 0
+    while len(batch) < limit and guard < len(jobs) * 20:
+        guard += 1
+        kw, pillar = jobs[cursor % len(jobs)]
+        cursor += 1
+        prod_key = PILLAR_PRODUCT.get(pillar or "", "special_mango")
+        if pillar and pillar in PILLAR_PRODUCT:
+            prod_key = PILLAR_PRODUCT[pillar]
+        else:
+            # infer from keyword via map_product reverse
+            prod = map_product(pillar, kw)
+            prod_key = next(k for k, v in PRODUCTS.items() if v["handle"] == prod["handle"])
+        handle = slugify(f"{kw}-homemade-achar")
+        if handle in existing or any(b[1] == handle for b in batch):
+            handle = slugify(f"{kw}-buy-online")
+        if handle in existing or any(b[1] == handle for b in batch):
+            handle = slugify(f"{kw}-collection-{cursor}")
+        if handle in existing or any(b[1] == handle for b in batch):
+            continue
+        title = clean_title(f"{kw} | Homemade Achar Collection")
+        batch.append(("kw", handle, title, pillar or kw, prod_key, kw))
+
+    state["collection_cursor"] = cursor
+    save_state(state)
+
+    print(
+        f"Evergreen collections: creating {len(batch)} this week "
+        f"(limit={limit}/week, no end date)."
+    )
+    for item in batch:
+        if item[0] == "spec":
+            _, handle, title, pillar, prod_key = item
+            kws = pillars.get(pillar) or combos.get(pillar) or [pillar]
+            seed_kw = pillar
+        else:
+            _, handle, title, pillar, prod_key, seed_kw = item
+            kws = [seed_kw] + (pillars.get(pillar) or combos.get(pillar) or [])[:10]
+        body = collection_body(title, pillar, prod_key, kws)
+        seo_title = clean_title(title)
+        seo_desc = f"Buy authentic {seed_kw if item[0]=='kw' else pillar} homemade Gujarati pickles online from Divyaprabha Foods."[:160]
+        try:
+            cid = _create_collection(handle, title, body, seo_title, seo_desc, prod_key)
+            existing[handle] = {"id": cid}
+            state.setdefault("collection_handles", {})[handle] = {
+                "pillar": pillar,
+                "title": title,
+                "id": cid,
+            }
+            save_state(state)
+        except Exception as e:
+            print(f"❌ collection {handle}: {e}")
+        time.sleep(0.4)
+    print(f"Done. Created {len(batch)} collections; continues weekly with no end date.")
 
 
 def status():
@@ -700,9 +940,10 @@ def status():
     print("Keywords unique jobs:", len(jobs))
     print("Blogs recorded in state:", len(state.get("blog_handles") or {}))
     print("Collections recorded:", len(state.get("collection_handles") or {}))
+    print("Cadence: 3 blogs/day + 2 collections/week — continuous, no end date")
     if TOKEN:
         try:
-            arts = api("GET", f"blogs/{BLOG_ID}/articles.json?limit=1&published_status=unpublished")
+            api("GET", f"blogs/{BLOG_ID}/articles.json?limit=1&published_status=any")
             print("API reachable: yes")
         except Exception as e:
             print("API reachable: no ->", e)
@@ -715,18 +956,29 @@ def main():
     parser.add_argument("--status", action="store_true")
     parser.add_argument("--collections", action="store_true")
     parser.add_argument("--blogs", action="store_true")
-    parser.add_argument("--all", action="store_true", help="Process full remaining blog backlog")
-    parser.add_argument("--limit", type=int, default=21, help="Blog batch size (default 21 = 7 days)")
+    parser.add_argument(
+        "--ongoing",
+        action="store_true",
+        help="Continuous mode: no backlog end date (default for scheduled runs)",
+    )
+    parser.add_argument("--all", action="store_true", help="Process full remaining first-pass blog backlog")
+    parser.add_argument("--limit", type=int, default=3, help="Blog batch size (ongoing default = 3/day)")
+    parser.add_argument("--collection-limit", type=int, default=2, help="New collections per run (default 2/week)")
     parser.add_argument("--start-offset-days", type=int, default=1)
     args = parser.parse_args()
 
     if args.status or (not args.collections and not args.blogs):
         status()
     if args.collections:
-        upsert_collections()
+        if args.ongoing:
+            create_ongoing_collections(args.collection_limit)
+        else:
+            upsert_collections()
     if args.blogs:
-        lim = None if args.all else args.limit
-        create_scheduled_blogs(limit=lim, start_offset_days=args.start_offset_days)
+        if args.all and not args.ongoing:
+            create_scheduled_blogs(limit=None, start_offset_days=args.start_offset_days)
+        else:
+            create_ongoing_blogs(limit=args.limit, start_offset_days=args.start_offset_days)
 
 
 if __name__ == "__main__":
