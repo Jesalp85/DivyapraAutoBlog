@@ -70,7 +70,14 @@ def save_state(st):
 def publish_collections():
     require_token()
     cols = json.loads(COL_Q.read_text())
-    existing = {c["handle"]: c for c in (api("GET", "custom_collections.json?limit=250").get("custom_collections") or [])}
+    try:
+        existing = {
+            c["handle"]: c
+            for c in (api("GET", "custom_collections.json?limit=250").get("custom_collections") or [])
+        }
+    except Exception as e:
+        print(f"⚠️ Skipping collections — token lacks products/collections scope: {e}")
+        return
     st = load_state()
     for col in cols:
         handle = col["handle"]
@@ -108,13 +115,13 @@ def publish_collections():
             )
             cid = (res.get("custom_collection") or {}).get("id")
             print("created", handle, cid)
-            pdata = api("GET", f"products.json?handle={col['product_handle']}")
-            products = pdata.get("products") or []
-            if products and cid:
-                try:
+            try:
+                pdata = api("GET", f"products.json?handle={col['product_handle']}")
+                products = pdata.get("products") or []
+                if products and cid:
                     api("POST", "collects.json", {"collect": {"collection_id": cid, "product_id": products[0]["id"]}})
-                except Exception as e:
-                    print(" collect skip", e)
+            except Exception as e:
+                print(" collect skip", e)
         st.setdefault("collection_handles", {})[handle] = col["title"]
         save_state(st)
         time.sleep(0.4)
@@ -125,10 +132,31 @@ def publish_blogs(limit=None):
     blogs = json.loads(BLOG_Q.read_text())
     st = load_state()
     done = set(st.get("blog_handles", {}))
+    # Also skip handles already on Shopify if we can list them
+    try:
+        since_id = 0
+        for _ in range(30):
+            path = f"blogs/{BLOG_ID}/articles.json?limit=250&fields=id,handle"
+            if since_id:
+                path += f"&since_id={since_id}"
+            arts = api("GET", path).get("articles") or []
+            if not arts:
+                break
+            for a in arts:
+                if a.get("handle"):
+                    done.add(a["handle"])
+                since_id = max(since_id, a.get("id") or 0)
+            if len(arts) < 250:
+                break
+            time.sleep(0.3)
+    except Exception as e:
+        print(f"⚠️ Could not list existing articles (will rely on local state): {e}")
+
     pending = [b for b in blogs if b["handle"] not in done]
     if limit is not None:
         pending = pending[:limit]
     print(f"Publishing {len(pending)} / remaining {len([b for b in blogs if b['handle'] not in done])}")
+    ok = 0
     for b in pending:
         payload = {
             "article": {
@@ -153,10 +181,12 @@ def publish_blogs(limit=None):
                 "keyword": b["keyword"],
             }
             save_state(st)
+            ok += 1
             print("✅", b["published_at"], b["title"])
         except Exception as e:
             print("❌", b["handle"], e)
         time.sleep(0.45)
+    print(f"Done. Created {ok} articles.")
 
 
 def main():
