@@ -22,7 +22,7 @@ on:
         default: false
         type: boolean
   schedule:
-    # Keep filling queue every day at 02:20 IST (20:50 UTC previous day) if backlog remains
+    # Keep filling remaining backlog daily at 02:20 IST (20:50 UTC)
     - cron: "50 20 * * *"
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Run keyword content engine
+      - name: Publish collections + scheduled blogs from ready queues
         env:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: "https://divyaprabhafoods.myshopify.com"
@@ -42,15 +42,15 @@ jobs:
           set -e
           MODE="${{ github.event.inputs.mode || 'both' }}"
           LIMIT="${{ github.event.inputs.limit || '30' }}"
-          ALL="${{ github.event.inputs.all || 'false' }}"
-          python3 scratch/arham_keyword_content_engine.py --status
+          ALL="${{ github.event.inputs.all || false }}"
+          echo "Mode=$MODE Limit=$LIMIT All=$ALL"
           if [ "$MODE" = "collections" ] || [ "$MODE" = "both" ]; then
-            python3 scratch/arham_keyword_content_engine.py --collections
+            python3 scratch/publish_arham_ready_queues.py --collections
           fi
           if [ "$MODE" = "blogs" ] || [ "$MODE" = "both" ]; then
             if [ "$ALL" = "true" ]; then
-              python3 scratch/arham_keyword_content_engine.py --blogs --all --start-offset-days 1
+              python3 scratch/publish_arham_ready_queues.py --blogs --all
             else
-              python3 scratch/arham_keyword_content_engine.py --blogs --limit "$LIMIT" --start-offset-days 1
+              python3 scratch/publish_arham_ready_queues.py --blogs --limit "$LIMIT"
             fi
           fi
