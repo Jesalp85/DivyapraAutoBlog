@@ -380,6 +380,16 @@ def build_article_html(keyword: str, pillar: str | None, pub_date: str) -> tuple
         f"<p>Share feedback with family elders who grew up with terrace-cured achar — their language (‘tikho’, ‘gor’, ‘khatto’) is still the best "
         f"quality rubric. When their verdict matches your jar of <strong>{prod['name']}</strong>, you know the {keyword} search led somewhere honest.</p>"
     )
+    sections.append(
+        f"<h2>Ingredient transparency checklist for {keyword}</h2>"
+        f"<p>Before checkout, scan for: fruit identity (Rajapuri / keri style), oil (wood-pressed mustard vs palm), salt type, chilli variety, "
+        f"and any mention of vinegar or benzoate. Divyaprabha Foods keeps the story short on purpose — fewer additives mean clearer flavour and "
+        f"cleaner storage behaviour in humid Indian kitchens.</p>"
+        f"<p>Also note packaging. Amber or clear food-grade glass protects aroma better than thin plastic. Labels should remain readable after "
+        f"condensation. If a listing for {keyword} cannot show the jar from multiple angles, treat that as a trust gap.</p>"
+        f"<p>Finally, plan usage: a 500g jar suits most nuclear families for weeks of daily thepla breakfasts, while 1kg suits joint families or "
+        f"gifting. Match jar size to consumption so oil exposure cycles stay healthy and the last spoon still tastes vivid.</p>"
+    )
 
     faq_html = ["<h2>Frequently asked questions about {}</h2>".format(keyword)]
     for q, a in faq:
