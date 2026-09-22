@@ -4,7 +4,7 @@
 Requires a token with content + products scopes:
   export SHOPIFY_ACCESS_TOKEN=shpat_xxx
 
-  python3 scratch/publish_arham_ready_queues.py --collections
+  python3 scratch/publish_arham_ready_queues.py --collections --collection-limit 2
   python3 scratch/publish_arham_ready_queues.py --blogs --limit 30
   python3 scratch/publish_arham_ready_queues.py --blogs --all
 """
@@ -67,7 +67,8 @@ def save_state(st):
     STATE.write_text(json.dumps(st, indent=2, ensure_ascii=False))
 
 
-def publish_collections():
+def publish_collections(limit=2):
+    """Create up to `limit` NEW collection pages (default 2/week cadence)."""
     require_token()
     cols = json.loads(COL_Q.read_text())
     try:
@@ -78,53 +79,53 @@ def publish_collections():
     except Exception as e:
         print(f"⚠️ Skipping collections — token lacks products/collections scope: {e}")
         return
+
     st = load_state()
-    for col in cols:
+    pending = [c for c in cols if c["handle"] not in existing]
+    batch = pending[: max(0, limit)]
+    print(
+        f"Collections: creating {len(batch)} this run "
+        f"(pending {len(pending)} / queue {len(cols)}; limit={limit}/week)"
+    )
+    if not batch:
+        print("No new collections left in queue.")
+        return
+
+    for col in batch:
         handle = col["handle"]
         seo_title = col["title"][:59]
         seo_desc = f"Buy authentic {col['pillar']} homemade Gujarati pickles online from Divyaprabha Foods."[:160]
-        if handle in existing:
-            cid = existing[handle]["id"]
-            api(
-                "PUT",
-                f"custom_collections/{cid}.json",
-                {
-                    "custom_collection": {
-                        "id": cid,
-                        "body_html": col["body_html"],
-                        "metafields_global_title_tag": seo_title,
-                        "metafields_global_description_tag": seo_desc,
-                    }
-                },
-            )
-            print("updated", handle)
-        else:
-            res = api(
-                "POST",
-                "custom_collections.json",
-                {
-                    "custom_collection": {
-                        "title": col["title"],
-                        "handle": handle,
-                        "body_html": col["body_html"],
-                        "published": True,
-                        "metafields_global_title_tag": seo_title,
-                        "metafields_global_description_tag": seo_desc,
-                    }
-                },
-            )
-            cid = (res.get("custom_collection") or {}).get("id")
-            print("created", handle, cid)
-            try:
-                pdata = api("GET", f"products.json?handle={col['product_handle']}")
-                products = pdata.get("products") or []
-                if products and cid:
-                    api("POST", "collects.json", {"collect": {"collection_id": cid, "product_id": products[0]["id"]}})
-            except Exception as e:
-                print(" collect skip", e)
-        st.setdefault("collection_handles", {})[handle] = col["title"]
+        res = api(
+            "POST",
+            "custom_collections.json",
+            {
+                "custom_collection": {
+                    "title": col["title"],
+                    "handle": handle,
+                    "body_html": col["body_html"],
+                    "published": True,
+                    "metafields_global_title_tag": seo_title,
+                    "metafields_global_description_tag": seo_desc,
+                }
+            },
+        )
+        cid = (res.get("custom_collection") or {}).get("id")
+        print("✅ created", handle, cid)
+        try:
+            pdata = api("GET", f"products.json?handle={col['product_handle']}")
+            products = pdata.get("products") or []
+            if products and cid:
+                api("POST", "collects.json", {"collect": {"collection_id": cid, "product_id": products[0]["id"]}})
+        except Exception as e:
+            print(" collect skip", e)
+        st.setdefault("collection_handles", {})[handle] = {
+            "title": col["title"],
+            "id": cid,
+            "created_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        }
         save_state(st)
         time.sleep(0.4)
+    print(f"Done. Created {len(batch)} collections; {len(pending) - len(batch)} remaining.")
 
 
 def publish_blogs(limit=None):
@@ -194,10 +195,16 @@ def main():
     p.add_argument("--collections", action="store_true")
     p.add_argument("--blogs", action="store_true")
     p.add_argument("--all", action="store_true")
-    p.add_argument("--limit", type=int, default=30)
+    p.add_argument("--limit", type=int, default=30, help="Blog batch size")
+    p.add_argument(
+        "--collection-limit",
+        type=int,
+        default=2,
+        help="Max NEW collections to create this run (weekly cadence = 2)",
+    )
     args = p.parse_args()
     if args.collections:
-        publish_collections()
+        publish_collections(args.collection_limit)
     if args.blogs:
         publish_blogs(None if args.all else args.limit)
 

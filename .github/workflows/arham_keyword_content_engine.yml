@@ -21,9 +21,13 @@ on:
         required: false
         default: false
         type: boolean
+      collection_limit:
+        description: "Max NEW collections this run (weekly cadence = 2)"
+        required: false
+        default: "2"
   schedule:
-    # Keep filling remaining backlog daily at 02:20 IST (20:50 UTC)
-    - cron: "50 20 * * *"
+    # Every Monday 02:20 IST (Sunday 20:50 UTC) — create 2 collections/week
+    - cron: "50 20 * * 0"
 
 jobs:
   fill-content:
@@ -33,19 +37,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Publish collections + scheduled blogs from ready queues
+      - name: Publish weekly collections (+ optional blogs)
         env:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: "https://divyaprabhafoods.myshopify.com"
           SHOPIFY_BLOG_ID: "97942077654"
         run: |
           set -e
-          MODE="${{ github.event.inputs.mode || 'both' }}"
+          MODE="${{ github.event.inputs.mode || 'collections' }}"
           LIMIT="${{ github.event.inputs.limit || '30' }}"
           ALL="${{ github.event.inputs.all || false }}"
-          echo "Mode=$MODE Limit=$LIMIT All=$ALL"
+          COL_LIMIT="${{ github.event.inputs.collection_limit || '2' }}"
+          echo "Mode=$MODE BlogLimit=$LIMIT All=$ALL CollectionLimit=$COL_LIMIT"
           if [ "$MODE" = "collections" ] || [ "$MODE" = "both" ]; then
-            python3 scratch/publish_arham_ready_queues.py --collections
+            python3 scratch/publish_arham_ready_queues.py --collections --collection-limit "$COL_LIMIT"
           fi
           if [ "$MODE" = "blogs" ] || [ "$MODE" = "both" ]; then
             if [ "$ALL" = "true" ]; then
