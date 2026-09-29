@@ -174,6 +174,19 @@ def api(method: str, path: str, payload=None):
         raise RuntimeError(f"{method} {path} -> {e.code}: {err[:500]}") from e
 
 
+def granted_scopes() -> list[str]:
+    req = urllib.request.Request(
+        f"{SHOP_URL}/admin/oauth/access_scopes.json",
+        headers={"X-Shopify-Access-Token": TOKEN, "Accept": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, context=CTX, timeout=30) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        return [s.get("handle", "") for s in data.get("access_scopes") or []]
+    except Exception:
+        return []
+
+
 def load_registry():
     data = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
     return data
@@ -769,6 +782,7 @@ def create_ongoing_collections(limit: int = 2):
         api("GET", "custom_collections.json?limit=1")
     except Exception as e:
         print(f"⚠️ Skipping collections — token lacks products/collections scope: {e}")
+        print(f"   Scopes granted to this token: {', '.join(granted_scopes()) or 'unknown'}")
         return
 
     today = dt.datetime.now(IST).date()
