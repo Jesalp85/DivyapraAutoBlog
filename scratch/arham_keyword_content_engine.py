@@ -3,7 +3,7 @@
 Divyaprabha Foods — Arham keyword blog + collection engine
 
 Continuous (no end date):
-  - Blogs: 3/day at random IST times, forever (cycles Excel keywords + angles)
+  - Blogs: 3/day, one per IST slot (closing 14:00 / 19:00 / midnight), cycling Excel keywords + angles
   - Collections: 2/week, forever (new keyword-led collection pages)
 
 - Reads scratch/arham_focus_keywords.json (from Excel)
@@ -25,11 +25,11 @@ import datetime as dt
 import hashlib
 import json
 import os
-import random
 import re
 import ssl
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -233,6 +233,7 @@ def build_article_html(
     pub_date: str,
     angle: str | None = None,
     handle_suffix: str = "",
+    avoid_titles: set[str] | None = None,
 ) -> tuple[str, str, str, dict]:
     prod = map_product(pillar, keyword)
     angle = angle or pick_angle(keyword, handle_suffix or pub_date)
@@ -244,9 +245,20 @@ def build_article_html(
         f"{keyword} — Traditional Kathiyawadi Pickle",
         f"Authentic {keyword} from Divyaprabha Foods",
     ]
-    title = clean_title(title_variants[int(hashlib.md5(f"{keyword}|{angle}|{handle_suffix}".encode()).hexdigest(), 16) % len(title_variants)])
+    start = int(hashlib.md5(f"{keyword}|{angle}|{handle_suffix}".encode()).hexdigest(), 16) % len(title_variants)
+    title = clean_title(title_variants[start])
+    avoid = avoid_titles or set()
+    for i in range(len(title_variants)):
+        candidate = clean_title(title_variants[(start + i) % len(title_variants)])
+        if candidate.lower() not in avoid:
+            title = candidate
+            break
     category = CATEGORIES[int(hashlib.md5(keyword.encode()).hexdigest(), 16) % len(CATEGORIES)]
-    handle = slugify(f"{keyword}-{angle}-{handle_suffix}" if handle_suffix else f"{keyword}-{angle}")
+    if handle_suffix:
+        # Suffix must survive slug truncation: evergreen_cursor() parses it back from Shopify.
+        handle = f"{slugify(f'{keyword}-{angle}')[:55].strip('-')}-{handle_suffix}"
+    else:
+        handle = slugify(f"{keyword}-{angle}")
 
     faq = [
         (
@@ -460,50 +472,69 @@ def build_article_html(
     return title, handle, html, meta
 
 
-def existing_article_handles() -> set[str]:
-    handles = set()
-    page_info = None
-    # Shopify articles pagination via Link headers is complex; pull up to 250 repeatedly by since_id
+def existing_articles() -> list[dict]:
+    """All blog articles (published + hidden), paged by ascending id."""
+    articles = []
     since_id = 0
-    for _ in range(20):
-        path = f"blogs/{BLOG_ID}/articles.json?limit=250&fields=id,handle,title,published_at"
-        if since_id:
-            path += f"&since_id={since_id}"
-        data = api("GET", path)
-        arts = data.get("articles") or []
+    for _ in range(40):
+        path = (
+            f"blogs/{BLOG_ID}/articles.json?limit=250&published_status=any"
+            f"&fields=id,handle,title,published_at&since_id={since_id}"
+        )
+        arts = api("GET", path).get("articles") or []
         if not arts:
             break
-        for a in arts:
-            handles.add(a.get("handle") or "")
-            since_id = max(since_id, a.get("id") or 0)
+        articles.extend(arts)
+        since_id = max(a.get("id") or 0 for a in arts)
         if len(arts) < 250:
             break
         time.sleep(0.35)
-    return handles
+    return articles
 
 
-def random_daily_slots(start_day: dt.date, days: int, posts_per_day: int = 3) -> list[dt.datetime]:
-    """Return unique random IST datetimes, posts_per_day per calendar day."""
-    slots = []
-    rng = random.Random(20260922)  # stable-ish across reruns for same start
-    for d in range(days):
-        day = start_day + dt.timedelta(days=d)
-        # random minutes across morning/afternoon/evening windows
-        windows = [(8, 11), (12, 16), (17, 21)]
-        chosen = []
-        for wi in range(posts_per_day):
-            w = windows[wi % len(windows)]
-            hour = rng.randint(w[0], w[1] - 1)
-            minute = rng.choice([0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55])
-            second = rng.choice([0, 12, 24, 36, 48])
-            chosen.append(dt.datetime(day.year, day.month, day.day, hour, minute, second, tzinfo=IST))
-        # ensure unique & sorted
-        chosen = sorted(set(chosen))
-        while len(chosen) < posts_per_day:
-            chosen.append(chosen[-1] + dt.timedelta(minutes=17))
-            chosen = sorted(set(chosen))
-        slots.extend(chosen[:posts_per_day])
-    return slots
+def existing_article_handles() -> set[str]:
+    return {a.get("handle") or "" for a in existing_articles()}
+
+
+EVERGREEN_SUFFIX_RE = re.compile(r"-\d{8}-(\d+)$")
+
+
+def evergreen_cursor(handles, state) -> int:
+    """Next keyword position, derived from live handles so it survives stateless CI runners."""
+    cursor = int(state.get("blog_cursor", 0))
+    for h in handles:
+        m = EVERGREEN_SUFFIX_RE.search(h or "")
+        if m:
+            cursor = max(cursor, int(m.group(1)) + 1)
+    return cursor
+
+
+def evergreen_angle(keyword: str, cursor: int, jobs_count: int) -> str:
+    """Rotate away from the angle the keyword's first-pass article already used."""
+    angles = list(ANGLE_H2.keys())
+    base = angles.index(pick_angle(keyword))
+    return angles[(base + 1 + cursor // jobs_count) % len(angles)]
+
+
+def published_on(articles: list[dict], day: dt.date) -> int:
+    count = 0
+    for a in articles:
+        raw = a.get("published_at") or ""
+        if not raw:
+            continue
+        try:
+            ts = dt.datetime.fromisoformat(raw.replace("Z", "+00:00")).astimezone(IST)
+        except ValueError:
+            continue
+        if ts.date() == day:
+            count += 1
+    return count
+
+
+def due_by_now(now: dt.datetime, daily_target: int) -> int:
+    """Posts that should be live by this IST time: slots close at 14:00, 19:00, midnight."""
+    slots_open = 1 if now.hour < 14 else 2 if now.hour < 19 else 3
+    return -(-daily_target * slots_open // 3)
 
 
 def keyword_jobs(registry) -> list[tuple[str, str | None]]:
@@ -526,206 +557,85 @@ def keyword_jobs(registry) -> list[tuple[str, str | None]]:
     return uniq
 
 
-def create_scheduled_blogs(limit: int | None = None, start_offset_days: int = 1):
-    """Legacy one-shot backlog fill (still no fixed calendar end when used with --ongoing)."""
+def create_ongoing_blogs(daily_target: int = 3):
+    """Publish whatever is due for the current IST slot, forever (no end date).
+
+    Shopify REST publishes immediately when `published` is true, ignoring a future
+    `published_at`, so posts go live at run time and the workflow's 3 daily runs set the cadence.
+    """
     require_token()
     registry = load_registry()
     state = load_state()
-    existing = existing_article_handles()
-    existing |= set(state.get("blog_handles", {}).keys())
-
-    jobs = keyword_jobs(registry)
-    filtered = []
-    for kw, p in jobs:
-        h = slugify(f"{kw}-{pick_angle(kw)}")
-        if h in existing:
-            continue
-        filtered.append((kw, p, h))
-
-    if limit is not None:
-        filtered = filtered[:limit]
-
-    if not filtered:
-        print("No unused first-pass keyword handles left — use --ongoing for continuous posting.")
-        return
-
-    days_needed = (len(filtered) + 2) // 3
-    start_day = dt.datetime.now(IST).date() + dt.timedelta(days=start_offset_days)
-    slots = random_daily_slots(start_day, days_needed, 3)
-    _publish_blog_batch(filtered, slots, existing, state)
-
-
-def latest_future_blog_date(existing_meta_handles: dict | None = None) -> dt.date | None:
-    """Return the latest future published_at date already on Shopify/state, if any."""
-    latest: dt.date | None = None
-    now = dt.datetime.now(IST)
-    # from API
-    since_id = 0
-    try:
-        for _ in range(30):
-            path = f"blogs/{BLOG_ID}/articles.json?limit=250&fields=id,published_at"
-            if since_id:
-                path += f"&since_id={since_id}"
-            arts = api("GET", path).get("articles") or []
-            if not arts:
-                break
-            for a in arts:
-                raw = a.get("published_at") or ""
-                if not raw:
-                    continue
-                try:
-                    # Shopify returns UTC ISO
-                    ts = dt.datetime.fromisoformat(raw.replace("Z", "+00:00")).astimezone(IST)
-                except Exception:
-                    continue
-                if ts.date() >= now.date():
-                    if latest is None or ts.date() > latest:
-                        latest = ts.date()
-                since_id = max(since_id, a.get("id") or 0)
-            if len(arts) < 250:
-                break
-            time.sleep(0.25)
-    except Exception as e:
-        print(f"⚠️ Could not scan future blog dates: {e}")
-    return latest
-
-
-def create_ongoing_blogs(limit: int = 3, start_offset_days: int = 1):
-    """Create `limit` blogs forever — appends after existing schedule (no end date)."""
-    require_token()
-    registry = load_registry()
-    state = load_state()
-    existing = existing_article_handles()
-    existing |= set(state.get("blog_handles", {}).keys())
     jobs = keyword_jobs(registry)
     if not jobs:
         raise SystemExit("No keywords in arham_focus_keywords.json")
 
-    angles = list(ANGLE_H2.keys())
-    tomorrow = dt.datetime.now(IST).date() + dt.timedelta(days=start_offset_days)
-    # Extend past any already-scheduled future posts so we never "end" the calendar
-    latest = latest_future_blog_date()
-    if latest and latest >= tomorrow:
-        start_day = latest + dt.timedelta(days=1)
-        print(f"Extending calendar after existing schedule ending {latest} → start {start_day}")
-    else:
-        start_day = tomorrow
+    articles = existing_articles()
+    existing = {a.get("handle") or "" for a in articles}
+    titles = {(a.get("title") or "").lower() for a in articles}
 
-    days_needed = max(1, (limit + 2) // 3)
-    slots = random_daily_slots(start_day, days_needed, 3)[:limit]
+    now = dt.datetime.now(IST)
+    due = due_by_now(now, daily_target)
+    done = published_on(articles, now.date())
+    needed = due - done
+    print(
+        f"Evergreen blogs {now:%Y-%m-%d %H:%M} IST: {done} published today, "
+        f"{due} due by now (target {daily_target}/day)."
+    )
+    if needed <= 0:
+        print("✅ Nothing due for this slot.")
+        return
 
-    cursor = int(state.get("blog_cursor", 0))
-    batch = []
-    guard = 0
-    while len(batch) < limit and guard < limit * 2000:
-        guard += 1
+    cursor = evergreen_cursor(existing, state)
+    suffix_day = now.strftime("%Y%m%d")
+    created = 0
+    for _ in range(needed):
         kw, pillar = jobs[cursor % len(jobs)]
-        angle = angles[(cursor // len(jobs)) % len(angles)]
-        slot = slots[len(batch)]
-        suffix = slot.strftime("%Y%m%d") + f"-{cursor % 10000}"
-        handle = slugify(f"{kw}-{angle}-{suffix}")
+        angle = evergreen_angle(kw, cursor, len(jobs))
+        title, handle, html, meta = build_article_html(
+            kw,
+            pillar,
+            now.date().isoformat(),
+            angle=angle,
+            handle_suffix=f"{suffix_day}-{cursor}",
+            avoid_titles=titles,
+        )
         cursor += 1
         if handle in existing:
             continue
-        batch.append((kw, pillar, handle, angle, suffix, slot))
+        payload = {
+            "article": {
+                "title": title,
+                "author": "Baa & The DivyaPrabha Culinary Team",
+                "tags": meta["tags"],
+                "body_html": html,
+                "summary_html": meta["excerpt"],
+                "handle": handle,
+                "published": True,
+                "image": {"src": meta["product"]["image"], "alt": f"{kw} — {meta['product']['name']}"},
+            }
+        }
+        try:
+            art = api("POST", f"blogs/{BLOG_ID}/articles.json", payload).get("article") or {}
+            existing.add(handle)
+            titles.add(title.lower())
+            state.setdefault("blog_handles", {})[handle] = {
+                "id": art.get("id"),
+                "keyword": kw,
+                "pillar": pillar,
+                "published_at": art.get("published_at"),
+                "title": title,
+            }
+            created += 1
+            print(f"✅ [{created}/{needed}] {handle} | {title}")
+            time.sleep(0.45)
+        except Exception as e:
+            print(f"❌ Failed {kw}: {e}")
+            time.sleep(1.0)
 
     state["blog_cursor"] = cursor
     save_state(state)
-
-    print(
-        f"Evergreen blogs: creating {len(batch)} (target {limit}/day) "
-        f"from {start_day} — continuous, no end date."
-    )
-    created = 0
-    for kw, pillar, handle, angle, suffix, slot in batch:
-        pub_date = slot.date().isoformat()
-        title, handle2, html, meta = build_article_html(
-            kw, pillar, pub_date, angle=angle, handle_suffix=suffix
-        )
-        handle = handle2 or handle
-        base = handle
-        n = 2
-        while handle in existing:
-            handle = f"{base}-{n}"
-            n += 1
-        payload = {
-            "article": {
-                "title": title,
-                "author": "Baa & The DivyaPrabha Culinary Team",
-                "tags": meta["tags"],
-                "body_html": html,
-                "summary_html": meta["excerpt"],
-                "handle": handle,
-                "published": True,
-                "published_at": slot.isoformat(),
-                "image": {"src": meta["product"]["image"], "alt": f"{kw} — {meta['product']['name']}"},
-            }
-        }
-        try:
-            res = api("POST", f"blogs/{BLOG_ID}/articles.json", payload)
-            art = res.get("article") or {}
-            existing.add(handle)
-            state.setdefault("blog_handles", {})[handle] = {
-                "id": art.get("id"),
-                "keyword": kw,
-                "pillar": pillar,
-                "published_at": slot.isoformat(),
-                "title": title,
-            }
-            created += 1
-            print(f"✅ [{created}/{len(batch)}] {slot.strftime('%Y-%m-%d %H:%M IST')} | {title}")
-            save_state(state)
-            time.sleep(0.45)
-        except Exception as e:
-            print(f"❌ Failed {kw}: {e}")
-            time.sleep(1.0)
-    print(f"\n🎉 Created/scheduled {created} evergreen articles (continues daily, no end date).")
-
-
-def _publish_blog_batch(filtered, slots, existing, state):
-    print(f"Creating {len(filtered)} blogs across slots from {slots[0].date() if slots else '?'}...")
-    created = 0
-    for idx, (kw, pillar, handle) in enumerate(filtered):
-        slot = slots[idx]
-        pub_date = slot.date().isoformat()
-        title, handle, html, meta = build_article_html(kw, pillar, pub_date)
-        base = handle
-        n = 2
-        while handle in existing:
-            handle = f"{base}-{n}"
-            n += 1
-        payload = {
-            "article": {
-                "title": title,
-                "author": "Baa & The DivyaPrabha Culinary Team",
-                "tags": meta["tags"],
-                "body_html": html,
-                "summary_html": meta["excerpt"],
-                "handle": handle,
-                "published": True,
-                "published_at": slot.isoformat(),
-                "image": {"src": meta["product"]["image"], "alt": f"{kw} — {meta['product']['name']}"},
-            }
-        }
-        try:
-            res = api("POST", f"blogs/{BLOG_ID}/articles.json", payload)
-            art = res.get("article") or {}
-            existing.add(handle)
-            state.setdefault("blog_handles", {})[handle] = {
-                "id": art.get("id"),
-                "keyword": kw,
-                "pillar": pillar,
-                "published_at": slot.isoformat(),
-                "title": title,
-            }
-            created += 1
-            print(f"✅ [{created}/{len(filtered)}] {slot.strftime('%Y-%m-%d %H:%M IST')} | {title}")
-            save_state(state)
-            time.sleep(0.45)
-        except Exception as e:
-            print(f"❌ Failed {kw}: {e}")
-            time.sleep(1.0)
-    print(f"\n🎉 Created/scheduled {created} articles.")
+    print(f"\n🎉 Published {created} evergreen article(s); next keyword position {cursor}.")
 
 
 COLLECTION_SPECS = [
@@ -861,6 +771,17 @@ def create_ongoing_collections(limit: int = 2):
         print(f"⚠️ Skipping collections — token lacks products/collections scope: {e}")
         return
 
+    today = dt.datetime.now(IST).date()
+    week_start = dt.datetime.combine(today - dt.timedelta(days=today.weekday()), dt.time(), tzinfo=IST)
+    this_week = api(
+        "GET",
+        f"custom_collections.json?limit=250&fields=id&created_at_min={urllib.parse.quote(week_start.isoformat())}",
+    ).get("custom_collections") or []
+    limit -= len(this_week)
+    if limit <= 0:
+        print(f"✅ Collections: {len(this_week)} already created this week — nothing due.")
+        return
+
     pillars = registry.get("pillars") or {}
     combos = registry.get("combos") or {}
     jobs = keyword_jobs(registry)
@@ -904,8 +825,8 @@ def create_ongoing_collections(limit: int = 2):
     save_state(state)
 
     print(
-        f"Evergreen collections: creating {len(batch)} this week "
-        f"(limit={limit}/week, no end date)."
+        f"Evergreen collections: creating {len(batch)} "
+        f"({len(this_week)} already created this week, no end date)."
     )
     for item in batch:
         if item[0] == "spec":
@@ -961,10 +882,8 @@ def main():
         action="store_true",
         help="Continuous mode: no backlog end date (default for scheduled runs)",
     )
-    parser.add_argument("--all", action="store_true", help="Process full remaining first-pass blog backlog")
-    parser.add_argument("--limit", type=int, default=3, help="Blog batch size (ongoing default = 3/day)")
-    parser.add_argument("--collection-limit", type=int, default=2, help="New collections per run (default 2/week)")
-    parser.add_argument("--start-offset-days", type=int, default=1)
+    parser.add_argument("--limit", type=int, default=3, help="Blogs per day (published across 3 IST slots)")
+    parser.add_argument("--collection-limit", type=int, default=2, help="New collections per IST week (Mon–Sun)")
     args = parser.parse_args()
 
     if args.status or (not args.collections and not args.blogs):
@@ -975,10 +894,7 @@ def main():
         else:
             upsert_collections()
     if args.blogs:
-        if args.all and not args.ongoing:
-            create_scheduled_blogs(limit=None, start_offset_days=args.start_offset_days)
-        else:
-            create_ongoing_blogs(limit=args.limit, start_offset_days=args.start_offset_days)
+        create_ongoing_blogs(daily_target=args.limit)
 
 
 if __name__ == "__main__":

@@ -1,10 +1,8 @@
 name: Divyaprabha Daily Blog Cloud Publisher
 
 on:
-  schedule:
-    # Runs at 03:35, 08:35, 13:35 UTC = 09:05 AM, 02:05 PM, 07:05 PM IST
-    # Using :35 avoids peak GitHub Actions queue delays (which occur at :00 and :30)
-    - cron: '35 3,8,13 * * *'
+  # No schedule: arham_keyword_content_engine.yml publishes the daily blogs; a second
+  # scheduled publisher would count toward the same 3/day and fight over slots.
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:

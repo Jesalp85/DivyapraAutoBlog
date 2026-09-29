@@ -1,8 +1,8 @@
 name: Arham Keyword Blog & Collection Engine
 
 # Continuous cadence — no end date:
-#   - 3 blogs every day (random IST publish times)
-#   - 2 collection pages every week (Monday IST)
+#   - 3 blogs every day, one per IST slot (the script publishes only what is due)
+#   - 2 collection pages every IST week (the script counts what already exists)
 
 on:
   workflow_dispatch:
@@ -17,27 +17,33 @@ on:
           - blogs
           - collections
       limit:
-        description: "Blogs to create this run (daily cadence = 3)"
+        description: "Blogs per day"
         required: false
         default: "3"
       collection_limit:
-        description: "New collections this run (weekly cadence = 2)"
+        description: "New collections per week"
         required: false
         default: "2"
   schedule:
-    # Daily 02:20 IST (20:50 UTC) — create next day's 3 blogs
-    - cron: "50 20 * * *"
-    # Monday 02:20 IST (Sunday 20:50 UTC) — also create 2 collections
-    # (daily cron already fires; job detects weekday for collections)
+    # 03:35, 08:35, 13:35 UTC = 09:05, 14:05, 19:05 IST (one run per blog slot)
+    - cron: "35 3,8,13 * * *"
+
+concurrency:
+  group: arham-content-engine
+  cancel-in-progress: false
 
 jobs:
   fill-content:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+      - name: Randomise publish time
+        if: github.event_name == 'schedule'
+        run: sleep $((RANDOM % 2400))
       - name: Evergreen publish (no end date)
         env:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
@@ -45,21 +51,12 @@ jobs:
           SHOPIFY_BLOG_ID: "97942077654"
         run: |
           set -e
-          MODE="${{ github.event.inputs.mode || '' }}"
+          MODE="${{ github.event.inputs.mode || 'both' }}"
           LIMIT="${{ github.event.inputs.limit || '3' }}"
           COL_LIMIT="${{ github.event.inputs.collection_limit || '2' }}"
-          # UTC weekday: 7 = Sunday => Monday morning IST for 20:50 UTC cron
-          DOW="$(date -u +%u)"
-          if [ -z "$MODE" ]; then
-            if [ "$DOW" = "7" ]; then
-              MODE="both"
-            else
-              MODE="blogs"
-            fi
-          fi
-          echo "Mode=$MODE BlogLimit=$LIMIT CollectionLimit=$COL_LIMIT DOW=$DOW (evergreen, no end date)"
+          echo "Mode=$MODE BlogsPerDay=$LIMIT CollectionsPerWeek=$COL_LIMIT"
           if [ "$MODE" = "blogs" ] || [ "$MODE" = "both" ]; then
-            python3 scratch/arham_keyword_content_engine.py --blogs --ongoing --limit "$LIMIT" --start-offset-days 1
+            python3 scratch/arham_keyword_content_engine.py --blogs --ongoing --limit "$LIMIT"
           fi
           if [ "$MODE" = "collections" ] || [ "$MODE" = "both" ]; then
             python3 scratch/arham_keyword_content_engine.py --collections --ongoing --collection-limit "$COL_LIMIT"
