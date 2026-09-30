@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: Install image tools
-        run: pip install --quiet pillow
+        run: pip install --quiet pillow numpy
       - name: Backfill featured images
         env:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}

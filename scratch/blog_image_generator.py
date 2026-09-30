@@ -86,44 +86,45 @@ PRODUCT_STYLE = {
 
 ANGLE_SCENES = {
     "heritage": [
-        "a sunlit Saurashtra village courtyard with a whitewashed wall, clay matka pots and a charpai in the soft background",
-        "a traditional Kathiyawadi rooftop in summer with salted mango pieces drying on cotton cloth in the background",
-        "an old Gujarati home kitchen with brass utensils on wooden shelves, softly out of focus",
+        "a sunlit Saurashtra village courtyard, whitewashed lime-plaster wall, terracotta matka pots and a woven charpai softly blurred behind",
+        "a Kathiyawadi terrace at golden hour, salted raw mango pieces drying on white muslin cloth in the blurred background",
+        "a heritage Gujarati kitchen with gleaming brass and copper vessels on carved wooden shelves, beautifully out of focus",
     ],
     "health": [
-        "a bright, airy Indian kitchen counter with fresh turmeric, whole spices and a small bottle-free bowl of golden mustard oil at the edges",
-        "a clean stone slab surrounded by raw spices — mustard seeds, fenugreek, turmeric, rock salt (sendha namak) — arranged neatly at the sides",
-        "a morning window-lit kitchen with green herbs and whole spices in small brass katoris at the edges",
+        "a bright, airy Indian kitchen with a window, fresh turmeric roots, curry leaves and whole spices styled in small brass katoris",
+        "a pale stone counter with neat little heaps of mustard seeds, fenugreek, turmeric powder and pink rock salt",
+        "a fresh morning kitchen with green herbs, a copper pot and sunlight falling through a jaali window",
     ],
     "buy": [
-        "a warm, premium pantry shelf setting with woven jute cloth and soft bokeh lights",
-        "an elegant gifting table with a jute runner, marigold flowers and a folded handloom cloth at the sides",
-        "a cosy modern Indian dining table with a handloom cloth and soft afternoon light",
+        "a premium festive gifting table with a jute runner, marigold garlands, diya lamps and warm golden bokeh lights",
+        "an elegant boutique pantry shelf with woven baskets and warm bokeh, luxurious and inviting",
+        "a cosy modern Indian dining table with a handloom runner, fresh flowers and soft afternoon light",
     ],
     "pairing": [
-        "a Gujarati breakfast spread at the edges — methi thepla, a bowl of dahi, masala chai in a steel cup",
-        "a traditional Kathiyawadi thali at the sides — bajra rotla, dal, rice and white butter",
-        "a travel tiffin scene with steel dabbas, khakhra and paratha at the edges",
+        "a styled Gujarati breakfast: methi thepla stacked on a brass plate, a bowl of dahi and masala chai in a steel cup",
+        "a Kathiyawadi thali setting with bajra rotla, dal, jeera rice and a dollop of white butter on brass plates",
+        "a travel tiffin moment with steel dabbas, khakhra and parathas wrapped in cloth",
     ],
     "craft": [
-        "a rustic workspace with a wooden chopping board, sliced raw mango and a hand-pounded stone mortar at the edges",
-        "a ceramic martban and a sun-dried cotton cloth in the soft background of a traditional workshop",
-        "hands-free close-up of spice grinding tools — silbatta stone and brass bowls — at the edges of a wooden table",
+        "a rustic artisan kitchen with a wooden chopping board, freshly cut raw mango and a stone mortar and pestle",
+        "a traditional pickling room with ceramic martbans and sun-bleached cotton cloth, softly blurred",
+        "a silbatta grinding stone, brass bowls of whole spices and scattered mustard seeds on an old wooden table",
     ],
 }
 
+# (lighting description, shadow direction: +1 shadow falls right, -1 falls left)
 LIGHTS = [
-    "golden-hour sunlight from the left with long soft shadows",
-    "soft diffused morning daylight",
-    "warm late-afternoon window light",
-    "bright natural midday light with gentle shadows",
+    ("warm golden-hour sunlight streaming in from the left, visible soft sunbeams and long gentle shadows", 1),
+    ("soft morning window light from the right, airy and fresh", -1),
+    ("warm late-afternoon sunlight from the left with dappled leaf shadows", 1),
+    ("glowing sunlight from the right with a gentle warm haze", -1),
 ]
 
 SURFACES = [
-    "a dark-brown sheesham wood table",
-    "a weathered light wooden plank table",
+    "a rich dark-brown sheesham wood table with visible grain",
+    "a weathered honey-toned wooden plank table",
     "a cream kota stone slab",
-    "a maroon handloom cloth over a wooden table",
+    "a deep maroon handloom cloth over a wooden table",
 ]
 
 
@@ -131,26 +132,31 @@ def _seed(*parts: str) -> int:
     return int(hashlib.md5("|".join(parts).encode("utf-8")).hexdigest(), 16)
 
 
-def build_prompt(keyword: str, angle: str, product_handle: str, blog_handle: str) -> str:
+def scene_plan(keyword: str, angle: str, product_handle: str, blog_handle: str) -> dict:
+    """Prompt for the background plus the light direction the composited jar's shadow must follow."""
     style = PRODUCT_STYLE.get(product_handle) or PRODUCT_STYLE["mango-pickle-traditional-keri-achar-gujarati"]
     seed = _seed(blog_handle or keyword, angle)
     scenes = ANGLE_SCENES.get(angle) or ANGLE_SCENES["heritage"]
     scene = scenes[seed % len(scenes)]
-    light = LIGHTS[(seed // 7) % len(LIGHTS)]
+    light, shadow_dir = LIGHTS[(seed // 7) % len(LIGHTS)]
     surface = SURFACES[(seed // 31) % len(SURFACES)]
-    return (
-        "Photorealistic premium editorial food-photography BACKGROUND for an artisanal Gujarati pickle brand, "
-        f"for a blog article about '{keyword}'. "
-        f"Setting: {scene}. Foreground surface: {surface}. "
-        f"Props placed only near the left and right edges: {style['props']}. "
-        f"Colour palette: {BRAND_PALETTE}, with a subtle hint of {style['accent']}. "
-        f"Lighting: {light}. Wide 16:10 landscape frame, shallow depth of field. "
-        "Camera: straight-on side view at table height (like a product shot), NOT top-down, NOT flat lay, NOT overhead — "
-        "the table top fills the lower half and a softly blurred back wall or background scene fills the upper half. "
-        "IMPORTANT: the centre of the table must be a clean, empty surface — keep the middle 45% of the image "
-        "completely free of objects, because a product will be placed there later. "
-        "Absolutely no jars, bottles, containers, packaging, text, letters, logos, labels, watermarks or people."
+    prompt = (
+        "Award-winning commercial food advertising photograph, ultra realistic, magazine cover quality, "
+        "shot on a Canon EOS R5 with an 85mm lens at f/2.8, rich natural textures, appetising and inviting. "
+        f"Scene for an artisanal Gujarati pickle brand ('{keyword}'): {scene}. "
+        f"In the foreground, {surface} seen straight-on from table height, filling the lower half of the frame; "
+        "the background scene is creamy and softly blurred with beautiful bokeh. "
+        f"Styled props only at the far left and far right edges: {style['props']}. "
+        f"Lighting: {light}. "
+        f"Colour palette: {BRAND_PALETTE}, with a subtle hint of {style['accent']}; warm, premium and harmonious. "
+        "The centre of the table is completely clear and empty, an open hero spot waiting for a product. "
+        "No jars, no bottles, no packaging, no text, no logos, no people."
     )
+    return {"prompt": prompt, "shadow_dir": shadow_dir}
+
+
+def build_prompt(keyword: str, angle: str, product_handle: str, blog_handle: str) -> str:
+    return scene_plan(keyword, angle, product_handle, blog_handle)["prompt"]
 
 
 def _post_json(url: str, payload: dict, headers: dict, timeout: int = 180) -> dict:
@@ -327,13 +333,50 @@ def load_cutout(product_handle: str, image_url: str):
     return None
 
 
-def compose(background_bytes: bytes, cutout) -> bytes:
-    from PIL import Image, ImageFilter, ImageOps
+def _fit_background(background_bytes: bytes):
+    from PIL import Image, ImageOps
+
+    return ImageOps.fit(Image.open(io.BytesIO(background_bytes)).convert("RGB"), CANVAS, Image.LANCZOS)
+
+
+def centre_clutter(background_bytes: bytes) -> float:
+    """Edge density where the jar will stand — lower means a cleaner hero spot."""
+    from PIL import ImageFilter, ImageStat
 
     w, h = CANVAS
-    bg = ImageOps.fit(Image.open(io.BytesIO(background_bytes)).convert("RGB"), CANVAS, Image.LANCZOS)
-    # Pull the AI scene toward the brand cream so every post sits in the same theme (background only).
-    bg = Image.blend(bg, Image.new("RGB", CANVAS, (253, 246, 237)), 0.08)
+    grey = _fit_background(background_bytes).convert("L")
+    box = grey.crop((int(w * 0.28), int(h * JAR_TOP), int(w * 0.72), int(h * JAR_BOTTOM)))
+    return ImageStat.Stat(box.filter(ImageFilter.FIND_EDGES)).mean[0]
+
+
+def _radial_mask(size, centre, radii, inner: int, outer: int):
+    """Elliptical gradient: `inner` value at the centre fading to `outer` at the radii."""
+    from PIL import Image
+
+    w, h = size
+    small = Image.new("L", (w // 8, h // 8))
+    cx, cy = centre[0] / 8, centre[1] / 8
+    rx, ry = radii[0] / 8, radii[1] / 8
+    px = small.load()
+    for yy in range(small.height):
+        for xx in range(small.width):
+            d = min(1.0, (((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2) ** 0.5)
+            px[xx, yy] = int(inner + (outer - inner) * d)
+    return small.resize(size, Image.BILINEAR)
+
+
+def compose(background_bytes: bytes, cutout, shadow_dir: int = 1) -> bytes:
+    """Real jar on the AI scene. Every grading step touches the background only; jar pixels are pasted as-is."""
+    import numpy as np
+    from PIL import Image, ImageChops, ImageFilter
+
+    w, h = CANVAS
+    bg = _fit_background(background_bytes)
+    bg = Image.blend(bg, Image.new("RGB", CANVAS, (253, 246, 237)), 0.06)
+
+    # Shallow depth of field: soften the upper backdrop, keep the table near the jar crisp.
+    fade = Image.linear_gradient("L").resize(CANVAS).point(lambda v: max(0, 255 - int(v * 1.9)))
+    bg = Image.composite(bg.filter(ImageFilter.GaussianBlur(3)), bg, fade)
 
     target_h = int(h * (JAR_BOTTOM - JAR_TOP))
     scale = min(target_h / cutout.height, (w * JAR_MAX_WIDTH) / cutout.width)
@@ -341,22 +384,50 @@ def compose(background_bytes: bytes, cutout) -> bytes:
     x = (w - jar.width) // 2
     y = int(h * JAR_BOTTOM) - jar.height
 
+    # Warm glow behind the product so it pops, plus a gentle vignette to lead the eye to the centre.
+    glow = _radial_mask(CANVAS, (w // 2, y + jar.height * 0.45), (jar.width * 1.1, jar.height * 0.9), 70, 0)
+    bg = Image.composite(ImageChops.screen(bg, Image.new("RGB", CANVAS, (255, 226, 180))), bg, glow)
+    vignette = _radial_mask(CANVAS, (w // 2, h // 2), (w * 0.75, h * 0.8), 0, 90)
+    bg = Image.composite(Image.new("RGB", CANVAS, (40, 20, 10)), bg, vignette)
+
     alpha = jar.split()[-1]
-    shadow = Image.new("L", CANVAS, 0)
-    shadow.paste(alpha.point(lambda a: int(a * 0.45)), (x + 18, y + 22))
-    shadow = shadow.filter(ImageFilter.GaussianBlur(28))
-    contact = Image.new("L", CANVAS, 0)
-    band = Image.new("L", (int(jar.width * 0.9), max(24, jar.height // 14)), 150)
-    contact.paste(band, (x + int(jar.width * 0.05), y + jar.height - band.height // 2))
-    contact = contact.filter(ImageFilter.GaussianBlur(22))
-    dark = Image.new("RGB", CANVAS, (61, 31, 15))
-    bg = Image.composite(dark, bg, shadow)
-    bg = Image.composite(dark, bg, contact)
+    dark = Image.new("RGB", CANVAS, (35, 18, 8))
+
+    # Soft cast shadow falling away from the scene's light source.
+    cast = Image.new("L", CANVAS, 0)
+    cast.paste(alpha.point(lambda a: int(a * 0.32)), (x + shadow_dir * int(jar.width * 0.07), y + 16))
+    bg = Image.composite(dark, bg, cast.filter(ImageFilter.GaussianBlur(30)))
+
+    # Contact shadows traced along each column's lowest opaque pixel, so jar and bowl each touch the table.
+    solid = np.array(alpha) > 128
+    bottoms = solid.shape[0] - 1 - np.argmax(solid[::-1], axis=0)
+    columns = np.where(solid.any(axis=0))[0]
+    for above, below, opacity, blur, drift in ((10, 26, 0.4, 14, 0.05), (3, 7, 0.75, 4, 0.0)):
+        mask = np.zeros((jar.height + below + 4, jar.width), dtype=np.uint8)
+        for c in columns:
+            b = bottoms[c]
+            mask[max(0, b - above): b + below, c] = int(255 * opacity)
+        layer = Image.new("L", CANVAS, 0)
+        layer.paste(Image.fromarray(mask), (x + shadow_dir * int(jar.width * drift), y))
+        bg = Image.composite(dark, bg, layer.filter(ImageFilter.GaussianBlur(blur)))
 
     bg.paste(jar, (x, y), jar)
     out = io.BytesIO()
-    bg.save(out, "JPEG", quality=88, optimize=True, progressive=True)
+    bg.save(out, "JPEG", quality=90, optimize=True, progressive=True)
     return out.getvalue()
+
+
+def best_background(prompt: str) -> bytes | None:
+    """Generate a few candidates and keep the one with the emptiest, cleanest centre."""
+    candidates = []
+    for _ in range(max(1, int(os.environ.get("BLOG_IMAGE_CANDIDATES", "2")))):
+        img = generate_background(prompt)
+        if img is None:
+            break
+        candidates.append(img)
+    if not candidates:
+        return None
+    return min(candidates, key=centre_clutter)
 
 
 def featured_image(
@@ -373,11 +444,12 @@ def featured_image(
         cutout = load_cutout(product_handle, product_image_url)
         if cutout is None:
             return fallback
-        background = generate_background(build_prompt(keyword, angle, product_handle, blog_handle))
+        plan = scene_plan(keyword, angle, product_handle, blog_handle)
+        background = best_background(plan["prompt"])
         if background is None:
-            print("   ⚠️ No AI background (set GEMINI_API_KEY or OPENAI_API_KEY) — using product photo.")
+            print("   ⚠️ No AI background (set CLOUDFLARE_API_TOKEN, GEMINI_API_KEY or OPENAI_API_KEY) — using product photo.")
             return fallback
-        jpg = compose(background, cutout)
+        jpg = compose(background, cutout, plan["shadow_dir"])
     except Exception as e:
         print(f"   ⚠️ Featured image generation failed, using product photo: {e}")
         return fallback
@@ -411,13 +483,13 @@ def main():
 
         prod = next(p for p in engine.PRODUCTS.values() if p["handle"] == args.product)
         handle = args.handle or f"{args.preview}-{args.angle}".lower().replace(" ", "-")
-        prompt = build_prompt(args.preview, args.angle, prod["handle"], handle)
-        print(prompt)
+        plan = scene_plan(args.preview, args.angle, prod["handle"], handle)
+        print(plan["prompt"])
         cutout = load_cutout(prod["handle"], prod["image"])
-        background = generate_background(prompt)
+        background = best_background(plan["prompt"])
         if cutout is None or background is None:
-            raise SystemExit("❌ Need a cutout and an AI key (GEMINI_API_KEY / OPENAI_API_KEY) to preview.")
-        Path(args.out).write_bytes(compose(background, cutout))
+            raise SystemExit("❌ Need a cutout and an AI key (CLOUDFLARE_API_TOKEN / GEMINI_API_KEY / OPENAI_API_KEY).")
+        Path(args.out).write_bytes(compose(background, cutout, plan["shadow_dir"]))
         print(f"✅ Preview saved: {args.out}")
 
 
