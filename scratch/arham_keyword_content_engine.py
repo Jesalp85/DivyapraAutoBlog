@@ -33,6 +33,8 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+from blog_image_generator import featured_image
+
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "scratch" / "arham_focus_keywords.json"
 STATE_PATH = ROOT / "scratch" / "arham_keyword_engine_state.json"
@@ -616,6 +618,14 @@ def create_ongoing_blogs(daily_target: int = 3):
         cursor += 1
         if handle in existing:
             continue
+        image = featured_image(
+            kw,
+            angle,
+            meta["product"]["handle"],
+            meta["product"]["image"],
+            handle,
+            f"{kw} — {meta['product']['name']}",
+        )
         payload = {
             "article": {
                 "title": title,
@@ -625,7 +635,7 @@ def create_ongoing_blogs(daily_target: int = 3):
                 "summary_html": meta["excerpt"],
                 "handle": handle,
                 "published": True,
-                "image": {"src": meta["product"]["image"], "alt": f"{kw} — {meta['product']['name']}"},
+                "image": image,
             }
         }
         try:
