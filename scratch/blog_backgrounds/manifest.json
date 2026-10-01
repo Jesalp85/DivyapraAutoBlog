@@ -1,0 +1,77 @@
+[
+  {
+    "file": "heritage-1.jpg",
+    "angle": "heritage",
+    "shadow_dir": 1
+  },
+  {
+    "file": "heritage-2.jpg",
+    "angle": "heritage",
+    "shadow_dir": -1
+  },
+  {
+    "file": "heritage-3.jpg",
+    "angle": "heritage",
+    "shadow_dir": 1
+  },
+  {
+    "file": "health-1.jpg",
+    "angle": "health",
+    "shadow_dir": -1
+  },
+  {
+    "file": "health-2.jpg",
+    "angle": "health",
+    "shadow_dir": 1
+  },
+  {
+    "file": "buy-1.jpg",
+    "angle": "buy",
+    "shadow_dir": 1
+  },
+  {
+    "file": "buy-2.jpg",
+    "angle": "buy",
+    "shadow_dir": -1
+  },
+  {
+    "file": "buy-3.jpg",
+    "angle": "buy",
+    "shadow_dir": 1
+  },
+  {
+    "file": "pairing-1.jpg",
+    "angle": "pairing",
+    "shadow_dir": -1
+  },
+  {
+    "file": "pairing-2.jpg",
+    "angle": "pairing",
+    "shadow_dir": 1
+  },
+  {
+    "file": "pairing-3.jpg",
+    "angle": "pairing",
+    "shadow_dir": 1
+  },
+  {
+    "file": "pairing-4.jpg",
+    "angle": "pairing",
+    "shadow_dir": 1
+  },
+  {
+    "file": "craft-1.jpg",
+    "angle": "craft",
+    "shadow_dir": -1
+  },
+  {
+    "file": "craft-2.jpg",
+    "angle": "craft",
+    "shadow_dir": 1
+  },
+  {
+    "file": "craft-3.jpg",
+    "angle": "craft",
+    "shadow_dir": -1
+  }
+]

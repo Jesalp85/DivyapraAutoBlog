@@ -41,6 +41,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CUTOUT_DIR = ROOT / "scratch" / "product_cutouts"
 MANIFEST_PATH = CUTOUT_DIR / "manifest.json"
+LIBRARY_DIR = ROOT / "scratch" / "blog_backgrounds"
+LIBRARY_MANIFEST = LIBRARY_DIR / "manifest.json"
 CTX = ssl.create_default_context()
 
 CANVAS = (1600, 1000)  # 16:10 = blog card ratio; jar kept inside the 2.7:1 article-hero crop band
@@ -417,6 +419,38 @@ def compose(background_bytes: bytes, cutout, shadow_dir: int = 1) -> bytes:
     return out.getvalue()
 
 
+def library_background(angle: str, blog_handle: str) -> tuple[bytes, int] | None:
+    """Pre-made realistic scene from scratch/blog_backgrounds, varied per post (pick, mirror, zoom, pan, warmth)."""
+    from PIL import Image, ImageEnhance, ImageOps
+
+    if not LIBRARY_MANIFEST.exists():
+        return None
+    items = json.loads(LIBRARY_MANIFEST.read_text(encoding="utf-8"))
+    pool = [i for i in items if i["angle"] == angle] or items
+    if not pool:
+        return None
+    seed = _seed(blog_handle, angle, "library")
+    item = pool[seed % len(pool)]
+    img = Image.open(LIBRARY_DIR / item["file"]).convert("RGB")
+    shadow_dir = item["shadow_dir"]
+
+    if (seed >> 8) % 2:
+        img = ImageOps.mirror(img)
+        shadow_dir = -shadow_dir
+    zoom = 1.0 + ((seed >> 12) % 13) / 100  # 1.00–1.12
+    w, h = img.size
+    cw, ch = int(w / zoom), int(h / zoom)
+    pan = ((seed >> 20) % 101) / 100
+    left = int((w - cw) * pan)
+    top = (h - ch) // 2
+    img = img.crop((left, top, left + cw, top + ch))
+    img = ImageEnhance.Color(img).enhance(0.95 + ((seed >> 28) % 11) / 100)  # 0.95–1.05
+
+    out = io.BytesIO()
+    img.save(out, "JPEG", quality=92)
+    return out.getvalue(), shadow_dir
+
+
 def best_background(prompt: str) -> bytes | None:
     """Generate a few candidates and keep the one with the emptiest, cleanest centre."""
     candidates = []
@@ -445,11 +479,15 @@ def featured_image(
         if cutout is None:
             return fallback
         plan = scene_plan(keyword, angle, product_handle, blog_handle)
-        background = best_background(plan["prompt"])
+        background, shadow_dir = best_background(plan["prompt"]), plan["shadow_dir"]
         if background is None:
-            print("   ⚠️ No AI background (set CLOUDFLARE_API_TOKEN, GEMINI_API_KEY or OPENAI_API_KEY) — using product photo.")
-            return fallback
-        jpg = compose(background, cutout, plan["shadow_dir"])
+            library = library_background(angle, blog_handle)
+            if library is None:
+                print("   ⚠️ No AI background and no background library — using product photo.")
+                return fallback
+            background, shadow_dir = library
+            print("   🗂  Using background library scene")
+        jpg = compose(background, cutout, shadow_dir)
     except Exception as e:
         print(f"   ⚠️ Featured image generation failed, using product photo: {e}")
         return fallback
