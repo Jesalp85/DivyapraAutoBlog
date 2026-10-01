@@ -20,6 +20,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from blog_image_generator import featured_image
+
 ROOT = Path(__file__).resolve().parents[1]
 BLOG_Q = ROOT / "scratch" / "arham_blog_queue_ready.json"
 COL_Q = ROOT / "scratch" / "arham_collection_queue_ready.json"
@@ -169,7 +171,14 @@ def publish_blogs(limit=None):
                 "handle": b["handle"],
                 "published": True,
                 "published_at": b["published_at"],
-                "image": {"src": b["image"], "alt": b["image_alt"]},
+                "image": featured_image(
+                    b["keyword"],
+                    b.get("angle") or "heritage",
+                    b["product_handle"],
+                    b["image"],
+                    b["handle"],
+                    b["image_alt"],
+                ),
             }
         }
         try:

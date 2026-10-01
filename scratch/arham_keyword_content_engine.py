@@ -33,6 +33,8 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+from blog_image_generator import featured_image
+
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "scratch" / "arham_focus_keywords.json"
 STATE_PATH = ROOT / "scratch" / "arham_keyword_engine_state.json"
@@ -551,23 +553,34 @@ def due_by_now(now: dt.datetime, daily_target: int) -> int:
 
 
 def keyword_jobs(registry) -> list[tuple[str, str | None]]:
-    jobs = []
-    for pillar, kws in (registry.get("pillars") or {}).items():
-        for kw in kws:
-            jobs.append((kw, pillar))
-    for combo, kws in (registry.get("combos") or {}).items():
-        for kw in kws:
-            jobs.append((kw, combo))
-    # Prefer global unique list order if present
+    """Round-robin across pillars/combos so consecutive posts cover different products."""
+    groups = list((registry.get("pillars") or {}).items()) + list((registry.get("combos") or {}).items())
     uniq = []
     seen = set()
-    for kw, pillar in jobs:
-        key = kw.lower()
-        if key in seen:
-            continue
-        seen.add(key)
-        uniq.append((kw, pillar))
+    depth = max((len(kws) for _, kws in groups), default=0)
+    for i in range(depth):
+        for pillar, kws in groups:
+            if i >= len(kws):
+                continue
+            key = kws[i].lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            uniq.append((kws[i], pillar))
     return uniq
+
+
+KEYWORD_HANDLE_RE = re.compile(r"^(.+)-(?:heritage|health|buy|pairing|craft)(?:-\d{8}-\d+)?$")
+
+
+def keyword_use_counts(handles) -> dict:
+    """How many posts already exist per keyword slug (parsed from article handles)."""
+    counts: dict = {}
+    for h in handles:
+        m = KEYWORD_HANDLE_RE.match(h or "")
+        if m:
+            counts[m.group(1)] = counts.get(m.group(1), 0) + 1
+    return counts
 
 
 def create_ongoing_blogs(daily_target: int = 3):
@@ -600,10 +613,17 @@ def create_ongoing_blogs(daily_target: int = 3):
         return
 
     cursor = evergreen_cursor(existing, state)
+    used = keyword_use_counts(existing)
     suffix_day = now.strftime("%Y%m%d")
     created = 0
     for _ in range(needed):
-        kw, pillar = jobs[cursor % len(jobs)]
+        # Each keyword is used once per full pass over the list before any repeats.
+        for _skip in range(len(jobs)):
+            kw, pillar = jobs[cursor % len(jobs)]
+            if used.get(slugify(kw), 0) <= cursor // len(jobs):
+                break
+            cursor += 1
+        used[slugify(kw)] = used.get(slugify(kw), 0) + 1
         angle = evergreen_angle(kw, cursor, len(jobs))
         title, handle, html, meta = build_article_html(
             kw,
@@ -616,6 +636,14 @@ def create_ongoing_blogs(daily_target: int = 3):
         cursor += 1
         if handle in existing:
             continue
+        image = featured_image(
+            kw,
+            angle,
+            meta["product"]["handle"],
+            meta["product"]["image"],
+            handle,
+            f"{kw} — {meta['product']['name']}",
+        )
         payload = {
             "article": {
                 "title": title,
@@ -625,7 +653,7 @@ def create_ongoing_blogs(daily_target: int = 3):
                 "summary_html": meta["excerpt"],
                 "handle": handle,
                 "published": True,
-                "image": {"src": meta["product"]["image"], "alt": f"{kw} — {meta['product']['name']}"},
+                "image": image,
             }
         }
         try:
