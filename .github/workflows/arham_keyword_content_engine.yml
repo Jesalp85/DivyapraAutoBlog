@@ -1,8 +1,7 @@
 name: Arham Keyword Blog & Collection Engine
 
-# Continuous cadence — no end date:
-#   - 3 blogs every day, one per IST slot (the script publishes only what is due)
-#   - 2 collection pages every IST week (the script counts what already exists)
+# Manual runs only. The hourly schedule mass-published near-identical template posts and thin
+# collections, which Google treats as scaled content and declines to index.
 
 on:
   workflow_dispatch:
@@ -24,10 +23,6 @@ on:
         description: "New collections per week"
         required: false
         default: "2"
-  schedule:
-    # Hourly 09:05–23:05 IST. GitHub delays/drops scheduled runs, so frequent checks catch every
-    # slot; the script publishes only what is due (1 by 14:00, 2 by 19:00, 3 by midnight IST).
-    - cron: "35 3-17 * * *"
 
 concurrency:
   group: arham-content-engine
